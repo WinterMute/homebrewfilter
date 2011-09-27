@@ -65,6 +65,7 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 		{'8','*'},
 		{'9','('},
 		{'0',')'},
+		//{'ß', '¿'},
 		{'\0','\0'}
 	},
 	{
@@ -78,6 +79,7 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 		{'i','I'},
 		{'o','O'},
 		{'p','P'},
+		//{'ü', 'Ü'},
 		{'-','_'}
 	},
 	{
@@ -90,6 +92,8 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 		{'j','J'},
 		{'k','K'},
 		{'l','L'},
+		//{'ö', 'Ö'},
+		//{'ä', 'Ä'},
 		{';',':'},
 		{'\'','"'}
 	},
