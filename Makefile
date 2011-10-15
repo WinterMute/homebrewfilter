@@ -25,7 +25,7 @@ SOURCES		:=	source \
 				source/Menus \
 				source/Network \
 				source/Tools \
-				../svnrev
+				svnrev
 INCLUDES	:=	source
 DATA		:=	data/fonts \
 				data/sounds \
