@@ -1,32 +1,15 @@
 #! /bin/bash
 #
 
-#alte rev auslesen
-rev_old=$(awk -FSVN_REV ' $1 ~ /define/ {gsub(" ","",$2); print $2}' svnrev/svnrev.c)
+# XXX move into mkrelease rule
 
-#rev auslesen, die kompiliert wird
-rev_new=$(awk -F= '$1 ~ /rev/ {gsub(" ","",$2); print $2}' Makefile)
-
-if [ "$rev_new" != "$rev_old" ]; then
-#rev nummer speichern
-cat <<EOF > svnrev/svnrev.c
-#define SVN_REV $rev_new
-
-int SvnRev()
-{
-	return SVN_REV;
-}
-EOF
-
-fi
-{
 #erstelle meta.xml hbf
-hbc_boot=$(awk '-F"' '$1 ~ /hbc_boot/ {print $2}' Makefile)
-cat <<EOF > "$hbc_boot"/meta.xml
+cat <<EOF > "$PWD"/meta.xml.boot
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <app version="1">
-  <name> Homebrew Filter</name>
-  <coder>hamachi-mp</coder>
+  <name>Homebrew Filter</name>
+  <coder>Christopher Roy Bratusek<br>
+         hamachi-mp</coder>
   <version>r$rev_new</version>
   <no_ios_reload/>
   <short_description>Homebrew Filter / Sorter</short_description>
@@ -35,16 +18,15 @@ cat <<EOF > "$hbc_boot"/meta.xml
 EOF
 
 #erstelle meta.xml hbf installer
-hbc_install=$(awk '-F"' '$1 ~ /hbc_install/ {print $2}' Makefile)
-cat <<EOF > "$hbc_install"/meta.xml
+cat <<EOF > "$PWD"/meta.xml.installer
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <app version="1">
-  <name> Homebrew Filter Installer</name>
-  <coder>hamachi-mp</coder>
+  <name>Homebrew Filter Installer</name>
+  <coder>Christopher Roy Bratusek<br>
+         hamachi-mp</coder>
   <version>r$rev_new</version>
   <no_ios_reload/>
   <short_description>Installer</short_description> 
   <long_description>Installiert den Hombrew Filter</long_description> 
 </app>
 EOF
-}
