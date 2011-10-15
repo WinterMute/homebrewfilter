@@ -53,7 +53,7 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 	else
 		letterPos = 0;
 
-	Key thekeys[4][11] = {
+	Key thekeys[4][13] = {
 	{
 		{'1','!'},
 		{'2','@'},
@@ -65,7 +65,8 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 		{'8','*'},
 		{'9','('},
 		{'0',')'},
-		//{'ß', '¿'},
+		{'ß', 'ß'},
+		{'\0','\0'},
 		{'\0','\0'}
 	},
 	{
@@ -79,8 +80,9 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 		{'i','I'},
 		{'o','O'},
 		{'p','P'},
-		//{'ü', 'Ü'},
-		{'-','_'}
+		{'ü', 'Ü'},
+		{'-','_'},
+		{'\0','\0'}
 	},
 	{
 		{'a','A'},
@@ -92,8 +94,8 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 		{'j','J'},
 		{'k','K'},
 		{'l','L'},
-		//{'ö', 'Ö'},
-		//{'ä', 'Ä'},
+		{'ö', 'Ö'},
+		{'ä', 'Ä'},
 		{';',':'},
 		{'\'','"'}
 	},
@@ -109,6 +111,8 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 		{',','<'},
 		{'.','>'},
 		{'/','?'},
+		{'\0','\0'},
+		{'\0','\0'},
 		{'\0','\0'}
 	}
 	};
