@@ -40,18 +40,18 @@ infoPrompt()
     int y = 40;
 	GuiText * Entrie[20];
 
-    Entrie[i] = new GuiText(tr("Credits"), 28, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
+    Entrie[i] = new GuiText(tr("About HomebrewFilter"), 28, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
     Entrie[i]->SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
     Entrie[i]->SetPosition(0, y);
     i++;
     y += 50;
 
-    Entrie[i] = new GuiText(tr("Coder:"), 24, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
+    Entrie[i] = new GuiText(tr("Developer:"), 24, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
     Entrie[i]->SetAlignment(ALIGN_LEFT, ALIGN_TOP);
     Entrie[i]->SetPosition(x, y);
     i++;
 
-    Entrie[i] = new GuiText("hamachi-mp", 22, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
+    Entrie[i] = new GuiText("Christopher Roy Bratusek", 22, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
     Entrie[i]->SetAlignment(ALIGN_LEFT, ALIGN_TOP);
     Entrie[i]->SetPosition(x+200, y);
     i++;
