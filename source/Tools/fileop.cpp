@@ -13,6 +13,7 @@
 #include <ogc/machine/processor.h>
 #include <ntfs.h>
 #include <fat.h>
+#include <ext2.h>
 #include <sdcard/wiisd_io.h>
 #include <ogc/usbstorage.h>
 #include <dirent.h>
@@ -42,13 +43,18 @@ static char prefix[2][4] = { "sd", "usb" };
 
 #define le32_to_cpu(x) bswap32(x)
 
-#define BYTES_PER_SECTOR 512
+#define BYTES_PER_SECTOR 4096
 #define NTFS_OEM_ID                         (0x4e54465320202020ULL)
 
 #define PARTITION_TYPE_EMPTY                0x00 /* Empty */
 #define PARTITION_TYPE_DOS33_EXTENDED       0x05 /* DOS 3.3+ extended partition */
 #define PARTITION_TYPE_NTFS                 0x07 /* Windows NT NTFS */
 #define PARTITION_TYPE_WIN95_EXTENDED       0x0F /* Windows 95 extended partition */
+
+#define PARTITION_TYPE_LINUX		    0x83 /* GNU/Linux partition */
+#define PARTITION_TYPE_LINUX_SWAP	    0x82 /* GNU/Linux Swap partition */
+#define PARTITION_TYPE_LINUX_LVM	    0x8e /* GNU/Linux logical volume manager partition */
+#define PARTITION_TYPE_LINUX_LUKS	    0xe8 /* GNU/Linux LUKS partition */
 
 #define PARTITION_STATUS_NONBOOTABLE        0x00 /* Non-bootable */
 #define PARTITION_STATUS_BOOTABLE           0x80 /* Bootable (active) */
@@ -61,6 +67,7 @@ static char prefix[2][4] = { "sd", "usb" };
 
 #define T_FAT  1
 #define T_NTFS 2
+#define T_EXT2	3
 
 static const char FAT_SIG[3] = {'F', 'A', 'T'};
 
@@ -150,7 +157,7 @@ typedef struct _EXTENDED_BOOT_RECORD {
 DEVICE_STRUCT part[2][MAX_DEVICES];
 
 static void AddPartition(sec_t sector, int device, int type, int *devnum)
-{
+{  
 	if (*devnum >= MAX_DEVICES)
 		return;
 
@@ -168,12 +175,24 @@ static void AddPartition(sec_t sector, int device, int type, int *devnum)
 			return;
 		fatGetVolumeLabel(mount, part[device][*devnum].name);
 	}
-	else
+	else if (type == T_NTFS)
 	{
 		if(!ntfsMount(mount, disc, sector, 8, 64, NTFS_DEFAULT | NTFS_RECOVER))
 			return;
 
 		const char *name = ntfsGetVolumeName(mount);
+
+		if(name)
+			strcpy(part[device][*devnum].name, name);
+		else
+			part[device][*devnum].name[0] = 0;
+	}
+	else if (type == T_EXT2)
+	{
+		if(!ext2Mount(mount, disc, sector, 2, 128, EXT2_FLAG_64BITS | EXT2_FLAG_JOURNAL_DEV_OK))
+			return;
+
+		const char *name = ext2GetVolumeName(mount);
 
 		if(name)
 			strcpy(part[device][*devnum].name, name);
@@ -244,7 +263,7 @@ static int FindPartitions(int device)
 			part_lba = le32_to_cpu(mbr.partitions[i].lba_start);
 
 			debug_printf(
-					"Partition %i: %s, sector %lu, type 0x%x\n",
+					"Partition %i: %s, sector %u, type 0x%x\n",
 					i + 1,
 					partition->status == PARTITION_STATUS_BOOTABLE ? "bootable (active)"
 							: "non-bootable", part_lba, partition->type);
@@ -292,7 +311,7 @@ static int FindPartitions(int device)
 							if (sector.ebr.signature == EBR_SIGNATURE)
 							{
 								debug_printf(
-										"Logical Partition @ %d: type 0x%x\n",
+										"Logical Partition @ %d: %s type 0x%x\n",
 										ebr_lba + next_erb_lba,
 										sector.ebr.partition.status
 												== PARTITION_STATUS_BOOTABLE ? "bootable (active)"
@@ -307,8 +326,13 @@ static int FindPartitions(int device)
 								next_erb_lba = le32_to_cpu(
 										sector.ebr.next_ebr.lba_start);
 
+								if(sector.ebr.partition.type==PARTITION_TYPE_LINUX)
+								{
+									debug_printf("Partition : type EXT2/3/4 found\n");
+									AddPartition(part_lba, device, T_EXT2, &devnum);
+								}
 								// Check if this partition has a valid NTFS boot record
-								if (interface->readSectors(part_lba, 1, &sector))
+								else if (interface->readSectors(part_lba, 1, &sector))
 								{
 									if (sector.boot.oem_id == NTFS_OEM_ID)
 									{
@@ -347,6 +371,15 @@ static int FindPartitions(int device)
 					break;
 				}
 
+				case PARTITION_TYPE_LINUX:
+				{
+					debug_printf("Partition %i: Claims to be LINUX\n", i + 1);
+ 
+					// Read and validate the EXT2 partition
+					AddPartition(part_lba, device, T_EXT2, &devnum);
+					break;
+				}
+
 				// Ignore empty partitions
 				case PARTITION_TYPE_EMPTY:
 					debug_printf("Partition %i: Claims to be empty\n", i + 1);
@@ -377,6 +410,11 @@ static int FindPartitions(int device)
 							debug_printf("Partition : Valid FAT boot sector found\n");
 							AddPartition(part_lba, device, T_FAT, &devnum);
 						}
+						else
+						{
+							debug_printf("Trying : EXT partition\n");
+							AddPartition(part_lba, device, T_EXT2, &devnum);
+						}
 					}
 					break;
 				}
@@ -406,6 +444,11 @@ static int FindPartitions(int device)
 					AddPartition(i, device, T_FAT, &devnum);
 					break;
 				}
+				else
+				{
+					debug_printf("Trying : EXT partition\n");
+					AddPartition(part_lba, device, T_EXT2, &devnum);
+				}
 			}
 		}
 	}
@@ -421,12 +464,21 @@ static void UnmountPartitions(int device)
 	{
 		if(part[device][i].type == T_FAT)
 		{
-			sprintf(mount, "%s:", part[device][i].mount);
+			sprintf(mount, "VFAT: %s:", part[device][i].mount);
 			fatUnmount(mount);
+			break;
 		}
 		else if(part[device][i].type == T_NTFS)
 		{
+			sprintf(mount, "NTFS: %s:", part[device][i].mount);
 			ntfsUnmount(part[device][i].mount, false);
+			break;
+		}
+		else if(part[device][i].type == T_EXT2)
+		{
+			sprintf(mount, "EXT2: %s:", part[device][i].mount);
+			ext2Unmount(part[device][i].mount);
+			break;
 		}
 		
 		part[device][i].name[0] = 0;

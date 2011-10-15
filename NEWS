@@ -1,4 +1,4 @@
 Version 36:
 - HBF is now OpenSource!
-- added license-text of GNU GPL v2
-- UNIX line-endings FTW!
+- Added license-text of GNU GPL v2
+- Added support for EXT2/3/4
