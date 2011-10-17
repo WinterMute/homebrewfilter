@@ -99,7 +99,7 @@ updatePrompt(string rev)
 	ResumeGui();
 
 	char url[100];
-	sprintf(url, "http://hamachi-mp.bplaced.net/Downloads/wii/Homebrew_Filter/rev%s/boot.dol", rev.c_str());
+	sprintf(url, "http://download.tuxfamily.org/hbf/DOL/rev%s/boot.dol", rev.c_str());
 
 	struct block file = downloadfile(url);
 	if (file.data && file.size > 0)
