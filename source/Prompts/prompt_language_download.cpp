@@ -86,7 +86,7 @@ void languageDownload(string languagename)
 
 	char buffer[100];
 	msgTxt.SetText(languagename.c_str());
-	sprintf(buffer, "http://hbf.hamachi-mp.bplaced.net/Languages/%s", languagename.c_str());	
+	sprintf(buffer, "http://download.tuxfamily.org/hbf/Languages/%s", languagename.c_str());	
 	struct block file = downloadfile(buffer);
 	if (file.data && file.size > 0 && folder_exists())
 	{
@@ -126,7 +126,7 @@ string LanguageList()
 	bool stop = false;
 	
 	char buffer[100];
-	sprintf(buffer, "http://hbf.hamachi-mp.bplaced.net/Languages/");	
+	sprintf(buffer, "http://download.tuxfamily.org/hbf/Languages/");	
 
 	struct block file = downloadfile(buffer);
 	if (file.data != NULL)

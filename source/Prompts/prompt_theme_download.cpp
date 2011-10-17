@@ -85,7 +85,7 @@ void themeDownload(string themename)
 
 	char buffer[100];
 	// download counter
-	sprintf(buffer, "http://hbf.hamachi-mp.bplaced.net/Themes/counter.php?theme=%s", themename.c_str());	
+	\\sprintf(buffer, "http://hbf.hamachi-mp.bplaced.net/Themes/counter.php?theme=%s", themename.c_str());	
 	struct block file = downloadfile(buffer);
 
 	sprintf(buffer, "http://hbf.hamachi-mp.bplaced.net/Themes/index.php?path=Themes/%s", themename.c_str());	
