@@ -6,6 +6,7 @@
 #include "main.h"
 
 #include "Tools/textline.h"
+#include "Tools/save.h"
 
 #include "Network/network.h"
 #include "Network/update.h"
@@ -87,40 +88,18 @@ void themeDownload(string themename)
 	msgTxt.SetText(themename.c_str());
 	sprintf(buffer, "http://www.nanolx.org/hbf/Themes/%s", themename.c_str());	
 	struct block file = downloadfile(buffer);
-	if (file.data != NULL)
+	if (file.data && file.size > 0)
 	{
-		string source_themes = (char*)file.data;
-	
-		vector<string> themes;
-		source_themes.erase(0, source_themes.find("../Themes/"));
-	
-		while(1)
+		FILE * data = fopen((Settings.device_dat + ":/config/Homebrew Filter/Themes/"+ themename + ".zip").c_str(), "wb");
+		if(data)
 		{
-			if((signed)source_themes.find(themename.c_str()) == -1)
-				break;
-				
-			source_themes.erase(0, source_themes.find(themename.c_str()) + themename.length() +1);
-			
-			if(source_themes.substr(0, source_themes.find("\"")) == "amp;name=settings.xml")
-				themes.push_back(source_themes.substr(9, source_themes.find("\"") -9));
-			else
-				themes.push_back(source_themes.substr(0, source_themes.find("\"")));
-
-			source_themes.erase(0, source_themes.find("\""));
-
+			fwrite(file.data, 1, file.size, data);
+			fclose(data);
 		}
-		
-		
-		for(int i = 0; i < (signed)themes.size(); i++)
-		{
-			msgTxt.SetText(themes[i].c_str());
-			if(new_theme(themename, themes[i]) != "NULL")
-				update("Themes/"+ themename + "/" + themes[i]);
-		}
-		
-		free(file.data);
 	}
-
+	if(file.data)
+		free(file.data);
+		
 	msgTxt.SetText("");
 	downloadTxt.SetText(tr("finished"));
 
@@ -161,7 +140,7 @@ string ThemeList()
 				break;
 				
 			source_themes.erase(0, source_themes.find("../Themes/"));
-			source_themes.erase(0, source_themes.find("/") +1);
+			source_themes.erase(0, source_themes.find("s/") +2);
 
 			if(source_themes.substr(0, source_themes.find("\"")) != "_HBF_")
 				themes.push_back(source_themes.substr(0, source_themes.find("\"")));
