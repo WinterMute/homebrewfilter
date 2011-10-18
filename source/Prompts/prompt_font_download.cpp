@@ -86,7 +86,7 @@ void fontDownload(string fontname)
 
 	char buffer[100];
 	msgTxt.SetText(fontname.c_str());
-	sprintf(buffer, "http://download.tuxfamily.org/hbf/Fonts/%s", fontname.c_str());	
+	sprintf(buffer, "http://www.nanolx.org/hbf/Fonts/%s", fontname.c_str());	
 	struct block file = downloadfile(buffer);
 	if (file.data && file.size > 0 && folder_exists())
 	{
@@ -126,7 +126,7 @@ string FontList()
 	bool stop = false;
 	
 	char buffer[100];
-	sprintf(buffer, "http://download.tuxfamily.org/hbf/Fonts/");	
+	sprintf(buffer, "http://www.nanolx.org/hbf/Fonts/");	
 
 	struct block file = downloadfile(buffer);
 	if (file.data != NULL)

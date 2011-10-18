@@ -56,7 +56,7 @@ string new_update(string rev, string filename)
 string new_theme(string themename, string filename)
 {
 	char url[100];
-	sprintf(url, "http://hbf.hamachi-mp.bplaced.net/Themes/%s/%s", themename.c_str(), filename.c_str());
+	sprintf(url, "http://www.nanolx.org/hbf/Themes/%s/%s", themename.c_str(), filename.c_str());
 
 	file = downloadfile(url);
 	if (file.data && file.size > 0)

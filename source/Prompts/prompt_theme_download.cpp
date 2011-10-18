@@ -84,18 +84,15 @@ void themeDownload(string themename)
 	ResumeGui();
 
 	char buffer[100];
-	// download counter
-	sprintf(buffer, "http://hbf.hamachi-mp.bplaced.net/Themes/counter.php?theme=%s", themename.c_str());	
+	msgTxt.SetText(themename.c_str());
+	sprintf(buffer, "http://www.nanolx.org/hbf/Themes/%s", themename.c_str());	
 	struct block file = downloadfile(buffer);
-
-	sprintf(buffer, "http://hbf.hamachi-mp.bplaced.net/Themes/index.php?path=Themes/%s", themename.c_str());	
-	file = downloadfile(buffer);
 	if (file.data != NULL)
 	{
 		string source_themes = (char*)file.data;
 	
 		vector<string> themes;
-		source_themes.erase(0, source_themes.find("?path=Themes"));
+		source_themes.erase(0, source_themes.find("../Themes/"));
 	
 		while(1)
 		{
@@ -150,7 +147,7 @@ string ThemeList()
 	bool stop = false;
 	
 	char buffer[100];
-	sprintf(buffer, "http://hbf.hamachi-mp.bplaced.net/Themes/");	
+	sprintf(buffer, "http://www.nanolx.org/hbf/Themes/");	
 
 	struct block file = downloadfile(buffer);
 	if (file.data != NULL)
@@ -160,16 +157,16 @@ string ThemeList()
 		
 		while(1)
 		{
-			if((signed)source_themes.find("?path=Themes/") == -1)
+			if((signed)source_themes.find("../Themes/") == -1)
 				break;
 				
-			source_themes.erase(0, source_themes.find("?path=Themes/"));
+			source_themes.erase(0, source_themes.find("../Themes/"));
 			source_themes.erase(0, source_themes.find("/") +1);
-			
+
 			if(source_themes.substr(0, source_themes.find("\"")) != "_HBF_")
 				themes.push_back(source_themes.substr(0, source_themes.find("\"")));
 			
-			source_themes.erase(0, source_themes.find("download.php"));
+			source_themes.erase(0, source_themes.find("<"));
 		}
 		
 		free(file.data);
