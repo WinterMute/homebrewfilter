@@ -2,3 +2,9 @@ Version 36:
 - HBF is now OpenSource!
 - Added license-text of GNU GPL v2
 - Added support for EXT2/3/4
+- Adjusted download paths
+
+TODO Version 36:
+- Adjust update paths
+- Unpack theme .zip files
+- ?
