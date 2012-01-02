@@ -11,8 +11,9 @@
 #include "Network/network.h"
 #include "Network/update.h"
 #include "Network/http.h"
+#include "ZipFile.h"
 
-#/*** Extern variables ***/
+/*** Extern variables ***/
 extern GuiWindow * mainWindow;
 
 /*** Extern functions ***/
@@ -90,21 +91,24 @@ void themeDownload(string themename)
 	struct block file = downloadfile(buffer);
 	if (file.data && file.size > 0)
 	{
-		FILE * data = fopen((Settings.device_dat + ":/config/Homebrew Filter/Themes/"+ themename + ".zip").c_str(), "wb");
+		FILE * data = fopen((Settings.device_dat + ":/config/Homebrew Filter/Themes/" + themename + ".zip").c_str(), "wb");
 		if(data)
 		{
 			fwrite(file.data, 1, file.size, data);
 			fclose(data);
 		}
 	}
+
 	if(file.data)
 		free(file.data);
-		
+	
+	ZipFile *zipfile = new ZipFile((Settings.device_dat + ":/config/Homebrew Filter/Themes/" + themename + ".zip").c_str());
+	zipfile->ExtractAll((Settings.device_dat + ":/config/Homebrew Filter/Themes/").c_str());
+
 	msgTxt.SetText("");
 	downloadTxt.SetText(tr("finished"));
 
 	promptWindow.Append(&btn1);
-
 
 	while(stop)
 	{
