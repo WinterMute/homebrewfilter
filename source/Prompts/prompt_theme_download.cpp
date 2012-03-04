@@ -11,9 +11,8 @@
 #include "Network/network.h"
 #include "Network/update.h"
 #include "Network/http.h"
-#include "ZipFile.h"
 
-/*** Extern variables ***/
+#/*** Extern variables ***/
 extern GuiWindow * mainWindow;
 
 /*** Extern functions ***/
@@ -86,29 +85,44 @@ void themeDownload(string themename)
 	ResumeGui();
 
 	char buffer[100];
-	msgTxt.SetText(themename.c_str());
-	sprintf(buffer, "http://www.nanolx.org/hbf/Themes/%s", themename.c_str());	
-	struct block file = downloadfile(buffer);
-	if (file.data && file.size > 0)
-	{
-		FILE * data = fopen((Settings.device_dat + ":/config/Homebrew Filter/Themes/" + themename + ".zip").c_str(), "wb");
-		if(data)
-		{
-			fwrite(file.data, 1, file.size, data);
-			fclose(data);
-		}
-	}
-
-	if(file.data)
-		free(file.data);
+	sprintf(buffer, "http://www.nanolx.org/hbf/Themes/%s/filelist", themename.c_str());	
 	
-	ZipFile *zipfile = new ZipFile((Settings.device_dat + ":/config/Homebrew Filter/Themes/" + themename + ".zip").c_str());
-	zipfile->ExtractAll((Settings.device_dat + ":/config/Homebrew Filter/Themes/").c_str());
+	struct block file = downloadfile(buffer);
+	if (file.data != NULL)
+	{
+		string source_themes = (char*)file.data;
+	
+		vector<string> themes;
+	
+		while(1)
+		{
+			if((signed)source_themes.find(themename.c_str()) == -1)
+				break;
+				
+			source_themes.erase(0, source_themes.find(themename.c_str()) + themename.length() +6);
 
+			themes.push_back(source_themes.substr(0, source_themes.find("+")));
+
+			source_themes.erase(0, source_themes.find("+"));
+
+		}
+		
+		for(int i = 0; i < (signed)themes.size(); i++)
+		{
+			msgTxt.SetText(themes[i].c_str());
+			if(new_theme(themename, themes[i]) != "NULL")
+				update("Themes/"+ themename + "/" + themes[i]);
+		}
+		
+		free(file.data);
+	}
+	
+	
 	msgTxt.SetText("");
 	downloadTxt.SetText(tr("finished"));
 
 	promptWindow.Append(&btn1);
+
 
 	while(stop)
 	{

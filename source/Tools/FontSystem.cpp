@@ -72,7 +72,7 @@ float GetFontScale()
 
 void SetFont()
 {
-	SetupDefaultFont((check_path(Settings.device_dat + ":/config/Homebrew Filter/fonts/") + Options.font).c_str());
+	SetupDefaultFont((check_path(Settings.device_dat + ":/config/HBF/fonts/") + Options.font).c_str());
 	SetFontScale( (float)51 / (float)fontSystem->getWidth(charToWideChar("a"), 100) );	// 51 -> breite von "a" mit standart schrift
 }
 
@@ -83,7 +83,7 @@ bool font_folder_exists()
 	{
 		DIR *pDir;
 
-		pDir = opendir(check_path(Settings.device_dat + ":/config/Homebrew Filter/Fonts").c_str());
+		pDir = opendir(check_path(Settings.device_dat + ":/config/HBF/Fonts").c_str());
 
 		if(pDir != NULL)
 		{
@@ -92,7 +92,7 @@ bool font_folder_exists()
 		}
 		else
 		{
-			if (mkdir((Settings.device_dat + ":/config/Homebrew Filter/Fonts").c_str(), 0777) != -1)
+			if (mkdir((Settings.device_dat + ":/config/HBF/Fonts").c_str(), 0777) != -1)
 			{
 				closedir (pDir);
 				return true;

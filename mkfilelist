@@ -1,0 +1,11 @@
+ARC=$1
+THM=$(basename $1 .zip)
+
+unp -U $1
+
+cd $THM/
+
+for i in $(ls -1 *.png *.xml); do \
+	echo "$THM/file:$i" >> temp ; \
+	cat temp | tr "\n" "+" > filelist ; \
+done

@@ -54,7 +54,7 @@ void CheckVersion(void)
 {
 	if(Settings.checkrev == -1)
 	{
-		struct block file = downloadfile("http://hamachi-mp.bplaced.net/Downloads/wii/Homebrew_Filter/version.txt");
+		struct block file = downloadfile("http://download.tuxfamily.org/hbf/DOL/revisions");
 		if (file.data != NULL)
 		{
 			revs = (char*)file.data;

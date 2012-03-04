@@ -8,7 +8,7 @@ cat <<EOF > "$PWD"/meta.xml.boot
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <app version="1">
   <name>Homebrew Filter</name>
-  <coder>Christopher Roy Bratusek<br>
+  <coder>Christopher Roy Bratusek (Nano)<br>
          hamachi-mp</coder>
   <version>r$rev_new</version>
   <no_ios_reload/>
@@ -22,7 +22,7 @@ cat <<EOF > "$PWD"/meta.xml.installer
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <app version="1">
   <name>Homebrew Filter Installer</name>
-  <coder>Christopher Roy Bratusek<br>
+  <coder>Christopher Roy Bratusek (Nano)<br>
          hamachi-mp</coder>
   <version>r$rev_new</version>
   <no_ios_reload/>

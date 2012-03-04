@@ -46,7 +46,7 @@ int MenuSettingsFont()
 
 	DIR *dirHandle;
 	struct dirent * dirEntry;
-	dirHandle = opendir(check_path(Settings.device_dat + ":/config/Homebrew Filter/Fonts").c_str());
+	dirHandle = opendir(check_path(Settings.device_dat + ":/config/HBF/Fonts").c_str());
 	if (dirHandle) {
 		while (0 != (dirEntry = readdir(dirHandle)))
 		{

@@ -12,7 +12,7 @@ bool readrev = true;
 string CheckNewVersions()
 {
 	string revs = "error";
-	struct block file = downloadfile("http://hamachi-mp.bplaced.net/Downloads/wii/Homebrew_Filter/version.txt");
+	struct block file = downloadfile("http://download.tuxfamily.org/hbf/DOL/revisions");
 	if (file.data != NULL)
 	{
 		revs = (char*)file.data;
@@ -24,7 +24,7 @@ string CheckNewVersions()
 string NewVersionsText()
 {
 	string text = "error";
-	struct block file = downloadfile("http://hamachi-mp.bplaced.net/Downloads/wii/Homebrew_Filter/version_text.txt");
+	struct block file = downloadfile("http://download.tuxfamily.org/hbf/DOL/updates");
 	if (file.data != NULL)
 	{
 		text = (char*)file.data;
@@ -38,9 +38,9 @@ string new_update(string rev, string filename)
 {
 	char url[100];
 	if(rev == "Beta")
-		sprintf(url, "http://hamachi-mp.bplaced.net/Downloads/wii/Homebrew_Filter/Beta/%s", filename.c_str());
+		sprintf(url, "http://download.tuxfamily.org/hbf/DOL//Beta/%s", filename.c_str());
 	else
-		sprintf(url, "http://hamachi-mp.bplaced.net/Downloads/wii/Homebrew_Filter/rev%s/%s", rev.c_str(), filename.c_str());
+		sprintf(url, "http://download.tuxfamily.org/hbf/DOL/rev%s/%s", rev.c_str(), filename.c_str());
 
 	file = downloadfile(url);
 	if (file.data && file.size > 0)
@@ -73,7 +73,7 @@ void update(string filename)
 {
 	if (file.data && file.size > 0)
 	{
-		FILE * data = fopen((Settings.device_dat + ":/config/Homebrew Filter/"+ filename).c_str(), "wb");
+		FILE * data = fopen((Settings.device_dat + ":/config/HBF/"+ filename).c_str(), "wb");
 		if(data)
 		{
 			fwrite(file.data, 1, file.size, data);

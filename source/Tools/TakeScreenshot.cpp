@@ -15,7 +15,7 @@ void Screenshot()
 	bool Exists = false;
 
 	folder_exists();
-	pDir = opendir(check_path(Settings.device_dat + ":/config/Homebrew Filter/Screenshots").c_str());
+	pDir = opendir(check_path(Settings.device_dat + ":/config/HBF/Screenshots").c_str());
 
 	if(pDir != NULL)
 	{
@@ -23,14 +23,14 @@ void Screenshot()
 		closedir (pDir);
 	}
 	else
-		if(mkdir((Settings.device_dat + ":/config/Homebrew Filter/Screenshots").c_str(), 777) != -1)
+		if(mkdir((Settings.device_dat + ":/config/HBF/Screenshots").c_str(), 777) != -1)
 			Exists = true;
 
 	if(Exists)
 	{
 		while(!stop)
 		{
-			sprintf (temp, "%s/%i.png", check_path(Settings.device_dat + ":/config/Homebrew Filter/Screenshots").c_str(), i);
+			sprintf (temp, "%s/%i.png", check_path(Settings.device_dat + ":/config/HBF/Screenshots").c_str(), i);
 			FILE * f= fopen (temp,"r");
 			if (!f)
 				stop = true;

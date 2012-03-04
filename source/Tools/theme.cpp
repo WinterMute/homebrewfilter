@@ -324,11 +324,11 @@ bool theme_folder_exists(string theme)
 	DIR *pDir;
 
 	folder_exists();
-	pDir = opendir(check_path(Settings.device_dat + ":/config/Homebrew Filter/Themes").c_str());
+	pDir = opendir(check_path(Settings.device_dat + ":/config/HBF/Themes").c_str());
 
 	if(pDir != NULL)
 	{
-		pDir = opendir(check_path(Settings.device_dat + ":/config/Homebrew Filter/Themes/" + theme).c_str());
+		pDir = opendir(check_path(Settings.device_dat + ":/config/HBF/Themes/" + theme).c_str());
 		if(pDir != NULL)
 		{
 			closedir (pDir);
@@ -336,7 +336,7 @@ bool theme_folder_exists(string theme)
 		}
 		else
 		{
-			if (mkdir((Settings.device_dat + ":/config/Homebrew Filter/Themes/" + theme).c_str(), 0777) != -1)
+			if (mkdir((Settings.device_dat + ":/config/HBF/Themes/" + theme).c_str(), 0777) != -1)
 			{
 				closedir (pDir);
 				return true;
@@ -345,9 +345,9 @@ bool theme_folder_exists(string theme)
 	}
 	else
 	{
-		if (mkdir((Settings.device_dat + ":/config/Homebrew Filter/Themes").c_str(), 0777) != -1)
+		if (mkdir((Settings.device_dat + ":/config/HBF/Themes").c_str(), 0777) != -1)
 		{
-			if (mkdir((Settings.device_dat + ":/config/Homebrew Filter/Themes/" + theme).c_str(), 0777) != -1)
+			if (mkdir((Settings.device_dat + ":/config/HBF/Themes/" + theme).c_str(), 0777) != -1)
 			{
 				closedir (pDir);
 				return true;

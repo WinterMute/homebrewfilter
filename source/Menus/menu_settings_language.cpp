@@ -46,7 +46,7 @@ int MenuSettingsLanguage()
 	DIR *dirHandle;
 	struct dirent * dirEntry;
 	
-	dirHandle = opendir(check_path(Settings.device_dat + ":/config/Homebrew Filter/Languages").c_str());
+	dirHandle = opendir(check_path(Settings.device_dat + ":/config/HBF/Languages").c_str());
 	if (dirHandle)
 	{
 		while (0 != (dirEntry = readdir(dirHandle)))

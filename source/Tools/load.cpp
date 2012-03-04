@@ -53,13 +53,13 @@ void load()
 		if (get_setting(source, "theme") != "")
 		{
 			sprintf (Options.theme, get_setting(source, "theme").c_str());
-			theme(check_path(Settings.device_dat + ":/config/Homebrew Filter/themes/") + Options.theme + "/");
+			theme(check_path(Settings.device_dat + ":/config/HBF/themes/") + Options.theme + "/");
 		}
 		
 		if(get_setting(source, "language") != "")
 		{
 			sprintf (Options.language, get_setting(source, "language").c_str());
-			ini_Open(check_path(Settings.device_dat + ":/config/Homebrew Filter/languages/") + Options.language + ".lang");
+			ini_Open(check_path(Settings.device_dat + ":/config/HBF/languages/") + Options.language + ".lang");
 			AvailableCategory.categories[0] = tr(Settings.category_name_all);
 		}
 		

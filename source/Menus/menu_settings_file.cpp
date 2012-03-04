@@ -389,7 +389,7 @@ int MenuSettingsFile()
 				sprintf (Options.theme, options.value[THEME]);
 				DefaultTheme();
 				if(stricmp(Options.theme, tr("STANDARD")) != 0)
-					theme(Settings.device_dat + ":/config/Homebrew Filter/themes/" + Options.theme + "/");
+					theme(Settings.device_dat + ":/config/HBF/themes/" + Options.theme + "/");
 				// Cursor und Hintergrund ändern
 				#ifdef HW_RVL
 				pointer = new GuiImageData(Theme.player_point);
@@ -445,7 +445,7 @@ int MenuSettingsFile()
 				if(stricmp(Options.language, tr("STANDARD")) == 0)
 					translate();
 				else
-					ini_Open(check_path(Settings.device_dat + ":/config/Homebrew Filter/languages/") + Options.language + ".lang");
+					ini_Open(check_path(Settings.device_dat + ":/config/HBF/languages/") + Options.language + ".lang");
 				/*********************************************************************/
 					
 				AvailableCategory.categories[0] = tr(Settings.category_name_all);

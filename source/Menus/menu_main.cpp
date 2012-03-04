@@ -159,7 +159,7 @@ int MenuMain()
 	LogoHomebrewFilterImg.SetPosition(30, 420);
 	LogoHomebrewFilterImg.SetScale(0.65);
 	
-	GuiText ownerTxt("hamachi-mp", 18, (GXColor){Theme.owner_1, Theme.owner_2, Theme.owner_3, 255});
+	GuiText ownerTxt("Nano", 18, (GXColor){Theme.owner_1, Theme.owner_2, Theme.owner_3, 255});
 	ownerTxt.SetAlignment(ALIGN_RIGHT, ALIGN_TOP);
 	ownerTxt.SetPosition(-35,430);
 

@@ -24,7 +24,7 @@ bool folder_exists()
 
 		if(pDir != NULL)
 		{
-			pDir = opendir(check_path(Settings.device_dat + ":/config/Homebrew Filter").c_str());
+			pDir = opendir(check_path(Settings.device_dat + ":/config/HBF").c_str());
 			if(pDir != NULL)
 			{
 				closedir (pDir);
@@ -32,7 +32,7 @@ bool folder_exists()
 			}
 			else
 			{
-				if (mkdir((Settings.device_dat + ":/config/Homebrew Filter").c_str(), 0777) != -1)
+				if (mkdir((Settings.device_dat + ":/config/HBF").c_str(), 0777) != -1)
 					return true;		
 			}
 		}
@@ -40,7 +40,7 @@ bool folder_exists()
 		{
 			if (mkdir((Settings.device_dat + ":/config").c_str(), 0777) != -1)
 			{
-				if (mkdir((Settings.device_dat + ":/config/Homebrew Filter").c_str(), 0777) != -1)
+				if (mkdir((Settings.device_dat + ":/config/HBF").c_str(), 0777) != -1)
 					return true;
 			}
 		}

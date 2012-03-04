@@ -69,15 +69,15 @@ const char* tr(string translate)
 void translate()
 {
 	if(CONF_GetLanguage() == JAPANESE)
-		ini_Open(check_path(Settings.device_dat + ":/config/Homebrew Filter/languages/") + "japanese.lang");
+		ini_Open(check_path(Settings.device_dat + ":/config/HBF/languages/") + "japanese.lang");
 	else if(CONF_GetLanguage() == ENGLISH)
-		ini_Open(check_path(Settings.device_dat + ":/config/Homebrew Filter/languages/") + "english.lang");
+		ini_Open(check_path(Settings.device_dat + ":/config/HBF/languages/") + "english.lang");
 	else if(CONF_GetLanguage() == GERMAN)
-		ini_Open(check_path(Settings.device_dat + ":/config/Homebrew Filter/languages/") + "german.lang");
+		ini_Open(check_path(Settings.device_dat + ":/config/HBF/languages/") + "german.lang");
 	else if(CONF_GetLanguage() == FRENCH)
-		ini_Open(check_path(Settings.device_dat + ":/config/Homebrew Filter/languages/") + "french.lang");
+		ini_Open(check_path(Settings.device_dat + ":/config/HBF/languages/") + "french.lang");
 	else if(CONF_GetLanguage() == SPANISH)
-		ini_Open(check_path(Settings.device_dat + ":/config/Homebrew Filter/languages/") + "spanish.lang");
+		ini_Open(check_path(Settings.device_dat + ":/config/HBF/languages/") + "spanish.lang");
 }
 
 bool language_folder_exists()
@@ -87,7 +87,7 @@ bool language_folder_exists()
 	{
 		DIR *pDir;
 
-		pDir = opendir(check_path(Settings.device_dat + ":/config/Homebrew Filter/Languages").c_str());
+		pDir = opendir(check_path(Settings.device_dat + ":/config/HBF/Languages").c_str());
 
 		if(pDir != NULL)
 		{
@@ -96,7 +96,7 @@ bool language_folder_exists()
 		}
 		else
 		{
-			if (mkdir((Settings.device_dat + ":/config/Homebrew Filter/Languages").c_str(), 0777) != -1)
+			if (mkdir((Settings.device_dat + ":/config/HBF/Languages").c_str(), 0777) != -1)
 			{
 				closedir (pDir);
 				return true;

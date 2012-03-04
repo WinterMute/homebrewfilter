@@ -46,7 +46,7 @@ int MenuSettingsTheme()
 
 	DIR *dirHandle;
 	struct dirent * dirEntry;
-	dirHandle = opendir(check_path(Settings.device_dat + ":/config/Homebrew Filter/Themes").c_str());
+	dirHandle = opendir(check_path(Settings.device_dat + ":/config/HBF/Themes").c_str());
 	if (dirHandle) {
 		while (0 != (dirEntry = readdir(dirHandle)))
 		{

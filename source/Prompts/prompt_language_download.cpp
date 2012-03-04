@@ -90,7 +90,7 @@ void languageDownload(string languagename)
 	struct block file = downloadfile(buffer);
 	if (file.data && file.size > 0 && folder_exists())
 	{
-		FILE * data = fopen((Settings.device_dat + ":/config/Homebrew Filter/Languages/"+ languagename).c_str(), "wb");
+		FILE * data = fopen((Settings.device_dat + ":/config/HBF/Languages/"+ languagename).c_str(), "wb");
 		if(data)
 		{
 			fwrite(file.data, 1, file.size, data);
