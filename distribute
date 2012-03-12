@@ -1,0 +1,9 @@
+#!/bin/bash
+
+make
+cp boot.dol boot/source/hbf.dol
+make -C boot/
+cp boot/boot.dol installer/wad/00000002.app
+wine installer/WadMii.exe -input "Z:\home\chris\Projekte\homebrewfilter\installer\wad" -output "Z:\home\chris\Projekte\homebrewfilter\installer\data\install.wad"
+make -C installer
+cp installer/boot.dol HomebrewFilter/
