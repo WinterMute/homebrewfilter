@@ -1,3 +1,6 @@
+//rev37:
+- before updating copy the old boot.dol to prev.dol
+
 //rev36:
 - HBF is now OpenSource!
 - Added license-text of GNU GPL v2
