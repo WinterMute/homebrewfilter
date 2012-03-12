@@ -53,7 +53,7 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 	else
 		letterPos = 0;
 
-	Key thekeys[4][13] = {
+	Key thekeys[4][11] = {
 	{
 		{'1','!'},
 		{'2','@'},
@@ -105,8 +105,6 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max, bool Br)
 		{',','<'},
 		{'.','>'},
 		{'/','?'},
-		{'\0','\0'},
-		{'\0','\0'},
 		{'\0','\0'}
 	}
 	};
