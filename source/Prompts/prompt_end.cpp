@@ -41,12 +41,14 @@ endPrompt()
 	GuiImageData btn(Theme.button);
 	GuiImage systemmenuImg(&btn);
 	GuiImage bootmiiImg(&btn);
+	GuiImage nandemuImg(&btn);
 	GuiImage shutdownImg(&btn);
 	GuiImage backImg(&btn);
-	
+
 	// Buttons over data
 	GuiImageData btn_over(Theme.button_focus);
 	GuiImage bootmiiImgOver(&btn_over);
+	GuiImage nandemuImgOver(&btn_over);
 	GuiImage systemmenuImgOver(&btn_over);
 	GuiImage shutdownImgOver(&btn_over);
 	GuiImage backImgOver(&btn_over);
@@ -59,29 +61,52 @@ endPrompt()
 	bootmii.SetImage(&bootmiiImg);
 	bootmii.SetImageOver(&bootmiiImgOver);
 	bootmii.SetTrigger(&trigA);
-	
+
+	GuiText nandemuTxt(tr("Launch NandEmu"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiButton nandemu(btn.GetWidth(), btn.GetHeight());
+	nandemu.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	nandemu.SetPosition(0, 75);
+	if(get_bootmii())
+		nandemu.SetPosition(0, 120);
+	nandemu.SetLabel(&nandemuTxt);
+	nandemu.SetImage(&nandemuImg);
+	nandemu.SetImageOver(&nandemuImgOver);
+	nandemu.SetTrigger(&trigA);
+
 	GuiText systemmenuTxt(tr("Exit to System Menu"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton systemmenu(btn.GetWidth(), btn.GetHeight());
 	systemmenu.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	systemmenu.SetPosition(0, 90);
-	if(get_bootmii())
-		systemmenu.SetPosition(0, 140);
+	if(get_bootmii() && get_nandemu())
+	{
+		systemmenu.SetPosition(0, 180);
+	}
+	else if (get_bootmii() || get_nandemu())
+	{
+		systemmenu.SetPosition(0, 120);
+	}
 	systemmenu.SetLabel(&systemmenuTxt);
 	systemmenu.SetImage(&systemmenuImg);
 	systemmenu.SetImageOver(&systemmenuImgOver);
 	systemmenu.SetTrigger(&trigA);
-	
+
 	GuiText shutdownTxt(tr("Shutdown"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton shutdown(btn.GetWidth(), btn.GetHeight());
 	shutdown.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	shutdown.SetPosition(0, 180);
-	if(get_bootmii())
+	if(get_bootmii() && get_nandemu())
+	{
+		shutdown.SetPosition(0, 225);
+	}
+	else if (get_bootmii() || get_nandemu())
+	{
 		shutdown.SetPosition(0, 205);
+	}
 	shutdown.SetLabel(&shutdownTxt);
 	shutdown.SetImage(&shutdownImg);
 	shutdown.SetImageOver(&shutdownImgOver);
 	shutdown.SetTrigger(&trigA);
-	
+
 	GuiText backTxt(tr("Back"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton back(btn.GetWidth(), btn.GetHeight());
 	back.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -100,6 +125,8 @@ endPrompt()
 	promptWindow.Append(&titleTxt);
 	if(get_bootmii())
 		promptWindow.Append(&bootmii);
+	if(get_nandemu())
+		promptWindow.Append(&nandemu);
 	promptWindow.Append(&systemmenu);
 	promptWindow.Append(&shutdown);
 	promptWindow.Append(&back);
@@ -121,21 +148,28 @@ endPrompt()
 			menu = MENU_EXIT;
 			stop = true;
 		}
-		
+
+		if(nandemu.GetState() == STATE_CLICKED)
+		{
+			set_nandemu(2);
+			menu = MENU_EXIT;
+			stop = true;
+		}
+
 		if(systemmenu.GetState() == STATE_CLICKED)
 		{
 			PowerOff = SYS_RETURNTOMENU;
 			menu = MENU_EXIT;
 			stop = true;
 		}
-			
+
 		if(shutdown.GetState() == STATE_CLICKED)
 		{
 			PowerOff = SYS_POWEROFF_STANDBY;
 			menu = MENU_EXIT;
 			stop = true;
 		}
-			
+
 		if(back.GetState() == STATE_CLICKED || back2.GetState() == STATE_CLICKED)
 			stop = true;
 	}
