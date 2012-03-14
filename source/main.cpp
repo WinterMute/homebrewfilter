@@ -263,7 +263,7 @@ main(int argc, char *argv[])
 		else if (opendir(check_path("usb1:/apps/NANDEmu-Boot").c_str()) != NULL)
 		{
 			LoadHomebrew ("usb1:/apps/NANDEmu-Boot/boot.dol");
-			Boothomebrew ();
+			BootHomebrew ();
 		}
 	}
 
