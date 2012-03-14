@@ -737,29 +737,51 @@ int MenuMain()
 				if(next_page || rightBtn.GetState() == STATE_CLICKED || (WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) && Options.navigation))
 				{
 					rightBtn.ResetState();
-					Settings.current_page++;
-					if(Settings.current_page > Settings.total_page)
+					//Settings.current_page++;
+					if(Settings.current_page < Settings.total_page)
+					{
+						Settings.current_page++;
+					//	Settings.current_page = 1;
+						Settings.Apps_from = EFFECT_SLIDE_RIGHT;
+						Settings.Apps_to = EFFECT_SLIDE_LEFT;
+					
+						next_page = false;
+						change = true;
+					}
+					else if (Settings.total_page != 1)
+					{
 						Settings.current_page = 1;
-					
-					Settings.Apps_from = EFFECT_SLIDE_RIGHT;
-					Settings.Apps_to = EFFECT_SLIDE_LEFT;
-					
-					next_page = false;
-					change = true;
+						Settings.Apps_from = EFFECT_SLIDE_LEFT;
+						Settings.Apps_to = EFFECT_SLIDE_RIGHT;
+						next_page = false;
+						change = true;
+					}
+					else { change = false; }
 				}
 				
 				if(previous_page || leftBtn.GetState() == STATE_CLICKED || (WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) && Options.navigation))
 				{
 					leftBtn.ResetState();
-					Settings.current_page--;
-					if(Settings.current_page == 0)
+					if(Settings.current_page <= Settings.total_page && Settings.current_page > 1)
+					{ //	Settings.current_page = Settings.total_page;
+					
+						Settings.current_page--;
+						Settings.Apps_from = EFFECT_SLIDE_LEFT;
+						Settings.Apps_to = EFFECT_SLIDE_RIGHT;
+					
+						previous_page = false;
+						change = true;
+					}
+					else if (Settings.total_page != 1)
+					{
 						Settings.current_page = Settings.total_page;
-					
-					Settings.Apps_from = EFFECT_SLIDE_LEFT;
-					Settings.Apps_to = EFFECT_SLIDE_RIGHT;
-					
-					previous_page = false;
-					change = true;
+						Settings.Apps_from = EFFECT_SLIDE_RIGHT;
+						Settings.Apps_to = EFFECT_SLIDE_LEFT;
+
+						previous_page = false;
+						change = true;
+					}
+					else { change = false; }
 				}
 				
 				if(change)
