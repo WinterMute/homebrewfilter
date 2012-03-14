@@ -1,0 +1,5 @@
+#!/bin/bash
+
+make -C installer clean
+make -C boot clean
+make clean
