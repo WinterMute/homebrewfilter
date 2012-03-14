@@ -12,6 +12,7 @@ std::vector<int> ioslist;
 int selectedIos = IOS_GetVersion();
 int ios_pos = 0;
 int bootmii = 0;
+int nandemu = 0;
 
 // Check if this is an IOS stub (according to WiiBrew.org)
 bool IsKnownStub(u32 noIOS, s32 noRevision)
@@ -37,8 +38,11 @@ bool IsKnownStub(u32 noIOS, s32 noRevision)
 	if (noIOS == 254 && noRevision ==     3) return true;
 	if (noIOS == 254 && noRevision ==   260) return true;
 
-// BootMii As IOS is installed on IOS254 rev 31338
+	// BootMii As IOS is installed on IOS254 rev 31338
 	if (noIOS == 254 && noRevision == 31338) return true;
+
+	// NAND Emu
+	if (noIOS == 253 && noRevision == 65535) return true;
 
 	return false;
 }
@@ -63,10 +67,10 @@ int nextIos()
 		ios_pos++;
 		if(ios_pos > (signed)ioslist.size() -1)
 			ios_pos = ioslist.size() -1;
-			
+
 		selectedIos= ioslist[ios_pos];
 	}
-	
+
 	return selectedIos;
 }
 int previousIos()
@@ -76,10 +80,10 @@ int previousIos()
 		ios_pos--;
 		if(ios_pos < 0)
 			ios_pos = 0;
-			
+
 		selectedIos= ioslist[ios_pos];
 	}
-	
+
 	return selectedIos;
 }
 
@@ -87,12 +91,12 @@ bool listIOS()
 {
 	if(ios_pos > 0)
 		return true;
-		
+
 	ioslist.clear();
 	u32 nbTitles;
 	if (ES_GetNumTitles(&nbTitles) < 0)
 		return false;
-		
+
 	// Allocate the memory for titles
 	u64 *titles = (u64*)memalign(32, nbTitles*sizeof(u64));
 
@@ -101,7 +105,7 @@ bool listIOS()
 
 	if (ES_GetTitles(titles, nbTitles) < 0)
 		return false;
-		
+
 	int i;
 	u32 titleID;
 
@@ -113,7 +117,7 @@ bool listIOS()
 
 		// Skip the system menu
 		titleID = titles[i] & 0xFFFFFFFF;
-		
+
 		if (titleID == 2) continue;
 
 		// Skip BC, MIOS and possible other non-IOS titles
@@ -121,7 +125,14 @@ bool listIOS()
 
 		// Skip the running IOS
 		if (titleID == 0) continue;
-		
+
+		// Skip NAND-Emu IOS
+		if (titleID == 253)
+		{
+			nandemu = 1;
+			continue;
+		}
+
 		// Skip bootmii IOS
 		if (titleID == 254)
 		{
@@ -145,13 +156,13 @@ bool listIOS()
 			return false;
 
 		iosTMD = (tmd *)SIGNATURE_PAYLOAD(iosTMDBuffer);
-		
+
 		free(iosTMDBuffer);
 
 		// Get the title version
 		u8 noVersion = iosTMD->title_version;
 		bool isStub = false;
-		
+
 		// Check if this is an IOS stub (according to WiiBrew.org)
 		if (IsKnownStub(titleID, iosTMD->title_version))
 			isStub = true;
@@ -164,7 +175,7 @@ bool listIOS()
 			// 	- Stub have one app of their own (type 0x1) and 2 shared apps (type 0x8001).
 			if (noVersion == 0)
 				isStub = ((iosTMD->num_contents == 3) && (iosTMD->contents[0].type == 1 && iosTMD->contents[1].type == 0x8001 && iosTMD->contents[2].type == 0x8001));
-			else		
+			else
 				isStub = false;
 		}
 
@@ -199,7 +210,7 @@ int SearchAppIOS(std::string foldername)
 			selectedIos = IOS_GetVersion();
 		getIosPos(selectedIos);
 	}
-		
+
 	return selectedIos;
 }
 
@@ -213,7 +224,7 @@ int GetAppIOS(std::string foldername)
 				return appios[i].ios;
 		}
 	}
-		
+
 	return selectedIos;
 }
 
@@ -225,4 +236,14 @@ int get_bootmii()
 void set_bootmii(int choice)
 {
 	bootmii = choice;
+}
+
+int get_nandemu()
+{
+	return nandemu;
+}
+
+void set_nandemu(int choice)
+{
+	nandemu = choice;
 }
