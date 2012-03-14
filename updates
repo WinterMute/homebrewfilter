@@ -7,6 +7,7 @@
 		  usb:/apps/boot253/boot.dol)
 - Basic (= non-working) support for Homebew on DVD
 - No longer show the HBC if it's installed
+- compiled with devkitppc 25-1 and libogc 1.8.10
 
 //rev36:
 - HBF is now OpenSource!
