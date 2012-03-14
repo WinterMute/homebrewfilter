@@ -250,10 +250,20 @@ main(int argc, char *argv[])
 			LoadHomebrew ("sd1:/apps/boot253/boot.dol");
 			BootHomebrew ();
 		}
+		else if (opendir(check_path("sd1:/apps/NANDEmu-Boot").c_str()) != NULL)
+		{
+			LoadHomebrew ("sd1:/apps/NANDEmu-Boot/boot.dol");
+			BootHomebrew ();
+		}
 		else if (opendir(check_path("usb1:/apps/boot253").c_str()) != NULL)
 		{
 			LoadHomebrew ("usb1:/apps/boot253/boot.dol");
 			BootHomebrew ();
+		}
+		else if (opendir(check_path("usb1:/apps/NANDEmu-Boot").c_str()) != NULL)
+		{
+			LoadHomebrew ("usb1:/apps/NANDEmu-Boot/boot.dol");
+			Boothomebrew ();
 		}
 	}
 
