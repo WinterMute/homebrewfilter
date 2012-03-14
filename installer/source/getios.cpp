@@ -11,6 +11,7 @@ std::vector<int> ioslist;
 // Check if this is an IOS stub (according to WiiBrew.org)
 bool IsKnownStub(u32 noIOS, s32 noRevision)
 {
+	/*
 	if (noIOS ==   3 && noRevision == 65280) return true;
 	if (noIOS ==   4 && noRevision == 65280) return true;
 	if (noIOS ==  10 && noRevision ==   768) return true;
@@ -27,13 +28,17 @@ bool IsKnownStub(u32 noIOS, s32 noRevision)
 	if (noIOS == 222 && noRevision == 65280) return true;
 	if (noIOS == 223 && noRevision == 65280) return true;
 	if (noIOS == 249 && noRevision == 65280) return true;
-	if (noIOS == 250 && noRevision == 65280) return true;
+	if (noIOS == 250 && noRevision == 65280) return true;*/
 	if (noIOS == 254 && noRevision ==     2) return true;
 	if (noIOS == 254 && noRevision ==     3) return true;
 	if (noIOS == 254 && noRevision ==   260) return true;
+	if (noIOS == 254 && noRevision == 65280) return true;
 
-// BootMii As IOS is installed on IOS254 rev 31338
+	// BootMii As IOS is installed on IOS254 rev 31338
 	if (noIOS == 254 && noRevision == 31338) return true;
+
+	// NAND Emu
+	if (noIOS == 253 && noRevision == 65535) return true;
 
 	return false;
 }
@@ -44,7 +49,7 @@ bool listIOS()
 	u32 nbTitles;
 	if (ES_GetNumTitles(&nbTitles) < 0)
 		return false;
-		
+
 	// Allocate the memory for titles
 	u64 *titles = (u64*)memalign(32, nbTitles*sizeof(u64));
 
@@ -53,7 +58,7 @@ bool listIOS()
 
 	if (ES_GetTitles(titles, nbTitles) < 0)
 		return false;
-		
+
 	int i;
 	u32 titleID;
 
@@ -65,7 +70,7 @@ bool listIOS()
 
 		// Skip the system menu
 		titleID = titles[i] & 0xFFFFFFFF;
-		
+
 		if (titleID == 2) continue;
 
 		// Skip BC, MIOS and possible other non-IOS titles
@@ -73,9 +78,12 @@ bool listIOS()
 
 		// Skip the running IOS
 		if (titleID == 0) continue;
-		
+
+		// Skip nandemu IOS
+		//if (titleID == 253) continue;
+
 		// Skip bootmii IOS
-		if (titleID == 254)	continue;
+		if (titleID == 254) continue;
 
 		// Check if this title is an IOS stub
 		u32 tmdSize;
@@ -93,13 +101,13 @@ bool listIOS()
 			return false;
 
 		iosTMD = (tmd *)SIGNATURE_PAYLOAD(iosTMDBuffer);
-		
+
 		free(iosTMDBuffer);
 
 		// Get the title version
 		u8 noVersion = iosTMD->title_version;
 		bool isStub = false;
-		
+
 		// Check if this is an IOS stub (according to WiiBrew.org)
 		if (IsKnownStub(titleID, iosTMD->title_version))
 			isStub = true;
@@ -112,7 +120,7 @@ bool listIOS()
 			// 	- Stub have one app of their own (type 0x1) and 2 shared apps (type 0x8001).
 			if (noVersion == 0)
 				isStub = ((iosTMD->num_contents == 3) && (iosTMD->contents[0].type == 1 && iosTMD->contents[1].type == 0x8001 && iosTMD->contents[2].type == 0x8001));
-			else		
+			else
 				isStub = false;
 		}
 
@@ -124,12 +132,12 @@ bool listIOS()
 
 bool getIOS(int ios)
 {
-	
+
 	for(int i = 0; i < (signed)ioslist.size(); i++)
 	{
 		if(ioslist[i] == ios)
 			return true;
 	}
-		
+
 	return false;
 }
