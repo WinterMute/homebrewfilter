@@ -206,7 +206,7 @@ void app_list()
 	std::sort(vechomebrew_list_category[0].begin(),vechomebrew_list_category[0].end(), sort_name_a_z);
 
 	// suchen nach hbc
-	if(DetectHBC() != 0 && Settings.system != 0)
-		vechomebrew_list_category[0].insert(vechomebrew_list_category[0].begin(), homebrew_list("the homebrew channel", "the homebrew channel", "the homebrew channel", (u8*)hbc_icon_png, "the homebrew channel", ""));
+	//if(DetectHBC() != 0 && Settings.system != 0)
+	//	vechomebrew_list_category[0].insert(vechomebrew_list_category[0].begin(), homebrew_list("the homebrew channel", "the homebrew channel", "the homebrew channel", (u8*)hbc_icon_png, "the homebrew channel", ""));
 }
 
