@@ -14,9 +14,11 @@
 #include <ntfs.h>
 #include <fat.h>
 #include <ext2.h>
+#include <iso9660.h>
 #include <sdcard/wiisd_io.h>
 #include <ogc/usbstorage.h>
 #include <dirent.h>
+#include <di/di.h>
 
 #include "fileop.h"
 #include "main.h"
@@ -26,14 +28,16 @@
 
 static const DISC_INTERFACE* sd = &__io_wiisd;
 static const DISC_INTERFACE* usb = &__io_usbstorage;
+static const DISC_INTERFACE* dvd = &__io_wiidvd;
 
 enum
 {
 	DEVICE_SD,
-	DEVICE_USB
+	DEVICE_USB,
+	DEVICE_DVD
 };
 
-static char prefix[2][4] = { "sd", "usb" };
+static char prefix[3][7] = { "sd", "usb", "dvd" };
 
 /****************************************************************************
  * FindPartitions
@@ -65,9 +69,11 @@ static char prefix[2][4] = { "sd", "usb" };
 #define BPB_FAT16_fileSysType  0x36
 #define BPB_FAT32_fileSysType  0x52
 
-#define T_FAT  1
-#define T_NTFS 2
-#define T_EXT2	3
+#define T_FAT     1
+#define T_NTFS    2
+#define T_EXT2    3
+#define T_ISO9660 4
+
 
 static const char FAT_SIG[3] = {'F', 'A', 'T'};
 
@@ -157,27 +163,33 @@ typedef struct _EXTENDED_BOOT_RECORD {
 DEVICE_STRUCT part[2][MAX_DEVICES];
 
 static void AddPartition(sec_t sector, int device, int type, int *devnum)
-{  
+{
 	if (*devnum >= MAX_DEVICES)
 		return;
 
 	DISC_INTERFACE *disc = (DISC_INTERFACE *)sd;
 
-	if(device == DEVICE_USB)
+	if (device == DEVICE_USB)
+	{
 		disc = (DISC_INTERFACE *)usb;
+	}
+	else if (device == DEVICE_DVD)
+	{
+		disc = (DISC_INTERFACE *)dvd;
+	}
 
 	char mount[10];
 	sprintf(mount, "%s%i", prefix[device], *devnum+1);
 
 	if(type == T_FAT)
 	{
-		if(!fatMount(mount, disc, sector, 8, 64))
+		if(!fatMount(mount, disc, sector, 2, 128))
 			return;
 		fatGetVolumeLabel(mount, part[device][*devnum].name);
 	}
 	else if (type == T_NTFS)
 	{
-		if(!ntfsMount(mount, disc, sector, 8, 64, NTFS_DEFAULT | NTFS_RECOVER))
+		if(!ntfsMount(mount, disc, sector, 2, 128, NTFS_DEFAULT | NTFS_RECOVER))
 			return;
 
 		const char *name = ntfsGetVolumeName(mount);
@@ -198,6 +210,20 @@ static void AddPartition(sec_t sector, int device, int type, int *devnum)
 			strcpy(part[device][*devnum].name, name);
 		else
 			part[device][*devnum].name[0] = 0;
+	}
+	else if (type == T_ISO9660)
+	{
+
+		if (!ISO9660_Mount(mount, disc))
+			return;
+
+		const char *name = ISO9660_GetVolumeLabel(mount);
+
+		if(name)
+			strcpy(part[device][*devnum].name, name);
+		else
+			strcpy(part[device][*devnum].name, "DVD");
+
 	}
 
 	strcpy(part[device][*devnum].mount, mount);
@@ -374,7 +400,7 @@ static int FindPartitions(int device)
 				case PARTITION_TYPE_LINUX:
 				{
 					debug_printf("Partition %i: Claims to be LINUX\n", i + 1);
- 
+
 					// Read and validate the EXT2 partition
 					AddPartition(part_lba, device, T_EXT2, &devnum);
 					break;
@@ -480,7 +506,13 @@ static void UnmountPartitions(int device)
 			ext2Unmount(part[device][i].mount);
 			break;
 		}
-		
+		else if(part[device][i].type == T_ISO9660)
+		{
+			sprintf(mount, "ISO9660: %s:", part[device][i].mount);
+			ISO9660_Unmount(part[device][i].mount);
+			break;
+		}
+
 		part[device][i].name[0] = 0;
 		part[device][i].mount[0] = 0;
 		part[device][i].sector = 0;
@@ -488,24 +520,18 @@ static void UnmountPartitions(int device)
 		part[device][i].type = 0;
 	}
 
-	if(device == DEVICE_SD)
-		sd->shutdown();
-	else
-	{
-		usb->shutdown();
-		USB_Deinitialize();
-	}
 }
 
 /****************************************************************************
  * MountPartitions
- * 
+ *
  * Shuts down the device
  * Attempts to startup the device specified and mounts all partitions
  ***************************************************************************/
 
 static bool MountPartitions(int device)
 {
+
 	const DISC_INTERFACE* disc = NULL;
 
 	switch(device)
@@ -515,6 +541,9 @@ static bool MountPartitions(int device)
 			break;
 		case DEVICE_USB:
 			disc = usb;
+			break;
+		case DEVICE_DVD:
+			disc = dvd;
 			break;
 		default:
 			return false; // unknown device
@@ -530,17 +559,23 @@ void MountAllDevices()
 {
 	if(sd->startup() && sd->isInserted())
 		MountPartitions(DEVICE_SD);
-		
+
 	usleep(250000); // 1/4 sec
 
 	if(usb->startup() && usb->isInserted())
 		MountPartitions(DEVICE_USB);
+
+	usleep(250000); // 1/4 sec
+
+	if(dvd->startup() && dvd->isInserted())
+		MountPartitions(DEVICE_DVD);
 }
 
 void UnmountAllDevices()
 {
 	UnmountPartitions(DEVICE_SD);
 	UnmountPartitions(DEVICE_USB);
+	UnmountPartitions(DEVICE_DVD);
 }
 
 bool SDCard_Inserted()
@@ -552,7 +587,7 @@ void check_sd()
 {
 	if(Settings.sd_insert <= 0)
 	{
-		
+
 		if(sd->startup() && sd->isInserted())		// wenn sd karte gefunden, neu einlesen
 		{
 			MountPartitions(DEVICE_SD);
@@ -594,6 +629,32 @@ void check_usb()
 	}
 }
 
+bool DVD_Inserted()
+{
+	return dvd->isInserted();
+}
+
+void check_dvd()
+{
+	if(Settings.dvd_insert <= 0)
+	{
+
+		if(dvd->startup() && dvd->isInserted())		// wenn dvd gefunden, neu einlesen
+		{
+			MountPartitions(DEVICE_DVD);
+			Settings.dvd_insert = 2;
+		}
+	}
+	else if(Settings.dvd_insert == 1)
+	{
+		if(!DVD_Inserted())						// wenn dvd nicht gefunden, beenden
+		{
+			UnmountPartitions(DEVICE_DVD);
+			Settings.dvd_insert = -1;
+		}
+	}
+}
+
 void check_device()
 {
 	ResumeThrobberThread();
@@ -604,32 +665,37 @@ void check_device()
 		copy_app_in_category();
 	else
 		copy_app_in_unassigned();
-		
+
 	if(Settings.sd_insert == 2)
 		Settings.sd_insert = 1;
 	else if(Settings.sd_insert == -1)
 		Settings.sd_insert = 0;
-		
+
 	if(Settings.usb_insert == 2)
 		Settings.usb_insert = 1;
 	else if(Settings.usb_insert == -1)
 		Settings.usb_insert = 0;
-		
+
+	if(Settings.dvd_insert == 2)
+		Settings.dvd_insert = 1;
+	else if(Settings.dvd_insert == -1)
+		Settings.dvd_insert = 0;
+
 	HaltThrobberThread();
 }
 
 string check_path(string old_path)
-{	
+{
 	DIR *dirHandle;
 	struct dirent * dirEntry;
-	
+
 	if(old_path.length() > 0 && old_path.substr(old_path.length() -1) != "/")
 		old_path += "/";
 
 	string new_path = old_path.substr(0, old_path.find(":/") +2);
 	old_path.erase(0, old_path.find("/") +1);
 	string search;
-	
+
 	while((signed)old_path.find("/") != -1)
 	{
 		search = old_path.substr(0, old_path.find("/"));
@@ -648,7 +714,7 @@ string check_path(string old_path)
 			new_path += "/";
 			closedir(dirHandle);
 		}
-		
+
 		old_path.erase(0, old_path.find("/") +1);
 	}
 

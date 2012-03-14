@@ -34,6 +34,9 @@ extern DEVICE_STRUCT part[2][MAX_DEVICES];
 void MountAllDevices();
 void UnmountAllDevices();
 
+bool DVD_Inserted();
+void check_dvd();
+
 /*
 //!USB FAT Controls
 int USBDevice_Init();
