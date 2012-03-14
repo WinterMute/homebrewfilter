@@ -105,6 +105,7 @@ $(BUILD):
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol
+	@rm source/hbf.dol
 
 #---------------------------------------------------------------------------------
 run:
