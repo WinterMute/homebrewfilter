@@ -11,6 +11,7 @@
 - No longer show the HBC if it's installed
 - changing pages in an empty category no longer crashes
 - compiled with devkitppc 25-1 and libogc 1.8.10
+- Accessing devices formatted as EXT2/3/4 should now be noticeably faster
 
 //rev36:
 - HBF is now OpenSource!

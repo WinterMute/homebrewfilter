@@ -183,13 +183,13 @@ static void AddPartition(sec_t sector, int device, int type, int *devnum)
 
 	if(type == T_FAT)
 	{
-		if(!fatMount(mount, disc, sector, 2, 128))
+		if(!fatMount(mount, disc, sector, 8, 64))
 			return;
 		fatGetVolumeLabel(mount, part[device][*devnum].name);
 	}
 	else if (type == T_NTFS)
 	{
-		if(!ntfsMount(mount, disc, sector, 2, 128, NTFS_DEFAULT | NTFS_RECOVER))
+		if(!ntfsMount(mount, disc, sector, 8, 64, NTFS_DEFAULT | NTFS_RECOVER))
 			return;
 
 		const char *name = ntfsGetVolumeName(mount);
@@ -201,7 +201,7 @@ static void AddPartition(sec_t sector, int device, int type, int *devnum)
 	}
 	else if (type == T_EXT2)
 	{
-		if(!ext2Mount(mount, disc, sector, 2, 128, EXT2_FLAG_64BITS | EXT2_FLAG_JOURNAL_DEV_OK))
+		if(!ext2Mount(mount, disc, sector, 8, 64, EXT2_FLAG_64BITS | EXT2_FLAG_JOURNAL_DEV_OK))
 			return;
 
 		const char *name = ext2GetVolumeName(mount);
