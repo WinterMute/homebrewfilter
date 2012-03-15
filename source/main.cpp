@@ -35,6 +35,7 @@
 #include "Network/tcp.h"
 #include "BootHomebrew/BootHomebrew.h"
 #include "BootHomebrew/dolloader.h"
+#include "DiskOperations/di2.h"
 
 #define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
@@ -166,6 +167,7 @@ main(int argc, char *argv[])
 	SetupPads();			// Initialize input
 //	InitAudio();			// Initialize audio
 	InitGUIThreads();		// Initialize GUI
+	DI2_Init();			// Initialize DVD
 	MountAllDevices();
 	InitNetworkThread();	// Initialize Network
 	InitTcpThread();

@@ -14,7 +14,6 @@
 #include <ntfs.h>
 #include <fat.h>
 #include <ext2.h>
-#include <iso9660.h>
 #include <sdcard/wiisd_io.h>
 #include <ogc/usbstorage.h>
 #include <dirent.h>
@@ -25,6 +24,8 @@
 #include "Tools/app_list.h"
 #include "Tools/copy_app_in_category.h"
 #include "Tools/throbber.h"
+#include "DiskOperations/iso.h"
+#include "DiskOperations/di2.h"
 
 static const DISC_INTERFACE* sd = &__io_wiisd;
 static const DISC_INTERFACE* usb = &__io_usbstorage;
@@ -37,7 +38,7 @@ enum
 	DEVICE_DVD
 };
 
-static char prefix[3][7] = { "sd", "usb", "dvd" };
+static char prefix[2][4] = { "sd", "usb" };
 
 /****************************************************************************
  * FindPartitions
@@ -73,7 +74,6 @@ static char prefix[3][7] = { "sd", "usb", "dvd" };
 #define T_NTFS    2
 #define T_EXT2    3
 #define T_ISO9660 4
-
 
 static const char FAT_SIG[3] = {'F', 'A', 'T'};
 
@@ -214,15 +214,10 @@ static void AddPartition(sec_t sector, int device, int type, int *devnum)
 	else if (type == T_ISO9660)
 	{
 
-		if (!ISO9660_Mount(mount, disc))
+		if (!MountDVD())
 			return;
 
-		const char *name = ISO9660_GetVolumeLabel(mount);
-
-		if(name)
-			strcpy(part[device][*devnum].name, name);
-		else
-			strcpy(part[device][*devnum].name, "DVD");
+		strcpy(part[device][*devnum].name, "DVD");
 
 	}
 
@@ -509,7 +504,7 @@ static void UnmountPartitions(int device)
 		else if(part[device][i].type == T_ISO9660)
 		{
 			sprintf(mount, "ISO9660: %s:", part[device][i].mount);
-			ISO9660_Unmount(part[device][i].mount);
+			UnMountDVD();
 			break;
 		}
 
@@ -568,14 +563,69 @@ void MountAllDevices()
 	usleep(250000); // 1/4 sec
 
 	if(dvd->startup() && dvd->isInserted())
-		MountPartitions(DEVICE_DVD);
+		MountDVD();
+}
+
+bool MountDVDFS()
+{
+	bool devicemounted = ISO9660_Mount();
+
+	/*if(!devicemounted)
+		devicemounted = FST_Mount();
+	if(!devicemounted)
+		devicemounted = GCFST_Mount();*/
+
+	return devicemounted;
+}
+
+void UnMountDVD()
+{
+
+	ISO9660_Unmount();
+}
+
+bool MountDVD()
+{
+	if(!DVD_Inserted())
+		return false;
+
+	char read_buffer[2048];
+	if(DI2_ReadDVD(read_buffer, 1, 0) == 0)
+		return true;
+
+	UnMountDVD();
+	DI2_Mount();
+
+	time_t timer1, timer2;
+	timer1 = time(0);
+
+	while(DI2_GetStatus() & DVD_INIT)
+	{
+		timer2 = time(0);
+		if(timer2-timer1 > 15)
+			return false;
+
+		usleep(5000);
+	}
+
+	return MountDVDFS();
+}
+
+bool DVD_Inserted()
+{
+	uint32_t cover = 0;
+	DI2_GetCoverRegister(&cover);
+
+	if(cover & DVD_COVER_DISC_INSERTED)
+		return true;
+
+	return false;
 }
 
 void UnmountAllDevices()
 {
 	UnmountPartitions(DEVICE_SD);
 	UnmountPartitions(DEVICE_USB);
-	UnmountPartitions(DEVICE_DVD);
 }
 
 bool SDCard_Inserted()
@@ -596,7 +646,7 @@ void check_sd()
 	}
 	else if(Settings.sd_insert == 1)
 	{
-		if(!SDCard_Inserted())						// wenn sd karte nicht gefunden, beenden
+		if(!SDCard_Inserted())				// wenn sd karte nicht gefunden, beenden
 		{
 			UnmountPartitions(DEVICE_SD);
 			Settings.sd_insert = -1;
@@ -613,7 +663,7 @@ void check_usb()
 {
 	if(Settings.usb_insert <= 0)
 	{
-		if(usb->startup() && usb->isInserted())	// wenn usb gerät gefunden, neu einlesen
+		if(usb->startup() && usb->isInserted())		// wenn usb gerät gefunden, neu einlesen
 		{
 			MountPartitions(DEVICE_USB);
 			Settings.usb_insert = 2;
@@ -621,7 +671,7 @@ void check_usb()
 	}
 	else if(Settings.usb_insert == 1)
 	{
-		if(!USBDevice_Inserted())					// wenn usb gerät nicht mehr gefunden, beenden
+		if(!USBDevice_Inserted())			// wenn usb gerät nicht mehr gefunden, beenden
 		{
 			UnmountPartitions(DEVICE_USB);
 			Settings.usb_insert = -1;
@@ -629,27 +679,22 @@ void check_usb()
 	}
 }
 
-bool DVD_Inserted()
-{
-	return dvd->isInserted();
-}
-
 void check_dvd()
 {
 	if(Settings.dvd_insert <= 0)
 	{
 
-		if(dvd->startup() && dvd->isInserted())		// wenn dvd gefunden, neu einlesen
+		if(dvd->startup() && DVD_Inserted())		// wenn dvd gefunden, neu einlesen
 		{
-			MountPartitions(DEVICE_DVD);
+			MountDVD();
 			Settings.dvd_insert = 2;
 		}
 	}
 	else if(Settings.dvd_insert == 1)
 	{
-		if(!DVD_Inserted())						// wenn dvd nicht gefunden, beenden
+		if(!DVD_Inserted())				// wenn dvd nicht gefunden, beenden
 		{
-			UnmountPartitions(DEVICE_DVD);
+			UnMountDVD();
 			Settings.dvd_insert = -1;
 		}
 	}

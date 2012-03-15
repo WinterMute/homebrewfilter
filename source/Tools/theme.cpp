@@ -42,7 +42,11 @@ DefaultTheme()
 	Theme.usb_active				= usb_active_png;
 	Theme.usb_inactive				= usb_inactive_png;
 	Theme.sd_usb_active				= sd_usb_active_png;
-	Theme.sd_usb_inactive			= sd_usb_inactive_png;
+	Theme.sd_usb_inactive				= sd_usb_inactive_png;
+	Theme.dvd_active				= dvd_active_png;
+	Theme.dvd_inactive				= dvd_inactive_png;
+	Theme.all_active				= all_active_png;
+	Theme.all_inactive				= all_inactive_png;
 	Theme.wii_active				= wii_active_png;
 	Theme.wii_inactive				= wii_inactive_png;
 	Theme.gc_active					= gc_active_png;
@@ -74,7 +78,7 @@ DefaultTheme()
 	Theme.scrollbar_arrowdown_over	= scrollbar_arrowdown_over_png;
 	Theme.scrollbar_arrowup			= scrollbar_arrowup_png;
 	Theme.scrollbar_arrowup_over	= scrollbar_arrowup_over_png;
-	
+
 	// color
 	Theme.category_1				= 0;
 	Theme.category_2				= 0;
@@ -111,7 +115,7 @@ DefaultTheme()
 const u8* load_data(const u8* image, string path)
 {
 	u8 *tempicon;
-	
+
 	size_t amount_read;
 	FILE *fp = fopen(path.c_str(),"r"); //open the png file
 	if(fp) { //make sure the file exists
@@ -138,19 +142,19 @@ int split(string to_share, int share)
 {
 	int number = 0;
 	string temp;
-	
+
 	for(int i=0; i < share; i++)
 	{
 		temp = to_share.substr(0, to_share.find(","));
 		to_share.erase(0, to_share.find(",") +1);
-		
+
 		if(i == share -1)
 		{
 			number = atoi(temp.c_str());
 			break;
 		}
 	}
-	
+
 	return number;
 }
 
@@ -187,6 +191,10 @@ void theme(string path)
 	Theme.usb_inactive				= load_data(Theme.usb_inactive				, path + "usb_inactive.png");
 	Theme.sd_usb_active				= load_data(Theme.sd_usb_active				, path + "sd_usb_active.png");
 	Theme.sd_usb_inactive			= load_data(Theme.sd_usb_inactive			, path + "sd_usb_inactive.png");
+	Theme.dvd_active				= load_data(Theme.dvd_active				, path + "dvd_active.png");
+	Theme.dvd_inactive			= load_data(Theme.dvd_inactive			, path + "dvd_inactive.png");
+	Theme.all_active				= load_data(Theme.all_active				, path + "all_active.png");
+	Theme.all_inactive			= load_data(Theme.all_inactive			, path + "all_inactive.png");
 	Theme.wii_active				= load_data(Theme.wii_active				, path + "wii_active.png");
 	Theme.wii_inactive				= load_data(Theme.wii_inactive				, path + "wii_inactive.png");
 	Theme.gc_active					= load_data(Theme.gc_active					, path + "gc_active.png");
@@ -233,80 +241,80 @@ void theme(string path)
 		fseek (fp , 0, SEEK_END);
 		long settings_size = ftell (fp);
 		rewind (fp);
-		
+
 		if (settings_size > 0)
 		{
 			tree = mxmlLoadFile(NULL, fp, MXML_NO_CALLBACK);
 			fclose(fp);
-			
+
 			data = mxmlFindElement(tree, tree, "#color#", NULL, NULL, MXML_DESCEND);
-			
+
 			if (mxmlElementGetAttr(data,"category")) {
 				Theme.category_1 = split(mxmlElementGetAttr(data,"category"), 1);
 				Theme.category_2 = split(mxmlElementGetAttr(data,"category"), 2);
 				Theme.category_3 = split(mxmlElementGetAttr(data,"category"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"page")) {
 				Theme.page_1 = split(mxmlElementGetAttr(data,"page"), 1);
 				Theme.page_2 = split(mxmlElementGetAttr(data,"page"), 2);
 				Theme.page_3 = split(mxmlElementGetAttr(data,"page"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"owner")) {
 				Theme.owner_1 = split(mxmlElementGetAttr(data,"owner"), 1);
 				Theme.owner_2 = split(mxmlElementGetAttr(data,"owner"), 2);
 				Theme.owner_3 = split(mxmlElementGetAttr(data,"owner"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"title")) {
 				Theme.title_1 = split(mxmlElementGetAttr(data,"title"), 1);
 				Theme.title_2 = split(mxmlElementGetAttr(data,"title"), 2);
 				Theme.title_3 = split(mxmlElementGetAttr(data,"title"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"program_name")) {
 				Theme.program_name_1 = split(mxmlElementGetAttr(data,"program_name"), 1);
 				Theme.program_name_2 = split(mxmlElementGetAttr(data,"program_name"), 2);
 				Theme.program_name_3 = split(mxmlElementGetAttr(data,"program_name"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"apps")) {
 				Theme.apps_1 = split(mxmlElementGetAttr(data,"apps"), 1);
 				Theme.apps_2 = split(mxmlElementGetAttr(data,"apps"), 2);
 				Theme.apps_3 = split(mxmlElementGetAttr(data,"apps"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"text")) {
 				Theme.text_1 = split(mxmlElementGetAttr(data,"text"), 1);
 				Theme.text_2 = split(mxmlElementGetAttr(data,"text"), 2);
 				Theme.text_3 = split(mxmlElementGetAttr(data,"text"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"button_small_text")) {
 				Theme.button_small_text_1 = split(mxmlElementGetAttr(data,"button_small_text"), 1);
 				Theme.button_small_text_2 = split(mxmlElementGetAttr(data,"button_small_text"), 2);
 				Theme.button_small_text_3 = split(mxmlElementGetAttr(data,"button_small_text"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"button_tiny_text")) {
 				Theme.button_tiny_text_1 = split(mxmlElementGetAttr(data,"button_tiny_text"), 1);
 				Theme.button_tiny_text_2 = split(mxmlElementGetAttr(data,"button_tiny_text"), 2);
 				Theme.button_tiny_text_3 = split(mxmlElementGetAttr(data,"button_tiny_text"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"progressbar_color1")) {
 				Theme.progressbar_color1_1 = split(mxmlElementGetAttr(data,"progressbar_color1"), 1);
 				Theme.progressbar_color1_2 = split(mxmlElementGetAttr(data,"progressbar_color1"), 2);
 				Theme.progressbar_color1_3 = split(mxmlElementGetAttr(data,"progressbar_color1"), 3);
 			}
-			
+
 			if (mxmlElementGetAttr(data,"progressbar_color2")) {
 				Theme.progressbar_color2_1 = split(mxmlElementGetAttr(data,"progressbar_color2"), 1);
 				Theme.progressbar_color2_2 = split(mxmlElementGetAttr(data,"progressbar_color2"), 2);
 				Theme.progressbar_color2_3 = split(mxmlElementGetAttr(data,"progressbar_color2"), 3);
 			}
-			
+
 			mxmlDelete(data);
 			mxmlDelete(tree);
 		}

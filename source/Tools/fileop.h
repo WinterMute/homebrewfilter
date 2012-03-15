@@ -34,6 +34,9 @@ extern DEVICE_STRUCT part[2][MAX_DEVICES];
 void MountAllDevices();
 void UnmountAllDevices();
 
+bool MountDVD();
+bool MountDVDFS();
+void UnMountDVD();
 bool DVD_Inserted();
 void check_dvd();
 

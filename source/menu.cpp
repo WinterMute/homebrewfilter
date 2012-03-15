@@ -161,6 +161,16 @@ UpdateGUI (void *arg)
 				check_sd();
 				check_usb();
 			}
+
+			else if(Settings.device == "dvd")
+				check_dvd();
+
+			else if(Settings.device == "all")
+			{
+				check_sd();
+				check_usb();
+				check_dvd();
+			}
 			
 			// screenshoot
 			if(WPAD_ButtonsDown(0) & WPAD_BUTTON_1 && WPAD_ButtonsDown(0) & WPAD_BUTTON_2)

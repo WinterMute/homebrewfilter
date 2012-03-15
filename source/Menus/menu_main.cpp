@@ -81,7 +81,7 @@ int MenuMain()
 		apps_row = 1;
 	}
 	
-	// sd / usb ansicht
+	// sd / usb / dvd Ansicht
 	if(Settings.device == "sd1")
 	{
 		temp_sd_usb_active = Theme.sd_active;
@@ -96,6 +96,16 @@ int MenuMain()
 	{
 		temp_sd_usb_active = Theme.sd_usb_active;
 		temp_sd_usb_inactive = Theme.sd_usb_inactive;
+	}
+	else if(Settings.device == "dvd")
+	{
+		temp_sd_usb_active = Theme.dvd_active;
+		temp_sd_usb_inactive = Theme.dvd_inactive;
+	}
+	else if(Settings.device == "all")
+	{
+		temp_sd_usb_active = Theme.all_active;
+		temp_sd_usb_inactive = Theme.all_inactive;
 	}
 	
 	// wii / gc ansicht
@@ -358,7 +368,8 @@ int MenuMain()
 		// device symbol anzeigen
 		GuiImage * viewdevice = NULL;
 		
-		if((Options.device_icon == 1 || Options.device_icon == 3) && Settings.device == "sd_usb")
+		if((Options.device_icon == 1 || Options.device_icon == 3 || Options.device_icon == 5)
+				&& (Settings.device == "sd_usb" || Settings.device == "all"))
 		{
 			bool icon = false;
 			if(strncmp(vechomebrew_list_choice[i].foldername.c_str(), "sd", 2) == 0)
@@ -369,6 +380,11 @@ int MenuMain()
 			else if(strncmp(vechomebrew_list_choice[i].foldername.c_str(), "usb", 3) == 0)
 			{
 				viewdevice = new GuiImage(new GuiImageData(Theme.usb_inactive));
+				icon = true;
+			}
+			else if(strncmp(vechomebrew_list_choice[i].foldername.c_str(), "dvd", 3) == 0)
+			{
+				viewdevice = new GuiImage (new GuiImageData(Theme.dvd_inactive));
 				icon = true;
 			}
 			
@@ -652,7 +668,9 @@ int MenuMain()
 			}
 			
 			// SD, USB
-			else if(sd_usb_Btn.GetState() == STATE_CLICKED || Settings.sd_insert == -1 || Settings.sd_insert == 2 || Settings.usb_insert == -1 || Settings.usb_insert == 2)
+			else if(sd_usb_Btn.GetState() == STATE_CLICKED 	|| Settings.sd_insert == -1 || Settings.sd_insert == 2
+									|| Settings.usb_insert == -1 || Settings.usb_insert == 2
+									|| Settings.dvd_insert == -1 || Settings.dvd_insert == 2)
 			{
 				int device = -1;
 				if(sd_usb_Btn.GetState() == STATE_CLICKED)
@@ -664,8 +682,14 @@ int MenuMain()
 					Settings.device = "usb1";
 				else if(device == 3)
 					Settings.device = "sd_usb";
+				else if(device == 4)
+					Settings.device = "dvd";
+				else if(device == 5)
+					Settings.device = "all";
 					
-				if(device != -1 || Settings.sd_insert == -1 || Settings.sd_insert == 2 || Settings.usb_insert == -1 || Settings.usb_insert == 2)
+				if(device != -1 || Settings.sd_insert == -1 || Settings.sd_insert == 2
+						|| Settings.usb_insert == -1 || Settings.usb_insert == 2
+						|| Settings.dvd_insert == -1 || Settings.dvd_insert == 2)
 				{
 					check_device();
 					Settings.current_page = 1;

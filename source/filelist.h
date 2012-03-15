@@ -194,6 +194,12 @@ extern const u32	dvd_active_png_size;
 extern const u8		all_active_png[];
 extern const u32	all_active_png_size;
 
+extern const u8		dvd_inactive_png[];
+extern const u32	dvd_inactive_png_size;
+
+extern const u8		all_inactive_png[];
+extern const u32	all_inactive_png_size;
+
 extern const u8		wii_active_png[];
 extern const u32	wii_active_png_size;
 
