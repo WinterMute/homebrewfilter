@@ -40,21 +40,34 @@ loaderPrompt()
  	// Buttons data
 	GuiImageData btn(Theme.button);
 	GuiImage nandemuImg(&btn);
+	GuiImage priiloaderImg(&btn);
 	GuiImage backImg(&btn);
 
 	// Buttons over data
 	GuiImageData btn_over(Theme.button_focus);
 	GuiImage nandemuImgOver(&btn_over);
+	GuiImage priiloaderImgOver(&btn_over);
 	GuiImage backImgOver(&btn_over);
 
-	GuiText nandemuTxt(tr("Launch NandEmu (Uniiloader)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiText nandemuTxt(tr("Launch Uniiloader"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton nandemu(btn.GetWidth(), btn.GetHeight());
 	nandemu.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
-	nandemu.SetPosition(0, 75);
+	nandemu.SetPosition(0, 90);
 	nandemu.SetLabel(&nandemuTxt);
 	nandemu.SetImage(&nandemuImg);
 	nandemu.SetImageOver(&nandemuImgOver);
 	nandemu.SetTrigger(&trigA);
+
+	GuiText priiloaderTxt(tr("Launch Priiloader"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiButton priiloader(btn.GetWidth(), btn.GetHeight());
+	priiloader.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	priiloader.SetPosition(0, 90);
+	if(get_nandemu())
+		priiloader.SetPosition(0, 140);
+	priiloader.SetLabel(&priiloaderTxt);
+	priiloader.SetImage(&priiloaderImg);
+	priiloader.SetImageOver(&priiloaderImgOver);
+	priiloader.SetTrigger(&trigA);
 
 	GuiText backTxt(tr("Back"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton back(btn.GetWidth(), btn.GetHeight());
@@ -69,11 +82,12 @@ loaderPrompt()
 	GuiButton back2(0, 0);
 	back2.SetTrigger(&trigHOME);
 
-
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
 	if(get_nandemu())
 		promptWindow.Append(&nandemu);
+	if(get_priiloader())
+		promptWindow.Append(&priiloader);
 	promptWindow.Append(&back);
 	promptWindow.Append(&back2);
 
@@ -90,6 +104,13 @@ loaderPrompt()
 		if(nandemu.GetState() == STATE_CLICKED)
 		{
 			set_nandemu(2);
+			menu = MENU_EXIT;
+			stop = true;
+		}
+
+		if(priiloader.GetState() == STATE_CLICKED)
+		{
+			set_priiloader(2);
 			menu = MENU_EXIT;
 			stop = true;
 		}

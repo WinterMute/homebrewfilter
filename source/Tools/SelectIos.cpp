@@ -13,6 +13,170 @@ int selectedIos = IOS_GetVersion();
 int ios_pos = 0;
 int bootmii = 0;
 int nandemu = 0;
+int priiloader = 0;
+
+
+s32 NandReadFile(char *filepath, u8 **buffer, u32 *filesize)
+{
+	s32 Fd;
+	int ret;
+
+	if (buffer == NULL)
+	{
+		printf("NULL Pointer\n");
+		return -1;
+	}
+
+	Fd = ISFS_Open(filepath, ISFS_OPEN_READ);
+	if (Fd < 0)
+	{
+		printf("ISFS_Open %s failed %d\n", filepath, Fd);
+		return Fd;
+	}
+
+	fstats *status;
+	status = (fstats *)memalign(32, ((sizeof(fstats))+31)&(~31));
+	if (status == NULL)
+	{
+		printf("Out of memory for status\n");
+		return -1;
+	}
+
+	ret = ISFS_GetFileStats(Fd, status);
+	if (ret < 0)
+	{
+		printf("ISFS_GetFileStats failed %d\n", ret);
+		ISFS_Close(Fd);
+		free(status);
+		return -1;
+	}
+
+	*buffer = (u8 *)memalign(32, ((status->file_length)+31)&(~31));
+	if (*buffer == NULL)
+	{
+		printf("Out of memory for buffer\n");
+		ISFS_Close(Fd);
+		free(status);
+		return -1;
+	}
+
+	ret = ISFS_Read(Fd, *buffer, status->file_length);
+	if (ret < 0)
+	{
+		printf("ISFS_Read failed %d\n", ret);
+		ISFS_Close(Fd);
+		free(status);
+		free(*buffer);
+		return ret;
+	}
+
+	ISFS_Close(Fd);
+
+	*filesize = status->file_length;
+	free(status);
+
+	if (*filesize > 0)
+	{
+		DCFlushRange(*buffer, *filesize);
+		ICInvalidateRange(*buffer, *filesize);
+	}
+
+	return 0;
+}
+
+s32 GetTMD(u64 TicketID, signed_blob **Output, u32 *Length)
+{
+    signed_blob* TMD = NULL;
+
+    u32 TMD_Length;
+    s32 ret;
+
+    /* Retrieve TMD length */
+    ret = ES_GetStoredTMDSize(TicketID, &TMD_Length);
+    if (ret < 0)
+        return ret;
+
+    /* Allocate memory */
+    TMD = (signed_blob*)memalign(32, (TMD_Length+31)&(~31));
+    if (!TMD)
+        return IPC_ENOMEM;
+
+    /* Retrieve TMD */
+    ret = ES_GetStoredTMD(TicketID, TMD, TMD_Length);
+    if (ret < 0)
+    {
+        free(TMD);
+        return ret;
+    }
+
+    /* Set values */
+    *Output = TMD;
+    *Length = TMD_Length;
+
+    return 0;
+}
+
+int check_priiloader() {
+	char filepath[ISFS_MAXPATH] ATTRIBUTE_ALIGN(0x20);
+	static u64 titleId ATTRIBUTE_ALIGN(32) = 0x0000000100000002LL;
+	int ret = 0;
+	tmd *ptmd = NULL;
+	u32 TMD_size = 0;
+	signed_blob *stmd = NULL;
+	u32 i = 0;
+	u32 filesize = 0;
+	u8 *buffer = NULL;
+	const char	*checkStr = "priiloader";
+	int retValue = -1;
+
+	ret = GetTMD(titleId, &stmd, &TMD_size);
+
+	if (ret < 0)
+		goto end;
+
+	if (!stmd)
+	{
+		ret = -1;
+
+		goto end;
+	}
+
+	ptmd = (tmd*)SIGNATURE_PAYLOAD(stmd);
+
+	for (i = 0; i < ptmd->num_contents; i++)
+	{
+		if (ptmd->contents[i].index == ptmd->boot_index)
+		{
+			sprintf(filepath, "/title/%08x/%08x/content/%08x.app" , 0x00000001, 0x00000002, ptmd->contents[i].cid);
+			ret = NandReadFile(filepath, &buffer, &filesize);
+			if (ret < 0 || filesize < 0) {
+				retValue = -2;
+				goto end;
+			}
+			break;
+		}
+	}
+
+	for (i = 0; i < filesize - strlen(checkStr); i++)
+	{
+		if (!strncmp((char*)buffer + i, checkStr, strlen(checkStr)))
+		{
+			retValue = 1;
+
+			break;
+		}
+	}
+
+end:
+	free(buffer);
+
+	free(stmd);
+	ptmd = NULL;
+
+	priiloader = retValue;
+	return retValue;
+
+}
 
 // Check if this is an IOS stub (according to WiiBrew.org)
 bool IsKnownStub(u32 noIOS, s32 noRevision)
@@ -226,6 +390,16 @@ int GetAppIOS(std::string foldername)
 	}
 
 	return selectedIos;
+}
+
+int get_priiloader()
+{
+	return priiloader;
+}
+
+void set_priiloader(int choice)
+{
+	priiloader = choice;
 }
 
 int get_bootmii()

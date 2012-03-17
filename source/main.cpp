@@ -208,6 +208,8 @@ main(int argc, char *argv[])
 	AvailableCategory.categories[0] = tr(Settings.category_name_all);
 	check_device();
 
+	check_priiloader();
+
 /*	while(1)
 	{
 		WPAD_ScanPads();
@@ -236,7 +238,7 @@ main(int argc, char *argv[])
 			BootGameCubeHomebrew();
     }
     else if(boot_buffer)
-		BootHomebrew();
+	//	BootHomebrew();
 
 	if(get_bootmii() == 2)
 		IOS_ReloadIOS(254);
@@ -255,7 +257,20 @@ main(int argc, char *argv[])
 		}
 	}
 
-	if(PowerOff != -1)
+	if(get_priiloader() == 2)
+	{
+		*(vu32*)0x8132FFFB = 0x4461636f;
+		DCFlushRange((void*)0x8132FFFB, 4);
+		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+	}
+
+	if(PowerOff == SYS_RETURNTOMENU)
+	{
+		*(vu32*)0x8132FFFB = 0x50756E65;
+		DCFlushRange((void*)0x8132FFFB, 4);
+		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+	}
+	else if(PowerOff != -1)
 		SYS_ResetSystem(PowerOff, 0, 0);
 
 	return 0;
