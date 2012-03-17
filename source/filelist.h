@@ -203,6 +203,12 @@ extern const u32	dvd_inactive_png_size;
 extern const u8		all_inactive_png[];
 extern const u32	all_inactive_png_size;
 
+extern const u8		loader_active_png[];
+extern const u32	loader_active_png_size;
+
+extern const u8		loader_inactive_png[];
+extern const u32	loader_inactive_png_size;
+
 extern const u8		wii_active_png[];
 extern const u32	wii_active_png_size;
 

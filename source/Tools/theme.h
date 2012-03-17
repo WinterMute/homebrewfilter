@@ -43,6 +43,8 @@ struct STheme
 	const u8*	dvd_inactive;
 	const u8*	all_active;
 	const u8*	all_inactive;
+	const u8*	loader_active;
+	const u8*	loader_inactive;
 	const u8*	wii_active;
 	const u8*	wii_inactive;
 	const u8*	gc_active;

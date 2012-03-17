@@ -54,6 +54,8 @@ DefaultTheme()
 	Theme.gc_inactive				= gc_inactive_png;
 	Theme.wii_gc_active				= wii_gc_active_png;
 	Theme.wii_gc_inactive			= wii_gc_inactive_png;
+	Theme.loader_active				= loader_active_png;
+	Theme.loader_inactive				= loader_inactive_png;
 	Theme.power_active				= power_active_png;
 	Theme.power_inactive			= power_inactive_png;
 	Theme.settings_active			= settings_active_png;
@@ -197,6 +199,8 @@ void theme(string path)
 	Theme.dvd_inactive			= load_data(Theme.dvd_inactive			, path + "dvd_inactive.png");
 	Theme.all_active				= load_data(Theme.all_active				, path + "all_active.png");
 	Theme.all_inactive			= load_data(Theme.all_inactive			, path + "all_inactive.png");
+	Theme.loader_active			= load_data(Theme.loader_active			, path + "loader_active.png");
+	Theme.loader_inactive			= load_data(Theme.loader_inactive		, path + "loader_inactive.png");
 	Theme.wii_active				= load_data(Theme.wii_active				, path + "wii_active.png");
 	Theme.wii_inactive				= load_data(Theme.wii_inactive				, path + "wii_inactive.png");
 	Theme.gc_active					= load_data(Theme.gc_active					, path + "gc_active.png");

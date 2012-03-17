@@ -8,8 +8,16 @@
 - Basic (= non-working) support for Homebew on DVD
 - No longer show the HBC if it's installed
 - changing pages in an empty category no longer crashes
-- compiled with devkitppc 25-1 and libogc 1.8.10
 - Accessing devices formatted as EXT2/3/4 should now be noticeably faster
+- compiled with devkitppc 25-1 and libogc 1.8.10 (support for latest WiiMotes)
+- For theme-creators: the following new icons have been added:
+* choice_large (device menu)
+* dvd_active (device menu)
+* dvd_inactive (device menu)
+* all_active (device menu)
+* all_inactive (device menu)
+* loader_active (loader menu)
+* loader_inactive (loader menu)
 
 //rev36:
 - HBF is now OpenSource!
