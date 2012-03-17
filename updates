@@ -3,9 +3,7 @@
 - installer no longer crashes when IOS253 exists
 - ISO253 is no more selectable as IOS to load an app with
 - added support for loading the NAND-Emu (Sorg)
-  (must be one of sd:/apps/boot253/boot.dol
-		  sd:/apps/NANDEmu-Boot/boot.dol
-		  usb:/apps/boot253/boot.dol
+  (must be one of sd:/apps/NANDEmu-Boot/boot.dol
 		  usb:/apps/NANDEmu-Boot/boot.dol)
 - Basic (= non-working) support for Homebew on DVD
 - No longer show the HBC if it's installed
