@@ -23,6 +23,10 @@
 	* all_inactive (device menu)
 	* loader_active (loader menu)
 	* loader_inactive (loader menu)
+- Additional Credits
+	* stfour (priiloader magic words)
+	* double_A/R2-D2199 (func for priiloader detection)
+
 
 //rev36:
 - HBF is now OpenSource!
