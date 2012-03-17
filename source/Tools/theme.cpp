@@ -37,6 +37,7 @@ DefaultTheme()
 	Theme.dialog_background			= dialog_background_png;
 	Theme.throbber					= throbber_png;
 	Theme.choice					= choice_png;
+	Theme.choice_large				= choice_large_png;
 	Theme.sd_active					= sd_active_png;
 	Theme.sd_inactive				= sd_inactive_png;
 	Theme.usb_active				= usb_active_png;
@@ -185,6 +186,7 @@ void theme(string path)
 	Theme.dialog_background			= load_data(Theme.dialog_background			, path + "dialog_background.png");
 	Theme.throbber					= load_data(Theme.throbber					, path + "throbber.png");
 	Theme.choice					= load_data(Theme.choice					, path + "choice.png");
+	Theme.choice					= load_data(Theme.choice				,path + "choice_large.png");
 	Theme.sd_active					= load_data(Theme.sd_active					, path + "sd_active.png");
 	Theme.sd_inactive				= load_data(Theme.sd_inactive				, path + "sd_inactive.png");
 	Theme.usb_active				= load_data(Theme.usb_active				, path + "usb_active.png");

@@ -170,6 +170,9 @@ extern const u32	throbber_png_size;
 extern const u8		choice_png[];
 extern const u32	choice_png_size;
 
+extern const u8		choice_large_png[];
+extern const u32	choice_large_png_size;
+
 extern const u8		sd_active_png[];
 extern const u32	sd_active_png_size;
 

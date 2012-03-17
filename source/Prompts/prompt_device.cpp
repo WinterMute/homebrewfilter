@@ -31,7 +31,7 @@ int devicePrompt()
 	trigB.SetButtonOnlyTrigger(-1, WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B, PAD_BUTTON_B);
 
 	// Hintergrund
-	GuiImageData dialogBox(Theme.choice);
+	GuiImageData dialogBox(Theme.choice_large);
 	GuiImage dialogBoxImg(&dialogBox);
 
 	// button data

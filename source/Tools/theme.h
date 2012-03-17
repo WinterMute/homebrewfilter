@@ -32,6 +32,7 @@ struct STheme
 	const u8*	dialog_background;
 	const u8*	throbber;
 	const u8*	choice;
+	const u8*	choice_large;
 	const u8*	sd_active;
 	const u8*	sd_inactive;
 	const u8*	usb_active;
