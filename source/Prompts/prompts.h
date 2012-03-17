@@ -17,6 +17,7 @@ bool MetaEdit(string dir);
 
 int AppInfo(const char *title, string dir, u8* icon);
 int devicePrompt();
+int loaderPrompt();
 int endPrompt();
 int sortPrompt();
 int systemPrompt();
