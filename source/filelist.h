@@ -269,9 +269,6 @@ extern const u32	edit_active_png_size;
 extern const u8		edit_inactive_png[];
 extern const u32	edit_inactive_png_size;
 
-extern const u8		hbc_icon_png[];
-extern const u32	hbc_icon_png_size;
-
 extern const u8		recycle_bin_png[];
 extern const u32	recycle_bin_png_size;
 

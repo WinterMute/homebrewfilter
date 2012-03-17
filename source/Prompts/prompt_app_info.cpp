@@ -32,25 +32,15 @@ AppInfo(const char *title, string dir, u8* icon)
 
 	string line, quelltext = "", version, coder, descriptionTxt;
 	
-	if(strcasecmp(title, "the homebrew channel") == 0)
-	{
-		string space = "  ";
-		version = tr("Version:") + space + HBC_version;
-		coder = tr("Coder:") + space + "HBC Team";
-		descriptionTxt = "The Homebrew Channel is a channel for launching Wii homebrew applications. It will list homebrew applications stored and organised on an SD card or USB mass storage device in a nice little GUI, which you can very easily customise with descriptions and shiny little icons all by yourself. You can also launch applications via TCP (with a correctly configured PC) or a USBGecko. Both of those built in options make it extremely convenient for testing out new code, as well as a general purpose homebrew launcher.";
-	}
-	else
-	{
-		ifstream in(dir.c_str());
-		while(getline(in, line))
-			quelltext = quelltext + line + "\n";
+	ifstream in(dir.c_str());
+	while(getline(in, line))
+		quelltext = quelltext + line + "\n";
 		
-		string space = "  ";
-		version = tr("Version:") + space + parser(quelltext, "<version>", "</version>");
-		coder = tr("Coder:") + space + parser(quelltext, "<coder>", "</coder>");
-		descriptionTxt = parser(quelltext, "<long_description>", "</long_description>");
-	}
-	
+	string space = "  ";
+	version = tr("Version:") + space + parser(quelltext, "<version>", "</version>");
+	coder = tr("Coder:") + space + parser(quelltext, "<coder>", "</coder>");
+	descriptionTxt = parser(quelltext, "<long_description>", "</long_description>");
+		
 	GuiWindow promptWindow(520, 360);
 	promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	promptWindow.SetPosition(0, -10);

@@ -82,7 +82,6 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 {
 	copy_app_in_unassigned();
 	vechomebrew_list_category[category].clear();
-	bool hbc = false;
 	
 	for(int a = 0; a < (signed)AvailableCategory.apps[category].size(); a++)
 	{					
@@ -131,10 +130,6 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 					strcasecmp(AvailableCategory.apps[category][a].c_str(), "the homebrew channel") == 0
 					)
 					{
-						if(strcasecmp(AvailableCategory.apps[category][a].c_str(), "the homebrew channel") == 0 && !hbc)
-							hbc = true;
-						else if(strcasecmp(AvailableCategory.apps[category][a].c_str(), "the homebrew channel") == 0 && hbc)
-							break;
 						
 						vechomebrew_list_category[category].push_back(homebrew_list(
 						vechomebrew_list_category[0][i].name,

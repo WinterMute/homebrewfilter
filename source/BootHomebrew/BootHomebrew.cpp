@@ -228,8 +228,6 @@ int BootGameCubeHomebrew()
 
 	ES_GetTicketViews(BC, &view, 1);
     int ret = ES_LaunchTitle(BC, &view);
-    if(ret < 0)
-        LoadHBC();
 
     return ret;
 }

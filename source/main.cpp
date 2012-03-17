@@ -159,6 +159,7 @@ DefaultOptions()
 int
 main(int argc, char *argv[])
 {
+
 	SYS_SetResetCallback(WiiResetPressed);
 	SYS_SetPowerCallback(WiiPowerPressed);
 	WPAD_SetPowerButtonCallback(WiimotePowerPressed);
@@ -229,16 +230,11 @@ main(int argc, char *argv[])
 		if(SelectedIOS() != IOS_GetVersion())
 			IOS_ReloadIOS(SelectedIOS());
 
-		if(Settings.forwarder_path != "the homebrew channel")
-		{
-			if(strstr(Settings.forwarder_path.c_str(), ":/apps/") != 0)
-				BootHomebrew();
-			else if(strstr(Settings.forwarder_path.c_str(), ":/gc_apps/") != 0)
-				BootGameCubeHomebrew();
-		}
-		else
-			LoadHBC();
-	}
+		if(strstr(Settings.forwarder_path.c_str(), ":/apps/") != 0)
+			BootHomebrew();
+		else if(strstr(Settings.forwarder_path.c_str(), ":/gc_apps/") != 0)
+			BootGameCubeHomebrew();
+    }
     else if(boot_buffer)
 		BootHomebrew();
 
