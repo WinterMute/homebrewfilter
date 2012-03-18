@@ -31,7 +31,7 @@ void show_menu_head()
 	printf(" hamachi-mp");
 
 	Con_FgColor(7, 1);
-	printf("\t\t\t\t\t\t\t\t(C) 2012");
+	printf("\n\t\t\t\t\t\t\t\t\t\t\t\t\t(C) 2012");
 	Con_FgColor(6, 1);
 	printf(" Nano");
 }
