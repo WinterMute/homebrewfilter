@@ -54,4 +54,10 @@ make_distribution ()
 	echo -e "\n  </long_description>\n</app>" >> HomebrewFilter/meta.xml
 }
 
+if [[ $1 == "-c" ]]; then
+	make clean
+	make -C boot clean
+	make -C installer clean
+fi
+
 make_distribution
