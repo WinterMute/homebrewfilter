@@ -1,4 +1,4 @@
-//rev37beta:
+//rev_Beta:
 - before updating copy the old boot.dol to prev.dol
 - BUGFIX: installer no longer crashes when IOS253 exists
 - ISO253 is no more selectable as IOS to load an app with

@@ -38,7 +38,7 @@ string new_update(string rev, string filename)
 {
 	char url[100];
 	if(rev == "Beta")
-		sprintf(url, "http://download.tuxfamily.org/hbf/DOL//Beta/%s", filename.c_str());
+		sprintf(url, "http://download.tuxfamily.org/hbf/DOL/Beta/%s", filename.c_str());
 	else
 		sprintf(url, "http://download.tuxfamily.org/hbf/DOL/rev%s/%s", rev.c_str(), filename.c_str());
 
