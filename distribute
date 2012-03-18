@@ -29,7 +29,7 @@ compile_installer ()
 	sleep 5
 
 	if [[ -e installer/data/install.wad ]]; then
-		make -C installer
+		make -C installer || exit 1
 	else	echo -e "--Error installer/data/install.wad not found--"
 		exit 1
 	fi
