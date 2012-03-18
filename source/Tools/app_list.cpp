@@ -114,7 +114,8 @@ void add(string device, string apps_path)
 			if(fopen(pathnameelf, "rb") != NULL) pathboot = pathnameelf;
 			if(fopen(pathname, "rb") != NULL) pathboot = pathname;
 
-			if((fopen(pathname, "rb") || fopen(pathnameelf, "rb")) && strstr(pathname, (apps_path + "./").c_str()) == 0 && strstr(pathname, (apps_path + "../").c_str()) == 0 )
+			if((fopen(pathname, "rb") || fopen(pathnameelf, "rb")) && strstr(pathname, (apps_path + "./").c_str()) == 0
+					&& strstr(pathname, (apps_path + "../").c_str()) == 0 && strcmp(pent->d_name, "NANDEmu-Boot") != 0)
 			{
 				sprintf(pathmeta, (device + ":/" + apps_path + "%s/meta.xml").c_str() ,pent->d_name);
 
