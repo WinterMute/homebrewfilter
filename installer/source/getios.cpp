@@ -80,7 +80,7 @@ bool listIOS()
 		if (titleID == 0) continue;
 
 		// Skip nandemu IOS
-		//if (titleID == 253) continue;
+		if (titleID == 253) continue;
 
 		// Skip bootmii IOS
 		if (titleID == 254) continue;
