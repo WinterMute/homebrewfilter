@@ -37,11 +37,11 @@
 - changed configuration directory to :/config/HBF/
 - compiled with devkitPPC 24 and libogc 1.8.8
 - new Fonts available for download:
-- FinalFrontier
-- FreqModClear
-- Iwona-Regular
-- QumpellkaNo12
-- Zekton
+	* FinalFrontier
+	* FreqModClear
+	* Iwona-Regular
+	* QumpellkaNo12
+	* Zekton
 
 //rev35:
 - individuelle Anpassung an den Bildschirm überarbeitet
