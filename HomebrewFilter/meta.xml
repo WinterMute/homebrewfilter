@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<app version="1">
-  <name>Homebrew Filter Installer</name>
-  <coder>Nano</coder>
-  <version>rev36</version>
-  <no_ios_reload/>
-  <short_description>Installer</short_description> 
-  <long_description>Installiert den Hombrew Filter</long_description> 
-</app>
