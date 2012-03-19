@@ -7,7 +7,7 @@ compile_hbf ()
 
 compile_boot ()
 {
-	if [[ -e $PWD/boot.dol ]]; then
+	if [[ -e $PWD/boot.dol && ! $FORCE ]]; then
 		cp boot.dol boot/source/hbf.dol
 		make -C boot/ || exit 1
 	else	compile_hbf
@@ -19,9 +19,10 @@ compile_boot ()
 
 compile_installer ()
 {
-	if [[ -e boot/boot.dol ]]; then
+	if [[ -e boot/boot.dol && ! $FORCE ]]; then
 		cp boot/boot.dol installer/wad/00000002.app
 	else	compile_boot
+		cp boot/boot.dol installer/wad/00000002.app
 	fi
 
 	wine installer/WadMii.exe -input "Z:\home\chris\Projekte\homebrewfilter\installer\wad" -output "Z:\home\chris\Projekte\homebrewfilter\installer\data\install.wad"
@@ -39,7 +40,7 @@ compile_installer ()
 make_distribution ()
 {
 
-	if [[ -e installer/boot.dol ]]; then
+	if [[ -e installer/boot.dol && ! $FORCE ]]; then
 		cp installer/boot.dol HomebrewFilter/
 	else	compile_installer
 		cp installer/boot.dol HomebrewFilter/
@@ -78,5 +79,8 @@ if [[ $1 == "-c" ]]; then
 	rm HomebrewFilter/meta.xml
 elif [[ $1 == "-l" ]]; then
 	make_filelist $2
+elif [[ $1 == "-f" ]]; then
+	FORCE=YES
+	make_distribution
 else	make_distribution
 fi
