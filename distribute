@@ -57,7 +57,7 @@ make_distribution ()
 if [[ $1 == "-c" ]]; then
 	make clean
 	make -C boot clean
-	make -C installer clean
+	make -C installer clean
+	rm HomebrewFilter/meta.xml
+else	make_distribution
 fi
-
-make_distribution
