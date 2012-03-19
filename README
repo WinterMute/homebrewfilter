@@ -1,0 +1,55 @@
+	--=== The HomebrewFilter ===--
+
+== About ==
+The HomebrewFilter is an drop-in replacement for the
+Homebrew Channel - it allows Homebrew applications to
+be loaded and sorted, among other more outstanding
+opportunities.
+
+Compared to the Homebrew Channel, the HomebrewFilter
+features the following additional functionality:
+
+- boot GameCube Homebrew
+- boot into external loaders (Uniiloader, Priiloader)
+- load Homebrew from SD, USB or both at once*
+- load Homebrew from FAT, NTFS or EXT2/3/4 formatted devices
+- categorize Homebrew (without the need to change directories)
+- download additional content directly from within The HomebrewFilter
+	* Fonts
+	* Translations
+	* Themes
+- on-the-fly updates via network connectivity
+- child-lock mode
+- screen adjustment options
+- edit meta.xml from within the HomebrewFilter
+
+* support for DVD is work-in-progress
+
+== Installation ==
+Various ways allow to install the HBF
+
+Share-Point: http://download.tuxfamily.org/hbf/Installer/
+
+a) HBF already installed
+
+aa) HBF <= rev35: download the HBF rev36b manually and put it on your SD-Card
+    (sub-folder: apps/) and start it from HBF
+ab) HBF >= rev36: just enter the update-dialog (Settings -> Update)
+
+b) HBC already installed
+
+Proceed as in aa)
+
+c) Nothing already installed
+
+follow a guide on how to set-up Homebrew on your Nintendo Wii, for example:
+http://forum.wii-homebrew.com/board4-wii-homebrew-area/board9-tutorials/softmod-und-nand-emulation/8260-new-ultimate-homebrew-guide-wii-by-wii-homebrew-com-v1-0/
+
+== Compilation ==
+Compilation requires devkitPPC and libogc with all portlibs installed.
+
+For more information see: http://www.devkitpro.org
+
+On POSIX systems issueing './distribute' should be enough - if all dependencies
+are properly installed - on Non-POSIX systems check the distribute script
+in order how to compile properly -- I'm not using any of those OS'
