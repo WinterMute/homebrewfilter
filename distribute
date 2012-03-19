@@ -54,10 +54,29 @@ make_distribution ()
 	echo -e "\n  </long_description>\n</app>" >> HomebrewFilter/meta.xml
 }
 
+make_filelist()
+{
+
+	ARC=$1
+	THM=$(basename $1 .zip)
+
+	unp -U $1
+
+	cd $THM/
+
+	for i in $(ls -1 *.png *.xml); do \
+		echo "$THM/file:$i" >> temp ; \
+		cat temp | tr "\n" "+" > filelist ; \
+	done
+
+}
+
 if [[ $1 == "-c" ]]; then
 	make clean
 	make -C boot clean
 	make -C installer clean
 	rm HomebrewFilter/meta.xml
+elif [[ $1 == "-l" ]]; then
+	make_filelist $2
 else	make_distribution
 fi
