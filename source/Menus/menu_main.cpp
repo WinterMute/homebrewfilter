@@ -43,8 +43,7 @@ int MenuMain()
 
 	int app_pos = -1;
 	int apps_row = 3;
-	int apps_numers = Options.apps;
-	int gesamt_apps;
+	int apps_numers = Options.apps * apps_row;
 
 	GuiTrigger trigA;
 	GuiTrigger trigB;
@@ -74,7 +73,7 @@ int MenuMain()
 		temp_normal_grid_inactive = Theme.grid_inactive;
 		temp_normal_grid_active = Theme.grid_active;
 	}
-	else
+	else if(!Settings.grid)
 	{
 		temp_apps_btn = Theme.apps_list;
 		temp_apps_btnOver = Theme.apps_list_hover;
@@ -158,8 +157,6 @@ int MenuMain()
 		Settings.category_name = AvailableCategory.categories[Settings.current_category];
 	}
 
-	gesamt_apps = vechomebrew_list_choice.size();
-
 	GuiText categoryTxt(Settings.category_name.c_str(), 28, (GXColor){Theme.category_1, Theme.category_2, Theme.category_3, 255});
 	categoryTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	categoryTxt.SetPosition(0,30);
@@ -222,7 +219,7 @@ int MenuMain()
 	GuiImage normal_grid_BtnImg(&normal_grid_BtnImgData);
 	GuiImage network_BtnImg(&network_BtnImgData);
 	GuiImage * appsBtnImg[vechomebrew_list_choice.size()];
-	for(int i=0; i < gesamt_apps; i++)
+	for(int i=0; i < (signed)vechomebrew_list_choice.size(); i++)
  		appsBtnImg[i] = new GuiImage(&apps_btn);
 
 	// button over
@@ -239,7 +236,7 @@ int MenuMain()
 	GuiImage normal_grid_BtnImgOver(&normal_grid_BtnImgDataOver);
 	GuiImage network_BtnImgOver(&network_BtnImgDataOver);
 	GuiImage * appsBtnImgOver[vechomebrew_list_choice.size()];
-	for(int i=0; i < gesamt_apps; i++)
+	for(int i=0; i < (signed)vechomebrew_list_choice.size(); i++)
  		appsBtnImgOver[i] = new GuiImage(&apps_btnOver);
 
 	GuiButton rightBtn(apps_next.GetWidth(), apps_next.GetHeight());
@@ -374,7 +371,7 @@ int MenuMain()
 
 	// auflisten der apps
 	int anzahl_pro_seite = 0;
-	for(int i=0; i < gesamt_apps; i++)
+	for(int i=0; i < (signed)vechomebrew_list_choice.size(); i++)
 	{
 		if(anzahl_pro_seite == apps_numers)		// Apps pro Seite
 		{
@@ -437,7 +434,7 @@ int MenuMain()
 		else
 		{
 			AppsBtnTxt1 = new GuiText(vechomebrew_list_choice[i].name.c_str(), 20, (GXColor){Theme.apps_1, Theme.apps_2, Theme.apps_3, 255});
-			AppsBtnTxt2 = new GuiText("----------------------------------------------------", 24, (GXColor){Theme.apps_1, Theme.apps_2, Theme.apps_3, 100});
+			AppsBtnTxt2 = new GuiText("____________________________________________________", 24, (GXColor){Theme.apps_1, Theme.apps_2, Theme.apps_3, 100});
 			AppsBtnTxt3 = new GuiText(tr(vechomebrew_list_choice[i].info.c_str()), 20, (GXColor){Theme.apps_1, Theme.apps_2, Theme.apps_3, 255});
 
 			viewicon->SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
@@ -496,7 +493,7 @@ int MenuMain()
 	// wenn nicht seite 1
 	if(Settings.current_page != 1)
 	{
-		for(int i=0; i < gesamt_apps; i++)
+		for(int i=0; i < (signed)vechomebrew_list_choice.size(); i++)
 		{
 			AppsBtn[i]->SetVisible(false);
 			AppsBtn[i]->SetSelectable(false);
@@ -504,7 +501,7 @@ int MenuMain()
 
 		for(int i = 0; i < apps_numers; i++)
 		{
-			if((Settings.current_page-1)*apps_numers+i < gesamt_apps)
+			if((Settings.current_page-1)*apps_numers+i < (signed)vechomebrew_list_choice.size())
 			{
 				AppsBtn[(Settings.current_page-1)*apps_numers+i]->SetVisible(true);
 				AppsBtn[(Settings.current_page-1)*apps_numers+i]->SetSelectable(true);
@@ -557,7 +554,7 @@ int MenuMain()
 
 	HaltGui();
 	Apps.Append(&categoryTxt);
-	for(int i=0; i < gesamt_apps; i++)
+	for(int i=0; i < (signed)vechomebrew_list_choice.size(); i++)
 		Apps.Append(AppsBtn[i]);
 	Apps.Append(AppsBtnFree);
 	Apps.Append(AppsBtnMove);
@@ -591,7 +588,7 @@ int MenuMain()
 	if(app_pos != -1)
 	{
 	//	mainWindow->ChangeFocus(&Apps);
-		for(int i=0; i < gesamt_apps; i++)
+		for(int i=0; i < (signed)vechomebrew_list_choice.size(); i++)
 		{
 			if(i == app_pos)
 				AppsBtn[i]->SetState(STATE_SELECTED);
@@ -768,7 +765,7 @@ int MenuMain()
 			}
 
 			// eine Seite weiter bzw zurück
-			if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_RIGHT | WPAD_CLASSIC_BUTTON_RIGHT) && !Options.navigation) ||
+			else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_RIGHT | WPAD_CLASSIC_BUTTON_RIGHT) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_BUTTON_RIGHT || rightBtn.GetState() == STATE_CLICKED ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_LEFT | WPAD_CLASSIC_BUTTON_LEFT) && !Options.navigation) ||
@@ -835,14 +832,14 @@ int MenuMain()
 					for(int i = 0; i < apps_numers; i++)
 					{
 						// vorherige seite ausblenden
-						if((page-1)*apps_numers+i < gesamt_apps)
+						if((page-1)*apps_numers+i < (signed)vechomebrew_list_choice.size())
 						{
 							AppsBtn[(page-1)*apps_numers+i]->SetVisible(false);
 							AppsBtn[(page-1)*apps_numers+i]->SetSelectable(false);
 							AppsBtn[(page-1)*apps_numers+i]->ResetState();
 						}
 						// aktuelle seite einblenden
-						if((Settings.current_page-1)*apps_numers+i < gesamt_apps)
+						if((Settings.current_page-1)*apps_numers+i < (signed)vechomebrew_list_choice.size())
 						{
 							AppsBtn[(Settings.current_page-1)*apps_numers+i]->SetVisible(true);
 							AppsBtn[(Settings.current_page-1)*apps_numers+i]->SetSelectable(true);
@@ -857,7 +854,7 @@ int MenuMain()
 					}
 
 					// felder in ursprungsposition setzen
-					for(int i=0; i < gesamt_apps; i++)
+					for(int i=0; i < (signed)vechomebrew_list_choice.size(); i++)
 						AppsBtn[i]->SetPosition(pos_x[i], pos_y[i]);
 
 					// beim seitenwechsel, leeres feld positionieren
@@ -908,17 +905,19 @@ int MenuMain()
 			}
 
 			// für die grid ansicht, navigation der einzelnen zellen
-			for(int i = 1; i < apps_numers/apps_row +1; i++)
+			previous_page = false;
+			next_page = false;
+			for(int i = 0; i< apps_numers/apps_row; i++)
 			{
-				if(Apps.GetSelected() == (i -1) * apps_row + (Settings.current_page -1) * apps_numers)
+				if(Apps.GetSelected() == i * apps_row + 1 + (Settings.current_page -1) * apps_numers)
 					previous_page = true;
 
-				if(Apps.GetSelected() == i * apps_row -1 + (Settings.current_page -1) * apps_numers || Apps.GetSelected() == gesamt_apps -1)
+				if(Apps.GetSelected() == (i+1) * apps_row + (Settings.current_page -1) * apps_numers || Apps.GetSelected() == (signed)vechomebrew_list_choice.size())
 					next_page = true;
 			}
 
 			// list apps
-			for(int i = (Settings.current_page-1)*apps_numers; i < Settings.current_page*apps_numers && i < gesamt_apps; i++)
+			for(int i = (Settings.current_page-1)*apps_numers; i < Settings.current_page*apps_numers && i < (signed)vechomebrew_list_choice.size(); i++)
 			{
 				// show apps info
 				if(AppsBtn[i]->GetState() == STATE_CLICKED && button == "A")
@@ -964,7 +963,7 @@ int MenuMain()
 					}
 
 					mainWindow->ChangeFocus(&Apps);
-					for(int x=0; x < gesamt_apps; x++)
+					for(int x=0; x < (signed)vechomebrew_list_choice.size(); x++)
 					{
 						if(x == i)
 							AppsBtn[x]->SetState(STATE_SELECTED);
@@ -1063,7 +1062,7 @@ int MenuMain()
 					}
 					AppsBtnFree->SetPosition(pos_x[i], pos_y[i]);
 
-					for(i = 0; i < apps_numers && (Settings.current_page-1)*apps_numers+i  < gesamt_apps; i++)
+					for(i = 0; i < apps_numers && (Settings.current_page-1)*apps_numers+i  < (signed)vechomebrew_list_choice.size(); i++)
 					{
 						int x = (Settings.current_page-1)*apps_numers+i;
 						// buttons 1 kleiner button 2
@@ -1139,7 +1138,7 @@ int MenuMain()
 					else
 					{
 						// felder in ursprungsposition setzen
-						for(int i=0; i < gesamt_apps; i++)
+						for(int i=0; i < (signed)vechomebrew_list_choice.size(); i++)
 							AppsBtn[i]->SetPosition(pos_x[i], pos_y[i]);
 						if(Settings.current_page == move.page)
 							AppsBtn[move.nr]->SetVisible(true);
