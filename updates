@@ -12,7 +12,9 @@
 - 'Return to System Menu' now ignores Priiloader and always enters System Menu
 - Basic (= non-working) support for Homebew on DVD
 - No longer show the HBC if it's installed
-- BUGFIX: changing pages in an empty category no longer crashes
+- New option for disabling the 'All' category (takes effect only if atleast
+  one other category exists (obviously)) [ZERO]
+- BUGFIX: changing pages in an empty category no longer crashes [ZERO]
 - Accessing devices formatted as EXT2/3/4 should now be noticeably faster
 - compiled with devkitppc 25-1 and libogc 1.8.10 (support for latest WiiMotes)
 - For theme designers: the following new icons have been added:

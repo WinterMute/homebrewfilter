@@ -23,6 +23,7 @@ int temp_last_category;
 int temp_slide_effect;
 int temp_apps;
 bool temp_quick_start;
+bool temp_show_all;
 int temp_device_icon;
 bool temp_navigation;
 string temp_device_dat;
@@ -38,10 +39,11 @@ int MenuSettingsFile()
 	int i = 0;
 	bool firstRun = true;
 	int focus = 0;
-	
-	int last_category = Options.last_category;
-	bool quick_start = Options.quick_start;
-	int device_icon = Options.device_icon;
+
+	int last_category 	= Options.last_category;
+	bool quick_start 	= Options.quick_start;
+	bool show_all 		= Options.show_all;
+	int device_icon 	= Options.device_icon;
 	bool childlock;
 	if(strcasecmp(Settings.code,"NULL") == 0 )
 		childlock = 0;
@@ -54,7 +56,7 @@ int MenuSettingsFile()
 		device_dat = "SD";
 	else if(Settings.device_dat == "usb1")
 		device_dat = "USB";
-	
+
 	OptionList options;
 	sprintf(options.name[i++], tr("Theme"));
 	sprintf(options.name[i++], tr("Language"));
@@ -63,6 +65,7 @@ int MenuSettingsFile()
 	sprintf(options.name[i++], tr("Category remember"));
 	sprintf(options.name[i++], tr("Number of Apps"));
 	sprintf(options.name[i++], tr("Quick Start"));
+	sprintf(options.name[i++], tr("Show All"));
 	sprintf(options.name[i++], tr("Storage Device"));
 	sprintf(options.name[i++], tr("Device icon"));
 	sprintf(options.name[i++], tr("Childlock"));
@@ -127,7 +130,7 @@ int MenuSettingsFile()
 	while(menu == MENU_NONE)
 	{
 		usleep(100);
-		
+
 		ret = optionBrowser.GetChangedOption();
 		ret2 = optionBrowser.GetClickedOption();
 
@@ -143,7 +146,7 @@ int MenuSettingsFile()
 						change = 5;
 					sprintf (options.value[ret], "%i", change);
 					break;
-					
+
 				case CATEGORY_REMEMBER:
 					change = last_category;
 					change++;
@@ -151,7 +154,7 @@ int MenuSettingsFile()
 						change = AvailableCategory.categories.size();
 					last_category = change;
 					break;
-					
+
 				case NUMBER_OF_APPS:
 					change = atoi(options.value[ret]);
 					change++;
@@ -159,11 +162,15 @@ int MenuSettingsFile()
 						change = 5;
 					sprintf (options.value[ret], "%i", change);
 					break;
-					
+
 				case QUICK_START:
 					quick_start = 1;
 					break;
-					
+
+				case SHOW_ALL:
+					show_all = 1;
+					break;
+
 				case DEVICE_ICON:
 					change = device_icon;
 					change++;
@@ -171,12 +178,12 @@ int MenuSettingsFile()
 						change = 3;
 					device_icon = change;
 					break;
-					
+
 				case STORAGE_DEVICE:
 					device_dat = "USB";
 					sprintf (options.value[STORAGE_DEVICE], device_dat.c_str());
 					break;
-					
+
 				case NAVIGATION:
 					navigation = 1;
 					break;
@@ -184,7 +191,7 @@ int MenuSettingsFile()
 			HaltResumeGui();
 			optionBrowser.TriggerUpdate();
 		}
-		
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_LEFT | WPAD_CLASSIC_BUTTON_LEFT) || PAD_ButtonsDown(0) & PAD_BUTTON_LEFT)
 		{
 			change = 0;
@@ -197,7 +204,7 @@ int MenuSettingsFile()
 						change = 0;
 					sprintf (options.value[ret], "%i", change);
 					break;
-					
+
 				case CATEGORY_REMEMBER:
 					change = last_category;
 					change--;
@@ -205,7 +212,7 @@ int MenuSettingsFile()
 						change = 0;
 					last_category = change;
 					break;
-					
+
 				case NUMBER_OF_APPS:
 					change = atoi(options.value[ret]);
 					change--;
@@ -213,11 +220,15 @@ int MenuSettingsFile()
 						change = 4;
 					sprintf (options.value[ret], "%i", change);
 					break;
-					
+
 				case QUICK_START:
 					quick_start = 0;
 					break;
-					
+
+				case SHOW_ALL:
+					show_all = 0;
+					break;
+
 				case DEVICE_ICON:
 					change = device_icon;
 					change--;
@@ -225,12 +236,12 @@ int MenuSettingsFile()
 						change = 0;
 					device_icon = change;
 					break;
-					
+
 				case STORAGE_DEVICE:
 					device_dat = "SD";
 					sprintf (options.value[STORAGE_DEVICE], device_dat.c_str());
 					break;
-					
+
 				case NAVIGATION:
 					navigation = 0;
 					break;
@@ -238,57 +249,58 @@ int MenuSettingsFile()
 			HaltResumeGui();
 			optionBrowser.TriggerUpdate();
 		}
-		
+
 		if(ret2 != -1)
 		{
 			// einstellungen temporär speichern
 			/******************************************************************************/
 			Options.temp_theme		= options.value[THEME];
-			Options.temp_language	= options.value[LANGUAGE];
+			Options.temp_language		= options.value[LANGUAGE];
 			Options.temp_font		= options.value[FONT];
 			temp_slide_effect		= atoi(options.value[SLIDE_EFFECT]);
 			temp_last_category		= last_category;
-			temp_apps				= atoi(options.value[NUMBER_OF_APPS]);
+			temp_apps			= atoi(options.value[NUMBER_OF_APPS]);
 			temp_quick_start		= quick_start;
+			temp_show_all			= show_all;
 			temp_device_icon		= device_icon;
 			temp_device_dat			= device_dat;
 			temp_navigation			= navigation;
 			/******************************************************************************/
-			
+
 			// in weitere einstellungen gehen
 			switch (ret2)
 			{
 				case THEME:
 					menu = MENU_SETTINGS_THEME;
 					break;
-					
+
 				case LANGUAGE:
 					menu = MENU_SETTINGS_LANGUAGE;
 					break;
-					
+
 				case FONT:
 					menu = MENU_SETTINGS_FONT;
 					break;
-					
+
 				case CHILDLOCK:
 					menu = MENU_SETTINGS_CHILDLOCK;
 					break;
-					
+
 				case DISPLAY:
 					menu = MENU_SETTINGS_DISPLAY;
 					break;
-					
+
 				case NETWORK:
 					menu = MENU_SETTINGS_NETWORK;
 					break;
-					
+
 			}
 		}
-		
+
 		if(firstRun)
 		{
 			firstRun = false;
-			
+
 			if(Options.temp_last_setting == 1)
 			{
 				sprintf (options.value[THEME], Options.temp_theme.c_str());
@@ -299,10 +311,11 @@ int MenuSettingsFile()
 				sprintf (options.value[STORAGE_DEVICE], temp_device_dat.c_str());
 				sprintf (options.value[DISPLAY], " ");
 				sprintf (options.value[NETWORK], " ");
-				
-				last_category = temp_last_category;
-				quick_start = temp_quick_start;
-				device_icon = temp_device_icon;
+
+				last_category 	= temp_last_category;
+				quick_start 	= temp_quick_start;
+				show_all	= temp_show_all;
+				device_icon 	= temp_device_icon;
 				if(strcasecmp(Options.temp_code,"NULL") == 0 )
 					childlock = 0;
 				else
@@ -325,22 +338,27 @@ int MenuSettingsFile()
 		if(change != -1)
 		{
 			change = -1;
-			
+
 			if(!last_category)
 				sprintf (options.value[CATEGORY_REMEMBER], tr("last"));
 			else
 				sprintf (options.value[CATEGORY_REMEMBER], AvailableCategory.categories[last_category - 1].c_str());
-				
+
 			if(!quick_start)
 				sprintf (options.value[QUICK_START], tr("No"));
 			else
 				sprintf (options.value[QUICK_START], tr("Yes"));
-			
+
+			if(!show_all)
+				sprintf (options.value[SHOW_ALL], tr("No"));
+			else
+				sprintf (options.value[SHOW_ALL], tr("Yes"));
+
 			if(!childlock)
 				sprintf (options.value[CHILDLOCK], tr("No"));
 			else
 				sprintf (options.value[CHILDLOCK], tr("Yes"));
-			
+
 			if(device_icon == 0)
 				sprintf (options.value[DEVICE_ICON], tr("Off"));
 			else if(device_icon == 1)
@@ -349,15 +367,15 @@ int MenuSettingsFile()
 				sprintf (options.value[DEVICE_ICON], tr("Dialog box"));
 			else if(device_icon == 3)
 				sprintf (options.value[DEVICE_ICON], tr("All"));
-			
+
 			if(!navigation)
 				sprintf (options.value[NAVIGATION], tr("No"));
 			else
 				sprintf (options.value[NAVIGATION], tr("Yes"));
-				
+
 			optionBrowser.TriggerUpdate();
 		}
-		
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B)
 		{
 			if(focus == 0)
@@ -372,7 +390,7 @@ int MenuSettingsFile()
 			}
 			HaltResumeGui();
 		}
-		
+
 		if(backBtn.GetState() == STATE_CLICKED)
 		{
 			strcpy (Options.temp_code, Settings.code);
@@ -380,7 +398,7 @@ int MenuSettingsFile()
 			Options.temp_newrevtext	= Options.newrevtext;
 			menu					= MENU_SETTINGS;
 		}
-		
+
 		if(saveBtn.GetState() == STATE_CLICKED)
 		{
 			// Theme ändern
@@ -394,12 +412,12 @@ int MenuSettingsFile()
 				#ifdef HW_RVL
 				pointer = new GuiImageData(Theme.player_point);
 				#endif
-				
+
 				mainWindow->Remove(bgImg);
 				bgImg = new GuiImage(new GuiImageData(Theme.background));
 				mainWindow->Append(bgImg);
 			}
-			
+
 			// Schriftart ändern
 			if(stricmp(Options.font, options.value[FONT]) != 0 || GetMenuSettingsFontDL())
 			{
@@ -409,63 +427,64 @@ int MenuSettingsFile()
 				SetFont();
 				ResumeGui();
 			}
-			
+
 			strcpy(Settings.code, Options.temp_code);
-			Options.slide_effect	= atoi(options.value[SLIDE_EFFECT]);
-			Options.last_category	= last_category;
+			Options.slide_effect		= atoi(options.value[SLIDE_EFFECT]);
+			Options.last_category		= last_category;
 			Options.apps			= atoi(options.value[NUMBER_OF_APPS]);
 			Options.quick_start		= quick_start;
+			Options.show_all		= show_all;
 			Options.device_icon		= device_icon;
-			device_dat				= options.value[STORAGE_DEVICE];
+			device_dat			= options.value[STORAGE_DEVICE];
 			Options.navigation		= navigation;
 			Options.network			= Options.temp_network;
 			Options.newrevtext		= Options.temp_newrevtext;
-			
+
 			if(device_dat == "SD")
 				Settings.device_dat	= "sd1";
 			else if(device_dat == "USB")
 				Settings.device_dat	= "usb1";
-			
+
 			// Sprache ändern zum schluss wegen STANDARD
 			if(stricmp(Options.language, options.value[LANGUAGE]) != 0 || GetMenuSettingsLanguageDL())
 			{
 				sprintf (Options.language, options.value[LANGUAGE]);
-				
+
 				bool theme = 0, language = 0, font = 0;
 				if(stricmp(Options.theme, tr("STANDARD")) == 0)
 					theme = 1;
-				
+
 				if(stricmp(Options.language, tr("STANDARD")) == 0)
 					language = 1;
-				
+
 				if(stricmp(Options.font, tr("STANDARD")) == 0)
 					font = 1;
-				
+
 				/*********************************************************************/
 				if(stricmp(Options.language, tr("STANDARD")) == 0)
 					translate();
 				else
 					ini_Open(check_path(Settings.device_dat + ":/config/HBF/languages/") + Options.language + ".lang");
 				/*********************************************************************/
-					
+
 				AvailableCategory.categories[0] = tr(Settings.category_name_all);
-				
+
 				if(theme)
 					sprintf(Options.theme, tr("STANDARD"));
-					
+
 				if(language)
 					sprintf(Options.language, tr("STANDARD"));
-					
+
 				if(font)
 					sprintf(Options.font, tr("STANDARD"));
 			}
-			
+
 			menu = MENU_SETTINGS;
 		}
 	}
 	HaltGui();
 	Options.temp_last_setting = 0;
-	
+
 	mainWindow->Remove(&optionBrowser);
 	mainWindow->Remove(&w);
 	return menu;

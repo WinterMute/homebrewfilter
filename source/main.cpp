@@ -149,9 +149,10 @@ DefaultOptions()
 
 	Options.slide_effect	= 1;
 	Options.last_category	= 1;
-	Options.apps			= 4;
-	Options.quick_start		= 0;
-	Options.navigation		= 0;
+	Options.apps		= 4;
+	Options.quick_start	= 0;
+	Options.show_all	= 1;
+	Options.navigation	= 0;
 	Options.temp_network	= 0;
 	Options.temp_newrevtext	= 1;
 }

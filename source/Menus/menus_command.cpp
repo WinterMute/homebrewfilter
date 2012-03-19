@@ -20,7 +20,7 @@ void Category_rename_move(string button)
 			Settings.unassigned = false;
 		else
 			Settings.unassigned = true;
-			
+
 		Settings.current_page = 1;
 	}
 	// Kategorie umbenennen
@@ -29,7 +29,7 @@ void Category_rename_move(string button)
 		char new_category_name[256];
 		sprintf (new_category_name, Settings.category_name.c_str());
 		OnScreenKeyboard(new_category_name, 256, false);
-		
+
 		if(strcasecmp(new_category_name,"NULL") != 0 )
 			KategorieUmbenennen(Settings.category_name, new_category_name);
 	}
@@ -58,13 +58,17 @@ void Next_Category()
 	Settings.current_category++;
 	if(Settings.current_category > (signed)AvailableCategory.categories.size() -1)
 		Settings.current_category = 0;
-		
+
+	// Kategorie Alle nur anzeigen, wenn aktiviert oder keine andere vorhanden ist
+	if(!Options.show_all && Settings.current_category == 0 && AvailableCategory.categories.size() -1 > 0)
+		Settings.current_category++;
+
 	Settings.current_page = 1;
 	Settings.unassigned = false;
-	
+
 	if(Settings.current_category != 0)
 		copy_app_in_category();
-	
+
 	Settings.Apps_from = EFFECT_SLIDE_RIGHT;
 	Settings.Apps_to = EFFECT_SLIDE_LEFT;
 }
@@ -72,15 +76,20 @@ void Next_Category()
 void Previous_Category()
 {
 	Settings.current_category--;
+
+	// Kategorie Alle nur anzeigen, wenn aktiviert oder keine andere vorhanden ist
+	if(!Options.show_all && Settings.current_category == 0)
+		Settings.current_category--;
+
 	if(Settings.current_category < 0)
 		Settings.current_category = AvailableCategory.categories.size() -1;
-	
+
 	Settings.current_page = 1;
 	Settings.unassigned = false;
-	
+
 	if(Settings.current_category != 0)
 		copy_app_in_category();
-	
+
 	Settings.Apps_from = EFFECT_SLIDE_LEFT;
 	Settings.Apps_to = EFFECT_SLIDE_RIGHT;
 }
@@ -100,9 +109,9 @@ void AppEraseDelate(int choice, const char* name, const char* foldername)
 		if( eraseDir(name) )
 		{
 			DeleteDir(foldername);
-			
+
 			app_list();
-			
+
 			if(Settings.current_category != 0)
 				copy_app_in_category();
 			else

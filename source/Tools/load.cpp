@@ -96,7 +96,10 @@ void load()
 		
 		if(get_setting(source, "quick_start") != "")
 			Options.quick_start = atoi(get_setting(source, "quick_start").c_str());
-		
+
+		if(get_setting(source, "show_all") != "")
+			Options.show_all = atoi(get_setting(source, "show_all").c_str());
+
 		if(get_setting(source, "navigation") != "")
 			Options.navigation = atoi(get_setting(source, "navigation").c_str());
 		

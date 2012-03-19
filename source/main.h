@@ -118,9 +118,10 @@ struct SOptions
 	char		theme[256];
 	char		language[256];
 	char		font[256];
-	int			apps;
+	int		apps;
 	bool		quick_start;
-	int			device_icon;
+	bool		show_all;
+	int		device_icon;
 	bool		navigation;
 	bool		network;
 	bool		newrevtext;

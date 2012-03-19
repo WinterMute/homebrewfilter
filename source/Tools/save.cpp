@@ -100,6 +100,7 @@ void save()
 		save_settings << "last_app_name = \""		<< Settings.startingAppName	<< "\"" << endl;
 		save_settings << "apps_nr = \""				<< Options.apps				<< "\"" << endl;
 		save_settings << "quick_start = \""			<< Options.quick_start		<< "\"" << endl;
+		save_settings << "show_all = \""			<< Options.show_all		<< "\"" << endl;
 		save_settings << "navigation = \""			<< Options.navigation		<< "\"" << endl;
 		save_settings << "network = \""				<< Options.network			<< "\"" << endl;
 		save_settings << "newrevtext = \""			<< Options.newrevtext		<< "\"" << endl;
