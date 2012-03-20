@@ -31,16 +31,16 @@ AppInfo(const char *title, string dir, u8* icon)
 		dir += "meta.xml";
 
 	string line, quelltext = "", version, coder, descriptionTxt;
-	
+
 	ifstream in(dir.c_str());
 	while(getline(in, line))
 		quelltext = quelltext + line + "\n";
-		
+
 	string space = "  ";
 	version = tr("Version:") + space + parser(quelltext, "<version>", "</version>");
 	coder = tr("Coder:") + space + parser(quelltext, "<coder>", "</coder>");
 	descriptionTxt = parser(quelltext, "<long_description>", "</long_description>");
-		
+
 	GuiWindow promptWindow(520, 360);
 	promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	promptWindow.SetPosition(0, -10);
@@ -57,9 +57,10 @@ AppInfo(const char *title, string dir, u8* icon)
     GuiImage viewicon(&icon_data);
 	viewicon.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
 	viewicon.SetPosition(40, 54);
-	
+
 	GuiImage * viewdevice = NULL;
-	
+
+
 	if((Options.device_icon == 2 || Options.device_icon == 3 || Options.device_icon == 5) && (Settings.device == "sd_usb" || Settings.device == "all"))
 	{
 		bool icon = false;
@@ -78,7 +79,7 @@ AppInfo(const char *title, string dir, u8* icon)
 			viewdevice = new GuiImage(new GuiImageData(Theme.dvd_inactive));
 			icon = true;
 		}
-		
+
 		if(icon)
 		{
 			viewdevice->SetAlignment(ALIGN_LEFT, ALIGN_TOP);
@@ -86,7 +87,7 @@ AppInfo(const char *title, string dir, u8* icon)
 			viewdevice->SetScale(0.8);
 		}
 	}
-	
+
 	GuiText titleTxt(title, 26, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	titleTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	titleTxt.SetPosition(0, 20);
@@ -105,19 +106,19 @@ AppInfo(const char *title, string dir, u8* icon)
     int i = 0;
     int y = 125;
 	int place = 25;
-	
+
 	int number = 5;
-	
+
 	GuiText upTxt("c", 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	upTxt.SetFont(symbol_ttf, symbol_ttf_size);
 	upTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	upTxt.SetPosition(0, y -20);
-	
+
 	GuiText downTxt("d", 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	downTxt.SetFont(symbol_ttf, symbol_ttf_size);
 	downTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	downTxt.SetPosition(0, y + (place * (number-1)) + 15);
-	
+
 	GuiText * Entrie[number];
 	for(i=0; i < number && i < (signed)description.line.size(); i++)
 	{
@@ -138,7 +139,7 @@ AppInfo(const char *title, string dir, u8* icon)
 	GuiImage btn1Img(&btn);
 	GuiImage btn2Img(&btn);
 	GuiImage eraseImg(&btn);
-	
+
 	// image over
 	GuiImageData cancelBtn_over(Theme.cancel_active);
 	GuiImage cancelBtnImgOver(&cancelBtn_over);
@@ -150,15 +151,18 @@ AppInfo(const char *title, string dir, u8* icon)
 	GuiImage btn1ImgOver(&btn_over);
 	GuiImage btn2ImgOver(&btn_over);
 	GuiImage eraseImgOver(&btn_over);
-	
+
 	// Edit
 	GuiButton edit(editBtn.GetWidth(), editBtn.GetHeight());
 	edit.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
-	edit.SetPosition(10, 10);
+	if(icon)
+		edit.SetPosition(48, 13);
+	else
+		edit.SetPosition(10, 10);
 	edit.SetImage(&editBtnImg);
 	edit.SetImageOver(&editBtnImgOver);
 	edit.SetTrigger(&trigA);
-	
+
 	// Cancel
 	GuiButton cancel(cancelBtn.GetWidth(), cancelBtn.GetHeight());
 	cancel.SetAlignment(ALIGN_RIGHT, ALIGN_TOP);
@@ -168,7 +172,7 @@ AppInfo(const char *title, string dir, u8* icon)
 	cancel.SetTrigger(&trigA);
 	cancel.SetTrigger(&trigB);
 //	cancel.SetState(STATE_SELECTED);
-	
+
 	// Laden
 	GuiButton btn1(btn.GetWidth(), btn.GetHeight());
 	GuiText btn1Txt(tr("Loading"), 22, (GXColor){Theme.button_tiny_text_1, Theme.button_tiny_text_2, Theme.button_tiny_text_3, 255});
@@ -226,7 +230,7 @@ AppInfo(const char *title, string dir, u8* icon)
 		startingAppName.erase(startingAppName.rfind("/"));
 	startingAppName.erase(0, startingAppName.rfind("/") +1);
 	sprintf(SelectIos, tr("Start with IOS %i   (-/+)"), SearchAppIOS(startingAppName));
-	
+
 	GuiText SelectIosTxt(SelectIos, 18, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	SelectIosTxt.SetAlignment(ALIGN_CENTRE, ALIGN_BOTTOM);
 	SelectIosTxt.SetPosition(0, -15);
@@ -236,20 +240,20 @@ AppInfo(const char *title, string dir, u8* icon)
 	promptWindow.Append(&versionTxt);
 	promptWindow.Append(&coderTxt);
 	promptWindow.Append(viewdevice);
-	
+
 	for(int x=0; x < i; x++)
 		promptWindow.Append(Entrie[x]);
-	
+
 	if((signed)description.line.size() >= number)
 	{
 		promptWindow.Append(&upTxt);
 		promptWindow.Append(&downTxt);
 	}
-	
+
 	if(quelltext != "")
 		promptWindow.Append(&edit);
 	promptWindow.Append(&btn1);
-	if(strcasecmp(title, "the homebrew channel") != 0 && strcasecmp(Settings.code,"NULL") == 0)
+	if(strcasecmp(Settings.code,"NULL") == 0 && strncmp(dir.c_str(), "dvd", 3) != 0)
 		promptWindow.Append(&erase);
 	if(AvailableCategory.categories.size() != 1 && strcasecmp(Settings.code,"NULL") == 0)
 		promptWindow.Append(&btn2);
@@ -273,14 +277,14 @@ AppInfo(const char *title, string dir, u8* icon)
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
 		{
 			int z = description.text_up();
-			
+
 			for(int x=0; x < i; x++)
 				Entrie[x]->SetText(description.line[x + z].c_str());
-		
+
 
 			HaltResumeGui();
 		}
-		
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
 		{
 			int z = description.text_down(number);
@@ -298,14 +302,14 @@ AppInfo(const char *title, string dir, u8* icon)
 			SelectIosTxt.SetText(SelectIos);
 			HaltResumeGui();
 		}
-		
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_L)
 		{
 			sprintf(SelectIos, tr("Start with IOS %i   (-/+)"), previousIos());
 			SelectIosTxt.SetText(SelectIos);
 			HaltResumeGui();
 		}
-		
+
 
 		if(cancel.GetState() == STATE_CLICKED)			// Zurück
 			choice = 0;
