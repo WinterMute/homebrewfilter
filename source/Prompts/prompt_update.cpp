@@ -101,7 +101,10 @@ updatePrompt(string rev)
 	ResumeGui();
 
 	char url[100];
-	sprintf(url, "http://download.tuxfamily.org/hbf/DOL/rev%s/boot.dol", rev.c_str());
+	if(rev == "Beta")
+		sprintf(url, "http://download.tuxfamily.org/hbf/DOL/Beta/boot.dol");
+	else
+		sprintf(url, "http://download.tuxfamily.org/hbf/DOL/rev%s/boot.dol", rev.c_str());
 
 	// copy boot.dol to prev.dol
 	std::ifstream infile((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str(), std::ios_base::binary);
@@ -112,10 +115,19 @@ updatePrompt(string rev)
 	struct block file = downloadfile(url);
 	if (file.data && file.size > 0)
 	{
-		CopyHomebrewMemory(file.data, 0, file.size);
+		// write file
+		FILE * data = fopen((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str(), "wb");
+		if(data)
+		{
+			fwrite(file.data, 1, file.size, data);
+			fclose(data);
+		}
+
 		if(file.data)
 			free(file.data);
-		boot_buffer = true;
+
+		LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str());
+		BootHomebrew ();
 	}
 	else
 	{
