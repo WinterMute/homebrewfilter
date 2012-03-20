@@ -684,7 +684,7 @@ void check_dvd()
 	if(Settings.dvd_insert <= 0)
 	{
 
-		if(dvd->startup() && DVD_Inserted())		// wenn dvd gefunden, neu einlesen
+		if(DVD_Inserted())		// wenn dvd gefunden, neu einlesen
 		{
 			MountDVD();
 			Settings.dvd_insert = 2;

@@ -169,7 +169,7 @@ main(int argc, char *argv[])
 	SetupPads();			// Initialize input
 //	InitAudio();			// Initialize audio
 	InitGUIThreads();		// Initialize GUI
-	DI2_Init();			// Initialize DVD
+	//DI2_Init();			// Initialize DVD
 	MountAllDevices();
 	InitNetworkThread();	// Initialize Network
 	InitTcpThread();
@@ -202,6 +202,8 @@ main(int argc, char *argv[])
 
 	if(HAVE_AHBPROT)
 		runtimePatchApply();
+
+	DI2_Init(); // Init DVD
 
 	if(strstr(Options.language, tr("STANDARD")))
 		translate();
