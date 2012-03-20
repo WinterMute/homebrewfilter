@@ -51,7 +51,7 @@ make_distribution ()
 	cp data/meta.xml.in HomebrewFilter/meta.xml
 
 	sed -e "s/@REV@/$XREV/g" -i HomebrewFilter/meta.xml
-	sed -e '/./{H;$!d;}' -e 'x;/rev37/!d;' updates >> HomebrewFilter/meta.xml
+	sed -e '/./{H;$!d;}' -e "x;/rev$XREV/!d;" updates >> HomebrewFilter/meta.xml
 	echo -e "\n  </long_description>\n</app>" >> HomebrewFilter/meta.xml
 }
 
