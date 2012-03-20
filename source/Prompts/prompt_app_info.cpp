@@ -156,7 +156,7 @@ AppInfo(const char *title, string dir, u8* icon)
 	GuiButton edit(editBtn.GetWidth(), editBtn.GetHeight());
 	edit.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
 	if(icon)
-		edit.SetPosition(48, 13);
+		edit.SetPosition(48, 14);
 	else
 		edit.SetPosition(10, 10);
 	edit.SetImage(&editBtnImg);

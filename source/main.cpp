@@ -87,9 +87,9 @@ void ExitApp()
 {
 	ShutdownPads();
 	StopGX();
-	if(strcasecmp(Settings.code,"NULL") == 0)
+	//if(strcasecmp(Settings.code,"NULL") == 0)
 		save();
-    UnmountAllDevices();
+    	UnmountAllDevices();
 	ISFS_Deinitialize();
 }
 

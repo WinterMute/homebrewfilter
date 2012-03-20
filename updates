@@ -3,6 +3,7 @@
 	* DVD icon is now shown if necessary
 	* erase button is hidden for apps from DVD
 	* edit button no longer overlaps SD/USB/DVD icon (if any)
+- BUGFIX: childlock is now saved when HBF exits
 
 //rev37:
 - improved update-mechanism:
