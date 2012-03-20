@@ -4,7 +4,7 @@
 	* save the downloaded file rather than loading from RAM
 	* BUGFIX: make downloading a Beta version work
 - BUGFIX: installer no longer crashes when IOS253 exists
-- ISO253 is no more selectable as IOS to load an app with
+- IOS253 is no more selectable as IOS to load an app with
 - added a new loader-menu (allows to enter special loaders):
 	* NAND-Emu (Uniiloader)
 	  (must be one of sd:/apps/NANDEmu-Boot/boot.dol
@@ -13,7 +13,8 @@
 	* Priiloader
 	  returns to priiloader (regardless of autoboot setting)
 - 'Return to System Menu' now ignores Priiloader and always enters System Menu
-- Basic (= non-working) support for Homebew on DVD
+- Support for Homebew on DVD
+- if HW_AHBPROT¿is available also apply DI2_ReadLimit and NewTrucha patches
 - No longer show the HBC if it's installed
 - New option for disabling the 'All' category (takes effect only if atleast
   one other category exists (obviously)) [ZERO]
