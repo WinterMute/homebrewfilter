@@ -11,7 +11,7 @@ features the following additional functionality:
 
 - boot GameCube Homebrew
 - boot into external loaders (Uniiloader, Priiloader)
-- load Homebrew from SD, USB or both at once*
+- load Homebrew from SD, USB, DVD or All
 - load Homebrew from FAT, NTFS or EXT2/3/4 formatted devices
 - categorize Homebrew (without the need to change directories)
 - download additional content directly from within The HomebrewFilter
@@ -22,8 +22,6 @@ features the following additional functionality:
 - child-lock mode
 - screen adjustment options
 - edit meta.xml from within the HomebrewFilter
-
-* support for DVD is work-in-progress
 
 == Installation ==
 Various ways allow to install the HBF
