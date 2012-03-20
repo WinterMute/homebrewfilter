@@ -265,7 +265,7 @@ AppInfo(const char *title, string dir, u8* icon)
 	ResumeGui();
 
 	edit.ResetState();
-	btn1.SetState(STATE_SELECTED);
+	cancel.SetState(STATE_SELECTED);
 	while(choice == -1)
 	{
 		usleep(100);
