@@ -1,3 +1,8 @@
+//rev38:
+- in the app-info dialog pre-select the 'load' button, rather than
+  the exit button (allows A+A on an app for quick-start)
+- in the app-info dialog the dvd-icon is now shown if necessary
+
 //rev37:
 - improved update-mechanism:
 	* copy the old boot.dol to prev.dol

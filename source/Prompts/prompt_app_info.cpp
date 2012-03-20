@@ -60,7 +60,7 @@ AppInfo(const char *title, string dir, u8* icon)
 	
 	GuiImage * viewdevice = NULL;
 	
-	if((Options.device_icon == 2 || Options.device_icon == 3) && Settings.device == "sd_usb")
+	if((Options.device_icon == 2 || Options.device_icon == 3 || Options.device_icon == 5) && (Settings.device == "sd_usb" || Settings.device == "all"))
 	{
 		bool icon = false;
 		if(strncmp(dir.c_str(), "sd", 2) == 0)
@@ -71,6 +71,11 @@ AppInfo(const char *title, string dir, u8* icon)
 		else if(strncmp(dir.c_str(), "usb", 3) == 0)
 		{
 			viewdevice = new GuiImage(new GuiImageData(Theme.usb_inactive));
+			icon = true;
+		}
+		else if(strncmp(dir.c_str(), "dvd", 3) == 0)
+		{
+			viewdevice = new GuiImage(new GuiImageData(Theme.dvd_inactive));
 			icon = true;
 		}
 		
@@ -260,7 +265,7 @@ AppInfo(const char *title, string dir, u8* icon)
 	ResumeGui();
 
 	edit.ResetState();
-	cancel.SetState(STATE_SELECTED);
+	btn1.SetState(STATE_SELECTED);
 	while(choice == -1)
 	{
 		usleep(100);
