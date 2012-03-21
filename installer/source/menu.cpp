@@ -142,8 +142,8 @@ int menu_main(int scrollpos)
 		WPAD_ScanPads();
 		PAD_ScanPads();
 
-		if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) && scrollpos < (signed)text1.size() -1)
-			| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN && scrollpos < (signed)text1.size() -1))
+		if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN)
+			|| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)) && scrollpos < (signed)text1.size() -1)
 		{
 			scrollpos++;
 			while(text1[scrollpos] == "")
@@ -151,8 +151,8 @@ int menu_main(int scrollpos)
 
 			scroll = true;
 		}
-		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) && scrollpos != 0)
-			| (PAD_ButtonsDown(0) & PAD_BUTTON_UP && scrollpos != 0))
+		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP)
+			|| (PAD_ButtonsDown(0) & PAD_BUTTON_UP)) && scrollpos != 0)
 		{
 			scrollpos--;
 			while(text1[scrollpos] == "")
@@ -221,14 +221,14 @@ int menu_install_uninstall(int install)
 		WPAD_ScanPads();
 		PAD_ScanPads();
 
-		if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) && scrollpos < (signed)text1.size() -1)
-			| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN && scrollpos < (signed)text2.size() -1))
+		if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN)
+			|| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)) && scrollpos < (signed)text2.size() -1)
 		{
 			scrollpos++;
 			scroll = true;
 		}
-		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) && scrollpos != 0)
-			| (PAD_ButtonsDown(0) & PAD_BUTTON_UP && scrollpos != 0))
+		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP)
+			|| (PAD_ButtonsDown(0) & PAD_BUTTON_UP)) && scrollpos != 0)
 		{
 			scrollpos--;
 			scroll = true;
