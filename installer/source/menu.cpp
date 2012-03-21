@@ -23,7 +23,7 @@ void show_menu_head()
 {
 	Con_FgColor(6, 1);
 	printf("\x1b[%i;%iH", startpos_x, startpos_y);
-	printf("HBF installer v0.2.1");
+	printf("HBF installer v0.3");
 
 	Con_FgColor(7, 1);
 	printf("\t\t\t\t\t(C) 2011");
@@ -81,66 +81,6 @@ void menu()
 	fill_menu_copyright();
 
 	menu_main_choice = text1.size() -1;
-/*
-	int fgcolor = 3;
-	int fgbold = 1;
-
-	printf("\x1b[1;0H");
-	printf("fgcolor %i\n", fgcolor);
-	printf("fgbold  %i\n", fgbold);
-
-	Con_FgColor(fgcolor, fgbold);
-	printf("test");
-
-	while(1)
-	{
-		WPAD_ScanPads();
-		u32 pressed = WPAD_ButtonsDown(0);
-
-		if(pressed & WPAD_BUTTON_UP)
-		{
-			printf("test");
-		}
-		else if(pressed & WPAD_BUTTON_1)
-		{
-			fgcolor--;
-			printf("\x1b[1;0H");
-			Con_FgColor(7, 1);
-			printf("fgcolor %i\n\n", fgcolor);
-			Con_FgColor(fgcolor, fgbold);
-			printf("test");
-		}
-		else if(pressed & WPAD_BUTTON_2)
-		{
-			fgcolor++;
-			printf("\x1b[1;0H");
-			Con_FgColor(7, 1);
-			printf("fgcolor %i\n\n", fgcolor);
-			Con_FgColor(fgcolor, fgbold);
-			printf("test");
-		}
-		else if(pressed & WPAD_BUTTON_MINUS)
-		{
-			fgbold--;
-			printf("\x1b[2;0H");
-			Con_FgColor(7, 1);
-			printf("fgbold  %i\n", fgbold);
-			Con_FgColor(fgcolor, fgbold);
-			printf("test");
-		}
-		else if(pressed & WPAD_BUTTON_PLUS)
-		{
-			fgbold++;
-			printf("\x1b[2;0H");
-			Con_FgColor(7, 1);
-			printf("fgbold  %i\n", fgbold);
-			Con_FgColor(fgcolor, fgbold);
-			printf("test");
-		}
-		else if(pressed & WPAD_BUTTON_HOME)
-			exit(0);
-	}
-*/
 
 	int currentMenu = 0;
 	while(currentMenu != MENU_EXIT)
@@ -200,9 +140,10 @@ int menu_main(int scrollpos)
 	while(1)
 	{
 		WPAD_ScanPads();
-		u32 pressed = WPAD_ButtonsDown(0);
+		PAD_ScanPads();
 
-		if ( pressed & WPAD_BUTTON_DOWN && scrollpos < (signed)text1.size() -1)
+		if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) && scrollpos < (signed)text1.size() -1)
+			| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN && scrollpos < (signed)text1.size() -1))
 		{
 			scrollpos++;
 			while(text1[scrollpos] == "")
@@ -210,7 +151,8 @@ int menu_main(int scrollpos)
 
 			scroll = true;
 		}
-		else if ( pressed & WPAD_BUTTON_UP && scrollpos != 0)
+		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) && scrollpos != 0)
+			| (PAD_ButtonsDown(0) & PAD_BUTTON_UP && scrollpos != 0))
 		{
 			scrollpos--;
 			while(text1[scrollpos] == "")
@@ -233,7 +175,7 @@ int menu_main(int scrollpos)
 			scroll = false;
 		}
 
-		if( pressed & WPAD_BUTTON_A )
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A)
 		{
 			menu_main_choice = scrollpos;
 			switch(scrollpos)
@@ -277,14 +219,16 @@ int menu_install_uninstall(int install)
 	while(1)
 	{
 		WPAD_ScanPads();
-		u32 pressed = WPAD_ButtonsDown(0);
+		PAD_ScanPads();
 
-		if ( pressed & WPAD_BUTTON_DOWN && scrollpos < (signed)text2.size() -1)
+		if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) && scrollpos < (signed)text1.size() -1)
+			| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN && scrollpos < (signed)text2.size() -1))
 		{
 			scrollpos++;
 			scroll = true;
 		}
-		else if ( pressed & WPAD_BUTTON_UP && scrollpos != 0)
+		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) && scrollpos != 0)
+			| (PAD_ButtonsDown(0) & PAD_BUTTON_UP && scrollpos != 0))
 		{
 			scrollpos--;
 			scroll = true;
@@ -304,7 +248,7 @@ int menu_install_uninstall(int install)
 			scroll = false;
 		}
 
-		if( pressed & WPAD_BUTTON_A )
+		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
 		{
 			switch(scrollpos)
 			{
@@ -376,9 +320,9 @@ int menu_install()
 	while(1)
 	{
 		WPAD_ScanPads();
-		u32 pressed = WPAD_ButtonsDown(0);
+		PAD_ScanPads();
 
-		if( pressed & WPAD_BUTTON_A )
+		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
 			return MENU_MAIN;
 	}
 }
@@ -401,9 +345,8 @@ int menu_uninstall()
 	while(1)
 	{
 		WPAD_ScanPads();
-		u32 pressed = WPAD_ButtonsDown(0);
-
-		if( pressed & WPAD_BUTTON_A )
+		PAD_ScanPads();
+		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
 			return MENU_MAIN;
 	}
 }
@@ -427,9 +370,9 @@ int menu_copyright()
 	while(1)
 	{
 		WPAD_ScanPads();
-		u32 pressed = WPAD_ButtonsDown(0);
+		PAD_ScanPads();
 
-		if( pressed & WPAD_BUTTON_A )
+		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
 			return MENU_MAIN;
 	}
 }

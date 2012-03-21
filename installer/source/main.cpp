@@ -18,15 +18,15 @@ int main(int argc, char **argv) {
 	InitNetworkThread();
 	VIDEO_Init();
 	Video_SetMode();
-		
-	// This function initialises the attached controllers
-	WPAD_Init();
-		
+
 	if(HAVE_AHBPROT)
 		runtimePatchApply();
-		
+
+	WPAD_Init();
+	PAD_Init();
+
 	menu();
-	
+
 	SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 
 	return 0;
