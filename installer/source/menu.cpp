@@ -175,7 +175,7 @@ int menu_main(int scrollpos)
 			scroll = false;
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) ||pad.buttons_d & PAD_BUTTON_A)
 		{
 			menu_main_choice = scrollpos;
 			switch(scrollpos)
@@ -248,7 +248,7 @@ int menu_install_uninstall(int install)
 			scroll = false;
 		}
 
-		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) ||pad.buttons_d & PAD_BUTTON_A )
 		{
 			switch(scrollpos)
 			{
@@ -322,7 +322,7 @@ int menu_install()
 		WPAD_ScanPads();
 		PAD_ScanPads();
 
-		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) ||pad.buttons_d & PAD_BUTTON_A )
 			return MENU_MAIN;
 	}
 }
@@ -346,7 +346,7 @@ int menu_uninstall()
 	{
 		WPAD_ScanPads();
 		PAD_ScanPads();
-		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) ||pad.buttons_d & PAD_BUTTON_A )
 			return MENU_MAIN;
 	}
 }
@@ -372,7 +372,7 @@ int menu_copyright()
 		WPAD_ScanPads();
 		PAD_ScanPads();
 
-		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) ||pad.buttons_d & PAD_BUTTON_A )
 			return MENU_MAIN;
 	}
 }
