@@ -387,8 +387,7 @@ int MenuMain()
 		// device symbol anzeigen
 		GuiImage * viewdevice = NULL;
 
-		if((Options.device_icon == 1 || Options.device_icon == 3 || Options.device_icon == 5)
-				&& (Settings.device == "sd_usb" || Settings.device == "all"))
+		if((Options.device_icon == 1 || Options.device_icon == 3) && (Settings.device == "sd_usb" || Settings.device == "all"))
 		{
 			bool icon = false;
 			if(strncmp(vechomebrew_list_choice[i].foldername.c_str(), "sd", 2) == 0)

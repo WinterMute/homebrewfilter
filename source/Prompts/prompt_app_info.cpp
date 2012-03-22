@@ -60,8 +60,7 @@ AppInfo(const char *title, string dir, u8* icon)
 
 	GuiImage * viewdevice = NULL;
 
-
-	if((Options.device_icon == 2 || Options.device_icon == 3 || Options.device_icon == 5) && (Settings.device == "sd_usb" || Settings.device == "all"))
+	if((Options.device_icon == 2 || Options.device_icon == 3) && (Settings.device == "sd_usb" || Settings.device == "all"))
 	{
 		bool icon = false;
 		if(strncmp(dir.c_str(), "sd", 2) == 0)
@@ -156,7 +155,7 @@ AppInfo(const char *title, string dir, u8* icon)
 	GuiButton edit(editBtn.GetWidth(), editBtn.GetHeight());
 	edit.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
 	if(icon)
-		edit.SetPosition(48, 14);
+		edit.SetPosition(48, 15);
 	else
 		edit.SetPosition(10, 10);
 	edit.SetImage(&editBtnImg);
