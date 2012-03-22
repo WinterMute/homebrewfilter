@@ -10,6 +10,7 @@
 - BUGFIX: compiled with libpng to fix a problem in PNG handling
 - installer now supports Classic-Controller
 - installer now supports GameCube-Controller
+- updated PNGu
 
 //rev37:
 - improved update-mechanism:

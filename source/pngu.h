@@ -6,8 +6,6 @@ Coder : frontier
 
 More info : http://frontier-dev.net
 
-Modified by Tantric, 2009
-
 ********************************************************************************************/
 #ifndef __PNGU__
 #define __PNGU__
@@ -92,6 +90,7 @@ void PNGU_YCbYCr_TO_RGB8 (PNGU_u32 ycbycr, PNGU_u8 *r1, PNGU_u8 *g1, PNGU_u8 *b1
 
 // Selects a PNG file, previosly loaded into a buffer, and creates an image context for subsequent procesing.
 IMGCTX PNGU_SelectImageFromBuffer (const void *buffer);
+IMGCTX PNGU_SelectImageFromBufferX (const void *buffer, int size);
 
 // Selects a PNG file, from any devoptab device, and creates an image context for subsequent procesing.
 IMGCTX PNGU_SelectImageFromDevice (const char *filename);
@@ -140,12 +139,17 @@ int PNGU_DecodeToRGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 // Macro for decoding an image inside a buffer at given coordinates.
 #define PNGU_DECODE_TO_COORDS_RGBA8(ctx,coordX,coordY,imgWidth,imgHeight,default_alpha,bufferWidth,bufferHeight,buffer)	\
 																											\
-		PNGU_DecodeToRGBA8 (ctx, imgWidth, imgHeight, ((void *) buffer) + (coordY) * (bufferWidth) * 2 +	\
-							(coordX) * 2, (bufferWidth) - (imgWidth), default_alpha)
+		PNGU_DecodeToRGBA8 (ctx, imgWidth, imgHeight, ((void *) buffer) + (coordY) * (bufferWidth) * 4 +	\
+							(coordX) * 4, (bufferWidth) - (imgWidth), default_alpha)
 
 // Expands selected image into a 4x4 tiled RGB565 buffer. You need to specify context, image dimensions
 // and destination address.
 int PNGU_DecodeTo4x4RGB565 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer);
+// Compressed version (DXT1/CMPR)
+int PNGU_DecodeToCMPR_Trim(IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer);
+int PNGU_DecodeToCMPR_Pad(IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer);
+int PNGU_4x4RGBA8_To_CMPR(void *buf_rgb, PNGU_u32 width, PNGU_u32 height, void *buf_cmpr);
+int PNGU_RGBA8_To_CMPR(void *buf_rgb, PNGU_u32 width, PNGU_u32 height, void *buf_cmpr);
 
 // Expands selected image into a 4x4 tiled RGB5A3 buffer. You need to specify context, image dimensions,
 // destination address and default alpha value, which is used if the source image doesn't have an alpha channel.
@@ -159,14 +163,15 @@ int PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *bu
 // specify context, image dimensions, destination address and stride in pixels (stride = buffer width - image width).
 int PNGU_EncodeFromYCbYCr (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
 
-int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
-int PNGU_EncodeFromGXTexture (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer, PNGU_u32 stride);
-
 // Macro for encoding an image stored into an YCbYCr buffer at given coordinates.
 #define PNGU_ENCODE_TO_COORDS_YCbYCr(ctx,coordX,coordY,imgWidth,imgHeight,bufferWidth,bufferHeight,buffer)	\
 																											\
 		PNGU_EncodeFromYCbYCr (ctx, imgWidth, imgHeight, ((void *) buffer) + (coordY) * (bufferWidth) * 2 +	\
 							(coordX) * 2, (bufferWidth) - (imgWidth))
+
+PNGU_u8 * PNGU_DecodeTo4x4RGBA8_EX (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, int * dstWidth, int * dstHeight, PNGU_u8 *dstPtr);
+
+int PNGU_EncodeFromEFB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, PNGU_u32 stride);
 
 #ifdef __cplusplus
 	}
