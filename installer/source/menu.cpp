@@ -19,6 +19,18 @@ int startpos_x = 6;
 int startpos_y = 12;
 int menu_main_choice;
 
+void Pad_unpressed( void )
+{
+	while(1)
+	{
+		PAD_ScanPads();
+		u32 PAD_Unpressed  = PAD_ButtonsUp(0);
+		if ( PAD_Unpressed )
+			break;
+	}
+	return;
+}
+
 void show_menu_head()
 {
 	Con_FgColor(6, 1);
@@ -150,6 +162,9 @@ int menu_main(int scrollpos)
 				scrollpos++;
 
 			scroll = true;
+
+			if( PAD_ButtonsDown(0) )
+				Pad_unpressed();
 		}
 		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP)
 			|| (PAD_ButtonsDown(0) & PAD_BUTTON_UP)) && scrollpos != 0)
@@ -159,6 +174,9 @@ int menu_main(int scrollpos)
 				scrollpos--;
 
 			scroll = true;
+
+			if( PAD_ButtonsDown(0) )
+				Pad_unpressed();
 		}
 
 		if(scroll)
@@ -226,12 +244,18 @@ int menu_install_uninstall(int install)
 		{
 			scrollpos++;
 			scroll = true;
+
+			if( PAD_ButtonsDown(0) )
+				Pad_unpressed();
 		}
 		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP)
 			|| (PAD_ButtonsDown(0) & PAD_BUTTON_UP)) && scrollpos != 0)
 		{
 			scrollpos--;
 			scroll = true;
+
+			if( PAD_ButtonsDown(0) )
+				Pad_unpressed();
 		}
 
 		if(scroll)

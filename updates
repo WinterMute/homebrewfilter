@@ -7,7 +7,9 @@
 - BUGFIX: installer no longer crashes on IOS58 due to early
           controller initialization (only happened under
 	  certain circumstances)
+- BUGFIX: compiled with libpng to fix a problem in PNG handling
 - installer now supports Classic-Controller
+- installer now supports GameCube-Controller
 
 //rev37:
 - improved update-mechanism:
