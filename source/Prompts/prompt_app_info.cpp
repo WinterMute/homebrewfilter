@@ -154,7 +154,7 @@ AppInfo(const char *title, string dir, u8* icon)
 	// Edit
 	GuiButton edit(editBtn.GetWidth(), editBtn.GetHeight());
 	edit.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
-	if(icon)
+	if((Options.device_icon == 2 || Options.device_icon == 3) && (Settings.device == "sd_usb" || Settings.device == "all"))
 		edit.SetPosition(48, 15);
 	else
 		edit.SetPosition(10, 10);
