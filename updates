@@ -10,6 +10,7 @@
 - BUGFIX: compiled with libpng 1.4 to fix a problem in PNG handling
 - installer now supports Classic-Controller
 - installer now supports GameCube-Controller
+- adopt libwiigui changes from ZERO
 - updated PNGu
 
 //rev37:
