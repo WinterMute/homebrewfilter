@@ -57,6 +57,19 @@ void GuiTrigger::SetHeldTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
 }
 
 /**
+ * Sets a simple held trigger.
+ */
+void GuiTrigger::SetButtonOnlyHeldTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
+{
+	type = TRIGGER_BUTTON_ONLY_HELD;
+	chan = ch;
+	wpaddata.btns_d = wiibtns;
+	wpaddata.btns_h = wiibtns;
+	pad.btns_d = gcbtns;
+	pad.btns_h = gcbtns;
+}
+
+/**
  * Sets a button trigger. Requires:
  * - Trigger button is pressed
  */

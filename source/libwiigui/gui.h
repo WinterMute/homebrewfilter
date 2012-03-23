@@ -100,7 +100,8 @@ enum
 	TRIGGER_SIMPLE,
 	TRIGGER_HELD,
 	TRIGGER_BUTTON_ONLY,
-	TRIGGER_BUTTON_ONLY_IN_FOCUS
+	TRIGGER_BUTTON_ONLY_IN_FOCUS,
+	TRIGGER_BUTTON_ONLY_HELD
 };
 
 enum
@@ -122,6 +123,11 @@ typedef struct _paddata {
 	u8 triggerL;
 	u8 triggerR;
 } PADData;
+
+typedef struct _POINT {
+	s32 x;
+	s32 y;
+} POINT;
 
 #define EFFECT_SLIDE_TOP			1
 #define EFFECT_SLIDE_BOTTOM			2
@@ -193,6 +199,7 @@ class GuiTrigger
 		//!\param wiibtns Wii controller trigger button(s) - classic controller buttons are considered separately
 		//!\param gcbtns GameCube controller trigger button(s)
 		void SetButtonOnlyTrigger(s32 ch, u32 wiibtns, u16 gcbtns);
+		void SetButtonOnlyHeldTrigger(s32 ch, u32 wiibtns, u16 gcbtns);
 		//!Sets a button-only trigger. Requires: trigger button is pressed and parent window of element is in focus
 		//!\param ch Controller channel number
 		//!\param wiibtns Wii controller trigger button(s) - classic controller buttons are considered separately
@@ -224,6 +231,15 @@ class GuiTrigger
 };
 
 extern GuiTrigger userInput[4];
+
+class SimpleGuiTrigger : public GuiTrigger
+{
+	public:
+		SimpleGuiTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
+		{
+		    SetSimpleTrigger(ch, wiibtns, gcbtns);
+        }
+};
 
 //!Primary GUI class. Most other classes inherit from this class.
 class GuiElement
@@ -321,9 +337,27 @@ class GuiElement
 		//!Sets the element's scale
 		//!\param s scale (1 is 100%)
 		void SetScale(float s);
+		//!Sets the element's scale
+		//!\param s scale (1 is 100%)
+		void SetScaleX(float s);
+		//!Sets the element's scale
+		//!\param s scale (1 is 100%)
+		void SetScaleY(float s);
+		//!Sets the element's scale
+		//!\param s scale (in px)
+		void SetScaleXpx(int s);
+		//!Sets the element's scale
+		//!\param s scale (in px)
+		void SetScaleYpx(int s);
 		//!Gets the element's current scale
 		//!Considers scale, scaleDyn, and the parent element's GetScale() value
 		float GetScale();
+		//!Gets the element's current scale
+		//!Considers scale, scaleDyn, and the parent element's GetScale() value
+		float GetScaleX();
+		//!Gets the element's current scale
+		//!Considers scale, scaleDyn, and the parent element's GetScale() value
+		float GetScaleY();
 		//!Set a new GuiTrigger for the element
 		//!\param t Pointer to GuiTrigger
 		void SetTrigger(GuiTrigger * t);
@@ -409,7 +443,8 @@ class GuiElement
 		int xoffsetDyn; //!< Element X offset, dynamic (added to xoffset value for animation effects)
 		int yoffsetDyn; //!< Element Y offset, dynamic (added to yoffset value for animation effects)
 		int alpha; //!< Element alpha value (0-255)
-		f32 scale; //!< Element scale (1 = 100%)
+		f32 scaleX; //!< Element scale (1 = 100%)
+		f32 scaleY; //!< Element scale (1 = 100%)
 		int alphaDyn; //!< Element alpha, dynamic (multiplied by alpha value for blending/fading effects)
 		f32 scaleDyn; //!< Element scale, dynamic (multiplied by alpha value for blending/fading effects)
 		bool rumble; //!< Wiimote rumble (on/off) - set to on when this element requests a rumble event
@@ -562,6 +597,12 @@ class GuiImage : public GuiElement
 		//!Sets the number of times to draw the image horizontally
 		//!\param t Number of times to draw the image
 		void SetTile(int t);
+		//!Sets the number of times to draw the image horizontally
+		//!\param t Number of times to draw the image
+		void SetTileHorizontal(int t);
+		//!Sets the number of times to draw the image vertically
+		//!\param t Number of times to draw the image
+		void SetTileVertical(int t);
 		//!Constantly called to draw the image
 		void Draw();
 		//!Gets the image data
@@ -595,6 +636,8 @@ class GuiImage : public GuiElement
 		//!\param s Alpha amount to draw over the image
 		void SetStripe(int s);
 	protected:
+		int tileHorizontal; //!< Number of times to draw (tile) the image horizontally
+		int tileVertical; //!< Number of times to draw (tile) the image vertically
 		int imgType; //!< Type of image data (IMAGE_TEXTURE, IMAGE_COLOR, IMAGE_DATA)
 		u8 * image; //!< Poiner to image data. May be shared with GuiImageData data
 		f32 imageangle; //!< Angle to draw the image

@@ -21,6 +21,8 @@ GuiImage::GuiImage()
 	tile = -1;
 	stripe = 0;
 	imgType = IMAGE_DATA;
+	tileHorizontal = -1;
+	tileVertical = -1;
 }
 
 GuiImage::GuiImage(GuiImageData * img)
@@ -158,6 +160,16 @@ void GuiImage::SetTile(int t)
 	tile = t;
 }
 
+void GuiImage::SetTileHorizontal(int t)
+{
+	tileHorizontal = t;
+}
+
+void GuiImage::SetTileVertical(int t)
+{
+ 	tileVertical = t;
+}
+
 GXColor GuiImage::GetPixel(int x, int y)
 {
 	if(!image || this->GetWidth() <= 0 || x < 0 || y < 0)
@@ -281,14 +293,13 @@ void GuiImage::Draw()
 	if(!image || !this->IsVisible() || tile == 0)
 		return;
 
-	float currScale = this->GetScale();
 	int currLeft = this->GetLeft();
 	int currTop = this->GetTop();
 
 	if(tile > 0)
 	{
 		for(int i=0; i<tile; i++)
-			Menu_DrawImg(currLeft+width*i, currTop, width, height, image, imageangle, currScale, currScale, this->GetAlpha());
+			Menu_DrawImg(currLeft+width*i, currTop, width, height, image, imageangle, this->GetScaleX(), this->GetScaleY(), this->GetAlpha());
 	}
 	else if(imgType == IMAGE_COLOR)
 	{
@@ -301,10 +312,10 @@ void GuiImage::Draw()
 	else if(image)
 	{
 		// temporary (maybe), used to correct offset for scaled images
-		if(scale != 1)
-			currLeft = currLeft - width/2 + (width*scale)/2;
+		if(scaleX != 1)
+			currLeft = currLeft - width/2 + (width*scaleX)/2;
 
-		Menu_DrawImg(currLeft, currTop, width, height, image, imageangle, currScale, currScale, this->GetAlpha());
+		Menu_DrawImg(currLeft, currTop, width, height, image, imageangle, this->GetScaleX(), this->GetScaleY(), this->GetAlpha());
 	}
 
 	if(stripe > 0)
