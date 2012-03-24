@@ -11,6 +11,7 @@
 - installer now supports Classic-Controller
 - installer now supports GameCube-Controller
 - adopt libwiigui changes from ZERO
+- BUGFIX: loading apps through wiiload works again
 - updated PNGu
 
 //rev37:

@@ -16,6 +16,7 @@ u8 *data = (u8 *)0x92000000;
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
 extern bool boot_buffer;
+extern bool wiiload;
 
 /*** Extern functions ***/
 extern void ResumeGui();
@@ -251,6 +252,7 @@ static void * tcp_callback(void *arg)
 				ResumeGui();
 
 				boot_buffer = true;
+				wiiload = true;
 				break;
 			}
 		}

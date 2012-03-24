@@ -58,6 +58,7 @@ int ExitRequested = 0;
 s8 PowerOff = -1;
 bool boothomebrew = false;
 bool boot_buffer = false;
+bool wiiload = false;
 
 // kopiere ios für app in einen vector
 void addAppIos(string foldername, int ios)
@@ -241,7 +242,8 @@ main(int argc, char *argv[])
 			BootGameCubeHomebrew();
     }
     else if(boot_buffer)
-	//	BootHomebrew();
+	if(wiiload)
+		BootHomebrew();
 
 	if(get_bootmii() == 2)
 		IOS_ReloadIOS(254);
