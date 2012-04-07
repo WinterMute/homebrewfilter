@@ -1,0 +1,1 @@
+s32 Patch_ahbprot(void);

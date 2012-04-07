@@ -17,7 +17,6 @@
 #include <wiiuse/wpad.h>
 #include <dirent.h>
 
-//#include "audio.h"
 #include "filelist.h"
 #include "FreeTypeGX.h"
 #include "input.h"
@@ -36,6 +35,9 @@
 #include "BootHomebrew/BootHomebrew.h"
 #include "BootHomebrew/dolloader.h"
 #include "DiskOperations/di2.h"
+#include "gecko.h"
+#include "Network/wiiload_gecko.h"
+#include "uneek_fs.h"
 
 #define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
@@ -59,6 +61,8 @@ s8 PowerOff = -1;
 bool boothomebrew = false;
 bool boot_buffer = false;
 bool wiiload = false;
+bool runaway = false;
+bool gecko_connected;
 
 // kopiere ios für app in einen vector
 void addAppIos(string foldername, int ios)
@@ -86,21 +90,26 @@ void addAppIos(string foldername, int ios)
 
 void ExitApp()
 {
+	gprintf("Running ExitApp()\n");
 	ShutdownPads();
 	StopGX();
-	//if(strcasecmp(Settings.code,"NULL") == 0)
-		save();
-    	UnmountAllDevices();
+	save();
+	UnmountAllDevices();
+	exit_uneek_fs();
 	ISFS_Deinitialize();
 }
 
 static void WiiResetPressed()
 {
+	gprintf("Reset button pressed \n");
+	runaway = true;
 	PowerOff = SYS_RETURNTOMENU;
 }
 
 static void WiiPowerPressed()
 {
+	gprintf("Power button pressed \n");
+	runaway = true;
 	PowerOff = SYS_POWEROFF_STANDBY;
 }
 
@@ -123,15 +132,6 @@ DefaultSettings()
 	Settings.checkrev			= -1;
 	sprintf (Settings.code, "NULL");
 
-	// in kleinbuchstaben umwandeln
-/*	transform(Settings.MyDir.begin(),Settings.MyDir.end(),Settings.MyDir.begin(),::tolower);
-	if(Settings.MyDir.substr(0, Settings.MyDir.find(":/")) == "sd")
-		Settings.MyPath			= "sd1" + Settings.MyDir.substr(Settings.MyDir.find(":/"), Settings.MyDir.rfind("/") - Settings.MyDir.find(":/") +1);
-	else if(Settings.MyDir.substr(0, Settings.MyDir.find(":/")) == "usb")
-		Settings.MyPath			= "usb1" + Settings.MyDir.substr(Settings.MyDir.find(":/"), Settings.MyDir.rfind("/") - Settings.MyDir.find(":/") +1);
-	else
-		Settings.MyPath			= Settings.MyDir.substr(0, Settings.MyDir.rfind("/") +1);
-*/
 	Settings.Apps_from			= EFFECT_SLIDE_TOP;	// Apps kommen von "EFFECT_SLIDE_TOP", "EFFECT_SLIDE_BOTTOM", "EFFECT_SLIDE_RIGHT", "EFFECT_SLIDE_LEFT"
 	Settings.Apps_to			= 0;				// Apps geht nach "EFFECT_SLIDE_TOP", "EFFECT_SLIDE_BOTTOM", "EFFECT_SLIDE_RIGHT", "EFFECT_SLIDE_LEFT"
 	Settings.grid				= false;
@@ -162,16 +162,21 @@ int
 main(int argc, char *argv[])
 {
 
-	SYS_SetResetCallback(WiiResetPressed);
-	SYS_SetPowerCallback(WiiPowerPressed);
-	WPAD_SetPowerButtonCallback(WiimotePowerPressed);
+	gecko_connected = InitGecko();
 
 	InitVideo();			// Initialize video
 	SetupPads();			// Initialize input
 	InitGUIThreads();		// Initialize GUI
+
+	init_uneek_fs(ISFS_OPEN_READ|ISFS_OPEN_WRITE);
+
 	MountAllDevices();
 	InitNetworkThread();	// Initialize Network
 	InitTcpThread();
+
+	if (gecko_connected)
+		InitGeckoThread();
+
 	InitThrobberThread();	// Initialize Throbber
 	ISFS_Initialize();		// Initialize Nand
 
@@ -182,10 +187,17 @@ main(int argc, char *argv[])
 	DefaultTheme();
 
 	load();
+
 	if(Options.network)
 		ResumeNetworkThread();
+	if (gecko_connected)
+		ResumeGeckoThread();
 
 	SetFont();
+
+	SYS_SetResetCallback(WiiResetPressed);
+	SYS_SetPowerCallback(WiiPowerPressed);
+	WPAD_SetPowerButtonCallback(WiimotePowerPressed);
 
 	#ifdef HW_RVL
 	pointer = new GuiImageData(Theme.player_point);
@@ -199,8 +211,14 @@ main(int argc, char *argv[])
 	ResumeGui();
 	stretch(Settings.top, Settings.bottom, Settings.left, Settings.right);
 
-	if(HAVE_AHBPROT)
+ 	if(HAVE_AHBPROT)
+	{
 		runtimePatchApply();
+	}
+	else
+	{
+		gprintf("ERROR no AHBPROT\n");
+	}
 
 	DI2_Init(); // Init DVD
 
@@ -214,8 +232,8 @@ main(int argc, char *argv[])
 
     if(boothomebrew)
     {
-		if(SelectedIOS() != IOS_GetVersion())
-			IOS_ReloadIOS(SelectedIOS());
+		/*if(SelectedIOS() != IOS_GetVersion())
+			IOS_ReloadIOS(SelectedIOS());*/
 
 		if(strstr(Settings.forwarder_path.c_str(), ":/apps/") != 0)
 			BootHomebrew();
@@ -227,7 +245,18 @@ main(int argc, char *argv[])
 		BootHomebrew();
 
 	if(get_bootmii() == 2)
-		IOS_ReloadIOS(254);
+	{
+		if(!check_uneek_fs())
+		{
+			IOS_ReloadIOS(254);
+		}
+		else
+		{
+			//we can't launch bootmii from within neek2o I assume
+			//so we should do something else
+			SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+		}
+	}
 
 	if(get_nandemu() == 2)
 	{
@@ -247,6 +276,7 @@ main(int argc, char *argv[])
 	{
 		*(vu32*)0x8132FFFB = 0x4461636f;
 		DCFlushRange((void*)0x8132FFFB, 4);
+		//ExitApp();
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 
@@ -254,9 +284,11 @@ main(int argc, char *argv[])
 	{
 		*(vu32*)0x8132FFFB = 0x50756E65;
 		DCFlushRange((void*)0x8132FFFB, 4);
+		//ExitApp();
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 	else if(PowerOff != -1)
+		//ExitApp();
 		SYS_ResetSystem(PowerOff, 0, 0);
 
 	return 0;

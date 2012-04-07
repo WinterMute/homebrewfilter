@@ -1,7 +1,7 @@
-
 #include "main.h"
 #include <dirent.h>
 #include <sstream>
+#include "gecko.h"
 
 extern const u8  banner_bin[];
 extern const u32 banner_bin_size;
@@ -9,12 +9,12 @@ extern const u32 banner_bin_size;
 bool folder_exists()
 {
 	bool create = false;
-	
+
 	if(Settings.device_dat == "sd1" && SDCard_Inserted())
 		create = true;
 	else if(Settings.device_dat == "usb1" && USBDevice_Inserted())
 		create = true;
-		
+
 	if(create)
 	{
 		// speicher ordner erstellen
@@ -33,7 +33,7 @@ bool folder_exists()
 			else
 			{
 				if (mkdir((Settings.device_dat + ":/config/HBF").c_str(), 0777) != -1)
-					return true;		
+					return true;
 			}
 		}
 		else
@@ -55,30 +55,30 @@ void save()
 
 	// create save banner
 	string save_banner_path = "/title/00010001/54484246/data/banner.bin";
-	
+
 	file = ISFS_Open(save_banner_path.c_str(), ISFS_OPEN_READ);
 	if (file <= 0)
 	{
 		ISFS_CreateFile(save_banner_path.c_str(), 0, 3, 3, 3);
-	
+
 		file = ISFS_Open(save_banner_path.c_str(), ISFS_OPEN_RW);
 		if (file > 0)
 			ISFS_Write(file, banner_bin, banner_bin_size);
-			
+
 		ISFS_Close(file);
 	}
 	ISFS_Close(file);
 
 	// save settings
 	ISFS_Delete(Settings.settings_dat.c_str());
-	
+
 	ISFS_CreateFile(Settings.settings_dat.c_str(), 0, 3, 3, 3);
 	file = ISFS_Open(Settings.settings_dat.c_str(), ISFS_OPEN_RW);
 	if (file > 0)
 	{
 		int last_category;
 		string last_category_name;
-		
+
 		if(Options.last_category > 0)
 		{
 			last_category = 1;
@@ -114,24 +114,29 @@ void save()
 		save_settings << "bottom = \""				<< Settings.bottom			<< "\"" << endl;
 		save_settings << "left = \""				<< Settings.left			<< "\"" << endl;
 		save_settings << "right = \""				<< Settings.right			<< "\"" << endl;
-		
+
 		char *pbuf = NULL;
 		unsigned int psize = save_settings.str().size();
 
 		pbuf = (char*)memalign( 32, sizeof(char) *psize );
 		memset( pbuf, 0, sizeof(char) *psize );
-		
+
 		char text[psize];
 		sprintf(text, "%s", save_settings.str().c_str());
 		strcpy(pbuf, text);
-		
+
 		ISFS_Write(file, pbuf, sizeof(char) *psize);
 	}
+	else
+	{
+		gprintf("ERROR: ISFS: opening %s failed\n", Settings.settings_dat.c_str());
+	}
+
 	ISFS_Close(file);
-	
+
 	// save appios
 	ISFS_Delete(Settings.ios_dat.c_str());
-	
+
 	ISFS_CreateFile(Settings.ios_dat.c_str(), 0, 3, 3, 3);
 	file = ISFS_Open(Settings.ios_dat.c_str(), ISFS_OPEN_RW);
 	if (file > 0)
@@ -145,15 +150,15 @@ void save()
 
 		pbuf = (char*)memalign( 32, sizeof(char) *psize );
 		memset( pbuf, 0, sizeof(char) *psize );
-		
+
 		char text[psize];
 		sprintf(text, "%s", save_appios.str().c_str());
 		strcpy(pbuf, text);
-		
+
 		ISFS_Write(file, pbuf, sizeof(char) *psize);
 	}
 	ISFS_Close(file);
-	
+
 	// save category
 	AvailableCategorySave(Settings.dir_dat);
 }

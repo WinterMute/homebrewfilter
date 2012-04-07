@@ -13,10 +13,15 @@
 - installer now supports GameCube-Controller
 - adopt libwiigui changes from ZERO
 - BUGFIX: loading apps through wiiload works again
+- support passing arguements using wiiload [obcd]
+- BUGFIX: when changing network settings, the network thread is
+          halted or started accordingly [obcd]
 - BUGFIX: only show 'launch priiloader' in external loaders prompt,
           if priiloader is really installed
 - changed loading address from 0x81230000 to 0x81330000
 - removed all sound related code
+- support for neek2o [obcd]
+- only check once on startup for a new version [obcd]
 - updated PNGu
 
 //rev37:

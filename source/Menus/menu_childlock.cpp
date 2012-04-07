@@ -16,6 +16,7 @@ extern GuiWindow * mainWindow;
 extern void ResumeGui();
 extern void HaltGui();
 
+extern bool runaway;
 
 /****************************************************************************
  * MenuSettings
@@ -38,13 +39,13 @@ int MenuSettingsChildlock()
 	GuiImage btn1Img(&btn);
 	GuiImage btn2Img(&btn);
 	GuiImage backBtnImg(&btn);
-	
+
 	// normale Buttons over
 	GuiImageData btn_over(Theme.button_focus);
 	GuiImage btn1ImgOver(&btn_over);
 	GuiImage btn2ImgOver(&btn_over);
 	GuiImage backBtnImgOver(&btn_over);
-	
+
 	GuiText btn1Txt(tr("Activate"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton btn1(btn.GetWidth(), btn.GetHeight());
 	btn1.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -106,7 +107,7 @@ int MenuSettingsChildlock()
 				{
 					for(int i = 0; i < (signed)strlen(buffer); i++)
 						buffer[i] = '\0';
-						
+
 					OnScreenCodeboard(buffer, 4);
 					// wenn eingabe richtig
 					if(strcasecmp(buffer, Options.temp_code) == 0 )
@@ -130,7 +131,7 @@ int MenuSettingsChildlock()
 				if(strcasecmp(buffer,"NULL") != 0 )
 					sprintf (Options.temp_code, buffer);
 			}
-			
+
 			menu = MENU_SETTINGS_CHILDLOCK;
 		}
 		else if(btn2.GetState() == STATE_CLICKED)
@@ -141,7 +142,7 @@ int MenuSettingsChildlock()
 			{
 				for(int i = 0; i < (signed)strlen(buffer); i++)
 					buffer[i] = '\0';
-					
+
 				// alten code eingeben
 				WindowPrompt(tr("Info"), tr("Old Code"), tr("Back"));
 				OnScreenCodeboard(buffer, 4);
@@ -171,6 +172,12 @@ int MenuSettingsChildlock()
 			}
 		}
 		else if(backBtn.GetState() == STATE_CLICKED)
+		{
+			Options.temp_last_setting = 1;
+			menu = MENU_SETTINGS_FILE;
+		}
+
+		if(runaway == true)
 		{
 			Options.temp_last_setting = 1;
 			menu = MENU_SETTINGS_FILE;

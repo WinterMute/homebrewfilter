@@ -1,4 +1,3 @@
-
 #include <unistd.h>
 #include <dirent.h>
 
@@ -16,6 +15,7 @@ extern void ResumeGui();
 extern void HaltGui();
 extern void HaltResumeGui();
 
+extern bool runaway;
 bool theme_dl = false;
 
 /****************************************************************************
@@ -25,14 +25,14 @@ bool theme_dl = false;
 int MenuSettingsTheme()
 {
 	int menu = MENU_NONE;
-	
+
 	int ret = -1;
 	int activated = -1;
 	int i = 0;
 	int focus = 0;
-	
+
 	OptionList options;
-	
+
 	sprintf(options.name[i], tr("STANDARD"));
 	if(stricmp(Options.temp_theme.c_str(), tr("STANDARD")) == 0)
 	{
@@ -53,7 +53,7 @@ int MenuSettingsTheme()
 			if(stricmp(dirEntry->d_name, ".") != 0 && stricmp(dirEntry->d_name, "..") != 0)
 			{
 				sprintf(options.name[i], dirEntry->d_name);
-				
+
 				if(stricmp(Options.temp_theme.c_str(), dirEntry->d_name) == 0)
 				{
 					sprintf (options.value[i], tr("activated"));
@@ -61,7 +61,7 @@ int MenuSettingsTheme()
 				}
 				else
 					sprintf (options.value[i], " ");
-				
+
 				i++;
 			}
 		}
@@ -134,7 +134,7 @@ int MenuSettingsTheme()
 	w.Append(&backBtn);
 	mainWindow->Append(&w);
 	mainWindow->Append(&optionBrowser);
-	
+
 	mainWindow->ChangeFocus(&optionBrowser);
 	ResumeGui();
 
@@ -175,7 +175,7 @@ int MenuSettingsTheme()
 			}
 			HaltResumeGui();
 		}
-		
+
 		if(downloadBtn.GetState() == STATE_CLICKED)
 		{
 			downloadBtn.ResetState();
@@ -191,15 +191,21 @@ int MenuSettingsTheme()
 				}
 			}
 		}
-				
+
 		if(okBtn.GetState() == STATE_CLICKED)
 		{
 			Options.temp_last_setting = 1;
 			Options.temp_theme = options.name[activated];
 			menu = MENU_SETTINGS_FILE;
 		}
-				
+
 		if(backBtn.GetState() == STATE_CLICKED)
+		{
+			Options.temp_last_setting = 1;
+			menu = MENU_SETTINGS_FILE;
+		}
+
+		if(runaway == true)
 		{
 			Options.temp_last_setting = 1;
 			menu = MENU_SETTINGS_FILE;

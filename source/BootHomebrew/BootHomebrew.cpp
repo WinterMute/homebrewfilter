@@ -14,6 +14,10 @@
 #include "DiskOperations/di2.h"
 #include "Tools/load_channel.h"
 #include "Tools/parser.h"
+#include "Tools/SelectIos.h"
+#include "uneek_fs.h"
+#include "gecko.h"
+#include "ahbfix.h"
 
 #define BLOCKSIZE               70*1024      //70KB
 #define MAX_CMDLINE 4096
@@ -30,6 +34,8 @@ char *a_argv[MAX_ARGV];
 char *meta_buf = NULL;
 static u8 *homebrewbuffer = (u8 *) 0x92000000;
 static u32 homebrewsize = 0;
+static int wiiload_args = 0;
+static char temp_arg[1024];
 std::string filepath;
 
 void arg_init()
@@ -157,6 +163,13 @@ int CopyHomebrewMemory(u8 *temp, u32 pos, u32 len)
     return 1;
 }
 
+int CopyArgs(u8* temp, u32 len)
+{
+	memcpy(temp_arg,temp,len);
+	wiiload_args = 1;
+	return 1;
+}
+
 int LoadHomebrew(const char * path)
 {
 	filepath = path;
@@ -177,6 +190,10 @@ int LoadHomebrew(const char * path)
 
 int BootHomebrew()
 {
+
+    char* abuf;
+    size_t asize;
+
     if(homebrewsize == 0)
         return -1;
 
@@ -184,11 +201,28 @@ int BootHomebrew()
     u32 cpu_isr;
 
 	arg_init();
-	arg_add(filepath.c_str()); // argv[0] = filepath
-	while(parser(Settings.forwarder_arg, "<arg>", "</arg>") != "")
+
+	if (wiiload_args)
 	{
-		arg_add(parser(Settings.forwarder_arg, "<arg>", "</arg>").c_str());
-		Settings.forwarder_arg.erase(0, Settings.forwarder_arg.find("</arg>") +1);
+		abuf = temp_arg;
+		asize = strlen(abuf);
+		while (asize != 0)
+		{
+			gprintf("argument = %s\n",abuf);
+			arg_add(abuf);
+			abuf+=asize;
+			abuf+=1;
+			asize = strlen(abuf);
+		}
+	}
+	else
+	{
+		arg_add(filepath.c_str()); // argv[0] = filepath
+		while(parser(Settings.forwarder_arg, "<arg>", "</arg>") != "")
+		{
+			arg_add(parser(Settings.forwarder_arg, "<arg>", "</arg>").c_str());
+			Settings.forwarder_arg.erase(0, Settings.forwarder_arg.find("</arg>") +1);
+		}
 	}
 
 	if ( valid_elf_image(homebrewbuffer) == 1 )
@@ -198,6 +232,23 @@ int BootHomebrew()
 
     if (!entry)
         return -1;
+
+/*	ExitApp();
+
+	this will also be called when wiiloading an application
+	will need to check if it's expected behavour? */
+
+	if(!wiiload_args)
+	{
+		if(SelectedIOS() != IOS_GetVersion())
+		{
+			//keep ahbprot rights in new ios
+			Patch_ahbprot();
+			IOS_ReloadIOS(SelectedIOS());
+		}
+	}
+
+    wiiload_args = 0;
 
     SYS_ResetSystem(SYS_SHUTDOWN, 0, 0);
     _CPU_ISR_Disable (cpu_isr);
@@ -220,14 +271,15 @@ int BootGameCubeHomebrew()
     DI2_ReadDiscID((u64 *) 0x80000000);
     DI2_Mount();
 
-	strcpy(GC_MAGIC_BUF, GC_DOL_MAGIC);
-	DCFlushRange(GC_MAGIC_BUF, 32);
+    strcpy(GC_MAGIC_BUF, GC_DOL_MAGIC);
+    DCFlushRange(GC_MAGIC_BUF, 32);
     memcpy(GC_DOL_BUF, homebrewbuffer, homebrewsize);
-	DCFlushRange(GC_DOL_BUF, homebrewsize);
-	*(vu32 *) 0xCC003024 |= 0x07;
+    DCFlushRange(GC_DOL_BUF, homebrewsize);
+    *(vu32 *) 0xCC003024 |= 0x07;
 
-	ES_GetTicketViews(BC, &view, 1);
+    ES_GetTicketViews(BC, &view, 1);
     int ret = ES_LaunchTitle(BC, &view);
+    exit_uneek_fs();
 
     return ret;
 }

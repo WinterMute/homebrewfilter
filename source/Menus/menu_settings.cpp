@@ -17,6 +17,7 @@ extern bool boot_buffer;
 extern void ResumeGui();
 extern void HaltGui();
 
+extern bool runaway;
 
 /****************************************************************************
  * MenuSettings
@@ -42,7 +43,7 @@ int MenuSettings()
 	GuiImage optionsBtnImg(&btn);
 	GuiImage updateBtnImg(&btn);
 	GuiImage backBtnImg(&btn);
-	
+
 	// normale Buttons over
 	GuiImageData btn_over(Theme.button_focus);
 	GuiImage categoryCreateBtnImgOver(&btn_over);
@@ -51,7 +52,7 @@ int MenuSettings()
 	GuiImage optionsBtnImgOver(&btn_over);
 	GuiImage updateBtnImgOver(&btn_over);
 	GuiImage backBtnImgOver(&btn_over);
-	
+
 	GuiText categoryCreateBtnTxt(tr("Create Category"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton categoryCreateBtn(btn.GetWidth(), btn.GetHeight());
 	categoryCreateBtn.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -96,7 +97,7 @@ int MenuSettings()
 	updateBtn.SetImage(&updateBtnImg);
 	updateBtn.SetImageOver(&updateBtnImgOver);
 	updateBtn.SetTrigger(&trigA);
-	
+
 	GuiText backBtnTxt(tr("Back"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton backBtn(btn.GetWidth(), btn.GetHeight());
 	backBtn.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -139,15 +140,15 @@ int MenuSettings()
 			categoryEraseBtn.SetClickable(false);
 			updateBtn.SetClickable(false);
 		}
-		
+
 		if(categoryCreateBtn.GetState() == STATE_CLICKED)
 		{
 			categoryCreateBtn.ResetState();
-			
+
 			char new_category_name[256];
 			sprintf (new_category_name, tr(Settings.new_category_name));
 			OnScreenKeyboard(new_category_name, 256, false);
-			
+
 			if(strcasecmp(new_category_name,"NULL") != 0 )
 				KategorieEinfuegen(new_category_name);
 		}
@@ -157,7 +158,7 @@ int MenuSettings()
 			if(AvailableCategory.categories.size() > 1)
 			{
 				string entferne_kategorie = eraseCategory();
-				
+
 				if( entferne_kategorie != "NULL" )
 				{
 					int choice = WindowPrompt(entferne_kategorie.c_str(), tr("Really remove?"), tr("Yes"), tr("No"));
@@ -178,7 +179,7 @@ int MenuSettings()
 				{
 					for(int i = 0; i < (signed)strlen(buffer); i++)
 						buffer[i] = '\0';
-						
+
 					OnScreenCodeboard(buffer, 4);
 					// wenn eingabe richtig
 					if(strcasecmp(buffer, Settings.code) == 0 )
@@ -205,21 +206,21 @@ int MenuSettings()
 		else if(updateBtn.GetState() == STATE_CLICKED)
 		{
 			updateBtn.ResetState();
-			
+
 			string revnumber = checkUpdatePrompt();
-			
+
 			if(revnumber != "NULL")
 			{
 				char title[100];
 				if(revnumber == "Beta")
-					sprintf(title, "%s ( rev.%i  %s  Beta )", tr("Update"), SvnRev(), "»");	
+					sprintf(title, "%s ( rev.%i  %s  Beta )", tr("Update"), SvnRev(), "»");
 				else
-					sprintf(title, "%s ( rev.%i  %s  rev.%s )", tr("Update"), SvnRev(), "»", revnumber.c_str());	
-				
+					sprintf(title, "%s ( rev.%i  %s  rev.%s )", tr("Update"), SvnRev(), "»", revnumber.c_str());
+
 				// auflisten
 				string version_text = NewVersionsText();
 				vector <string> versions_text;
-				
+
 				int strpos = version_text.find("//rev");
 				while(strpos != -1)
 				{
@@ -232,18 +233,18 @@ int MenuSettings()
 					}
 					else
 						versions_text.push_back(version_text.substr(0, version_text.find("end") -2));
-						
+
 					strpos = version_text.find("//rev");
 				}
-				
+
 				char revinfo[10];
 				if(revnumber == "Beta")
 					sprintf(revinfo, "rev_Beta");
 				else
 					sprintf(revinfo, "rev%i", atoi(revnumber.c_str()));
-					
+
 				string text;
-				
+
 				for(int i=0; i < (signed)versions_text.size(); i++)
 				{
 					if(strcasecmp(versions_text[i].substr(0, versions_text[i].find(":")).c_str(), revinfo) == 0)
@@ -252,9 +253,9 @@ int MenuSettings()
 						text = versions_text[i];
 						break;
 					}
-				}				
+				}
 				revtext(text.c_str());
-				
+
 				// anzeigen
 				int choice = WindowPrompt(title, tr("Do you want to update now ?"), tr("Yes"), tr("No"));
 				if(choice == 1)
@@ -266,6 +267,9 @@ int MenuSettings()
 			}
 		}
 		else if(backBtn.GetState() == STATE_CLICKED)
+			menu = MENU_MAIN;
+
+		if(runaway == true)
 			menu = MENU_MAIN;
 	}
 

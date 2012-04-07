@@ -1,4 +1,3 @@
-
 #include <unistd.h>
 #include <algorithm>
 
@@ -629,30 +628,34 @@ int MenuMain()
 				menu = MENU_MAIN;
 			}
 
-			// Netzwerksymbol anzeigen
-			if(IsNetworkInit())
+			if (!IsNetworkError())
 			{
-				network_Btn.SetImage(&network_BtnImgOver);
-				ResumeTcpThread();
-				if(boot_buffer)
-					menu = MENU_EXIT;
+				if((IsNetworkInit())&&(!IsNetworkHalted()))
+				{
+					network_Btn.SetImage(&network_BtnImgOver);
+					ResumeTcpThread();
+					if(boot_buffer)
+						menu = MENU_EXIT;
+				}
+				else
+					network_Btn.SetImage(&network_BtnImg);
 			}
-			else if(!IsNetworkInit() || IsNetworkError())
-				network_Btn.SetImage(&network_BtnImg);
 			else
 			{
 				networtwaittime++;
-				if(networkswitch && networtwaittime == 10000)
+				if (networtwaittime == 10000)
 				{
 					networtwaittime = 0;
-					networkswitch = false;
-					network_Btn.SetImage(&network_BtnImgOver);
-				}
-				else if(!networkswitch && networtwaittime == 10000)
-				{
-					networtwaittime = 0;
-					networkswitch = true;
-					network_Btn.SetImage(&network_BtnImg);
+					if (networkswitch)
+					{
+						networkswitch = false;
+						network_Btn.SetImage(&network_BtnImgOver);
+					}
+					else
+					{
+						networkswitch = true;
+						network_Btn.SetImage(&network_BtnImg);
+					}
 				}
 			}
 

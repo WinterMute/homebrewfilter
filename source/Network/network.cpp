@@ -59,10 +59,10 @@ void CheckVersion(void)
 		{
 			revs = (char*)file.data;
 			free(file.data);
-			
+
 			if((signed)revs.find("\n") != -1)
 				revs.erase(revs.find("\n"));
-				
+
 			Settings.checkrev = atoi(revs.c_str());
 		}
 	}
@@ -112,6 +112,14 @@ bool IsNetworkInit(void)
 bool IsNetworkError(void)
 {
     return networkerror;
+}
+
+/****************************************************************************
+ * Check that network thread is halted
+ ***************************************************************************/
+bool IsNetworkHalted(void)
+{
+    return networkHalt;
 }
 
 /****************************************************************************
@@ -170,9 +178,8 @@ static void * networkinitcallback(void *arg)
         {
             LWP_SetThreadPriority(networkthread, 0);
             firstRun = true;
+	    CheckVersion();
         }
-
-		CheckVersion();
 
         usleep(200000);
     }

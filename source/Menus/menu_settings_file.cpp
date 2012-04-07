@@ -1,4 +1,3 @@
-
 #include <unistd.h>
 
 #include "libwiigui/gui.h"
@@ -19,6 +18,7 @@ extern void ResumeGui();
 extern void HaltGui();
 extern void HaltResumeGui();
 
+extern bool runaway;
 int temp_last_category;
 int temp_slide_effect;
 int temp_apps;
@@ -480,7 +480,17 @@ int MenuSettingsFile()
 			}
 
 			menu = MENU_SETTINGS;
+
 		}
+
+		if(runaway == true)
+		{
+			strcpy (Options.temp_code, Settings.code);
+			Options.temp_network	= Options.network;
+			Options.temp_newrevtext	= Options.newrevtext;
+			menu = MENU_SETTINGS;
+		}
+
 	}
 	HaltGui();
 	Options.temp_last_setting = 0;

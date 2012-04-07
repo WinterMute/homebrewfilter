@@ -4,6 +4,7 @@
 int BootHomebrew();
 int BootGameCubeHomebrew();
 int CopyHomebrewMemory(u8 *temp, u32 pos, u32 len);
+int CopyArgs(u8* temp, u32 len);
 void AddBootArgument(const char * arg);
 int LoadHomebrew(const char * filepath);
 
