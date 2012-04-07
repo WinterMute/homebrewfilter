@@ -212,24 +212,7 @@ main(int argc, char *argv[])
 	AvailableCategory.categories[0] = tr(Settings.category_name_all);
 	check_device();
 
-	check_priiloader();
-
-/*	while(1)
-	{
-		WPAD_ScanPads();
-		if(PowerOff != -1)
-		{
-			char buffer[20];
-			sprintf(buffer, "%i", PowerOff);
-			PowerOff = -1;
-			debug(buffer);
-		//	menu = MENU_EXIT;
-		}
-
-		if(WPAD_ButtonsDown(0) & WPAD_BUTTON_A)
-			break;
-	}
-*/	MainMenu(MENU_NONE);
+	MainMenu(MENU_NONE);
 
     if(boothomebrew)
     {

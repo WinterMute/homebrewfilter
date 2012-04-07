@@ -15,7 +15,6 @@ int bootmii = 0;
 int nandemu = 0;
 int priiloader = 0;
 
-
 s32 NandReadFile(char *filepath, u8 **buffer, u32 *filesize)
 {
 	s32 Fd;
@@ -126,7 +125,7 @@ int check_priiloader() {
 	u32 i = 0;
 	u32 filesize = 0;
 	u8 *buffer = NULL;
-	const char	*checkStr = "priiloader";
+	const char* checkStr = "priiloader";
 	int retValue = -1;
 
 	ret = GetTMD(titleId, &stmd, &TMD_size);
@@ -347,8 +346,9 @@ bool listIOS()
 			ioslist.push_back(titleID);
 
 	}
-	std::sort( ioslist.begin(), ioslist.end() ); // sortieren
+	std::sort( ioslist.begin(), ioslist.end() ); // sortieren	
 	return true;
+
 }
 
 int SelectedIOS()

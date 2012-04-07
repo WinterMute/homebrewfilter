@@ -13,12 +13,19 @@ extern GuiWindow * mainWindow;
 extern void ResumeGui();
 extern void HaltGui();
 
+int priicheck = 0;
+
 int
 loaderPrompt()
 {
 	bool stop = false;
 	int menu = 0;
 	listIOS();
+	if( ! priicheck )
+	{
+		priicheck = 1;
+		check_priiloader();
+	}
 
 	GuiWindow promptWindow(520,360);
 	promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);

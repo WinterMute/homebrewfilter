@@ -8,6 +8,7 @@
           controller initialization (only happened under
 	  certain circumstances)
 - BUGFIX: compiled with libpng 1.4 to fix a problem in PNG handling
+- BUGFIX: return to HBF feature now works again
 - installer now supports Classic-Controller
 - installer now supports GameCube-Controller
 - adopt libwiigui changes from ZERO

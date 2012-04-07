@@ -18,7 +18,7 @@ s8 free_pointer(pointer*& ptr)
 			//protection incase empty type was given
 			memset(ptr,0,sizeof(pointer));
 		}
-		free(ptr); 
+		free(ptr);
 		ptr = NULL;
 		return 0;
 	}
@@ -48,12 +48,26 @@ bool CheckAppFound(u64 title)
 	return false;
 }
 
+u8 hbcStubAvailable()
+{
+	char * sig = (char *)0x80001804;
+	return (
+        sig[0] == 'S' &&
+        sig[1] == 'T' &&
+        sig[2] == 'U' &&
+        sig[3] == 'B' &&
+        sig[4] == 'H' &&
+        sig[5] == 'A' &&
+        sig[6] == 'X' &&
+        sig[7] == 'X') ? 1 : 0;
+}
+
 int DetectHBF()
 {
 	u64 *list;
     u32 titlecount;
     int ret;
-	
+
 	vector<u64>	TitleID;
 	TitleID.push_back(0x0001000154484246LL);	//THBF
 //	TitleID.push_back(0x0001000148424630LL);	//HBF0
@@ -74,9 +88,9 @@ int DetectHBF()
 		return 0;
     }
 	ret = 0;
-	
+
 	//lets check for known HBF title id's.
-    for(u32 i=0; i<titlecount; i++) 
+    for(u32 i=0; i<titlecount; i++)
 	{
 		u32 tmd_size;
 		ES_GetStoredTMDSize(list[i], &tmd_size);
@@ -96,7 +110,16 @@ int DetectHBF()
 		}
 */	}
 	free_pointer(list);
-        
+
+	if(ret != 0)
+	{
+		memcpy((void*)0x80001800, stub_bin, stub_bin_size);
+		DCFlushRange((void*)0x80001800,stub_bin_size);
+
+		hbcStubAvailable();
+		return ret;
+	}
+
 	return 0;
 }
 
