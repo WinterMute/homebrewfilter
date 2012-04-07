@@ -1,12 +1,20 @@
-
 #include <stdio.h>
 #include <gccore.h>
 #include <malloc.h>
 #include <string.h>
 #include <string>
 #include <vector>
+#include "main.h"
 #include "filelist.h"
+#include "uneek_fs.h"
+#include "gecko.h"
+
 using namespace std;
+
+/*
+extern char ch_Ret_Nand[];
+extern char ch_Ret_Neek[];
+*/
 
 template <class pointer>
 s8 free_pointer(pointer*& ptr)
