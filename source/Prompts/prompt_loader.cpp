@@ -93,7 +93,7 @@ loaderPrompt()
 	promptWindow.Append(&titleTxt);
 	if(get_nandemu())
 		promptWindow.Append(&nandemu);
-	if(get_priiloader())
+	if(get_priiloader() == 1)
 		promptWindow.Append(&priiloader);
 	promptWindow.Append(&back);
 	promptWindow.Append(&back2);
