@@ -65,20 +65,18 @@ GuiCodeboard::GuiCodeboard(char * t, u32 max)
 		else if(i == 3)
 			keyTextboxImg[i]->SetPosition(75, 0);
 		this->Append(keyTextboxImg[i]);
-		
+
 		kbText[i] = new GuiText("\0", 20, (GXColor){0, 0, 0, 0xff});
 		kbText[i]->SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 		kbText[i]->SetPosition(keyTextboxImg[i]->GetLeft() + keyTextboxImg[i]->GetWidth()/2, 13);
 		this->Append(kbText[i]);
 	}
-	
+
 	key = new GuiImageData(keyboard_key_png);
 	keyOver = new GuiImageData(keyboard_key_over_png);
 	keyMedium = new GuiImageData(keyboard_mediumkey_png);
 	keyMediumOver = new GuiImageData(keyboard_mediumkey_over_png);
 
-//	keySoundOver = new GuiSound(button_over_pcm, button_over_pcm_size, SOUND_PCM);
-//	keySoundClick = new GuiSound(button_click_pcm, button_click_pcm_size, SOUND_PCM);
 	trigA = new GuiTrigger;
 	trigA->SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
 	trigB = new GuiTrigger;
@@ -86,7 +84,7 @@ GuiCodeboard::GuiCodeboard(char * t, u32 max)
 
 	int distance = 40;
 	int pos = (width-(3*key->GetWidth()+2*distance))/2;
-	
+
 	keyBackImg = new GuiImage(keyMedium);
 	keyBackOverImg = new GuiImage(keyMediumOver);
 	keyBackText = new GuiText("i", 40, (GXColor){0, 0, 0, 0xff});
@@ -95,8 +93,6 @@ GuiCodeboard::GuiCodeboard(char * t, u32 max)
 	keyBack->SetImage(keyBackImg);
 	keyBack->SetImageOver(keyBackOverImg);
 	keyBack->SetLabel(keyBackText);
-//	keyBack->SetSoundOver(keySoundOver);
-//	keyBack->SetSoundClick(keySoundClick);
 	keyBack->SetTrigger(trigA);
 	keyBack->SetTrigger(trigB);
 	keyBack->SetPosition(pos-keyMedium->GetWidth()+key->GetWidth(), 3*(key->GetWidth() + 20)+80);
@@ -110,8 +106,6 @@ GuiCodeboard::GuiCodeboard(char * t, u32 max)
 	keyEmpty->SetImage(keyEmptyImg);
 	keyEmpty->SetImageOver(keyEmptyOverImg);
 	keyEmpty->SetLabel(keyEmptyText);
-//	keyEmpty->SetSoundOver(keySoundOver);
-//	keyEmpty->SetSoundClick(keySoundClick);
 	keyEmpty->SetTrigger(trigA);
 	keyEmpty->SetPosition(pos+2*(key->GetWidth()+distance), 3*(key->GetWidth() + 20)+80);
 	keyEmpty->SetEffectGrow();
@@ -133,8 +127,6 @@ GuiCodeboard::GuiCodeboard(char * t, u32 max)
 				keyBtn[i][j] = new GuiButton(key->GetWidth(), key->GetHeight());
 				keyBtn[i][j]->SetImage(keyImg[i][j]);
 				keyBtn[i][j]->SetImageOver(keyImgOver[i][j]);
-//				keyBtn[i][j]->SetSoundOver(keySoundOver);
-//				keyBtn[i][j]->SetSoundClick(keySoundClick);
 				keyBtn[i][j]->SetTrigger(trigA);
 				keyBtn[i][j]->SetLabel(keyTxt[i][j]);
 				keyBtn[i][j]->SetPosition(pos+j*(key->GetWidth()+distance), i*(key->GetWidth() + 20)+80);
@@ -168,8 +160,6 @@ GuiCodeboard::~GuiCodeboard()
 	delete keyOver;
 	delete keyMedium;
 	delete keyMediumOver;
-//	delete keySoundOver;
-//	delete keySoundClick;
 	delete trigA;
 
 	for(int i=0; i<4; i++)
@@ -227,15 +217,15 @@ void GuiCodeboard::Update(GuiTrigger * t)
 				if(update)
 				{
 					txt[0] = keys[i][j].ch;
-					
+
 					keyTxt[i][j]->SetText(txt);
 				}
-				
+
 				if(keyBtn[i][j]->GetState() == STATE_CLICKED)
 				{
 					if((signed)strlen(kbtextstr) < kbtextmaxlen)
 						kbtextstr[strlen(kbtextstr)] = keys[i][j].ch;
-						
+
 					int letter = strlen(kbtextstr) -1;
 					string buffer = kbtextstr;
 					kbText[letter]->SetText(buffer.substr(letter, 1).c_str());
