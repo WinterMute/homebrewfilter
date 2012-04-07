@@ -168,9 +168,7 @@ main(int argc, char *argv[])
 
 	InitVideo();			// Initialize video
 	SetupPads();			// Initialize input
-//	InitAudio();			// Initialize audio
 	InitGUIThreads();		// Initialize GUI
-	//DI2_Init();			// Initialize DVD
 	MountAllDevices();
 	InitNetworkThread();	// Initialize Network
 	InitTcpThread();
