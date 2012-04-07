@@ -346,7 +346,7 @@ bool listIOS()
 			ioslist.push_back(titleID);
 
 	}
-	std::sort( ioslist.begin(), ioslist.end() ); // sortieren	
+	std::sort( ioslist.begin(), ioslist.end() ); // sortieren
 	return true;
 
 }
