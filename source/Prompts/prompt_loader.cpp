@@ -5,6 +5,7 @@
 #include "main.h"
 #include "menu.h"
 #include "Tools/SelectIos.h"
+#include "uneek_fs.h"
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -91,7 +92,7 @@ loaderPrompt()
 
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
-	if(get_nandemu())
+	if(get_nandemu() && ! check_uneek_fs())
 		promptWindow.Append(&nandemu);
 	if(get_priiloader() == 1)
 		promptWindow.Append(&priiloader);
