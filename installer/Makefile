@@ -15,11 +15,11 @@ include $(DEVKITPPC)/wii_rules
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	boot
+TARGET		:=	installer
 BUILD		:=	build
 SOURCES		:=	source \
-				source/Network \
-				../svnrev
+			source/Network \
+			../svnrev
 DATA		:=	data  
 INCLUDES	:=
 

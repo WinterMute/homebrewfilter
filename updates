@@ -11,6 +11,7 @@
 - BUGFIX: return to HBF feature now works again
 - installer now supports Classic-Controller
 - installer now supports GameCube-Controller
+- installer loads HomebrewFilter rather than returning to Systemmenu
 - adopt libwiigui changes from ZERO
 - BUGFIX: loading apps through wiiload works again
 - support passing arguements using wiiload [obcd]
@@ -21,6 +22,7 @@
 - external loaders menu now allows to boot into neek2o
   using overjoy's `nswitch' code. uniiloader entry no
   longer shown when in emulated NAND
+- HBF now supports wiiloader over USB-Gecko [obcd]
 - changed loading address from 0x81230000 to 0x81330000
 - removed all sound related code
 - support for neek2o [obcd]

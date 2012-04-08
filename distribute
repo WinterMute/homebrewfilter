@@ -7,11 +7,11 @@ compile_hbf ()
 
 compile_boot ()
 {
-	if [[ -e $PWD/boot.dol && ! $FORCE ]]; then
-		cp boot.dol boot/source/hbf.dol
+	if [[ -e $PWD/hbf.dol && ! $FORCE ]]; then
+		cp hbf.dol boot/source/hbf.dol
 		make -C boot/ || exit 1
 	else	compile_hbf
-		cp boot.dol boot/source/hbf.dol
+		cp hbf.dol boot/source/hbf.dol
 		make -C boot/ || exit 1
 	fi
 
@@ -19,10 +19,10 @@ compile_boot ()
 
 compile_installer ()
 {
-	if [[ -e boot/boot.dol && ! $FORCE ]]; then
-		cp boot/boot.dol installer/wad/00000002.app
+	if [[ -e boot/hbf_boot.dol && ! $FORCE ]]; then
+		cp boot/hbf_boot.dol installer/wad/00000002.app
 	else	compile_boot
-		cp boot/boot.dol installer/wad/00000002.app
+		cp boot/hbf_boot.dol installer/wad/00000002.app
 	fi
 
 	wine installer/WadMii.exe -input "Z:\home\chris\Projekte\homebrewfilter\installer\wad" -output "Z:\home\chris\Projekte\homebrewfilter\installer\data\install.wad"
@@ -40,10 +40,10 @@ compile_installer ()
 make_distribution ()
 {
 
-	if [[ -e installer/boot.dol && ! $FORCE ]]; then
-		cp installer/boot.dol HomebrewFilter/
+	if [[ -e installer/installer.dol && ! $FORCE ]]; then
+		cp installer/installer.dol HomebrewFilter/boot.dol
 	else	compile_installer
-		cp installer/boot.dol HomebrewFilter/
+		cp installer/installer.dol HomebrewFilter/boot.dol
 	fi
 
 	XREV=$(grep "define SVN_REV" svnrev/svnrev.c | gawk '{print $3}')
