@@ -37,7 +37,8 @@
 #include "DiskOperations/di2.h"
 #include "gecko.h"
 #include "Network/wiiload_gecko.h"
-#include "uneek_fs.h"
+#include "Neek/uneek_fs.h"
+#include "Neek/boot_neek2o.h"
 
 #define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
@@ -61,6 +62,7 @@ s8 PowerOff = -1;
 bool boothomebrew = false;
 bool boot_buffer = false;
 bool wiiload = false;
+bool goneek2o = false;
 bool runaway = false;
 bool gecko_connected;
 
@@ -278,6 +280,12 @@ main(int argc, char *argv[])
 		DCFlushRange((void*)0x8132FFFB, 4);
 		//ExitApp();
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+	}
+
+	if(goneek2o)
+	{
+		//ExitApp();
+		boot_neek2o();
 	}
 
 	if(PowerOff == SYS_RETURNTOMENU)

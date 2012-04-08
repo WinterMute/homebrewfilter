@@ -18,20 +18,21 @@ include $(DEVKITPPC)/wii_rules
 TARGET		:=	boot
 BUILD		:=	build
 SOURCES		:=	source \
-				source/BootHomebrew \
-				source/DiskOperations \
-				source/libwiigui \
-				source/Prompts \
-				source/Menus \
-				source/Network \
-				source/Tools \
-				svnrev
+			source/BootHomebrew \
+			source/DiskOperations \
+			source/libwiigui \
+			source/Prompts \
+			source/Menus \
+			source/Network \
+			source/Tools \
+			source/Neek \
+			svnrev
 INCLUDES	:=	source
 DATA		:=	data/fonts \
-				data/sounds \
-				data/images \
-				data/images/design \
-				data/binary
+			data/sounds \
+			data/images \
+			data/images/design \
+			data/binary
 
 #---------------------------------------------------------------------------------
 # options for code generation

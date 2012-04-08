@@ -5,7 +5,8 @@
 #include "main.h"
 #include "menu.h"
 #include "Tools/SelectIos.h"
-#include "uneek_fs.h"
+#include "Neek/boot_neek2o.h"
+#include "Neek/uneek_fs.h"
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -13,6 +14,7 @@ extern GuiWindow * mainWindow;
 /*** Extern functions ***/
 extern void ResumeGui();
 extern void HaltGui();
+extern bool goneek2o;
 
 int priicheck = 0;
 
@@ -22,6 +24,7 @@ loaderPrompt()
 	bool stop = false;
 	int menu = 0;
 	listIOS();
+
 	if( ! priicheck )
 	{
 		priicheck = 1;
@@ -48,12 +51,14 @@ loaderPrompt()
  	// Buttons data
 	GuiImageData btn(Theme.button);
 	GuiImage nandemuImg(&btn);
+	GuiImage neek2oImg(&btn);
 	GuiImage priiloaderImg(&btn);
 	GuiImage backImg(&btn);
 
 	// Buttons over data
 	GuiImageData btn_over(Theme.button_focus);
 	GuiImage nandemuImgOver(&btn_over);
+	GuiImage neek2oImgOver(&btn_over);
 	GuiImage priiloaderImgOver(&btn_over);
 	GuiImage backImgOver(&btn_over);
 
@@ -66,11 +71,24 @@ loaderPrompt()
 	nandemu.SetImageOver(&nandemuImgOver);
 	nandemu.SetTrigger(&trigA);
 
+	GuiText neek2oTxt(tr("Launch Neek2o"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiButton neek2o(btn.GetWidth(), btn.GetHeight());
+	neek2o.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	neek2o.SetPosition(0, 90);
+	if(get_nandemu())
+		neek2o.SetPosition(0, 140);
+	neek2o.SetLabel(&neek2oTxt);
+	neek2o.SetImage(&neek2oImg);
+	neek2o.SetImageOver(&neek2oImgOver);
+	neek2o.SetTrigger(&trigA);
+
 	GuiText priiloaderTxt(tr("Launch Priiloader"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton priiloader(btn.GetWidth(), btn.GetHeight());
 	priiloader.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	priiloader.SetPosition(0, 90);
-	if(get_nandemu())
+	if(get_nandemu() && check_neek2o())
+		priiloader.SetPosition(0, 190);
+	else if (get_nandemu() || check_neek2o())
 		priiloader.SetPosition(0, 140);
 	priiloader.SetLabel(&priiloaderTxt);
 	priiloader.SetImage(&priiloaderImg);
@@ -94,6 +112,8 @@ loaderPrompt()
 	promptWindow.Append(&titleTxt);
 	if(get_nandemu() && ! check_uneek_fs())
 		promptWindow.Append(&nandemu);
+	if(check_neek2o())
+		promptWindow.Append(&neek2o);
 	if(get_priiloader() == 1)
 		promptWindow.Append(&priiloader);
 	promptWindow.Append(&back);
@@ -112,6 +132,13 @@ loaderPrompt()
 		if(nandemu.GetState() == STATE_CLICKED)
 		{
 			set_nandemu(2);
+			menu = MENU_EXIT;
+			stop = true;
+		}
+
+		if(neek2o.GetState() == STATE_CLICKED)
+		{
+			goneek2o = true;
 			menu = MENU_EXIT;
 			stop = true;
 		}

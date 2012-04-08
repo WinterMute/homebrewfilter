@@ -6,7 +6,7 @@
 #include <vector>
 #include "main.h"
 #include "filelist.h"
-#include "uneek_fs.h"
+#include "Neek/uneek_fs.h"
 #include "gecko.h"
 
 using namespace std;
