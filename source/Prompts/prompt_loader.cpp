@@ -23,6 +23,7 @@ loaderPrompt()
 {
 	bool stop = false;
 	int menu = 0;
+
 	listIOS();
 
 	if( ! priicheck )
@@ -75,8 +76,6 @@ loaderPrompt()
 	GuiButton neek2o(btn.GetWidth(), btn.GetHeight());
 	neek2o.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	neek2o.SetPosition(0, 90);
-	if(get_nandemu())
-		neek2o.SetPosition(0, 140);
 	neek2o.SetLabel(&neek2oTxt);
 	neek2o.SetImage(&neek2oImg);
 	neek2o.SetImageOver(&neek2oImgOver);
@@ -86,10 +85,6 @@ loaderPrompt()
 	GuiButton priiloader(btn.GetWidth(), btn.GetHeight());
 	priiloader.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	priiloader.SetPosition(0, 90);
-	if(get_nandemu() && check_neek2o())
-		priiloader.SetPosition(0, 190);
-	else if (get_nandemu() || check_neek2o())
-		priiloader.SetPosition(0, 140);
 	priiloader.SetLabel(&priiloaderTxt);
 	priiloader.SetImage(&priiloaderImg);
 	priiloader.SetImageOver(&priiloaderImgOver);
@@ -110,10 +105,36 @@ loaderPrompt()
 
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
-	if(get_nandemu() && ! check_uneek_fs())
-		promptWindow.Append(&nandemu);
-	if(check_neek2o())
-		promptWindow.Append(&neek2o);
+
+	if(!check_uneek_fs())
+	{
+
+		if(get_nandemu() && check_neek2o())
+		{
+			nandemu.SetPosition(0, 90);
+			promptWindow.Append(&nandemu);
+
+			neek2o.SetPosition(0, 140);
+			promptWindow.Append(&neek2o);
+
+			priiloader.SetPosition(0, 190);
+		}
+		else if (get_nandemu())
+		{
+			nandemu.SetPosition(0, 90);
+			promptWindow.Append(&nandemu);
+
+			priiloader.SetPosition(0, 140);
+		}
+		else if(check_neek2o())
+		{
+			neek2o.SetPosition(0, 90);
+			promptWindow.Append(&neek2o);
+
+			priiloader.SetPosition(0, 140);
+		}
+	}
+
 	if(get_priiloader() == 1)
 		promptWindow.Append(&priiloader);
 	promptWindow.Append(&back);
