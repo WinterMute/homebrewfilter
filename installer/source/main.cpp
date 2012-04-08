@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 
 	menu();
 
-	SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+	WII_LaunchTitle(0x0001000154484246);
 
 	return 0;
 }
