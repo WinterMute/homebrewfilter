@@ -240,14 +240,12 @@ int BootHomebrew()
 
 	if(!wiiload_args)
 	{
-		if(SelectedIOS() != IOS_GetVersion())
+		if(strstr(filepath.c_str(), "wiimc") != 0 || SelectedIOS() != IOS_GetVersion())
 		{
 			//keep ahbprot rights in new ios
 			Patch_ahbprot();
 			IOS_ReloadIOS(SelectedIOS());
 		}
-		else
-			IOS_ReloadIOS(SelectedIOS());
 	}
 
     wiiload_args = 0;

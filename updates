@@ -8,9 +8,10 @@
 - BUGFIX: installer no longer crashes on IOS58 due to early
           controller initialization (only happened under
 	  certain circumstances)
-- BUGFIX: ... seems the issue where WiiMC is the only application
-          that does not see the USB HDD is fixed (only happened
-	  under certain circumstances)
+- BUGFIX: when loaded via THBF channel it could happen that
+          WiiMC was the only application that did NOT see the
+	  USB HDD - this is temporarly solved, until we have
+	  a proper THBF channel
 - BUGFIX: compiled with libpng 1.4 to fix a problem in PNG handling
 - BUGFIX: return to HBF feature now works again
 - installer now supports Classic-Controller
