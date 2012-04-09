@@ -26,8 +26,7 @@
           halted or started accordingly [obcd]
 - BUGFIX: only show 'launch priiloader' in external loaders prompt,
           if priiloader is really installed
-  longer shown when in emulated NAND
-- HBF now supports wiiloader over USB-Gecko [obcd]
+- HBF now supports wiiload over USB-Gecko [obcd]
 - changed loading address from 0x81230000 to 0x81330000
 - removed all sound related code
 - support for neek2o [obcd]
