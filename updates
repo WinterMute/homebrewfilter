@@ -19,13 +19,17 @@
           halted or started accordingly [obcd]
 - BUGFIX: only show 'launch priiloader' in external loaders prompt,
           if priiloader is really installed
-- external loaders menu now allows to boot into neek2o
-  using overjoy's `nswitch' code. uniiloader entry no
   longer shown when in emulated NAND
 - HBF now supports wiiloader over USB-Gecko [obcd]
 - changed loading address from 0x81230000 to 0x81330000
 - removed all sound related code
 - support for neek2o [obcd]
+- support for switching to neek2o/real NAND
+  * when in real NAND and neek2o files present on either SD
+    or the first partiton of USB HDD 'external loaders' menu
+    offers a 'launch neek2o' button to enter neek2o emu NAND
+  * when in neek2o emu NAND 'external loaders' menu offers an
+    'enter real NAND' button to switch back to real NAND
 - only check once on startup for a new version [obcd]
 - updated PNGu
 
