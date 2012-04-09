@@ -63,6 +63,7 @@ bool boothomebrew = false;
 bool boot_buffer = false;
 bool wiiload = false;
 bool goneek2o = false;
+bool gorealnand = false;
 bool runaway = false;
 bool gecko_connected;
 
@@ -286,6 +287,12 @@ main(int argc, char *argv[])
 	{
 		//ExitApp();
 		boot_neek2o();
+	}
+
+	if(gorealnand)
+	{
+		//ExitApp();
+		SYS_ResetSystem(SYS_RESTART, 0, 0);
 	}
 
 	if(PowerOff == SYS_RETURNTOMENU)
