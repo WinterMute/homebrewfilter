@@ -4,9 +4,13 @@
 	* erase button is hidden for apps from DVD
 	* edit button no longer overlaps SD/USB/DVD icon (if any)
 - BUGFIX: childlock is now saved when HBF exits
+- BUGFIX: call ExitApp() before exiting HBF
 - BUGFIX: installer no longer crashes on IOS58 due to early
           controller initialization (only happened under
 	  certain circumstances)
+- BUGFIX: ... seems the issue where WiiMC is the only application
+          that does not see the USB HDD is fixed (only happened
+	  under certain circumstances)
 - BUGFIX: compiled with libpng 1.4 to fix a problem in PNG handling
 - BUGFIX: return to HBF feature now works again
 - installer now supports Classic-Controller

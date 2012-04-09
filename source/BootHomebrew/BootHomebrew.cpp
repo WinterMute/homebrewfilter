@@ -233,9 +233,9 @@ int BootHomebrew()
     if (!entry)
         return -1;
 
-/*	ExitApp();
+	ExitApp();
 
-	this will also be called when wiiloading an application
+	/*this will also be called when wiiloading an application
 	will need to check if it's expected behavour? */
 
 	if(!wiiload_args)
@@ -246,6 +246,8 @@ int BootHomebrew()
 			Patch_ahbprot();
 			IOS_ReloadIOS(SelectedIOS());
 		}
+		else
+			IOS_ReloadIOS(SelectedIOS());
 	}
 
     wiiload_args = 0;

@@ -245,16 +245,21 @@ main(int argc, char *argv[])
     }
     else if(boot_buffer)
 	if(wiiload)
+	{
+		ExitApp();
 		BootHomebrew();
+	}
 
 	if(get_bootmii() == 2)
 	{
 		if(!check_uneek_fs())
 		{
+			ExitApp();
 			IOS_ReloadIOS(254);
 		}
 		else
 		{
+			ExitApp();
 			//we can't launch bootmii from within neek2o I assume
 			//so we should do something else
 			SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
@@ -266,11 +271,13 @@ main(int argc, char *argv[])
 		if (opendir(check_path("sd1:/apps/NANDEmu-Boot").c_str()) != NULL)
 		{
 			LoadHomebrew ("sd1:/apps/NANDEmu-Boot/boot.dol");
+			ExitApp();
 			BootHomebrew ();
 		}
 		else if (opendir(check_path("usb1:/apps/NANDEmu-Boot").c_str()) != NULL)
 		{
 			LoadHomebrew ("usb1:/apps/NANDEmu-Boot/boot.dol");
+			ExitApp();
 			BootHomebrew ();
 		}
 	}
@@ -279,19 +286,19 @@ main(int argc, char *argv[])
 	{
 		*(vu32*)0x8132FFFB = 0x4461636f;
 		DCFlushRange((void*)0x8132FFFB, 4);
-		//ExitApp();
+		ExitApp();
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 
 	if(goneek2o)
 	{
-		//ExitApp();
+		ExitApp();
 		boot_neek2o();
 	}
 
 	if(gorealnand)
 	{
-		//ExitApp();
+		ExitApp();
 		SYS_ResetSystem(SYS_RESTART, 0, 0);
 	}
 
@@ -299,11 +306,11 @@ main(int argc, char *argv[])
 	{
 		*(vu32*)0x8132FFFB = 0x50756E65;
 		DCFlushRange((void*)0x8132FFFB, 4);
-		//ExitApp();
+		ExitApp();
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 	else if(PowerOff != -1)
-		//ExitApp();
+		ExitApp();
 		SYS_ResetSystem(PowerOff, 0, 0);
 
 	return 0;
