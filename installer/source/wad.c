@@ -349,11 +349,6 @@ s32 __Wad_Install(int startpos_x, int startpos_y)
 	ret = ES_AddTitleFinish();
 	if (ret >= 0)
 	{
-		// update counter
-		char buffer[100];
-		sprintf(buffer, "http://hbf.hamachi-mp.bplaced.net/update.php?rev=%i_installer", SvnRev());	
-		downloadfile(buffer);
-		
 		Con_FgColor(2, 1);
 		printf("\x1b[%i;%iH", startpos_x +6, startpos_y);
 		printf("SUCCESS");

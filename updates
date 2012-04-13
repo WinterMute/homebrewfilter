@@ -17,7 +17,9 @@
 - installer now supports Classic-Controller
 - installer now supports GameCube-Controller
 - installer loads HomebrewFilter rather than returning to Systemmenu
-- add support for <force_ios_reload/> flag in meta.xml
+- installer no longer invokes update-counter on hamachi-mp's website
+- add support for <force_ios_reload/> flag in meta.xml (use this, if
+  an application (most likely WiiMC) does not recognize your HDD)
 - adopt libwiigui changes from ZERO
 - BUGFIX: loading apps through wiiload works again
 - support passing arguements using wiiload [obcd]
