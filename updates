@@ -12,8 +12,6 @@
           rather than comex'. Fixes the issue that HBF
 	  does not properly respond when power or reset
 	  button on the console have been pressed
-- BUGFIX: work around the issue that WiiMC under certain circumstances
-          does not recognize the USB HDD.
 - BUGFIX: compiled with libpng 1.4 to fix a problem in PNG handling
 - BUGFIX: return to HBF feature now works again
 - installer now supports Classic-Controller
