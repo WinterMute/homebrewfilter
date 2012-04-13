@@ -633,7 +633,6 @@ int MenuMain()
 				if((IsNetworkInit())&&(!IsNetworkHalted()))
 				{
 					network_Btn.SetImage(&network_BtnImgOver);
-					ResumeTcpThread();
 					if(boot_buffer)
 						menu = MENU_EXIT;
 				}
