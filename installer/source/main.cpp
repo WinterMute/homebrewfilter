@@ -6,7 +6,6 @@
 #include "menu.h"
 #include "video.h"
 #include "wad.h"
-#include "Network/network.h"
 
 #define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
@@ -15,7 +14,6 @@ int main(int argc, char **argv) {
 //---------------------------------------------------------------------------------
 
 	// Initialise the video system
-	InitNetworkThread();
 	VIDEO_Init();
 	Video_SetMode();
 

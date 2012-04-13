@@ -7,7 +7,6 @@
 #include "title.h"
 #include "video.h"
 #include "wad.h"
-#include "Network/http.h"
 #include "../../svnrev/svnrev.h"
 
 #define round_up(x,n)	(-(-(x) & -(n)))

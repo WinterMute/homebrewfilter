@@ -18,7 +18,6 @@ include $(DEVKITPPC)/wii_rules
 TARGET		:=	installer
 BUILD		:=	build
 SOURCES		:=	source \
-			source/Network \
 			../svnrev
 DATA		:=	data  
 INCLUDES	:=
