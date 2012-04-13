@@ -84,5 +84,8 @@ elif [[ $1 == "-l" ]]; then
 elif [[ $1 == "-f" ]]; then
 	FORCE=YES
 	make_distribution
+elif [[ $1 == "-b" ]]; then
+	FORCE=YES
+	compile_boot
 else	make_distribution
 fi
