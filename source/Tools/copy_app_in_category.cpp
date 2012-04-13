@@ -76,7 +76,8 @@ void copy_app_in_unassigned()
 			vechomebrew_list_category[0][i].foldername,
 			vechomebrew_list_category[0][i].icon,
 			vechomebrew_list_category[0][i].pathboot,
-			vechomebrew_list_category[0][i].arg
+			vechomebrew_list_category[0][i].arg,
+			vechomebrew_list_category[0][i].force_reload
 			));
 		}
 	}
@@ -145,7 +146,8 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 						vechomebrew_list_category[0][i].foldername,
 						vechomebrew_list_category[0][i].icon,
 						vechomebrew_list_category[0][i].pathboot,
-						vechomebrew_list_category[0][i].arg
+						vechomebrew_list_category[0][i].arg,
+						vechomebrew_list_category[0][i].force_reload
 						));
 
 						break;

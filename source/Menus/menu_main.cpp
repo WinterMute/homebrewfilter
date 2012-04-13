@@ -937,6 +937,7 @@ int MenuMain()
 					{
 						Settings.forwarder_path = vechomebrew_list_choice[i].pathboot;
 						Settings.forwarder_arg = vechomebrew_list_choice[i].arg.c_str();
+						Settings.force_reload = vechomebrew_list_choice[i].force_reload.c_str();
 						boothomebrew = true;
 						menu = MENU_EXIT;
 					}

@@ -17,6 +17,7 @@
 - installer now supports Classic-Controller
 - installer now supports GameCube-Controller
 - installer loads HomebrewFilter rather than returning to Systemmenu
+- add support for <force_ios_reload/> flag in meta.xml
 - adopt libwiigui changes from ZERO
 - BUGFIX: loading apps through wiiload works again
 - support passing arguements using wiiload [obcd]

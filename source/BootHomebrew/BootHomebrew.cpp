@@ -223,6 +223,7 @@ int BootHomebrew()
 			arg_add(parser(Settings.forwarder_arg, "<arg>", "</arg>").c_str());
 			Settings.forwarder_arg.erase(0, Settings.forwarder_arg.find("</arg>") +1);
 		}
+
 	}
 
 	if ( valid_elf_image(homebrewbuffer) == 1 )
@@ -241,7 +242,7 @@ int BootHomebrew()
 	if(!wiiload_args)
 	{
 
-		if(SelectedIOS() != IOS_GetVersion())
+		if(SelectedIOS() != IOS_GetVersion() || Settings.force_reload != "")
 		{
 			//keep ahbprot rights in new ios
 			Patch_ahbprot();

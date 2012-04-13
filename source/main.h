@@ -29,7 +29,7 @@ class homebrew_list
 {
 public:
 	// default constructor
-	homebrew_list(string name, string info, string foldername, u8 *icon, string pathboot, string arg)
+	homebrew_list(string name, string info, string foldername, u8 *icon, string pathboot, string arg, string force_reload)
 	{
 		this->name = name;
 		this->info = info;
@@ -37,6 +37,7 @@ public:
 		this->icon = icon;
 		this->pathboot = pathboot;
 		this->arg = arg;
+		this->force_reload = force_reload;
 	}
 	string name;
 	string info;
@@ -44,6 +45,7 @@ public:
 	u8 *icon;
 	string pathboot;
 	string arg;
+	string force_reload;
 };
 extern std::vector<homebrew_list> vechomebrew_list_category[99];
 extern std::vector<homebrew_list> vechomebrew_list_unassigned;
@@ -86,6 +88,7 @@ struct SSettings
 	string	forwarder_path;
 	string	startingAppName;
 	string	forwarder_arg;
+	string  force_reload;
 	
 	int		Apps_from;
 	int		Apps_to;

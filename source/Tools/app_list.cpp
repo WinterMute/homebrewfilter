@@ -49,7 +49,7 @@ void add(string device, string apps_path)
 			{
 				sprintf(pathmeta, (device + ":/" + apps_path + "%s/meta.xml").c_str() ,pent->d_name);
 
-				string line, quelltext, name, info, foldername, iconpath, arg;
+				string line, quelltext, name, info, foldername, iconpath, arg, force_reload;
 				ifstream in(pathmeta);
 				while(getline(in, line))
 					quelltext = quelltext + line + "\n";
@@ -70,6 +70,8 @@ void add(string device, string apps_path)
 
 				arg = parser(quelltext, "<arguments>", "</arguments>");
 
+				force_reload = parser(quelltext, "<force_ios_reload", ">");
+
 				size_t amount_read;
 				FILE *fp = fopen(iconpath.c_str(),"r"); //open the png file
 				if(fp)	//make sure the file exists
@@ -88,7 +90,7 @@ void add(string device, string apps_path)
 				}
 				fclose(fp); //close file
 
-				vechomebrew_list_category[0].push_back(homebrew_list(name, info, foldername, icon, pathboot, arg));
+				vechomebrew_list_category[0].push_back(homebrew_list(name, info, foldername, icon, pathboot, arg, force_reload));
 			}
 		}
 		closedir(pdir);
