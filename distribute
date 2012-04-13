@@ -20,14 +20,16 @@ compile_boot ()
 compile_installer ()
 {
 	if [[ -e boot/hbf_boot.dol && ! $FORCE ]]; then
-		cp boot/hbf_boot.dol installer/wad/00000001.app
+		cp boot/hbf_boot.dol installer/wad/00000002.app
 	else	compile_boot
-		cp boot/hbf_boot.dol installer/wad/00000001.app
+		cp boot/hbf_boot.dol installer/wad/00000002.app
 	fi
 
-	wine installer/WadMii.exe -input "Z:\home\chris\Projekte\homebrewfilter\installer\wad" -output "Z:\home\chris\Projekte\homebrewfilter\installer\data\install.wad"
+	wine tools/WadMii.exe -input "Z:\home\chris\Projekte\homebrewfilter\installer\wad" -output "Z:\home\chris\Projekte\homebrewfilter\installer\THBF.wad"
 
 	sleep 5
+
+	mono tools/CustomizeMii.exe
 
 	if [[ -e installer/data/install.wad ]]; then
 		make -C installer || exit 1
