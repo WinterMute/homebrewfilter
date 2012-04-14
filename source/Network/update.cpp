@@ -12,7 +12,10 @@ bool readrev = true;
 string CheckNewVersions()
 {
 	string revs = "error";
-	struct block file = downloadfile("http://download.tuxfamily.org/hbf/DOL/revisions");
+	char buffer[100];
+	sprintf(buffer, "http://www.nanolx.org/hbf/DOL/revisions");
+
+	struct block file = downloadfile(buffer);
 	if (file.data != NULL)
 	{
 		revs = (char*)file.data;
@@ -24,7 +27,7 @@ string CheckNewVersions()
 string NewVersionsText()
 {
 	string text = "error";
-	struct block file = downloadfile("http://download.tuxfamily.org/hbf/DOL/updates");
+	struct block file = downloadfile("http://www.nanolx.org/hbf/DOL/updates");
 	if (file.data != NULL)
 	{
 		text = (char*)file.data;
@@ -38,9 +41,9 @@ string new_update(string rev, string filename)
 {
 	char url[100];
 	if(rev == "Beta")
-		sprintf(url, "http://download.tuxfamily.org/hbf/DOL/Beta/%s", filename.c_str());
+		sprintf(url, "http://www.nanolx.org/hbf/DOL/Beta/%s", filename.c_str());
 	else
-		sprintf(url, "http://download.tuxfamily.org/hbf/DOL/rev%s/%s", rev.c_str(), filename.c_str());
+		sprintf(url, "http://www.nanolx.org/hbf/DOL/rev%s/%s", rev.c_str(), filename.c_str());
 
 	file = downloadfile(url);
 	if (file.data && file.size > 0)
@@ -88,9 +91,9 @@ bool CheckRev()
 {
 	if(newrev)
 		return newrev;
-		
+
 	if(Settings.checkrev > SvnRev())
 		newrev = true;
-	
+
 	return newrev;
 }

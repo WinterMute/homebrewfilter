@@ -25,11 +25,14 @@ compile_installer ()
 		cp boot/hbf_boot.dol installer/wad/00000002.app
 	fi
 
-	wine tools/WadMii.exe -input "Z:\home\chris\Projekte\homebrewfilter\installer\wad" -output "Z:\home\chris\Projekte\homebrewfilter\installer\THBF.wad"
-
-	sleep 5
-
-	mono tools/CustomizeMii.exe
+	if [[ $CHNL == "COMEX" ]]; then
+		wine tools/WadMii.exe -input "Z:\home\chris\Projekte\homebrewfilter\installer\wad" -output "Z:\home\chris\Projekte\homebrewfilter\installer\data\install.wad"
+		sleep 5
+	else
+		wine tools/WadMii.exe -input "Z:\home\chris\Projekte\homebrewfilter\installer\wad" -output "Z:\home\chris\Projekte\homebrewfilter\installer\THBF.wad"
+		sleep 5
+		mono tools/CustomizeMii.exe
+	fi
 
 	if [[ -e installer/data/install.wad ]]; then
 		make -C installer || exit 1
@@ -83,6 +86,10 @@ elif [[ $1 == "-l" ]]; then
 	make_filelist $2
 elif [[ $1 == "-f" ]]; then
 	FORCE=YES
+	make_distribution
+elif [[ $1 == "-o" ]]; then
+	FORCE=YES
+	CHNL=COMEX
 	make_distribution
 elif [[ $1 == "-b" ]]; then
 	FORCE=YES

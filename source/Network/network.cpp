@@ -54,7 +54,7 @@ void CheckVersion(void)
 {
 	if(Settings.checkrev == -1)
 	{
-		struct block file = downloadfile("http://download.tuxfamily.org/hbf/DOL/revisions");
+		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL/revisions");
 		if (file.data != NULL)
 		{
 			revs = (char*)file.data;
@@ -178,7 +178,7 @@ static void * networkinitcallback(void *arg)
         {
             LWP_SetThreadPriority(networkthread, 0);
             firstRun = true;
-	    CheckVersion();
+	    //CheckVersion();
         }
 
         usleep(200000);

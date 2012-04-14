@@ -9,9 +9,12 @@
           controller initialization (only happened under
 	  certain circumstances)
 - BUGFIX: use waninkoko's NAND loader in THBF channel,
-          rather than comex'. Fixes the issue that HBF
-	  does not properly respond when power or reset
-	  button on the console have been pressed
+          rather than comex'.
+	  * Fixes the issue that HBF does not properly
+	  respond when power or reset button on the console
+	  have been pressed.
+	  * the strange bevhaviour that occured when the
+	  USB HDD was woken up while loading HBF is gone
 - BUGFIX: compiled with libpng 1.4 to fix a problem in PNG handling
 - BUGFIX: return to HBF feature now works again
 - installer now supports Classic-Controller

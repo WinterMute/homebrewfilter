@@ -102,9 +102,9 @@ updatePrompt(string rev)
 
 	char url[100];
 	if(rev == "Beta")
-		sprintf(url, "http://download.tuxfamily.org/hbf/DOL/Beta/boot.dol");
+		sprintf(url, "http://www.nanolx.org/hbf/DOL/Beta/boot.dol");
 	else
-		sprintf(url, "http://download.tuxfamily.org/hbf/DOL/rev%s/boot.dol", rev.c_str());
+		sprintf(url, "http://www.nanolx.org/hbf/DOL/rev%s/boot.dol", rev.c_str());
 
 	// copy boot.dol to prev.dol
 	std::ifstream infile((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str(), std::ios_base::binary);
