@@ -2,16 +2,16 @@
 
 compile_hbf ()
 {
-	make || exit 1
+	make -C main/ || exit 1
 }
 
 compile_boot ()
 {
 	if [[ -e $PWD/hbf.dol && ! $FORCE ]]; then
-		cp hbf.dol boot/source/hbf.dol
+		cp main/hbf.dol boot/source/hbf.dol
 		make -C boot/ || exit 1
 	else	compile_hbf
-		cp hbf.dol boot/source/hbf.dol
+		cp main/hbf.dol boot/source/hbf.dol
 		make -C boot/ || exit 1
 	fi
 
@@ -53,7 +53,7 @@ make_distribution ()
 
 	XREV=$(grep "define SVN_REV" svnrev/svnrev.c | gawk '{print $3}')
 
-	cp data/meta.xml.in HomebrewFilter/meta.xml
+	cp main/data/meta.xml.in HomebrewFilter/meta.xml
 
 	sed -e "s/@REV@/$XREV/g" -i HomebrewFilter/meta.xml
 	sed -e '/./{H;$!d;}' -e "x;/rev$XREV/!d;" updates >> HomebrewFilter/meta.xml
@@ -77,22 +77,36 @@ make_filelist()
 
 }
 
-if [[ $1 == "-c" ]]; then
-	make clean
-	make -C boot clean
-	make -C installer clean
-	rm HomebrewFilter/meta.xml
-elif [[ $1 == "-l" ]]; then
-	make_filelist $2
-elif [[ $1 == "-f" ]]; then
-	FORCE=YES
-	make_distribution
-elif [[ $1 == "-o" ]]; then
-	FORCE=YES
-	CHNL=COMEX
-	make_distribution
-elif [[ $1 == "-b" ]]; then
-	FORCE=YES
-	compile_boot
-else	make_distribution
-fi
+case $1 in
+
+	"-c" )
+		make -C main clean
+		make -C boot clean
+		make -C installer clean
+	;;
+
+	"-l" )
+		make_filelist $2
+	;;
+
+	"-f" )
+		FORCE=YES
+		make_distribution
+	;;
+
+	"-o" )
+		FORCE=YES
+		CHNL=COMEX
+		make_distribution
+	;;
+
+	"-b" )
+		FORCE=YES
+		compile_boot
+	;;
+
+	* )
+		make_distribution
+	;;
+
+esac

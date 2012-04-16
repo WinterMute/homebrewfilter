@@ -26,7 +26,7 @@ SOURCES		:=	source \
 			source/Network \
 			source/Tools \
 			source/Neek \
-			svnrev
+			../svnrev
 INCLUDES	:=	source
 DATA		:=	data/fonts \
 			data/sounds \

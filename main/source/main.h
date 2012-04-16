@@ -17,7 +17,7 @@
 #include "Tools/theme.h"
 #include "Tools/translate.h"
 #include "Tools/fileop.h"
-#include "../svnrev/svnrev.h"
+#include "../../svnrev/svnrev.h"
 
 #define HW_REG_BASE   0xcd800000
 #define HW_ARMIRQMASK (HW_REG_BASE + 0x03c)
