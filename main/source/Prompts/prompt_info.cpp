@@ -51,7 +51,7 @@ infoPrompt()
     Entrie[i]->SetPosition(x, y);
     i++;
 
-    Entrie[i] = new GuiText("Christopher Roy Bratusek", 22, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
+    Entrie[i] = new GuiText("hamachi-mp / Christopher Roy Bratusek / obcd", 22, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
     Entrie[i]->SetAlignment(ALIGN_LEFT, ALIGN_TOP);
     Entrie[i]->SetPosition(x+200, y);
     i++;
