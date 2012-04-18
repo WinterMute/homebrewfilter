@@ -106,7 +106,7 @@ clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol
 	@rm -f data/install.wad
-	@rm wad/00000002.app
+	@rm wad/00000001.app
 
 #---------------------------------------------------------------------------------
 run:

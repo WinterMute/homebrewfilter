@@ -77,6 +77,7 @@ case $1 in
 		make -C main clean
 		make -C boot clean
 		make -C installer clean
+		rm -f HomebrewFilter/{boot.dol,meta.xml}
 	;;
 
 	"-l" )
