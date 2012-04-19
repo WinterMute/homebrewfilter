@@ -1,4 +1,4 @@
-#define SVN_REV 38
+#define SVN_REV 39
 
 int SvnRev()
 {
