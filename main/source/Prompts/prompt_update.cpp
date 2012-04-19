@@ -117,7 +117,7 @@ updatePrompt(string rev)
 	{
 		// write file
 		if(opendir(check_path(Settings.device_dat + ":/apps/HomebrewFilter").c_str()) == NULL)
-				mkdir((Settings.device_dat + ":/apps/HomebrewFilter"), 0777)
+				mkdir((Settings.device_dat + ":/apps/HomebrewFilter").c_str(), 0777);
 
 		FILE * data = fopen((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str(), "wb");
 		if(data)
