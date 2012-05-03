@@ -31,6 +31,7 @@ void add(string device, string apps_path)
 	char pathname[200];
 	char pathmeta[200];
 	string pathboot;
+	int rel_ios = 0;
 
 	pdir=opendir((device + ":/" + apps_path).c_str());
 
@@ -70,8 +71,34 @@ void add(string device, string apps_path)
 
 				arg = parser(quelltext, "<arguments>", "</arguments>");
 
-				force_reload = parser(quelltext, "<force_ios_reload", ">");
+				//we have 3 ways in meta.xml to tell a launcher to keep ahbprot disabled
+				//hbc always reloads the ios, so we will as well
+				//unless we are in neek mode (it's just a waste of time there)
 
+				force_reload = parser(quelltext, "<force_ios_reload", ">");
+				if (force_reload[0] != 0)
+				{
+					rel_ios = 1;
+					force_reload[0] = 0;
+				}
+				force_reload = parser(quelltext, "<ahb_access", ">");
+				if (force_reload[0] != 0)
+				{
+					rel_ios = 1;
+					force_reload[0] = 0;
+				}
+				force_reload = parser(quelltext, "<no_ios_reload", ">");
+				if (force_reload[0] != 0)
+				{
+					rel_ios = 1;
+				}
+				if (rel_ios == 1)
+				{
+					force_reload[0] = '/';
+					force_reload[1] = 0;
+				}
+				
+				
 				size_t amount_read;
 				FILE *fp = fopen(iconpath.c_str(),"r"); //open the png file
 				if(fp)	//make sure the file exists

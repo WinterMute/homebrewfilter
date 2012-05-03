@@ -39,6 +39,7 @@ GuiWindow * mainWindow = NULL;
 GuiImageData * pointer = NULL;
 GuiImage * bgImg = NULL;
 extern bool boothomebrew;
+extern bool goneek2o;
 
 static lwp_t guithread = LWP_THREAD_NULL;
 static bool guiHalt = true;
@@ -143,8 +144,8 @@ UpdateGUI (void *arg)
 					if(IOS_GetVersion() != GetAppIOS(startingAppName))
 						addAppIos(Settings.startingAppName, SelectedIOS());
 				}
-				
-				ExitApp();
+				if (!goneek2o)
+					ExitApp();
 			}
 			
 			// sd check

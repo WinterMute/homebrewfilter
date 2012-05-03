@@ -51,7 +51,7 @@ s32 Patch_ahbprot(void)
 	// patch HID4 write in HBC stub - this should be done when the extra HID4 bits are turned on
 	*(u32*)0x80002174 = 0x60000000;
 
-	if (read32(CHECK_AHB) != -1)
+	if (read32(CHECK_AHB) != 0xffffffff)
 	{	
 		gprintf("AHBPROT doesn't seem to be disabled.\n");
 		return false;

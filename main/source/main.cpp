@@ -38,7 +38,7 @@
 #include "gecko.h"
 #include "Network/wiiload_gecko.h"
 #include "Neek/uneek_fs.h"
-#include "Neek/boot_neek2o.h"
+#include "Neek/bootneek.h"
 
 #define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
@@ -66,6 +66,7 @@ bool goneek2o = false;
 bool gorealnand = false;
 bool runaway = false;
 bool gecko_connected;
+bool in_neek;
 
 // kopiere ios für app in einen vector
 void addAppIos(string foldername, int ios)
@@ -111,9 +112,12 @@ static void WiiResetPressed()
 
 static void WiiPowerPressed()
 {
-	gprintf("Power button pressed \n");
-	runaway = true;
-	PowerOff = SYS_POWEROFF_STANDBY;
+	if(runaway == false)
+	{
+		gprintf("Power button pressed \n");
+		runaway = true;
+		PowerOff = SYS_POWEROFF_STANDBY;
+	}
 }
 
 static void WiimotePowerPressed(s32 chan)
@@ -171,7 +175,7 @@ main(int argc, char *argv[])
 	SetupPads();			// Initialize input
 	InitGUIThreads();		// Initialize GUI
 
-	init_uneek_fs(ISFS_OPEN_READ|ISFS_OPEN_WRITE);
+	in_neek = init_uneek_fs(ISFS_OPEN_READ|ISFS_OPEN_WRITE);
 
 	MountAllDevices();
 	InitNetworkThread();	// Initialize Network
@@ -214,15 +218,17 @@ main(int argc, char *argv[])
 	ResumeGui();
 	stretch(Settings.top, Settings.bottom, Settings.left, Settings.right);
 
- 	if(HAVE_AHBPROT)
+ 	if(!check_uneek_fs())
 	{
-		runtimePatchApply();
+		if(HAVE_AHBPROT)
+		{
+			runtimePatchApply();
+		}
+		else
+		{
+			gprintf("Warning: no AHBPROT\n");
+		}
 	}
-	else
-	{
-		gprintf("ERROR no AHBPROT\n");
-	}
-
 	DI2_Init(); // Init DVD
 
 	if(strstr(Options.language, tr("STANDARD")))
@@ -246,7 +252,7 @@ main(int argc, char *argv[])
     else if(boot_buffer)
 	if(wiiload)
 	{
-		ExitApp();
+		//ExitApp();
 		BootHomebrew();
 	}
 
@@ -254,12 +260,12 @@ main(int argc, char *argv[])
 	{
 		if(!check_uneek_fs())
 		{
-			ExitApp();
+			//ExitApp();
 			IOS_ReloadIOS(254);
 		}
 		else
 		{
-			ExitApp();
+			//ExitApp();
 			//we can't launch bootmii from within neek2o I assume
 			//so we should do something else
 			SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
@@ -271,13 +277,13 @@ main(int argc, char *argv[])
 		if (opendir(check_path("sd1:/apps/NANDEmu-Boot").c_str()) != NULL)
 		{
 			LoadHomebrew ("sd1:/apps/NANDEmu-Boot/boot.dol");
-			ExitApp();
+			//ExitApp();
 			BootHomebrew ();
 		}
 		else if (opendir(check_path("usb1:/apps/NANDEmu-Boot").c_str()) != NULL)
 		{
 			LoadHomebrew ("usb1:/apps/NANDEmu-Boot/boot.dol");
-			ExitApp();
+			//ExitApp();
 			BootHomebrew ();
 		}
 	}
@@ -286,19 +292,20 @@ main(int argc, char *argv[])
 	{
 		*(vu32*)0x8132FFFB = 0x4461636f;
 		DCFlushRange((void*)0x8132FFFB, 4);
-		ExitApp();
+		//ExitApp();
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 
 	if(goneek2o)
 	{
-		ExitApp();
+		//ExitApp();
 		boot_neek2o();
+		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 
 	if(gorealnand)
 	{
-		ExitApp();
+		//ExitApp();
 		SYS_ResetSystem(SYS_RESTART, 0, 0);
 	}
 
@@ -306,11 +313,11 @@ main(int argc, char *argv[])
 	{
 		*(vu32*)0x8132FFFB = 0x50756E65;
 		DCFlushRange((void*)0x8132FFFB, 4);
-		ExitApp();
+		//ExitApp();
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 	else if(PowerOff != -1)
-		ExitApp();
+		//ExitApp();
 		SYS_ResetSystem(PowerOff, 0, 0);
 
 	return 0;

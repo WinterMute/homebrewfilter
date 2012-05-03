@@ -38,6 +38,8 @@ static int wiiload_args = 0;
 static char temp_arg[1024];
 std::string filepath;
 
+extern bool in_neek;
+
 void arg_init()
 {
 	memset(&args, 0, sizeof(args));
@@ -223,7 +225,6 @@ int BootHomebrew()
 			arg_add(parser(Settings.forwarder_arg, "<arg>", "</arg>").c_str());
 			Settings.forwarder_arg.erase(0, Settings.forwarder_arg.find("</arg>") +1);
 		}
-
 	}
 
 	if ( valid_elf_image(homebrewbuffer) == 1 )
@@ -234,11 +235,26 @@ int BootHomebrew()
     if (!entry)
         return -1;
 
-	ExitApp();
+	//ExitApp();
+//we can't use check_uneek_fs
+//as we already shut down the uneek_fs system
+//so it will always return false
+	
+	if (in_neek == false)
+	{
+		if(Settings.force_reload != "")
+		{
+			//keep ahbprot rights in new ios
+			Patch_ahbprot();
+		}
+		IOS_ReloadIOS(SelectedIOS());
+	}
+    wiiload_args = 0;
 
 	/*this will also be called when wiiloading an application
 	will need to check if it's expected behavour? */
 
+/*
 	if(!wiiload_args)
 	{
 
@@ -249,9 +265,8 @@ int BootHomebrew()
 			IOS_ReloadIOS(SelectedIOS());
 		}
 	}
-
     wiiload_args = 0;
-
+*/
     SYS_ResetSystem(SYS_SHUTDOWN, 0, 0);
     _CPU_ISR_Disable (cpu_isr);
     __exception_closeall();

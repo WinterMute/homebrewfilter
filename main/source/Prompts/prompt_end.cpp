@@ -6,6 +6,8 @@
 #include "menu.h"
 #include "Tools/SelectIos.h"
 
+extern bool runaway;
+
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
 
@@ -138,6 +140,10 @@ endPrompt()
 
 		if(back.GetState() == STATE_CLICKED || back2.GetState() == STATE_CLICKED)
 			stop = true;
+		if(runaway == true)
+		{
+			stop = true;
+		}
 	}
 
 	HaltGui();

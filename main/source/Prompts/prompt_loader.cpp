@@ -5,7 +5,7 @@
 #include "main.h"
 #include "menu.h"
 #include "Tools/SelectIos.h"
-#include "Neek/boot_neek2o.h"
+// #include "Neek/bootneek.h"
 #include "Neek/uneek_fs.h"
 
 /*** Extern variables ***/
@@ -62,7 +62,7 @@ loaderPrompt()
 	GuiImageData btn_over(Theme.button_focus);
 	GuiImage nandemuImgOver(&btn_over);
 	GuiImage neek2oImgOver(&btn_over);
-	GuiImage realnandImgOver(&btn);
+	GuiImage realnandImgOver(&btn_over);
 	GuiImage priiloaderImgOver(&btn_over);
 	GuiImage backImgOver(&btn_over);
 
@@ -120,7 +120,11 @@ loaderPrompt()
 
 	if(!check_uneek_fs())
 	{
+		neek2o.SetPosition(0, 90);
+		promptWindow.Append(&neek2o);
 
+		priiloader.SetPosition(0, 140);
+/*
 		if(get_nandemu() && check_neek2o())
 		{
 			nandemu.SetPosition(0, 90);
@@ -145,6 +149,7 @@ loaderPrompt()
 
 			priiloader.SetPosition(0, 140);
 		}
+*/
 	}
 	else
 	{
