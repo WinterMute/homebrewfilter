@@ -11,12 +11,12 @@
 static void *framebuffer = NULL;
 static GXRModeObj *vmode = NULL;
 
-extern void __exception_closeall();  
+extern void __exception_closeall();
 typedef void (*entrypoint) (void);
 
-static u8 *buffer = (u8 *) 0x92000000;   
+static u8 *buffer = (u8 *) 0x92000000;
 
-extern u8  hbf_dol[];     
+extern u8  hbf_dol[];
 extern u32 hbf_dol_size;
 
 typedef struct _dolheader {
@@ -67,7 +67,7 @@ u32 load_dol_image(void *dolstart)
 	return 0;
 }
 
-void Video_Clear(s32 color)	         
+void Video_Clear(s32 color)
 {
 	VIDEO_ClearFrameBuffer(vmode, framebuffer, color);
 }
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
 
 /*
 	raw_irq_handler_t irq_handler;
-	
+
 	__IOS_ShutdownSubsystems();
 	__ES_Init();
 
@@ -90,9 +90,9 @@ int main(int argc, char **argv) {
     __UnmaskIrq(IRQ_PI_ACR);
 	__IPC_Reinitialize();
 
-	__IOS_InitializeSubsystems();             
+	__IOS_InitializeSubsystems();
 
-*/      
+*/
 	VIDEO_Init();
 	vmode = VIDEO_GetPreferredMode(NULL);
 
@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
 
 
 	memcpy(buffer, (void *) hbf_dol, hbf_dol_size);
-	
+
 	u32 exeEntryPointAddress = load_dol_image(buffer);
 	entrypoint exeEntryPoint = (entrypoint) exeEntryPointAddress;
 	u32 level;
@@ -125,7 +125,7 @@ int main(int argc, char **argv) {
 	__exception_closeall();
 	exeEntryPoint();
 	_CPU_ISR_Restore(level);
-	
+
 	exit(0);
 }
 
