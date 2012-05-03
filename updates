@@ -4,6 +4,7 @@
 - overall improvements to the NAND-loader in THBF channel (obcd)
 - BUGFIX: properly check whether we're in neek2o environment (obcd)
 - improved neek2o booter (obcd)
+- support for SD-Gecko and neek2o in HBF booter (obcd)
 
 //rev38:
 - changes to the app-info dialog:

@@ -2,14 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gccore.h>
+#include <unistd.h>
 #include <ogc/machine/processor.h>
+#include <ogc/irq.h>
+#include "uneek_fs.h"
 
-extern void __exception_closeall();
+/* Video variables */
+static void *framebuffer = NULL;
+static GXRModeObj *vmode = NULL;
+
+extern void __exception_closeall();  
 typedef void (*entrypoint) (void);
 
-static u8 *buffer = (u8 *) 0x92000000;
+static u8 *buffer = (u8 *) 0x92000000;   
 
-extern u8  hbf_dol[];
+extern u8  hbf_dol[];     
 extern u32 hbf_dol_size;
 
 typedef struct _dolheader {
@@ -60,9 +67,56 @@ u32 load_dol_image(void *dolstart)
 	return 0;
 }
 
-int main(int argc, char **argv) {
-	memcpy(buffer, (void *) hbf_dol, hbf_dol_size);
+void Video_Clear(s32 color)	         
+{
+	VIDEO_ClearFrameBuffer(vmode, framebuffer, color);
+}
 
+int main(int argc, char **argv) {
+
+
+/*
+	raw_irq_handler_t irq_handler;
+	
+	__IOS_ShutdownSubsystems();
+	__ES_Init();
+
+	__ES_Reset();
+
+	// Mask IPC IRQ while we're busy reloading
+	__MaskIrq(IRQ_PI_ACR);
+	irq_handler = IRQ_Free(IRQ_PI_ACR);
+	IRQ_Request(IRQ_PI_ACR, irq_handler, NULL);
+    __UnmaskIrq(IRQ_PI_ACR);
+	__IPC_Reinitialize();
+
+	__IOS_InitializeSubsystems();             
+
+*/      
+	VIDEO_Init();
+	vmode = VIDEO_GetPreferredMode(NULL);
+
+	/* Allocate memory for the framebuffer */
+	framebuffer = MEM_K0_TO_K1(SYS_AllocateFramebuffer(vmode));
+
+	/* Configure the video subsystem */
+	VIDEO_Configure(vmode);
+
+	/* Setup video */
+	VIDEO_SetNextFramebuffer(framebuffer);
+	VIDEO_SetBlack(FALSE);
+	VIDEO_Flush();
+	VIDEO_WaitVSync();
+
+	if (vmode->viTVMode & VI_NON_INTERLACE)
+		VIDEO_WaitVSync();
+
+	/* Clear the screen */
+	Video_Clear(COLOR_BLACK);
+
+
+	memcpy(buffer, (void *) hbf_dol, hbf_dol_size);
+	
 	u32 exeEntryPointAddress = load_dol_image(buffer);
 	entrypoint exeEntryPoint = (entrypoint) exeEntryPointAddress;
 	u32 level;
@@ -71,7 +125,7 @@ int main(int argc, char **argv) {
 	__exception_closeall();
 	exeEntryPoint();
 	_CPU_ISR_Restore(level);
-
+	
 	exit(0);
 }
 
