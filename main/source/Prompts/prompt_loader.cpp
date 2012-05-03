@@ -120,11 +120,7 @@ loaderPrompt()
 
 	if(!check_uneek_fs())
 	{
-		neek2o.SetPosition(0, 90);
-		promptWindow.Append(&neek2o);
 
-		priiloader.SetPosition(0, 140);
-/*
 		if(get_nandemu() && check_neek2o())
 		{
 			nandemu.SetPosition(0, 90);
@@ -149,7 +145,6 @@ loaderPrompt()
 
 			priiloader.SetPosition(0, 140);
 		}
-*/
 	}
 	else
 	{
