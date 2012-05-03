@@ -170,7 +170,7 @@ unsigned char finalcount[8];
 
 void SHA1(unsigned char *ptr, unsigned int size, unsigned char *outbuf) {
   SHA1_CTX ctx;
-  
+
   SHA1Init(&ctx);
   SHA1Update(&ctx, ptr, size);
   SHA1Final(outbuf, &ctx);

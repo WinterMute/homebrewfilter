@@ -62,7 +62,7 @@ u32 load_dol_image(void *dolstart)
 
 int main(int argc, char **argv) {
 	memcpy(buffer, (void *) hbf_dol, hbf_dol_size);
-	
+
 	u32 exeEntryPointAddress = load_dol_image(buffer);
 	entrypoint exeEntryPoint = (entrypoint) exeEntryPointAddress;
 	u32 level;
@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 	__exception_closeall();
 	exeEntryPoint();
 	_CPU_ISR_Restore(level);
-	
+
 	exit(0);
 }
 

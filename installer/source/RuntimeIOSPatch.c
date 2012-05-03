@@ -25,7 +25,7 @@ u32 apply_patch(const char *name, const u8 *old, u32 old_size, const u8 *patch, 
 	u8 *ptr = (u8 *) 0x93400000;
 	u32 i, found = 0;
 	u8 *start;
-    
+
 	while ((u32) ptr < (0x94000000 - old_size))
 	{
 		if(!memcmp(ptr, old, old_size))

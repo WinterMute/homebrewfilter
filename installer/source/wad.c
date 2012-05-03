@@ -49,7 +49,7 @@ void mopen()
 	startOfData = (void *) install_wad;
 	endOfData = (void *) install_wad + size;
 	internalPointer = startOfData;
-	
+
 	// Title ID
 	wadHeader	*header   = NULL;
 	signed_blob *p_tik    = NULL;
@@ -83,31 +83,31 @@ out:
 	title_id = tik_data->titleid;
 }
 
-int mseek(u32 offset, int origin) 
+int mseek(u32 offset, int origin)
 {
-	if (origin == SEEK_SET) 
+	if (origin == SEEK_SET)
 	{
 		internalPointer = startOfData + offset;
-	} else if (origin == SEEK_CUR) 
+	} else if (origin == SEEK_CUR)
 	{
 		internalPointer = internalPointer + offset;
 	} else if (origin == SEEK_END) {
 		internalPointer = endOfData - offset;
-	} else 
+	} else
 	{
 		return -2;
 	}
-	
-	if ((internalPointer<startOfData) || (internalPointer> endOfData)) 
+
+	if ((internalPointer<startOfData) || (internalPointer> endOfData))
 	{
 		return -1;
-	} else 
+	} else
 	{
 		return 0;
 	}
 }
 
-int mread(void * buf, int size, int count) 
+int mread(void * buf, int size, int count)
 {
 	memcpy(buf, internalPointer, size*count);
 	//DCFlushRange(buf, size*count);
@@ -220,7 +220,7 @@ void __Wad_FixTicket(signed_blob *p_tik)
 	if (*ckey > 1) {
 		// Set common key
 		*ckey = 0;
-		
+
 		// Fakesign ticket
 		Title_FakesignTik(p_tik);
 	}
@@ -235,7 +235,7 @@ s32 __Wad_Install(int startpos_x, int startpos_y)
 
 	u32 cnt, offset = 0;
 	s32 ret;
-	
+
 	/* WAD header */
 	ret = __Wad_ReadAlloc((void *)&header, offset, sizeof(wadHeader));
 	if (ret >= 0)
@@ -300,7 +300,7 @@ s32 __Wad_Install(int startpos_x, int startpos_y)
 
 		u32 idx = 0, len;
 		s32 cfd;
-		
+
 		printf(".....");
 		/* Encrypted content size */
 		len = round_up(content->size, 64);
@@ -351,7 +351,7 @@ s32 __Wad_Install(int startpos_x, int startpos_y)
 		Con_FgColor(2, 1);
 		printf("\x1b[%i;%iH", startpos_x +6, startpos_y);
 		printf("SUCCESS");
-		
+
 		goto out;
 	}
 
@@ -490,12 +490,12 @@ out:
 	return ret;
 }
 
-s32 Wad_InstallFromMemory(int startpos_x, int startpos_y) 
+s32 Wad_InstallFromMemory(int startpos_x, int startpos_y)
 {
 	return __Wad_Install(startpos_x, startpos_y);
 }
 
-s32 Wad_UninstallFromMemory(int startpos_x, int startpos_y) 
+s32 Wad_UninstallFromMemory(int startpos_x, int startpos_y)
 {
 	return __Wad_Uninstall(startpos_x, startpos_y);
 }
