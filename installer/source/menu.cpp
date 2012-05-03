@@ -45,7 +45,7 @@ void show_menu_head()
 	Con_FgColor(7, 1);
 	printf("\n\t\t\t\t\t\t\t\t\t\t\t\t(C) 2012");
 	Con_FgColor(6, 1);
-	printf(" Nano & obcd");
+	printf(" Nano & Obcd");
 }
 
 void fill_menu_main()
