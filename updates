@@ -1,6 +1,9 @@
 //rev39:
 - BUGFIX: before saving the update boot.dol, ensure directory
           apps/HomebrewFilter exists, if not create it
+- overall improvements to the NAND-loader in THBF channel (obcd)
+- BUGFIX: properly check whether we're in neek2o environment (obcd)
+- improved neek2o booter (obcd)
 
 //rev38:
 - changes to the app-info dialog:
