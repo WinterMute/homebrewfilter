@@ -1,5 +1,3 @@
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -31,11 +29,7 @@ int LoadXmlFile(const char* filename, struct SSettingsNeek2o *Settings);
 }
 #endif  //__cplusplus
 
-
-
 void ExitApp();
-
-
 
 int boot_neek2o()
 {

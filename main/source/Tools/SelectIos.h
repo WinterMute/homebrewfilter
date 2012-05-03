@@ -13,6 +13,7 @@ s32 NandReadFile(char *filepath, u8 **buffer, u32 *filesize);
 int get_priiloader();
 int get_bootmii();
 int get_nandemu();
+bool check_neek2o();
 void set_priiloader(int choice);
 void set_bootmii(int choice);
 void set_nandemu(int choice);

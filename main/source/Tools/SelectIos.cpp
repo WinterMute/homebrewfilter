@@ -15,6 +15,15 @@ int bootmii = 0;
 int nandemu = 0;
 int priiloader = 0;
 
+bool check_neek2o() {
+
+	if(fopen("sd1:/sneek/kernel.bin", "rb") || fopen("usb1:/sneek/kernel.bin", "rb"))
+		return true;
+
+	return false;
+
+}
+
 s32 NandReadFile(char *filepath, u8 **buffer, u32 *filesize)
 {
 	s32 Fd;
