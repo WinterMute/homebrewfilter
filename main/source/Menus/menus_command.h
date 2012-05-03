@@ -2,9 +2,9 @@
 struct s_move
 {
 	int page;
-	int nr;	
+	int nr;
 	int nr_selected;
-	bool new_app; 
+	bool new_app;
 };
 extern struct s_move move;
 

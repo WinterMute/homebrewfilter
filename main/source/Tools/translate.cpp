@@ -1,6 +1,6 @@
 
 #include <dirent.h>
-#include <string> 
+#include <string>
 #include <vector>
 #include <fstream>
 
@@ -20,7 +20,7 @@ void ini_Open(string filename)
 	{
 		while((signed)line.find("\r") != -1)
 			line.erase(line.find("\r"), 1);
-				
+
 		quelltext.push_back(line);
 	}
 }
@@ -54,7 +54,7 @@ string ini_GetString(string key)
 		while(value.substr(0, 1) == " ")
 			value.erase(0, 1);
     }
-	return value;   
+	return value;
 }
 
 const char* tr(string translate)

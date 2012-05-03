@@ -6,7 +6,7 @@
 void DeleteDir(const char* dirname){
     DIR *hdir;
     struct dirent *entry;
-     
+
     hdir = opendir(dirname);
     do
     {
@@ -18,7 +18,7 @@ void DeleteDir(const char* dirname){
             if(remove(erase) == -1)
                 DeleteDir(erase);
 			remove(erase);
-        }  
+        }
     } while (entry);
     closedir(hdir);
 	remove(dirname);

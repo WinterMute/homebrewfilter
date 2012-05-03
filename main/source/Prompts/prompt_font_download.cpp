@@ -36,7 +36,7 @@ void fontDownload(string fontname)
 	promptWindow.SetPosition(0, -10);
 	GuiTrigger trigA;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
-	
+
 
 	GuiImageData dialogBox(Theme.dialog_background);
 	GuiImage dialogBoxImg(&dialogBox);
@@ -44,11 +44,11 @@ void fontDownload(string fontname)
 	GuiImageData btnOutline(Theme.button_small);
 	GuiImage btn1Img(&btnOutline);
 	GuiImage btn2Img(&btnOutline);
-	
+
 	GuiImageData btnOutlineOver(Theme.button_small_focus);
 	GuiImage btn1ImgOver(&btnOutlineOver);
 	GuiImage btn2ImgOver(&btnOutlineOver);
-	
+
 	GuiText titleTxt(tr("Download"), 26, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	titleTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	titleTxt.SetPosition(0, 40);
@@ -64,7 +64,7 @@ void fontDownload(string fontname)
 	GuiButton btn1(btnOutline.GetWidth(), btnOutline.GetHeight());
 
 	btn1.SetAlignment(ALIGN_CENTRE, ALIGN_BOTTOM);
-	btn1.SetPosition(0, -25);	
+	btn1.SetPosition(0, -25);
 	btn1.SetLabel(&btn1Txt);
 	btn1.SetImage(&btn1Img);
 	btn1.SetImageOver(&btn1ImgOver);
@@ -86,7 +86,7 @@ void fontDownload(string fontname)
 
 	char buffer[100];
 	msgTxt.SetText(fontname.c_str());
-	sprintf(buffer, "http://www.nanolx.org/hbf/Fonts/%s", fontname.c_str());	
+	sprintf(buffer, "http://www.nanolx.org/hbf/Fonts/%s", fontname.c_str());
 	struct block file = downloadfile(buffer);
 	if (file.data && file.size > 0 && folder_exists())
 	{
@@ -99,7 +99,7 @@ void fontDownload(string fontname)
 	}
 	if(file.data)
 		free(file.data);
-		
+
 	msgTxt.SetText("");
 	downloadTxt.SetText(tr("finished"));
 
@@ -124,29 +124,29 @@ string FontList()
 {
 	string downloadfont = "error";
 	bool stop = false;
-	
+
 	char buffer[100];
-	sprintf(buffer, "http://www.nanolx.org/hbf/Fonts/");	
+	sprintf(buffer, "http://www.nanolx.org/hbf/Fonts/");
 
 	struct block file = downloadfile(buffer);
 	if (file.data != NULL)
 	{
 		string source_fonts = (char*)file.data;
 		vector<string> fonts;
-		
+
 		while(1)
 		{
 			if((signed)source_fonts.find("../Fonts/") == -1)
 				break;
-				
+
 			source_fonts.erase(0, source_fonts.find("../Fonts/"));
 			source_fonts.erase(0, source_fonts.find("s/") +2);
-			
+
 			fonts.push_back(source_fonts.substr(0, source_fonts.find("\"")));
-			
+
 			source_fonts.erase(0, source_fonts.find("<"));
 		}
-		
+
 		free(file.data);
 
 		GuiText titleTxt(tr("Download"), 26, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
@@ -169,7 +169,7 @@ string FontList()
 		int selection = 0;
 		int textScrollPos = 0;
 		int selctionPos = y;
-		
+
 		GuiText selectionTxt(">>                                                                    <<", 20, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 		selectionTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 		selectionTxt.SetPosition(0, y);
@@ -178,14 +178,14 @@ string FontList()
 		upTxt.SetFont(symbol_ttf, symbol_ttf_size);
 		upTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 		upTxt.SetPosition(0, y -20);
-		
+
 		GuiText downTxt("d", 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 		downTxt.SetFont(symbol_ttf, symbol_ttf_size);
 		downTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 		downTxt.SetPosition(0, y + (place * (number-1)) + 15);
-		
+
 		GuiText * Entrie[number];
-		
+
 		for(i=0; i < number && i < (signed)fonts.size(); i++)
 		{
 			Entrie[i] = new GuiText(fonts[i].c_str(), 20, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
@@ -198,10 +198,10 @@ string FontList()
 		promptWindow.Append(&dialogBoxImg);
 		promptWindow.Append(&titleTxt);
 		promptWindow.Append(&selectionTxt);
-		
+
 		for(int x=0; x < i; x++)
 			promptWindow.Append(Entrie[x]);
-		
+
 		if((signed)fonts.size() >= number)
 		{
 			promptWindow.Append(&upTxt);
@@ -218,7 +218,7 @@ string FontList()
 		while(!stop)
 		{
 			usleep(100);
-			
+
 			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
 			{
 				selection--;
@@ -228,15 +228,15 @@ string FontList()
 					textScrollPos--;
 					if(textScrollPos < 0)
 						textScrollPos = 0;
-						
+
 					for(int x=0; x < number && x < (signed)fonts.size(); x++)
 						Entrie[x]->SetText(fonts[x + textScrollPos].c_str());
 				}
 				selectionTxt.SetPosition(0, selection * place + selctionPos);
-			
+
 				HaltResumeGui();
 			}
-			
+
 			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
 			{
 				selection++;
@@ -248,12 +248,12 @@ string FontList()
 					textScrollPos++;
 					if(textScrollPos > (signed)fonts.size() - number)
 						textScrollPos = fonts.size() - number;
-					
+
 					for(int x=0; x < number && x < (signed)fonts.size(); x++)
 						Entrie[x]->SetText(fonts[x + textScrollPos].c_str());
 				}
 				selectionTxt.SetPosition(0, selection * place + selctionPos);
-				
+
 				HaltResumeGui();
 			}
 
@@ -262,7 +262,7 @@ string FontList()
 				downloadfont = fonts[selection + textScrollPos];
 				stop = true;
 			}
-				
+
 			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B)
 			{
 				downloadfont = "NULL";
@@ -277,7 +277,7 @@ string FontList()
 		mainWindow->SetState(STATE_DEFAULT);
 		ResumeGui();
 	}
-	
+
 	return downloadfont;
 }
 
@@ -292,10 +292,10 @@ string checkFontsPrompt()
 
 	GuiImageData btnOutline(Theme.button_small);
 	GuiImage btn1Img(&btnOutline);
-	
+
 	GuiImageData btnOutlineOver(Theme.button_small_focus);
 	GuiImage btn1ImgOver(&btnOutlineOver);
-	
+
 	// ok button
 	GuiText backTxt(tr("OK"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiImage backImg(&btnOutline);
@@ -303,7 +303,7 @@ string checkFontsPrompt()
 	GuiButton back(btnOutline.GetWidth(), btnOutline.GetHeight());
 	GuiTrigger trigA;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
-	
+
 	back.SetAlignment(ALIGN_CENTRE, ALIGN_BOTTOM);
 	back.SetPosition(0, -25);
 	back.SetLabel(&backTxt);
@@ -335,12 +335,12 @@ string checkFontsPrompt()
 	{
 		msgTxt.SetText(tr("No network connection"));
 		bool stop = false;
-		
+
 		promptWindow.Append(&back);
 		while(!stop)
 		{
 			usleep(100);
-				
+
 			if(back.GetState() == STATE_CLICKED)
 				stop = true;
 		}
@@ -354,12 +354,12 @@ string checkFontsPrompt()
 			downloadfont = "NULL";
 			msgTxt.SetText(tr("Error while reading file"));
 			bool stop = false;
-			
+
 			promptWindow.Append(&back);
 			while(!stop)
 			{
 				usleep(100);
-					
+
 				if(back.GetState() == STATE_CLICKED)
 					stop = true;
 			}
@@ -371,6 +371,6 @@ string checkFontsPrompt()
 	mainWindow->Remove(&promptWindow);
 	mainWindow->SetState(STATE_DEFAULT);
 	ResumeGui();
-	
+
 	return downloadfont;
 }

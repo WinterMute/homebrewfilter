@@ -844,7 +844,7 @@ class GuiKeyboard : public GuiWindow
 		GuiImageData * keyLarge;
 		GuiImageData * keyLargeOver;
 		GuiTrigger * trigA;
-		
+
 		int letterPos;
 };
 

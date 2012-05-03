@@ -39,7 +39,7 @@ int read_gecko_data(int s,     	/* connected socket */
 	int bcount; /* counts bytes read */
 	int br;     /* bytes read this pass */
 	u32 t;
-	
+
 	t = ticks_to_millisecs(gettime()) + timeout;
 
 	bcount= 0;
@@ -50,7 +50,7 @@ int read_gecko_data(int s,     	/* connected socket */
 		{
 			bcount += br;                /* increment byte counter */
 			buf += br;                   /* move buffer ptr for next read */
-		
+
 		}
 		else if (br < 0)               /* signal an error to the caller */
 		{
@@ -91,9 +91,9 @@ static void * gecko_l_callback(void *arg)
 	u8 *bfr[READ_SIZE];
 	u32 tms;
 	bool compress = false;
-	
+
 	channel = EXI_CHANNEL_1;
-    
+
     while(1)
 	{
 		if(geckoHalt)
@@ -105,14 +105,14 @@ static void * gecko_l_callback(void *arg)
 		else
 		{
 			//gprintf("wiiload_gecko thread running\n");
-			int temp = usb_recvbuffer_safe_ex(channel,(char *)&read,4,100);		
+			int temp = usb_recvbuffer_safe_ex(channel,(char *)&read,4,100);
 			if(temp == 4)
 			{
-		
+
 				gprintf("4 bytes received from usb buffer\n");
 				GuiImage * progressImg = new GuiImage(new GuiImageData(Theme.progress));
 				progressImg->SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
-				
+
 				GXColor ImgColor[4];
 
 				ImgColor[0] = (GXColor){Theme.progressbar_color1_1, Theme.progressbar_color1_2, Theme.progressbar_color1_3, 200};		// oben links
@@ -120,70 +120,70 @@ static void * gecko_l_callback(void *arg)
 				ImgColor[2] = (GXColor){Theme.progressbar_color2_1, Theme.progressbar_color2_2, Theme.progressbar_color2_3, 200};		// unten rechts
 				ImgColor[3] = ImgColor[2];		// unten links
 
-				
+
 				GuiImage * progressbarImg = new GuiImage(0, 38, (GXColor *) &ImgColor);
 				progressbarImg->SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
 				progressbarImg->SetPosition((screenwidth - progressImg->GetWidth()) /2 +36, 2);
-				
+
 				GuiText * PercentTxt = new GuiText("0%", 20, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 				PercentTxt->SetAlignment(ALIGN_RIGHT, ALIGN_MIDDLE);
 				PercentTxt->SetPosition(-((screenwidth - progressImg->GetWidth()) /2 +36), 38);
-				
+
 
 				float Percent = 0.0f;
-				
+
 				HaltGui();
 				mainWindow->SetState(STATE_DISABLED);
 				mainWindow->Append(progressImg);
 				mainWindow->Append(progressbarImg);
 				mainWindow->Append(PercentTxt);
 				ResumeGui();
-					
+
 				if(read == 1212242008) // 1212242008 -> 48415858 -> HAXX -> wiiload
 				{
 					compress = true;
 		//			printf("HAXX\n");
-					
+
 					gprintf("reading version\n");
-					
+
 					read_gecko_data(channel, (char *)&read, 4,1000);
 		//			int WIILOAD_VERSION_MAYOR	= (u8)(((u16)(read >> 16)) >> 8);
 		//			int WIILOAD_VERSION_MINOR	= (u8)(((u16)(read >> 16)) & 0xFF);
 		//			int a						= (u8)(((u16)(read & 0xFFFF)) >> 8);
 		//			int b						= (u8)(((u16)(read & 0xFFFF)) & 0xFF);
-					
+
 		//			printf("wiiload v%x.%x\n", WIILOAD_VERSION_MAYOR, WIILOAD_VERSION_MINOR);
 		//			printf("args %x08\n", read);
 		//			printf("args a=%x  b=%x\n", a, b);
-					
+
 					gprintf("reading size\n");
 
 					read_gecko_data(channel, (char *)&size, 4, 1000);
-					
+
 					gprintf("reading uncompressed size\n");
-					
+
 					read_gecko_data(channel, (char *)&uncfilesize, 4, 1000);
 				}
 				else
 					size = read;
-					
+
 				offset = 0;
 				while(offset < size && (read = read_gecko_data(channel, (char *)bfr, (size - offset) > READ_SIZE ? READ_SIZE : (size - offset), 2000)) > 0)
 				{
-					gprintf("finished reading block at offset %x\n",offset); 
+					gprintf("finished reading block at offset %x\n",offset);
 					memcpy(gdata + offset, bfr, READ_SIZE);
 					offset += read;
-					
+
 					Percent = 100.0f * offset/size;
 					progressbarImg->SetSize(Percent*3.27f, 38);
-					
+
 					char buffer[6];
 					sprintf(buffer, "%i %%", (int)Percent);
 					PercentTxt->SetText(buffer);
 				}
 				if (offset >= size)
 				{
-//again, free gift from postloader				
+//again, free gift from postloader
 
 					// These are the arguments....
 					tms = ticks_to_millisecs(gettime());
@@ -203,9 +203,9 @@ static void * gecko_l_callback(void *arg)
 						u8 *zdata = (u8 *) malloc(uncfilesize);
 						if(!zdata)
 							return NULL;
-					
+
 						uLongf zdatalen = uncfilesize;
-					
+
 						int res = uncompress (zdata, &zdatalen, gdata, (uLongf)size);
 
 						if (res != Z_OK)
@@ -221,13 +221,13 @@ static void * gecko_l_callback(void *arg)
 						//	free(zdata);
 						}
 					}
-				
+
 					CopyHomebrewMemory(gdata, 0, size);
 					if(gdata)
 						free(gdata);
 		//			if(zdata)
 		//				free(zdata);
-					
+
 					mainWindow->Remove(PercentTxt);
 					mainWindow->Remove(progressbarImg);
 					mainWindow->Remove(progressImg);
@@ -248,7 +248,7 @@ static void * gecko_l_callback(void *arg)
 					mainWindow->Remove(progressImg);
 					mainWindow->SetState(STATE_DEFAULT);
 					ResumeGui();
-					
+
 				}
 			}
 			else

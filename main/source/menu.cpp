@@ -136,7 +136,7 @@ UpdateGUI (void *arg)
 				{
 					if(Settings.forwarder_path != "the homebrew channel")
 						LoadHomebrew(Settings.forwarder_path.c_str());
-						
+
 					string startingAppName = Settings.forwarder_path;
 					if((signed)startingAppName.rfind("/") != -1)
 						startingAppName.erase(startingAppName.rfind("/"));
@@ -147,15 +147,15 @@ UpdateGUI (void *arg)
 				if (!goneek2o)
 					ExitApp();
 			}
-			
+
 			// sd check
 			if(Settings.device == "sd1")
 				check_sd();
-			
+
 			// usb check
 			else if(Settings.device == "usb1")
 				check_usb();
-			
+
 			// sd und usb check
 			else if(Settings.device == "sd_usb")
 			{
@@ -172,7 +172,7 @@ UpdateGUI (void *arg)
 				check_usb();
 				check_dvd();
 			}
-			
+
 			// screenshoot
 			if(WPAD_ButtonsDown(0) & WPAD_BUTTON_1 && WPAD_ButtonsDown(0) & WPAD_BUTTON_2)
 				Screenshot();
@@ -198,7 +198,7 @@ InitGUIThreads()
 void MainMenu(int menu)
 {
 	int currentMenu = menu;
-	
+
 	// position der letzten app
 	for(int i = 0; i < (signed)vechomebrew_list_category[Settings.current_category].size(); i++)
 	{
@@ -206,7 +206,7 @@ void MainMenu(int menu)
 		if((signed)name.rfind("/") != -1)
 			name.erase(name.rfind("/"));
 		name.erase(0, name.rfind("/") +1);
-		
+
 		if(name == Settings.startingAppName)
 		{
 			Settings.last_app_pos = i;
@@ -216,7 +216,7 @@ void MainMenu(int menu)
 
 	bgImg = new GuiImage(new GuiImageData(Theme.background));
 	mainWindow->Append(bgImg);
-		
+
 	while(currentMenu != MENU_EXIT)
 	{
 		switch (currentMenu)
@@ -224,52 +224,52 @@ void MainMenu(int menu)
 			case MENU_MAIN:
 				currentMenu = MenuMain();
 				break;
-				
+
 			case MENU_SETTINGS:
 				currentMenu = MenuSettings();
 				break;
-				
+
 			case MENU_SETTINGS_FILE:
 				currentMenu = MenuSettingsFile();
 				break;
-				
+
 			case MENU_SETTINGS_THEME:
 				currentMenu = MenuSettingsTheme();
 				break;
-				
+
 			case MENU_SETTINGS_LANGUAGE:
 				currentMenu = MenuSettingsLanguage();
 				break;
-				
+
 			case MENU_SETTINGS_FONT:
 				currentMenu = MenuSettingsFont();
 				break;
-				
+
 			case MENU_SETTINGS_DISPLAY:
 				currentMenu = MenuSettingsDisplay();
 				break;
-				
+
 			case MENU_SETTINGS_CHILDLOCK:
 				currentMenu = MenuSettingsChildlock();
 				break;
-				
+
 			case MENU_SETTINGS_NETWORK:
 				currentMenu = MenuSettingsNetwork();
 				break;
-				
+
 			default: // unrecognized menu
 				currentMenu = MenuMain();
 				break;
 		}
 	}
-	
+
 	ResumeGui();
 	ExitRequested = 1;
 	HaltGui();
 
 	delete mainWindow;
-	
+
 	delete pointer;
-	
+
 	mainWindow = NULL;
 }

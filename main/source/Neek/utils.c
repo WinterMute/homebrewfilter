@@ -22,18 +22,18 @@ bool FileExist (char *fn)
 	fclose(f);
 	return true;
 }
-	
+
 bool DirExist (char *path)
 {
 	DIR *dir;
-	
+
 	dir=opendir(path);
 	if (dir)
 	{
 		closedir(dir);
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -45,10 +45,10 @@ u8 *ReadFile2Buffer (char *path, size_t *filesize, int *err)
 	int bytes;
 	int block = 65536;
 	FILE* f = NULL;
-	
+
 	if (filesize) *filesize = 0;
 	if (err) *err = 0;
-	
+
 	f = fopen(path, "rb");
 	if (!f)
 		{
@@ -60,27 +60,27 @@ u8 *ReadFile2Buffer (char *path, size_t *filesize, int *err)
 	fseek( f, 0, SEEK_END);
 	size = ftell(f);
 	if (filesize) *filesize = size;
-	
+
 	if (size <= 0)
 		{
 		if (err != NULL) *err = -2;
 		fclose (f);
 		return NULL;
 		}
-		
+
 	// Return to beginning....
 	fseek( f, 0, SEEK_SET);
-	
+
 	//buff = malloc (size);
- 	buff = memalign(32,size);	
-	
-	if (buff == NULL) 
+ 	buff = memalign(32,size);
+
+	if (buff == NULL)
 		{
 		if (err != NULL) *err = -3;
 		fclose (f);
 		return NULL;
 		}
-	
+
 	bytes = 0;
 	do
 		{
@@ -89,17 +89,17 @@ u8 *ReadFile2Buffer (char *path, size_t *filesize, int *err)
 	while (bytes < size);
 
 	fclose (f);
-	
+
 	return buff;
 	}
 
 /*
 this function will check if a folder "may" contain a valid nand
-*/	
+*/
 bool IsNandFolder (char *path)
 	{
 	char npath[300];
-	
+
 	sprintf (npath, "%s/TITLE", path);
 	if (!DirExist(npath)) return false;
 
@@ -146,7 +146,7 @@ s32 adjust_nandpath (void)
 		//nandpath.bin should have priority above root folder nand
 		//isn't backwards compatibility fun?
 		if(n2oSettings.neeknandpath[0] != 0)
-		{		
+		{
 			strcpy(nandpath,n2oSettings.nanddisc);
 			strcat(nandpath,"/sneek/nandpath.bin");
 			if (FileExist(nandpath))
@@ -183,7 +183,7 @@ s32 adjust_nandpath (void)
 		strcpy(nandpath,n2oSettings.nanddisc);
 		if (get_nand_folder(nandpath))
 		{
-			//so, if we have a valid path in nandpath.bin, 
+			//so, if we have a valid path in nandpath.bin,
 			//use that for channel launch adjustment
 			strcpy(n2oSettings.nandfolder,nandpath);
 			//we have a nandpath.bin
@@ -207,12 +207,12 @@ s32 adjust_nandpath (void)
 
 void create_dipath(void)
 {
-		
-	char dipath[64];		
+
+	char dipath[64];
 	FILE *fp = NULL;
-		
+
 	strcpy(dipath,n2oSettings.nanddisc);
-	strcat(dipath,"/sneek/dipath.bin");	
+	strcat(dipath,"/sneek/dipath.bin");
 	if (FileExist(dipath))
 	{
 		remove(dipath);
@@ -304,8 +304,8 @@ void xml_set_default(void)
 	strcpy(n2oSettings.nandfolder,"/");
 	n2oSettings.neekbootchannel[0]= 0;
 	n2oSettings.neekdipath[0]= 0;
-	
-	
+
+
 //	strcpy(n2oSettings.neeknandpath,"usb://nands/nand1");
 //	strcpy(n2oSettings.nanddisc,"usb:/");
 //	strcpy(n2oSettings.nandfolder,"/nands/nand1");
@@ -334,7 +334,7 @@ s32 get_nand_folder(char* nandpath)
 	strcpy(nandpathfile, nandpath);
 	strcat(nandpathfile,"/sneek/nandpath.bin");
 	nandpath[0] = 0;
-	fp = fopen(nandpathfile, "rb");				
+	fp = fopen(nandpathfile, "rb");
 	if(fp)
 	{
 		fseek (fp, 0, SEEK_END);
@@ -348,7 +348,7 @@ s32 get_nand_folder(char* nandpath)
 			fclose (fp);
 			for (counter=0;counter<len;counter++)
 			{
-				if ((buffer[counter] == 13)||(buffer[counter] == 10)||(buffer[counter] == 32))	
+				if ((buffer[counter] == 13)||(buffer[counter] == 10)||(buffer[counter] == 32))
 				{
 					buffer[counter] = 0;
 				}

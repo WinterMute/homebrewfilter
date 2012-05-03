@@ -48,14 +48,14 @@ revtext(const char *msg)
 	upTxt.SetFont(symbol_ttf, symbol_ttf_size);
 	upTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	upTxt.SetPosition(0, y -20);
-	
+
 	GuiText downTxt("d", 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	downTxt.SetFont(symbol_ttf, symbol_ttf_size);
 	downTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	downTxt.SetPosition(0, y + (place * (number-1)) + 15);
-	
+
 	GuiText * Entrie[number];
-	
+
 	for(i=0; i < number && i < (signed)revtext.line.size(); i++)
 	{
 		Entrie[i] = new GuiText(revtext.line[i].c_str(), 20, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
@@ -84,16 +84,16 @@ revtext(const char *msg)
 
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
-	
+
 	for(int x=0; x < i; x++)
 		promptWindow.Append(Entrie[x]);
-	
+
 	if((signed)revtext.line.size() >= number)
 	{
 		promptWindow.Append(&upTxt);
 		promptWindow.Append(&downTxt);
 	}
-	
+
 	promptWindow.Append(&back);
 
 	HaltGui();
@@ -109,18 +109,18 @@ revtext(const char *msg)
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
 		{
 			int z = revtext.text_up();
-			
+
 			for(int x=0; x < i; x++)
 				Entrie[x]->SetText(revtext.line[x + z].c_str());
-		
+
 
 			HaltResumeGui();
 		}
-		
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
 		{
 			int z = revtext.text_down(number);
-			
+
 			for(int x=0; x < i; x++)
 				Entrie[x]->SetText(revtext.line[x + z].c_str());
 

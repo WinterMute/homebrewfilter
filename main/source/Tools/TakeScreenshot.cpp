@@ -10,7 +10,7 @@ void Screenshot()
 	int i = 0;
 	bool stop = false;
 	char temp[100];
-	
+
 	DIR *pDir;
 	bool Exists = false;
 
@@ -34,12 +34,12 @@ void Screenshot()
 			FILE * f= fopen (temp,"r");
 			if (!f)
 				stop = true;
-			else 
+			else
 				i++;
-				
+
 			fclose(f); // dann ging's. Also wieder zu damit
 		}
-		
+
 		TakeScreenshot(temp);
 	}
 }

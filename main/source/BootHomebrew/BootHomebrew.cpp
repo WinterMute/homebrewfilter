@@ -239,7 +239,7 @@ int BootHomebrew()
 //we can't use check_uneek_fs
 //as we already shut down the uneek_fs system
 //so it will always return false
-	
+
 	if (in_neek == false)
 	{
 		if(Settings.force_reload != "")

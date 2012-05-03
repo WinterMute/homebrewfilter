@@ -34,7 +34,7 @@ struct _IMGCTX
 	png_structp png_ptr;
 	png_infop info_ptr;
 	FILE *fd;
-	
+
 	png_bytep *row_pointers;
 	png_bytep img_data;
 };

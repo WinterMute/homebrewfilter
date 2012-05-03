@@ -174,7 +174,7 @@ InitVideo ()
 	GX_SetCopyClear (background, 0x00ffffff);
 	GX_SetDispCopyGamma (GX_GM_1_0);
 	GX_SetCullMode (GX_CULL_NONE);
-	
+
 	ResetVideo_Menu();
 	// Finally, the video is up and ready for use :)
 }
@@ -296,7 +296,7 @@ void Menu_DrawRectangle(f32 x, f32 y, f32 width, f32 height, GXColor * color, bo
 	for(i=0; i<n; i++)
 	{
 		GX_Position3f32(v[i].x, v[i].y,  v[i].z);
-		
+
 		if(multicolor)
             GX_Color4u8(color[i].r, color[i].g, color[i].b, color[i].a);
         else
@@ -315,7 +315,7 @@ s32 TakeScreenshot(const char *path)
 	IMGCTX ctx = PNGU_SelectImageFromDevice (path);
 	s32 ret = PNGU_EncodeFromYCbYCr(ctx, vmode->fbWidth, vmode->viHeight, xfb[whichfb], 1);
 	PNGU_ReleaseImageContext (ctx);
-	
+
 	return ret;
 }
 

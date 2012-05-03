@@ -76,7 +76,7 @@ struct STheme
 	const u8*	scrollbar_arrowdown_over;
 	const u8*	scrollbar_arrowup;
 	const u8*	scrollbar_arrowup_over;
-	
+
 	// color
 	int		category_1;				// Alle
 	int		category_2;
@@ -91,8 +91,8 @@ struct STheme
 	int		title_2;
 	int		title_3;
 	int		program_name_1;			// Homebrew Filter
-	int		program_name_2;	
-	int		program_name_3;	
+	int		program_name_2;
+	int		program_name_3;
 	int		apps_1;					// Apps
 	int		apps_2;
 	int		apps_3;
@@ -107,10 +107,10 @@ struct STheme
 	int		button_tiny_text_3;
 	int		progressbar_color1_1;	// Ladebalken oben
 	int		progressbar_color1_2;
-	int		progressbar_color1_3;	
+	int		progressbar_color1_3;
 	int		progressbar_color2_1;	// Ladebalken unten
 	int		progressbar_color2_2;
-	int		progressbar_color2_3;	
+	int		progressbar_color2_3;
 };
 extern struct STheme Theme;
 

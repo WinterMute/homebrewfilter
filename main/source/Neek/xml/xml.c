@@ -55,13 +55,13 @@ void CreateXmlFile(const char* filename, struct SSettingsNeek2o *Settings)
     mxmlElementSetAttr(data, "nandbootargument",Settings->nandbootargument);
     mxmlElementSetAttr(data, "neekbootargument",Settings->neekbootargument);
 
-	
+
    /*save the xml file to a file*/
    FILE *fp;
    fp = fopen(filename, "w");
 
    mxmlSaveFile(xml, fp, MXML_NO_CALLBACK);
-   
+
    /*clean up*/
    fclose(fp);
    mxmlDelete(data);
@@ -79,8 +79,8 @@ int LoadXmlFile(const char* filename, struct SSettingsNeek2o *Settings)
 	//u32 last,teller;
 	/*Load our xml file! */
 	fp = fopen(filename, "r");
-	
-	if (fp==NULL) 
+
+	if (fp==NULL)
 	{
 	//WindowPrompt(filename, "Fehler", "Back",0);
 	fclose(fp);
@@ -92,7 +92,7 @@ int LoadXmlFile(const char* filename, struct SSettingsNeek2o *Settings)
 	/*Load and printf our values! */
 	/* As a note, its a good idea to normally check if node* is NULL */
 	data = mxmlFindElement(tree, tree, "neek2oconfig", NULL, NULL, MXML_DESCEND);
-	
+
 	//snprintf(Settings->type,8,"%s",mxmlElementGetAttr(data,"type"));
 	snprintf(Settings->neeknandpath,64,"%s",mxmlElementGetAttr(data,"neeknandpath"));
 	snprintf(Settings->neekdipath,64,"%s",mxmlElementGetAttr(data,"neekdipath"));
@@ -106,14 +106,14 @@ int LoadXmlFile(const char* filename, struct SSettingsNeek2o *Settings)
 	snprintf(Settings->neekbootdescription,80,"%s",mxmlElementGetAttr(data,"neekbootdescription"));
 	snprintf(Settings->nandbootargument,80,"%s",mxmlElementGetAttr(data,"nandbootargument"));
 	snprintf(Settings->neekbootargument,80,"%s",mxmlElementGetAttr(data,"neekbootargument"));
-	
+
 	//strcpy(Settings->SMB_PWD,mxmlElementGetAttr(data,"password"));
 	//snprintf(Settings->SMB_PWD,64,"%s",mxmlElementGetAttr(data,"password"));
 	//strcpy(Settings->SMB_SHARE,mxmlElementGetAttr(data,"smbsharename"));
 	//snprintf(Settings->SMB_SHARE,64,"%s",mxmlElementGetAttr(data,"smbsharename"));
-	//strcpy(Settings->SMB_IP,(char*)mxmlElementGetAttr(data,"smbip")); 
-	//snprintf(Settings->SMB_IP,20,"%s",mxmlElementGetAttr(data,"smbip")); 
-	
+	//strcpy(Settings->SMB_IP,(char*)mxmlElementGetAttr(data,"smbip"));
+	//snprintf(Settings->SMB_IP,20,"%s",mxmlElementGetAttr(data,"smbip"));
+
 	mxmlDelete(data);
 	mxmlDelete(tree);
 
@@ -125,7 +125,7 @@ int LoadXmlFile(const char* filename, struct SSettingsNeek2o *Settings)
 		for (counter=0;counter<3;counter++)
 		{
 			temppath[counter] = toupper((int)(temppath[counter]));
-		}								
+		}
 		if (strncmp(temppath,"USB",3)==0)
 		{
 			strcpy(Settings->nanddisc,"usb1:/");

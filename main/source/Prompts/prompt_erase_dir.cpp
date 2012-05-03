@@ -18,7 +18,7 @@ bool eraseDir(const char *AppName)
 {
 	bool stop = true;
 	bool auswahl = false;
-	
+
 	GuiWindow promptWindow(520,360);
 	promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	promptWindow.SetPosition(0, -10);
@@ -35,17 +35,17 @@ bool eraseDir(const char *AppName)
 	GuiText zeile2Txt(tr("Delete Forever?"), 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	zeile2Txt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	zeile2Txt.SetPosition(0,-10);
-	
+
 	// image
 	GuiImageData btn(Theme.button_small);
 	GuiImage btn1Img(&btn);
 	GuiImage btn2Img(&btn);
-	
+
 	// image over
 	GuiImageData btn_over(Theme.button_small_focus);
 	GuiImage btn1ImgOver(&btn_over);
 	GuiImage btn2ImgOver(&btn_over);
-	
+
 	// papierkorb
 	GuiImageData recycle_bin_data(Theme.recycle_bin);
 	GuiImage recycle_bin(&recycle_bin_data);
@@ -90,13 +90,13 @@ bool eraseDir(const char *AppName)
 	while(stop)
 	{
 		usleep(100);
-		
+
 		if(btn1.GetState() == STATE_CLICKED)
 		{
 			auswahl = true;
 			stop = false;
 		}
-		
+
 		if(btn2.GetState() == STATE_CLICKED)
 			stop = false;
 	}
@@ -105,7 +105,7 @@ bool eraseDir(const char *AppName)
 	mainWindow->Remove(&promptWindow);
 	mainWindow->SetState(STATE_DEFAULT);
 	ResumeGui();
-	
+
 	return auswahl;
 }
 

@@ -31,7 +31,7 @@ distribution.
 #include <gccore.h>
 #include <ogc/machine/processor.h>
 #include "gecko.h"
- 
+
 
 #define CHECK_AHB       0x0D800064
 #define MEM2_PROT       0x0D8B420A
@@ -52,17 +52,17 @@ s32 Patch_ahbprot(void)
 	*(u32*)0x80002174 = 0x60000000;
 
 	if (read32(CHECK_AHB) != 0xffffffff)
-	{	
+	{
 		gprintf("AHBPROT doesn't seem to be disabled.\n");
 		return false;
 	}
-	else 
+	else
 	{
 		u16 *patchme;
 		write16(MEM2_PROT, 2);
-		for (patchme=ES_MODULE_START; patchme < ES_MODULE_START+0x4000; patchme++) 
+		for (patchme=ES_MODULE_START; patchme < ES_MODULE_START+0x4000; patchme++)
 		{
-			if (!memcmp(patchme, ticket_check, sizeof(ticket_check))) 
+			if (!memcmp(patchme, ticket_check, sizeof(ticket_check)))
 			{
 				gprintf("Found TMD Access rights check at %p\n", patchme);
 				// write16/uncached poke doesn't work for this. Go figure.

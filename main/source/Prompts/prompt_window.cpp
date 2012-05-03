@@ -27,17 +27,17 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 	promptWindow.SetPosition(0, -10);
 	GuiTrigger trigA;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
-	
+
 
 	GuiImageData dialogBox(Theme.dialog_background);
 	GuiImage dialogBoxImg(&dialogBox);
 
 	GuiImageData btnOutline(Theme.button_small);
 	GuiImage btn1Img(&btnOutline);
-	
+
 	GuiImageData btnOutlineOver(Theme.button_small_focus);
 	GuiImage btn1ImgOver(&btnOutlineOver);
-	
+
 	GuiText titleTxt(title, 26, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	titleTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	titleTxt.SetPosition(0,40);

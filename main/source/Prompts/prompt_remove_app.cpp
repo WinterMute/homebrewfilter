@@ -18,7 +18,7 @@ bool RemoveApp(const char *AppName)
 {
 	bool stop = true;
 	bool auswahl = false;
-	
+
 	GuiTrigger trigA;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
 	GuiTrigger trigB;
@@ -39,7 +39,7 @@ bool RemoveApp(const char *AppName)
 
 	GuiText zeile2Txt(tr("Really remove?"), 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	zeile2Txt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
-	
+
 	GuiText okTxt(tr("Yes"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiImage okImg(&btnOutline);
 	GuiImage okImgOver(&btnOutlineOver);
@@ -79,13 +79,13 @@ bool RemoveApp(const char *AppName)
 	while(stop)
 	{
 		usleep(100);
-		
+
 		if(ok.GetState() == STATE_CLICKED)
 		{
 			auswahl = true;
 			stop = false;
 		}
-		
+
 		if(back.GetState() == STATE_CLICKED)
 			stop = false;
 	}
@@ -94,7 +94,7 @@ bool RemoveApp(const char *AppName)
 	mainWindow->Remove(&promptWindow);
 	mainWindow->SetState(STATE_DEFAULT);
 	ResumeGui();
-	
+
 	return auswahl;
 }
 

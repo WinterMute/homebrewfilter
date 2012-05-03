@@ -80,7 +80,7 @@ struct SSettings
 	int		total_page;
 	int		checkrev;
 	char	code[5];
-	
+
 	string	device_dat;
 	string	dir_dat;
 	string	settings_dat;
@@ -89,14 +89,14 @@ struct SSettings
 	string	startingAppName;
 	string	forwarder_arg;
 	string  force_reload;
-	
+
 	int		Apps_from;
 	int		Apps_to;
-	
+
 	bool	grid;
 	bool	unassigned;
 	int		system;					// 0 = GC  /  1 = Wii  /  2 = Wii/GC
-	
+
 	int		temp_width;
 	int		temp_height;
 	int		temp_horizontal;
@@ -115,7 +115,7 @@ struct SOptions
 	char		temp_code[5];
 	int			temp_network;
 	int			temp_newrevtext;
-	
+
     int			last_category;			// letzte kategorie merken
     int			slide_effect;
 	char		theme[256];

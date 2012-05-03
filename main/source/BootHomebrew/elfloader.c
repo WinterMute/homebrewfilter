@@ -69,7 +69,7 @@ u32 load_elf_image (void *addr)
                    || shdr->sh_addr == 0 || shdr->sh_size == 0) {
                         continue;
                 }
-                
+
                 shdr->sh_addr &= 0x3FFFFFFF;
                 shdr->sh_addr |= 0x80000000;
 

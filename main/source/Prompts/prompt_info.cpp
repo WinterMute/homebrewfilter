@@ -74,7 +74,7 @@ infoPrompt()
     Entrie[i]->SetPosition(x,y);
 	i++;
 	y += 32;
-	
+
 	Entrie[i] = new GuiText("- Dimok", 20, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
     Entrie[i]->SetAlignment(ALIGN_LEFT, ALIGN_TOP);
     Entrie[i]->SetPosition(x+50,y);
@@ -97,21 +97,21 @@ infoPrompt()
 
 	char Rev[50];
     sprintf(Rev, "Rev. %i", SvnRev());
-	
+
 	GuiText RevTxt(Rev, 20, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	RevTxt.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
 	RevTxt.SetPosition(30,24);
- 	
+
 	char RunsIos[50];
 	if((*(volatile unsigned int*)HW_ARMIRQMASK)&&(*(volatile unsigned int*)HW_ARMIRQFLAG))
 		sprintf(RunsIos, "IOS %i Rev. %i (HW_AHBPROT)", IOS_GetVersion(), IOS_GetRevision());
 	else
 		sprintf(RunsIos, "IOS %i Rev. %i", IOS_GetVersion(), IOS_GetRevision());
-	
+
 	GuiText RunsIosTxt(RunsIos, 14, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	RunsIosTxt.SetAlignment(ALIGN_RIGHT, ALIGN_TOP);
 	RunsIosTxt.SetPosition(-30,24);
- 	
+
 	GuiText backTxt(tr("Back"), 24, (GXColor){Theme.button_tiny_text_1, Theme.button_tiny_text_2, Theme.button_tiny_text_3, 255});
 	GuiImage backImg(&btnOutline);
 	GuiImage backImgOver(&btnOutlineOver);
@@ -125,10 +125,10 @@ infoPrompt()
 	back.SetTrigger(&trigB);
 
 	promptWindow.Append(&dialogBoxImg);
-	
+
 	for(int i = 0; i < CreditEntries; i++)
         promptWindow.Append(Entrie[i]);
-		
+
     promptWindow.Append(&RevTxt);
     promptWindow.Append(&RunsIosTxt);
 	promptWindow.Append(&back);

@@ -51,21 +51,21 @@ int systemPrompt()
 	GuiImage wii_BtnImgOver(&wii_BtnImgDataOver);
 	GuiImage gc_BtnImgOver(&gc_BtnImgDataOver);
 	GuiImage wii_gc_BtnImgOver(&wii_gc_BtnImgDataOver);
-	
+
 	GuiButton wii_Btn(wii_BtnImgData.GetWidth(), wii_BtnImgData.GetHeight());
 	wii_Btn.SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
 	wii_Btn.SetPosition(8, 0);
 	wii_Btn.SetImage(&wii_BtnImg);
 	wii_Btn.SetImageOver(&wii_BtnImgOver);
 	wii_Btn.SetTrigger(&trigA);
-	
+
 	GuiButton gc_Btn(gc_BtnImgData.GetWidth(), gc_BtnImgData.GetHeight());
 	gc_Btn.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	gc_Btn.SetPosition(0, 0);
 	gc_Btn.SetImage(&gc_BtnImg);
 	gc_Btn.SetImageOver(&gc_BtnImgOver);
 	gc_Btn.SetTrigger(&trigA);
-	
+
 	GuiButton wii_gc_Btn(wii_gc_BtnImgData.GetWidth(), wii_gc_BtnImgData.GetHeight());
 	wii_gc_Btn.SetAlignment(ALIGN_RIGHT, ALIGN_MIDDLE);
 	wii_gc_Btn.SetPosition(-8, 0);
@@ -97,19 +97,19 @@ int systemPrompt()
 			system = 0;
 			stop = true;
 		}
-		
+
 		if(gc_Btn.GetState() == STATE_CLICKED)
 		{
 			system = 1;
 			stop = true;
 		}
-		
+
 		if(wii_gc_Btn.GetState() == STATE_CLICKED)
 		{
 			system = 2;
 			stop = true;
 		}
-		
+
 		if(back.GetState() == STATE_CLICKED)
 			stop = true;
 	}
@@ -118,7 +118,7 @@ int systemPrompt()
 	mainWindow->Remove(&promptWindow);
 	mainWindow->SetState(STATE_DEFAULT);
 	ResumeGui();
-	
+
 	return system;
 }
 

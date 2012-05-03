@@ -23,15 +23,15 @@ void ResumeThrobberThread()
 	if(throbberHalt)
 	{
 		throbberHalt = false;
-		
+
 		throbberImg = new GuiImage(new GuiImageData(Theme.throbber));
 		throbberImg->SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
-		
+
 		HaltGui();
 		mainWindow->SetState(STATE_DISABLED);
 		mainWindow->Append(throbberImg);
 		ResumeGui();
-		
+
 		LWP_ResumeThread(throbberthread);
 	}
 }
@@ -42,7 +42,7 @@ void HaltThrobberThread()
 	{
 		spin = 0;
 		throbberHalt = true;
-		
+
 		HaltGui();
 		mainWindow->Remove(throbberImg);
 		mainWindow->SetState(STATE_DEFAULT);

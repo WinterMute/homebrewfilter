@@ -39,7 +39,7 @@ int sortPrompt()
 	GuiImage btn3Img(&btn);
 	GuiImage btn4Img(&btn);
 	GuiImage backImg(&btn);
-	
+
 	// Buttons over data
 	GuiImageData btn_over(Theme.button_small_focus);
 	GuiImage btn1ImgOver(&btn_over);
@@ -56,7 +56,7 @@ int sortPrompt()
 	btn1.SetImage(&btn1Img);
 	btn1.SetImageOver(&btn1ImgOver);
 	btn1.SetTrigger(&trigA);
-	
+
 	GuiText btn2Txt(tr("Name ( Z - A )"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton btn2(btn.GetWidth(), btn.GetHeight());
 	btn2.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -65,7 +65,7 @@ int sortPrompt()
 	btn2.SetImage(&btn2Img);
 	btn2.SetImageOver(&btn2ImgOver);
 	btn2.SetTrigger(&trigA);
-	
+
 	GuiText btn3Txt(tr("Folder ( A - Z )"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton btn3(btn.GetWidth(), btn.GetHeight());
 	btn3.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -74,7 +74,7 @@ int sortPrompt()
 	btn3.SetImage(&btn3Img);
 	btn3.SetImageOver(&btn3ImgOver);
 	btn3.SetTrigger(&trigA);
-	
+
 	GuiText btn4Txt(tr("Folder ( Z - A )"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton btn4(btn.GetWidth(), btn.GetHeight());
 	btn4.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -83,7 +83,7 @@ int sortPrompt()
 	btn4.SetImage(&btn4Img);
 	btn4.SetImageOver(&btn4ImgOver);
 	btn4.SetTrigger(&trigA);
-	
+
 	GuiText backTxt(tr("Back"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton back(btn.GetWidth(), btn.GetHeight());
 	back.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -117,25 +117,25 @@ int sortPrompt()
 			device = NAME_A_Z;
 			stop = true;
 		}
-		
+
 		if(btn2.GetState() == STATE_CLICKED)
 		{
 			device = NAME_Z_A;
 			stop = true;
 		}
-			
+
 		if(btn3.GetState() == STATE_CLICKED)
 		{
 			device = FOLDERNAME_A_Z;
 			stop = true;
 		}
-			
+
 		if(btn4.GetState() == STATE_CLICKED)
 		{
 			device = FOLDERNAME_Z_A;
 			stop = true;
 		}
-			
+
 		if(back.GetState() == STATE_CLICKED)
 			stop = true;
 	}

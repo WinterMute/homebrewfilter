@@ -25,14 +25,14 @@ bool font_dl = false;
 int MenuSettingsFont()
 {
 	int menu = MENU_NONE;
-	
+
 	int ret = -1;
 	int activated = -1;
 	int i = 0;
 	int focus = 0;
-	
+
 	OptionList options;
-	
+
 	sprintf(options.name[i], tr("STANDARD"));
 	if(stricmp(Options.temp_font.c_str(), tr("STANDARD")) == 0)
 	{
@@ -56,7 +56,7 @@ int MenuSettingsFont()
 				if(temp.length() > 3 && stricmp(temp.substr(temp.length() -4, 4).c_str(), ".ttf") == 0)
 				{
 					sprintf(options.name[i], temp.c_str());
-					
+
 					if(stricmp(Options.temp_font.c_str(), temp.c_str()) == 0)
 					{
 						sprintf (options.value[i], tr("activated"));
@@ -64,7 +64,7 @@ int MenuSettingsFont()
 					}
 					else
 						sprintf (options.value[i], " ");
-					
+
 					i++;
 				}
 			}
@@ -137,7 +137,7 @@ int MenuSettingsFont()
 	w.Append(&backBtn);
 	mainWindow->Append(&w);
 	mainWindow->Append(&optionBrowser);
-	
+
 	mainWindow->ChangeFocus(&optionBrowser);
 	ResumeGui();
 
@@ -176,12 +176,12 @@ int MenuSettingsFont()
 			}
 			HaltResumeGui();
 		}
-		
+
 		if(downloadBtn.GetState() == STATE_CLICKED)
 		{
 			downloadBtn.ResetState();
 			string fontdownload = checkFontsPrompt();
-			
+
 			if(fontdownload != "NULL")
 			{
 				if(font_folder_exists())
@@ -192,16 +192,16 @@ int MenuSettingsFont()
 					break;
 				}
 			}
-			
+
 		}
-		
+
 		if(okBtn.GetState() == STATE_CLICKED)
 		{
 			Options.temp_last_setting = 1;
 			Options.temp_font = options.name[activated];
 			menu = MENU_SETTINGS_FILE;
 		}
-		
+
 		if(backBtn.GetState() == STATE_CLICKED)
 		{
 			Options.temp_last_setting = 1;

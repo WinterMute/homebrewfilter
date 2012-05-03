@@ -28,11 +28,11 @@ MetaEdit(string dir)
 
 	dir += "meta.xml";
 	string line, quelltext;
-	
+
 	ifstream in(dir.c_str());
 	while(getline(in, line))
 		quelltext += line + "\n";
-	
+
 	GuiWindow promptWindow(520,360);
 	promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	promptWindow.SetPosition(0, -10);
@@ -58,15 +58,15 @@ MetaEdit(string dir)
 	upTxt.SetFont(symbol_ttf, symbol_ttf_size);
 	upTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	upTxt.SetPosition(0, y -20);
-	
+
 	GuiText downTxt("d", 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	downTxt.SetFont(symbol_ttf, symbol_ttf_size);
 	downTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	downTxt.SetPosition(0, y + (place * (number-1)) + 15);
-	
+
 	GuiButton * Entrie[number];
 	GuiText * EntrieTxt[number];
-	
+
 	for(i=0; i < number && i < (signed)meta.line.size(); i++)
 	{
 		EntrieTxt[i] = new GuiText(meta.line[i].c_str(), 18, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
@@ -99,16 +99,16 @@ MetaEdit(string dir)
 
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
-	
+
 	for(int x=0; x < i; x++)
 		promptWindow.Append(Entrie[x]);
-	
+
 	if((signed)meta.line.size() >= number)
 	{
 		promptWindow.Append(&upTxt);
 		promptWindow.Append(&downTxt);
 	}
-	
+
 	promptWindow.Append(&back);
 
 	HaltGui();
@@ -124,66 +124,66 @@ MetaEdit(string dir)
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
 		{
 			startline = meta.text_up();
-			
+
 			for(int x=0; x < i; x++)
 				EntrieTxt[x]->SetText(meta.line[x + startline].c_str());
-		
+
 			HaltResumeGui();
 		}
-		
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
 		{
 			startline = meta.text_down(number);
-			
+
 			for(int x=0; x < i; x++)
 				EntrieTxt[x]->SetText(meta.line[x + startline].c_str());
-			
+
 			HaltResumeGui();
 		}
 
 		if(back.GetState() == STATE_CLICKED)
 			choice = 0;
-			
+
 		for(int x=0; x < i; x++)
 		{
 			if(Entrie[x]->GetState() == STATE_CLICKED)
 			{
 				Entrie[x]->ResetState();
-				
+
 				string temp = meta.line[x + startline];
 				while((signed)temp.find("\n") != -1)
 					temp.replace(temp.find("\n"), 1, "¶");
-					
+
 				char new_text[256];
 				sprintf (new_text, "%s", temp.c_str());
 				OnScreenKeyboard(new_text, 256, true);
-				
+
 				mainWindow->SetState(STATE_DISABLED);
 				promptWindow.SetState(STATE_DEFAULT);
-				
+
 				if(strcasecmp(new_text,"NULL") != 0 )
 				{
 					changed = true;
 					meta.line[x + startline] = new_text;
 					while((signed)meta.line[x + startline].find("¶") != -1)
 						meta.line[x + startline].replace(meta.line[x + startline].find("¶"), 1, "\n");
-						
+
 					EntrieTxt[x]->SetText(meta.line[x + startline].c_str());
-					
+
 					quelltext.clear();
 					for(int a = 0; a < (signed)meta.line.size(); a++)
 						quelltext += meta.line[a];
-						
+
 					meta.text(quelltext, 18, 440);
 					for(int x=0; x < i; x++)
 						EntrieTxt[x]->SetText(meta.line[x + startline].c_str());
 				}
-					
+
 				break;
 			}
 		}
 	}
-	
+
 	if(changed)
 	{
 		ofstream datei(dir.c_str());

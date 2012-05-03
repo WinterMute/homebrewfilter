@@ -37,9 +37,9 @@ void ExitApp();
 
 
 
-int boot_neek2o() 
+int boot_neek2o()
 {
-	int allfound = 0;	
+	int allfound = 0;
 	s32 nresult;
 	u32 kernel_size;
 	int ferr;
@@ -60,7 +60,7 @@ int boot_neek2o()
 		}
 	}
 	if (allfound == 0)
-	{						
+	{
 		strcpy(filepath,"usb1:/sneek/kernel.bin");
 	 	if (FileExist(filepath))
 		{
@@ -85,13 +85,13 @@ int boot_neek2o()
 			if ((kpath[0] == 's')||(kpath[0] == 'S'))
 			{
 				strcpy(n2oSettings.nanddisc,"sd1:/");
-				strcpy(n2oSettings.nandfolder,"/");			
+				strcpy(n2oSettings.nandfolder,"/");
 			}
 			else
 			{
 				strcpy(n2oSettings.nanddisc,"usb1:/");
 				strcpy(n2oSettings.nandfolder,"/");
-			}			
+			}
 		}
 		nresult = adjust_nandpath();
 		if((nresult == -2) || (nresult == -3))
@@ -107,7 +107,7 @@ int boot_neek2o()
 		}
 		if (nresult == -2)
 		{
-			gprintf("Will use nandcfg.bin nand or rootnand instead\n"); 	
+			gprintf("Will use nandcfg.bin nand or rootnand instead\n");
 		}
 		if (nresult == -3)
 		{
@@ -162,4 +162,3 @@ int boot_neek2o()
 	}
 	return false;
 }
-	

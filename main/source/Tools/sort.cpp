@@ -20,16 +20,16 @@ void sort_apps()
 			folder.erase(folder.find_last_of("/"));
 		if((signed)folder.find_last_of("/") != -1)
 			folder.erase(0, folder.find_last_of("/") +1);
-			
+
 		vector<string>::iterator pos = find(AvailableCategory.apps[category].begin(), AvailableCategory.apps[category].end(), folder);
 		if ( pos != AvailableCategory.apps[category].end() )
 			AvailableCategory.apps[category].erase(pos);
-			
+
 		AvailableCategory.apps[category].insert(AvailableCategory.apps[category].begin(), folder);
 	}
-	
+
 	copy_app_in_category();
-	
+
 	switch (_sort)
 	{
 		case NAME_A_Z:
@@ -56,46 +56,46 @@ bool sort_name_a_z(const homebrew_list& a, const homebrew_list& b)
 	_sort = NAME_A_Z;
 	string str1 = a.name;
 	string str2 = b.name;
-	
+
 	transform(str1.begin(),str1.end(),str1.begin(),::tolower);	// in kleinebuchstaben umwandeln
 	transform(str2.begin(),str2.end(),str2.begin(),::tolower);	// in kleinebuchstaben umwandeln
-	
+
 	return str1 < str2;
 }
 
 
 bool sort_name_z_a(const homebrew_list& a, const homebrew_list& b)
-{ 
+{
 	_sort = NAME_Z_A;
 	string str1 = a.name;
 	string str2 = b.name;
-	
+
 	transform(str1.begin(),str1.end(),str1.begin(),::tolower);	// in kleinebuchstaben umwandeln
 	transform(str2.begin(),str2.end(),str2.begin(),::tolower);	// in kleinebuchstaben umwandeln
-	
+
 	return str1 > str2;
 }
 
 bool sort_foldername_a_z(const homebrew_list& a, const homebrew_list& b)
-{ 
+{
 	_sort = FOLDERNAME_A_Z;
 	string str1 = a.foldername;
 	string str2 = b.foldername;
-	
+
 	transform(str1.begin(),str1.end(),str1.begin(),::tolower);	// in kleinebuchstaben umwandeln
 	transform(str2.begin(),str2.end(),str2.begin(),::tolower);	// in kleinebuchstaben umwandeln
-	
+
 	return str1 < str2;
 }
 
 bool sort_foldername_z_a(const homebrew_list& a, const homebrew_list& b)
-{ 
+{
 	_sort = FOLDERNAME_Z_A;
 	string str1 = a.foldername;
 	string str2 = b.foldername;
-	
+
 	transform(str1.begin(),str1.end(),str1.begin(),::tolower);	// in kleinebuchstaben umwandeln
 	transform(str2.begin(),str2.end(),str2.begin(),::tolower);	// in kleinebuchstaben umwandeln
-	
+
 	return str1 > str2;
 }

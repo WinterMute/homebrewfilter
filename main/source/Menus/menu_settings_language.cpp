@@ -24,14 +24,14 @@ bool language_dl = false;
 int MenuSettingsLanguage()
 {
 	int menu = MENU_NONE;
-	
+
 	int ret = -1;
 	int activated = -1;
 	int i = 0;
 	int focus = 0;
-	
+
 	OptionList options;
-	
+
 	sprintf(options.name[i], tr("STANDARD"));
 	if(stricmp(Options.temp_language.c_str(), tr("STANDARD")) == 0)
 	{
@@ -45,7 +45,7 @@ int MenuSettingsLanguage()
 
 	DIR *dirHandle;
 	struct dirent * dirEntry;
-	
+
 	dirHandle = opendir(check_path(Settings.device_dat + ":/config/HBF/Languages").c_str());
 	if (dirHandle)
 	{
@@ -58,7 +58,7 @@ int MenuSettingsLanguage()
 				{
 					temp.erase(temp.length() -5, 5);	// endung entfernen
 					sprintf(options.name[i], temp.c_str());
-					
+
 					if(stricmp(Options.temp_language.c_str(), temp.c_str()) == 0)
 					{
 						sprintf (options.value[i], tr("activated"));
@@ -66,7 +66,7 @@ int MenuSettingsLanguage()
 					}
 					else
 						sprintf (options.value[i], " ");
-					
+
 					i++;
 				}
 			}
@@ -139,7 +139,7 @@ int MenuSettingsLanguage()
 	w.Append(&backBtn);
 	mainWindow->Append(&w);
 	mainWindow->Append(&optionBrowser);
-	
+
 	mainWindow->ChangeFocus(&optionBrowser);
 	ResumeGui();
 
@@ -178,12 +178,12 @@ int MenuSettingsLanguage()
 			}
 			HaltResumeGui();
 		}
-		
+
 		if(downloadBtn.GetState() == STATE_CLICKED)
 		{
 			downloadBtn.ResetState();
 			string languagedownload = checkLanguagesPrompt();
-			
+
 			if(languagedownload != "NULL" && language_folder_exists())
 			{
 				languageDownload(languagedownload);
@@ -192,14 +192,14 @@ int MenuSettingsLanguage()
 				break;
 			}
 		}
-		
+
 		if(okBtn.GetState() == STATE_CLICKED)
 		{
 			Options.temp_last_setting = 1;
 			Options.temp_language = options.name[activated];
 			menu = MENU_SETTINGS_FILE;
 		}
-		
+
 		if(backBtn.GetState() == STATE_CLICKED)
 		{
 			Options.temp_last_setting = 1;

@@ -24,7 +24,7 @@ static GXColor presetColor = (GXColor){255, 255, 255, 255};
 /**
  * Constructor for the GuiText class.
  */
- 
+
 GuiText::GuiText(const char * t, int s, GXColor c)
 {
 	text = NULL;
@@ -44,7 +44,7 @@ GuiText::GuiText(const char * t, int s, GXColor c)
 
 	alignmentHor = ALIGN_CENTRE;
 	alignmentVert = ALIGN_MIDDLE;
-	
+
 	if(t)
 	{
 		text = charToWideChar(t);
@@ -74,7 +74,7 @@ GuiText::GuiText(const wchar_t * t, int s, GXColor c)
 
 	alignmentHor = ALIGN_CENTRE;
 	alignmentVert = ALIGN_MIDDLE;
-	
+
 	if(t)
 	{
 		text = new (std::nothrow) wchar_t[wcslen(t)+1];
@@ -109,7 +109,7 @@ GuiText::GuiText(const char * t)
 
 	alignmentHor = presetAlignmentHor;
 	alignmentVert = presetAlignmentVert;
-	
+
 	if(t)
 	{
 		text = charToWideChar(t);
@@ -312,7 +312,7 @@ int GuiText::GetTextWidthToPosition(int pos)
 //	letterPos = 0;
 	if(pos < 0 )
 		return 0;
-		
+
     int i = 0, currentWidth = 0;
 
 	int newSize = size * GetScale() * GetFontScale();
@@ -325,7 +325,7 @@ int GuiText::GetTextWidthToPosition(int pos)
 		letterPos = i;
 		if(i == pos)
 			return currentWidth;
-			
+
 		currentWidth += (font ? font : fontSystem)->getCharWidth(text[i], currentSize, i > 0 ? text[i-1] : 0x0000);
 		i++;
     }
@@ -343,7 +343,7 @@ int GuiText::GetTextMaxWidth(int width)
 	letterPos = 0;
 	if(width <= 0)
 		return 0;
-		
+
     int i = 0, tempWidth = 0, currentWidth = 0;
 
 	int newSize = size * GetScale() * GetFontScale();
@@ -357,7 +357,7 @@ int GuiText::GetTextMaxWidth(int width)
 		tempWidth += (font ? font : fontSystem)->getCharWidth(text[i], currentSize, i > 0 ? text[i-1] : 0x0000);
         if(tempWidth >= width)
 			return currentWidth;
-			
+
 		currentWidth = tempWidth;
         i++;
     }

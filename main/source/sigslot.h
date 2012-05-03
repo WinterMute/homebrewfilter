@@ -6,7 +6,7 @@
 //          the author takes on no responsibility or liability for any use.
 //
 // QUICK DOCUMENTATION
-//              
+//
 //                              (see also the full documentation at http://sigslot.sourceforge.net/)
 //
 //              #define switches
@@ -45,7 +45,7 @@
 //                                                                                errors that aren't really there. If you feel like investigating this,
 //                                                                                please contact the author.
 //
-//              
+//
 //              THREADING MODES
 //
 //                      single_threaded                         - Your program is assumed to be single threaded from the point of view
@@ -549,7 +549,7 @@ namespace sigslot {
 
                         m_senders.erase(m_senders.begin(), m_senders.end());
                 }
-   
+
         private:
                 sender_set m_senders;
         };
@@ -624,7 +624,7 @@ namespace sigslot {
                                 ++it;
                         }
                 }
-               
+
                 bool connected()
                 {
                         return m_connected_slots.size() != 0;
@@ -670,7 +670,7 @@ namespace sigslot {
                 }
 
         protected:
-                connections_list m_connected_slots;  
+                connections_list m_connected_slots;
         };
 
         template<class arg1_type, class mt_policy>
@@ -790,7 +790,7 @@ namespace sigslot {
 
 
         protected:
-                connections_list m_connected_slots;  
+                connections_list m_connected_slots;
         };
 
         template<class arg1_type, class arg2_type, class mt_policy>
@@ -910,7 +910,7 @@ namespace sigslot {
                 }
 
         protected:
-                connections_list m_connected_slots;  
+                connections_list m_connected_slots;
         };
 
         template<class arg1_type, class arg2_type, class arg3_type, class mt_policy>
@@ -1030,7 +1030,7 @@ namespace sigslot {
                 }
 
         protected:
-                connections_list m_connected_slots;  
+                connections_list m_connected_slots;
         };
 
         template<class arg1_type, class arg2_type, class arg3_type, class arg4_type, class mt_policy>
@@ -1150,7 +1150,7 @@ namespace sigslot {
                 }
 
         protected:
-                connections_list m_connected_slots;  
+                connections_list m_connected_slots;
         };
 
         template<class arg1_type, class arg2_type, class arg3_type, class arg4_type,
@@ -1272,7 +1272,7 @@ namespace sigslot {
                 }
 
         protected:
-                connections_list m_connected_slots;  
+                connections_list m_connected_slots;
         };
 
         template<class arg1_type, class arg2_type, class arg3_type, class arg4_type,
@@ -1394,7 +1394,7 @@ namespace sigslot {
                 }
 
         protected:
-                connections_list m_connected_slots;  
+                connections_list m_connected_slots;
         };
 
         template<class arg1_type, class arg2_type, class arg3_type, class arg4_type,
@@ -1516,7 +1516,7 @@ namespace sigslot {
                 }
 
         protected:
-                connections_list m_connected_slots;  
+                connections_list m_connected_slots;
         };
 
         template<class arg1_type, class arg2_type, class arg3_type, class arg4_type,
@@ -1639,7 +1639,7 @@ namespace sigslot {
                 }
 
         protected:
-                connections_list m_connected_slots;  
+                connections_list m_connected_slots;
         };
 
 
@@ -1704,7 +1704,7 @@ namespace sigslot {
                         m_pobject = pobject;
                         m_pmemfun = pmemfun;
                 }
-               
+
                 virtual ~_connection1()
                 {
                         ;

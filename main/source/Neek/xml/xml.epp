@@ -48,13 +48,13 @@ void CreateXmlFile(const char* filename, struct SSettingsNeek2o *Settings)
 
     mxmlElementSetAttr(data, "neekbootchannel",Settings->neekbootchannel);
     mxmlElementSetAttr(data, "neekselection",Settings->neekselection);
-	
+
    /*save the xml file to a file*/
    FILE *fp;
    fp = fopen(filename, "w");
 
    mxmlSaveFile(xml, fp, MXML_NO_CALLBACK);
-   
+
    /*clean up*/
    fclose(fp);
    mxmlDelete(data);
@@ -69,8 +69,8 @@ int LoadXmlFile(const char* filename, struct SSettingsNeek2o *Settings)
 	//u32 last,teller;
 	/*Load our xml file! */
 	fp = fopen(filename, "r");
-	
-	if (fp==NULL) 
+
+	if (fp==NULL)
 	{
 	//WindowPrompt(filename, "Fehler", "Back",0);
 	fclose(fp);
@@ -82,7 +82,7 @@ int LoadXmlFile(const char* filename, struct SSettingsNeek2o *Settings)
 	/*Load and printf our values! */
 	/* As a note, its a good idea to normally check if node* is NULL */
 	data = mxmlFindElement(tree, tree, "neek2oconfig", NULL, NULL, MXML_DESCEND);
-	
+
 	snprintf(Settings->type,8,"%s",mxmlElementGetAttr(data,"type"));
 	snprintf(Settings->neeknandpath,64,"%s",mxmlElementGetAttr(data,"neeknandpath"));
 	snprintf(Settings->neekdipath,64,"%s",mxmlElementGetAttr(data,"neekdipath"));
@@ -92,14 +92,14 @@ int LoadXmlFile(const char* filename, struct SSettingsNeek2o *Settings)
 	snprintf(Settings->neekbootapplication,64,"%s",mxmlElementGetAttr(data,"neekbootapplication"));
 	snprintf(Settings->neekbootchannel,16,"%s",mxmlElementGetAttr(data,"neekbootchannel"));
 	snprintf(Settings->neekselection,2,"%s",mxmlElementGetAttr(data,"neekselection"));
-	
+
 	//strcpy(Settings->SMB_PWD,mxmlElementGetAttr(data,"password"));
 	//snprintf(Settings->SMB_PWD,64,"%s",mxmlElementGetAttr(data,"password"));
 	//strcpy(Settings->SMB_SHARE,mxmlElementGetAttr(data,"smbsharename"));
 	//snprintf(Settings->SMB_SHARE,64,"%s",mxmlElementGetAttr(data,"smbsharename"));
-	//strcpy(Settings->SMB_IP,(char*)mxmlElementGetAttr(data,"smbip")); 
-	//snprintf(Settings->SMB_IP,20,"%s",mxmlElementGetAttr(data,"smbip")); 
-	
+	//strcpy(Settings->SMB_IP,(char*)mxmlElementGetAttr(data,"smbip"));
+	//snprintf(Settings->SMB_IP,20,"%s",mxmlElementGetAttr(data,"smbip"));
+
 	mxmlDelete(data);
 	mxmlDelete(tree);
 

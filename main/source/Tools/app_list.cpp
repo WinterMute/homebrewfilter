@@ -97,8 +97,8 @@ void add(string device, string apps_path)
 					force_reload[0] = '/';
 					force_reload[1] = 0;
 				}
-				
-				
+
+
 				size_t amount_read;
 				FILE *fp = fopen(iconpath.c_str(),"r"); //open the png file
 				if(fp)	//make sure the file exists

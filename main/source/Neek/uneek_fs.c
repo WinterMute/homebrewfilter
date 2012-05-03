@@ -22,25 +22,25 @@ but it's better to stay on the safe area.
 rev. 1.04	fourth draft.
 shutdown function is now a stub as some programs call it before they end to force a remount
 exit_uneek_fs added to properly shutdown the uneek_usb_fs file system.
-max_write_sectors increased to speedup things. Transfer speed from wiixplorer gone up 
-from 20KB/s to 265KB/s.  
+max_write_sectors increased to speedup things. Transfer speed from wiixplorer gone up
+from 20KB/s to 265KB/s.
 
 rev. 1.05 fifth draft
 added "is_uneek" function
 
 rev. 1.06 sixth draft
 added "is_neek2" and "is_neek3" functions
-Crediar changed the boot2 version back from 5 to 4. 
+Crediar changed the boot2 version back from 5 to 4.
 The is_uneek function will not detect those neek versions anymore.
 Stfour created the is_neek2 method to detect if neek is running.
 JoostinOnline and GiantPune created the is_neek3 which is a little less code.
 So, you should use either is_neek2 or is_neek3
- 
+
 rev. 1.07 seventh draft
 added "is_neek4" function
 Dj_Skual created the is_neek4 method to detect if neek is running.
 
-added WII_launch_Channel. It's not really uneek_fs related, but it could be handy 
+added WII_launch_Channel. It's not really uneek_fs related, but it could be handy
 
 
 Copyright (C) 2011 Obcd
@@ -77,7 +77,7 @@ distribution.
 //#include <ogc/disc_io.h>
 
 
-//#define SHOW_GECKO_DEBUG			1	
+//#define SHOW_GECKO_DEBUG			1
 
 #ifdef SHOW_GECKO_DEBUG
 #include "gecko.h"
@@ -168,7 +168,7 @@ bool __io_uns_ReadSectors(u32 sector, u32 count, void *buffer)
 	buf = (u8 *)memalign(64, 512 * amount);
 
 	while(done < count)
-	{	
+	{
 		whence = 0;
 		if ((sec & 0x80000000)!= 0)
 		{
@@ -177,13 +177,13 @@ bool __io_uns_ReadSectors(u32 sector, u32 count, void *buffer)
 		}
 #ifdef	CACHE_SECTOR_LOCATION
 		if ((sector + done) != seek_cache)
-		{  
-#endif			
+		{
+#endif
 			ISFS_Seek(fu,sec,whence);
-#ifdef CACHE_SECTOR_LOCATION		
-			seek_cache = sector + done; 
+#ifdef CACHE_SECTOR_LOCATION
+			seek_cache = sector + done;
 		}
-#endif		
+#endif
 		s32 ret = ISFS_Read(fu,buf,512*amount);
 		if (ret == (s32)(512*amount))
 		{
@@ -191,9 +191,9 @@ bool __io_uns_ReadSectors(u32 sector, u32 count, void *buffer)
 			memcpy(resultbuf,buf,512*amount);
 	 		done+=amount;
 			sec = sector + done;
-#ifdef CACHE_SECTOR_LOCATION		
-			seek_cache = sector + done; 
-#endif		
+#ifdef CACHE_SECTOR_LOCATION
+			seek_cache = sector + done;
+#endif
 			if((count-done)<=MAX_READ_SECTORS)
 			{
 				amount = count - done;
@@ -205,11 +205,11 @@ bool __io_uns_ReadSectors(u32 sector, u32 count, void *buffer)
 		}
 		else
 		{
-#ifdef CACHE_SECTOR_LOCATION		
-			seek_cache = 0xfffffff8; 
-#endif		
+#ifdef CACHE_SECTOR_LOCATION
+			seek_cache = 0xfffffff8;
+#endif
 			return false;
-		} 
+		}
 	}
 	free(buf);
 	if (usb_verbose) {
@@ -245,7 +245,7 @@ bool __io_uns_WriteSectors(u32 sector, u32 count, void *buffer)
 	buf = (u8 *)memalign(64, 512 * amount);
 
 	while(done < count)
-	{	
+	{
 		whence = 0;
 		if ((sec & 0x80000000)!= 0)
 		{
@@ -254,13 +254,13 @@ bool __io_uns_WriteSectors(u32 sector, u32 count, void *buffer)
 		}
 #ifdef	CACHE_SECTOR_LOCATION
 		if ((sector + done) != seek_cache)
-		{  
-#endif			
+		{
+#endif
 			ISFS_Seek(fu,sec,whence);
-#ifdef CACHE_SECTOR_LOCATION		
-			seek_cache = sector + done; 
+#ifdef CACHE_SECTOR_LOCATION
+			seek_cache = sector + done;
 		}
-#endif		
+#endif
 		resultbuf = (u8*)buffer + (done * 512);
 		memcpy(buf,resultbuf,512*amount);
 		s32 ret = ISFS_Write(fu,buf,512*amount);
@@ -268,9 +268,9 @@ bool __io_uns_WriteSectors(u32 sector, u32 count, void *buffer)
 		{
 	 		done+=amount;
 			sec = sector + done;
-#ifdef CACHE_SECTOR_LOCATION		
-			seek_cache = sector + done; 
-#endif		
+#ifdef CACHE_SECTOR_LOCATION
+			seek_cache = sector + done;
+#endif
 			if((count-done)<=MAX_WRITE_SECTORS)
 			{
 				amount = count - done;
@@ -282,13 +282,13 @@ bool __io_uns_WriteSectors(u32 sector, u32 count, void *buffer)
 		}
 		else
 		{
-#ifdef CACHE_SECTOR_LOCATION		
-			seek_cache = 0xfffffff8; 
-#endif		
+#ifdef CACHE_SECTOR_LOCATION
+			seek_cache = 0xfffffff8;
+#endif
 			return false;
-		} 
+		}
 	 }
-	
+
 	free(buf);
 	if (usb_verbose) {
 		printf("usb-r: %x [%d]\n", sector, count);
@@ -348,9 +348,9 @@ bool init_uneek_fs(u32 mode)
 		}
 		if ((pstat->file_length == 0xfffffff0)&&(pstat->file_pos == 0xfffffff8)&&(fu>=0))
 		{
-#ifdef	CACHE_SECTOR_LOCATION		
+#ifdef	CACHE_SECTOR_LOCATION
 			seek_cache = 0xfffffff8;
-#endif		
+#endif
 			if (mode & ISFS_OPEN_WRITE)
 			{
 				__io_usbstorage.ioType = DEVICE_TYPE_WII_USB;
@@ -378,12 +378,12 @@ bool init_uneek_fs(u32 mode)
 			free (buf);
 			return true;
 		}
-//sneek 		
+//sneek
 		else if ((pstat->file_length == 0xfffffff1)&&(pstat->file_pos == 0xfffffff8)&&(fu>=0))
 		{
-#ifdef	CACHE_SECTOR_LOCATION		
+#ifdef	CACHE_SECTOR_LOCATION
 			seek_cache = 0xfffffff8;
-#endif		
+#endif
 			uneek_fs_type = UNEEK_FS_SD;
 			if (mode & ISFS_OPEN_WRITE)
 			{
@@ -395,7 +395,7 @@ bool init_uneek_fs(u32 mode)
 				__io_wiisd.writeSectors = (FN_MEDIUM_WRITESECTORS)&__io_uns_WriteSectors;
 				__io_wiisd.clearStatus = (FN_MEDIUM_CLEARSTATUS)&__io_uns_ClearStatus;
 				__io_wiisd.shutdown = (FN_MEDIUM_SHUTDOWN)&__io_uns_Shutdown;
-				
+
 				//usb and sd will be treated equally
 				//needed for joyflow with the sd only setup
 
@@ -498,23 +498,23 @@ bool exit_uneek_fs(void)
 }
 
 
-bool SenseSneek (bool isfsinit) 
-{ 
-	bool ret = true; 
-	char path[ISFS_MAXPATH] ATTRIBUTE_ALIGN(32); 
- 
-	strcpy (path, "/SNEEK/kernel.bin"); 
- 
-	if (isfsinit) ISFS_Initialize (); 
- 
-	s32 fd = ISFS_Open(path, ISFS_OPEN_READ); 
-	if (fd < 0) 
-  		ret = false; 
-	else 
-  		ISFS_Close (fd); 
- 
-	if (isfsinit) ISFS_Deinitialize(); 
-	return ret; 
+bool SenseSneek (bool isfsinit)
+{
+	bool ret = true;
+	char path[ISFS_MAXPATH] ATTRIBUTE_ALIGN(32);
+
+	strcpy (path, "/SNEEK/kernel.bin");
+
+	if (isfsinit) ISFS_Initialize ();
+
+	s32 fd = ISFS_Open(path, ISFS_OPEN_READ);
+	if (fd < 0)
+  		ret = false;
+	else
+  		ISFS_Close (fd);
+
+	if (isfsinit) ISFS_Deinitialize();
+	return ret;
 }
 
 
@@ -526,7 +526,7 @@ bool is_neek(void)
 	if(confirm_neek1 == 5)
 	{
 		ES_GetBoot2Version(&boot2version);
-		if(boot2version < 5) 
+		if(boot2version < 5)
 			confirm_neek1 = false;
 		else
 			confirm_neek1 = true;
@@ -535,51 +535,51 @@ bool is_neek(void)
 }
 
 
-bool is_neek2 (bool isfsinit) 
-{ 
-	
-	char path[ISFS_MAXPATH] ATTRIBUTE_ALIGN(32); 
- 
+bool is_neek2 (bool isfsinit)
+{
+
+	char path[ISFS_MAXPATH] ATTRIBUTE_ALIGN(32);
+
 	if(confirm_neek2 == 5)
 	{
-		confirm_neek2 = true; 
-		strcpy (path, "/SNEEK/kernel.bin"); 
- 
-		if (isfsinit) ISFS_Initialize (); 
- 
-		s32 fd = ISFS_Open(path, ISFS_OPEN_READ); 
-		if (fd < 0) 
-  			confirm_neek2 = false; 
-		else 
-  			ISFS_Close (fd); 
- 
-		if (isfsinit) ISFS_Deinitialize (); 
- 	} 
+		confirm_neek2 = true;
+		strcpy (path, "/SNEEK/kernel.bin");
+
+		if (isfsinit) ISFS_Initialize ();
+
+		s32 fd = ISFS_Open(path, ISFS_OPEN_READ);
+		if (fd < 0)
+  			confirm_neek2 = false;
+		else
+  			ISFS_Close (fd);
+
+		if (isfsinit) ISFS_Deinitialize ();
+ 	}
  	return confirm_neek2;
 }
 
-//! New method for determining if this is a real or emu nand.  
+//! New method for determining if this is a real or emu nand.
 //! Works with new versions of classic Crediar NEEK
-bool is_neek3(bool isfsinit)  
-{ 
+bool is_neek3(bool isfsinit)
+{
 	u32 num = 0;
 
-	//! Thanks goes to the almighty giantpune for this 
+	//! Thanks goes to the almighty giantpune for this
 	if(confirm_neek3 == 5)
 	{
-		if (isfsinit) ISFS_Initialize (); 
+		if (isfsinit) ISFS_Initialize ();
 		if(ISFS_ReadDir("/Sneek", NULL, &num)==0)
 			confirm_neek3 = true;
 		else
-			confirm_neek3 = false; 
-		if (isfsinit) ISFS_Deinitialize (); 
-	}	
+			confirm_neek3 = false;
+		if (isfsinit) ISFS_Deinitialize ();
+	}
 	return confirm_neek3;
 }
 
-bool is_neek4(bool isfsinit)  
-{ 
-	
+bool is_neek4(bool isfsinit)
+{
+
 	u32 ownerID;
 	u16 groupID;
 	u8  attributes;
@@ -590,13 +590,13 @@ bool is_neek4(bool isfsinit)
 	if(confirm_neek4 == 5)
 	{
 		confirm_neek4 = false;
-		if(isfsinit) ISFS_Initialize(); 
+		if(isfsinit) ISFS_Initialize();
 		ISFS_GetAttr("/shared1/00000000.app", &ownerID, &groupID, &attributes, &ownerperm, &groupperm, &otherperm);
 		if(otherperm)
 			confirm_neek4 = true;
-	
+
 		if(isfsinit) ISFS_Deinitialize();
-	}	
+	}
 	return confirm_neek4;
 }
 
@@ -613,18 +613,18 @@ bool WII_Launch_Channel(char* which)
 		u32	title_lsb;
 	}lsbstuff;
 
-	
+
 	wlen = strlen(which);
 	if ((wlen != 4) && (wlen != 16))
 	{
 #ifdef SHOW_GECKO_DEBUG
-		gprintf("Title %s has an invalid length\n",which);	
-#endif		
+		gprintf("Title %s has an invalid length\n",which);
+#endif
 		return false;
 	}
 	if (wlen == 4)
 	{
-		titlemsb = 0x00010001;	
+		titlemsb = 0x00010001;
 		strncpy(lsbstuff.titlename,which,4);
 		titlelsb = lsbstuff.title_lsb;
 	}
@@ -645,7 +645,7 @@ bool WII_Launch_Channel(char* which)
 	gprintf("WII_LaunchTitle returned %d\r\n",lret);
 #else
 	WII_LaunchTitle(title_id);
-#endif	
+#endif
 	// basically, it shouldn't get here I assume
 #endif	//HW_RVL
 	return false;

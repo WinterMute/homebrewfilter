@@ -8,7 +8,7 @@ void TextLine::text(string text, int size, int maxWidth)
 {
 	textScrollPos = 0;
 	line.clear();
-	
+
 	while((signed)text.find("\r\n") != -1)
 		text.replace(text.find("\r\n"), 2, "\n");
 
@@ -20,7 +20,7 @@ void TextLine::text(string text, int size, int maxWidth)
 	int lastSpaceIndex = -1;
 	wchar_t *wtext = charToWideChar(text.c_str());
 	wchar_t *textDynRow = new wchar_t[maxWidth];
-	
+
 	while(ch < txtlen)
 	{
 		textDynRow[i] = wtext[ch];
@@ -42,16 +42,16 @@ void TextLine::text(string text, int size, int maxWidth)
 				{
 					while(text.substr(lastSpaceIndex, 1) != " " && text.substr(lastSpaceIndex, 1) != "\n")
 						lastSpaceIndex++;
-						
+
 					line.push_back(text.substr(0, lastSpaceIndex +1));
-						
+
 					text.erase(0, lastSpaceIndex +1);
-					
+
 					ch = lastSpace; // go backwards to the last space
 					lastSpace = -1; // we have used this space
 					lastSpaceIndex = -1;
 				}
-				
+
 				i = -1;
 			}
 			else if(ch == txtlen-1)
@@ -59,7 +59,7 @@ void TextLine::text(string text, int size, int maxWidth)
 				line.push_back(text);
 			}
 		}
-		
+
 		ch++;
 		i++;
 	}
@@ -68,14 +68,14 @@ void TextLine::text(string text, int size, int maxWidth)
 void TextLine::list(string text)
 {
 	textScrollPos = 0;
-	
+
 	text.erase(text.rfind("end"));
 
 	while(1)
 	{
 		if((signed)text.find("\n") == -1)
 			break;
-			
+
 		line.push_back(text.substr(0, text.find("\n") -1));
 		text.erase(0, text.find("\n") +1);
 	}
@@ -86,7 +86,7 @@ int TextLine::text_up()
 	textScrollPos--;
 	if(textScrollPos < 0)
 		textScrollPos = 0;
-	
+
 	return textScrollPos;
 }
 
@@ -94,11 +94,11 @@ int TextLine::text_down(int number)
 {
 	textScrollPos++;
 	int temp = line.size() - number;
-	
+
 	if(temp < 0)
 		textScrollPos = 0;
 	else if(textScrollPos > temp)
 		textScrollPos = temp;
-	
+
 	return textScrollPos;
 }

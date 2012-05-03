@@ -43,15 +43,15 @@ void MoveCategory(int moveCategoryNr, string &Kategorie1, bool &vor, string &Kat
 	GuiText zeile2Txt(tr("Move"), 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	zeile2Txt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	zeile2Txt.SetPosition(0, -70);
-	
+
 	GuiText zeile3_1Txt("<                                                     >", 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	zeile3_1Txt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	zeile3_1Txt.SetPosition(0, -30);
-	
+
 	GuiText zeile3_2Txt(tr("before"), 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	zeile3_2Txt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	zeile3_2Txt.SetPosition(0, -30);
-	
+
 	GuiText zeile4Txt("c", 30, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	zeile4Txt.SetFont(symbol_ttf, symbol_ttf_size);
 	zeile4Txt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
@@ -115,43 +115,43 @@ void MoveCategory(int moveCategoryNr, string &Kategorie1, bool &vor, string &Kat
 		{
 			vor = false;
 			zeile3_2Txt.SetText(tr("after"));
-		}	
-		
+		}
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_L)
 		{
 			vor = true;
 			zeile3_2Txt.SetText(tr("before"));
-		}	
-		
+		}
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
 		{
 			CategoryInt--;
-			
+
 			if ( CategoryInt < 1 )
 				CategoryInt = AvailableCategory.categories.size() -1;
-			
+
 			zeile5Txt.SetText(AvailableCategory.categories[CategoryInt].c_str());
 			HaltResumeGui();
-		}	
-		
+		}
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
 		{
 			CategoryInt++;
-			
+
 			if (CategoryInt == (signed)AvailableCategory.categories.size())
 				CategoryInt = 1;
-			
+
 			zeile5Txt.SetText(AvailableCategory.categories[CategoryInt].c_str());
 			HaltResumeGui();
-		}	
-		
+		}
+
 		if(ok.GetState() == STATE_CLICKED)
 		{
 			Kategorie1 = AvailableCategory.categories[moveCategoryNr];
 			Kategorie2 = AvailableCategory.categories[CategoryInt];
 			stop = true;
 		}
-		
+
 		if(back.GetState() == STATE_CLICKED)
 			stop = true;
 	}

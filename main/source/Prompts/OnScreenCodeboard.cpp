@@ -66,12 +66,12 @@ void OnScreenCodeboard(char * var, u16 maxlen)
 	while(save == -1)
 	{
 		usleep(100);
-		
+
 		if(strlen(codeboard.kbtextstr) == 4)
 			okBtn.SetClickable(true);
 		else
 			okBtn.SetClickable(false);
-			
+
 		if(okBtn.GetState() == STATE_CLICKED)
 			save = 1;
 		else if(cancelBtn.GetState() == STATE_CLICKED)

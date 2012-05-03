@@ -23,7 +23,7 @@ added "is_uneek" function
 
 rev. 1.06 sixth draft
 added "is_neek2" and "is_neek3" functions
-Crediar changed the boot2 version back from 5 to 4. 
+Crediar changed the boot2 version back from 5 to 4.
 The is_uneek function will not detect those neek versions anymore.
 Stfour created the is_neek2 method to detect if neek is running.
 JoostinOnline and GiantPune created the is_neek3 which is a little less code.
@@ -33,7 +33,7 @@ rev. 1.07 seventh draft
 added "is_neek4" function
 Dj_Skual created the is_neek4 method to detect if neek is running.
 
-added WII_launch_Channel. It's not really uneek_fs related, but it could be handy 
+added WII_launch_Channel. It's not really uneek_fs related, but it could be handy
 
 
 Copyright (C) 2011 Obcd
@@ -60,7 +60,7 @@ distribution.
 -------------------------------------------------------------*/
 
 #ifndef _UNEEK_FS_H_
-#define _UNEEK_FS_H_ 
+#define _UNEEK_FS_H_
 
 #include <ogcsys.h>
 #include <ogc/isfs.h>
@@ -81,9 +81,9 @@ bool check_uneek_fs(void);
 s32 check_uneek_fs_type(void);
 bool exit_uneek_fs(void);
 bool is_neek(void);
-bool is_neek2 (bool isfsinit); 
-bool is_neek3 (bool isfsinit); 
-bool is_neek4 (bool isfsinit); 
+bool is_neek2 (bool isfsinit);
+bool is_neek3 (bool isfsinit);
+bool is_neek4 (bool isfsinit);
 bool WII_Launch_Channel(char* which);
 
 

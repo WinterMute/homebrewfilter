@@ -78,7 +78,7 @@ GuiImage::GuiImage(int w, int h, GXColor c)
 	int len = w*h*4;
 	if(len%32) len += (32-len%32);
 	DCFlushRange(image, len);
-	
+
 	color[0] = c;
 }
 
@@ -107,7 +107,7 @@ GuiImage::GuiImage(int w, int h, GXColor * c)
 	int len = w*h*4;
 	if(len%32) len += (32-len%32);
 	DCFlushRange(image, len);
-	
+
 	for(int i = 0; i < 4; i++)
         color[i] = c[i];
 

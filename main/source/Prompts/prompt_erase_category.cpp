@@ -20,7 +20,7 @@ string eraseCategory()
 	bool stop = true;
 	int kategorieInt = 1;
 	string kategoriename = AvailableCategory.categories[kategorieInt];
-	
+
 	GuiTrigger trigA;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
 	GuiTrigger trigB;
@@ -42,7 +42,7 @@ string eraseCategory()
 	GuiText zeile2Txt(AvailableCategory.categories[1].c_str(), 24, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	zeile2Txt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	zeile2Txt.SetPosition(0, -10);
-	
+
 	GuiText zeile4Txt(tr("Select Category   (-/+)"), 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	zeile4Txt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	zeile4Txt.SetPosition(0, 60);
@@ -93,26 +93,26 @@ string eraseCategory()
 			kategorieInt++;
 			if ( kategorieInt >= (signed)AvailableCategory.categories.size() )
 				kategorieInt = 1;
-			
+
 			kategoriename = AvailableCategory.categories[kategorieInt];
 			zeile2Txt.SetText(kategoriename.c_str());
 			HaltResumeGui();
 		}
-		
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_L)
 		{
 			kategorieInt--;
 			if ( kategorieInt < 1 )
 				kategorieInt = AvailableCategory.categories.size() -1;
-			
+
 			kategoriename = AvailableCategory.categories[kategorieInt];
 			zeile2Txt.SetText(kategoriename.c_str());
 			HaltResumeGui();
 		}
-		
+
 		if(ok.GetState() == STATE_CLICKED)
 			stop = false;
-		
+
 		if(back.GetState() == STATE_CLICKED)
 		{
 			kategoriename = "NULL";
@@ -124,7 +124,7 @@ string eraseCategory()
 	mainWindow->Remove(&promptWindow);
 	mainWindow->SetState(STATE_DEFAULT);
 	ResumeGui();
-	
+
 	return kategoriename;
 }
 

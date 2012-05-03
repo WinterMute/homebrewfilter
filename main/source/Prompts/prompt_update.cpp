@@ -42,7 +42,7 @@ updatePrompt(string rev)
 	promptWindow.SetPosition(0, -10);
 	GuiTrigger trigA;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
-	
+
 
 	GuiImageData dialogBox(Theme.dialog_background);
 	GuiImage dialogBoxImg(&dialogBox);
@@ -50,11 +50,11 @@ updatePrompt(string rev)
 	GuiImageData btnOutline(Theme.button_small);
 	GuiImage btn1Img(&btnOutline);
 	GuiImage btn2Img(&btnOutline);
-	
+
 	GuiImageData btnOutlineOver(Theme.button_small_focus);
 	GuiImage btn1ImgOver(&btnOutlineOver);
 	GuiImage btn2ImgOver(&btnOutlineOver);
-	
+
 	GuiText titleTxt(tr("Update"), 26, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	titleTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	titleTxt.SetPosition(0, 40);
@@ -70,7 +70,7 @@ updatePrompt(string rev)
 	GuiButton btn1(btnOutline.GetWidth(), btnOutline.GetHeight());
 
 	btn1.SetAlignment(ALIGN_LEFT, ALIGN_BOTTOM);
-	btn1.SetPosition(20, -25);	
+	btn1.SetPosition(20, -25);
 	btn1.SetLabel(&btn1Txt);
 	btn1.SetImage(&btn1Img);
 	btn1.SetImageOver(&btn1ImgOver);
@@ -82,7 +82,7 @@ updatePrompt(string rev)
 	GuiButton btn2(btnOutline.GetWidth(), btnOutline.GetHeight());
 
 	btn2.SetAlignment(ALIGN_RIGHT, ALIGN_BOTTOM);
-	btn2.SetPosition(-20, -25);	
+	btn2.SetPosition(-20, -25);
 	btn2.SetLabel(&btn2Txt);
 	btn2.SetImage(&btn2Img);
 	btn2.SetImageOver(&btn2ImgOver);
@@ -137,7 +137,7 @@ updatePrompt(string rev)
 		if(file.data)
 			free(file.data);
 	}
-	
+
 	HaltGui();
 	mainWindow->Remove(&promptWindow);
 	mainWindow->SetState(STATE_DEFAULT);
@@ -148,7 +148,7 @@ string choiceRev(string revs)
 {
 	bool stop = false;
 	string rev = "NULL";
-	
+
 	TextLine versions;
 	versions.list(revs);
 
@@ -171,7 +171,7 @@ string choiceRev(string revs)
 	int number = 5;
 	int selection = 0;
 	int selctionPos = y;
-	
+
 	GuiText selectionTxt(">>                              <<", 20, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	selectionTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	selectionTxt.SetPosition(0, y);
@@ -180,14 +180,14 @@ string choiceRev(string revs)
 	upTxt.SetFont(symbol_ttf, symbol_ttf_size);
 	upTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	upTxt.SetPosition(0, y -20);
-	
+
 	GuiText downTxt("d", 22, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	downTxt.SetFont(symbol_ttf, symbol_ttf_size);
 	downTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	downTxt.SetPosition(0, y + (place * (number-1)) + 15);
-	
+
 	GuiText * Entrie[number];
-	
+
 	for(i=0; i < number && i < (signed)versions.line.size(); i++)
 	{
 		Entrie[i] = new GuiText(versions.line[i].c_str(), 20, (GXColor) {Theme.text_1, Theme.text_2, Theme.text_3, 255});
@@ -199,10 +199,10 @@ string choiceRev(string revs)
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
 	promptWindow.Append(&selectionTxt);
-	
+
 	for(int x=0; x < i; x++)
 		promptWindow.Append(Entrie[x]);
-	
+
 	if((signed)versions.line.size() >= number)
 	{
 		promptWindow.Append(&upTxt);
@@ -219,39 +219,39 @@ string choiceRev(string revs)
 	while(!stop)
 	{
 		usleep(100);
-		
+
 		if(WPAD_ButtonsHeld(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
 		{
-		
+
 			selection--;
 			if(selection < 0)
 			{
 				selection = 0;
-				
+
 				int z = versions.text_up();
 				for(int x=0; x < i; x++)
 					Entrie[x]->SetText(versions.line[x + z].c_str());
 			}
 			selectionTxt.SetPosition(0, selection * place + selctionPos);
-			
+
 			HaltResumeGui();
 			usleep(100000);
 		}
-		
+
 		if(WPAD_ButtonsHeld(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
 		{
-			
+
 			selection++;
 			if(selection > number -1)
 			{
 				selection = number -1;
-				
+
 				int z = versions.text_down(number);
 				for(int x=0; x < i; x++)
 					Entrie[x]->SetText(versions.line[x + z].c_str());
 			}
 			selectionTxt.SetPosition(0, selection * place + selctionPos);
-			
+
 			HaltResumeGui();
 			usleep(100000);
 		}
@@ -261,7 +261,7 @@ string choiceRev(string revs)
 			rev = versions.line[selection + versions.textScrollPos];
 			stop = true;
 		}
-			
+
 		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B)
 			stop = true;
 	}
@@ -286,10 +286,10 @@ string checkUpdatePrompt()
 
 	GuiImageData btnOutline(Theme.button_small);
 	GuiImage btn1Img(&btnOutline);
-	
+
 	GuiImageData btnOutlineOver(Theme.button_small_focus);
 	GuiImage btn1ImgOver(&btnOutlineOver);
-	
+
 	// ok button
 	GuiText backTxt(tr("OK"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiImage backImg(&btnOutline);
@@ -297,7 +297,7 @@ string checkUpdatePrompt()
 	GuiButton back(btnOutline.GetWidth(), btnOutline.GetHeight());
 	GuiTrigger trigA;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
-	
+
 	back.SetAlignment(ALIGN_CENTRE, ALIGN_BOTTOM);
 	back.SetPosition(0, -25);
 	back.SetLabel(&backTxt);
@@ -329,12 +329,12 @@ string checkUpdatePrompt()
 	{
 		msgTxt.SetText(tr("No network connection"));
 		bool stop = false;
-		
+
 		promptWindow.Append(&back);
 		while(!stop)
 		{
 			usleep(100);
-				
+
 			if(back.GetState() == STATE_CLICKED)
 				stop = true;
 		}
@@ -347,12 +347,12 @@ string checkUpdatePrompt()
 		{
 			msgTxt.SetText(tr("Error while reading file"));
 			bool stop = false;
-			
+
 			promptWindow.Append(&back);
 			while(!stop)
 			{
 				usleep(100);
-					
+
 				if(back.GetState() == STATE_CLICKED)
 					stop = true;
 			}
@@ -361,7 +361,7 @@ string checkUpdatePrompt()
 		else
 			rev = choiceRev(revs);
 	}
-	
+
 	HaltGui();
 	mainWindow->Remove(&promptWindow);
 	mainWindow->SetState(STATE_DEFAULT);

@@ -29,7 +29,7 @@ bool SetupDefaultFont(const char *path)
 {
     bool result = false;
     FILE *pfile = NULL;
-	
+
     ClearFontData();
 
     if(path)
