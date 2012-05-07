@@ -5,6 +5,12 @@
 - BUGFIX: properly check whether we're in neek2o environment (obcd)
 - improved neek2o booter (obcd)
 - support for SD-Gecko and neek2o in HBF booter (obcd)
+- improved meta.xml arguements for IOS-reload/HW_AHBPROT
+  - <ahb_access/>: preserve HW_AHBPROT and reload the selected IOS
+  - <no_ios_reload/>: do nothing
+  - <force_ios_reload/> or nothing: just reload the selected IOS
+  - if we are in neek2o or start an app via wiiload, we have like
+    <no_ios_reload/> would have been given
 
 //rev38:
 - changes to the app-info dialog:

@@ -241,20 +241,17 @@ int BootHomebrew()
 //as we already shut down the uneek_fs system
 //so it will always return false
 
-	if (in_neek == false)
+	if (in_neek == false && !wiiload)
 	{
-		if(!wiiload)
+		if(Settings.force_reload == "HW_AHBPROT")
 		{
-			if(Settings.force_reload == "HW_AHBPROT")
-			{
-				//keep ahbprot rights in new ios
-				Patch_ahbprot();
-			}
+			//keep ahbprot rights in new ios
+			Patch_ahbprot();
+		}
 
-			if(Settings.force_reload != "NORELOAD")
-			{
-				IOS_ReloadIOS(SelectedIOS());
-			}
+		if(Settings.force_reload != "NORELOAD")
+		{
+			IOS_ReloadIOS(SelectedIOS());
 		}
 	}
 
