@@ -39,6 +39,7 @@ static char temp_arg[1024];
 std::string filepath;
 
 extern bool in_neek;
+extern bool wiiload;
 
 void arg_init()
 {
@@ -242,14 +243,22 @@ int BootHomebrew()
 
 	if (in_neek == false)
 	{
-		if(Settings.force_reload != "")
+		if(!wiiload)
 		{
-			//keep ahbprot rights in new ios
-			Patch_ahbprot();
+			if(Settings.force_reload == "HW_AHBPROT")
+			{
+				//keep ahbprot rights in new ios
+				Patch_ahbprot();
+				IOS_ReloadIOS(SelectedIOS());
+			}
+			else if(Settings.force_reload != "NORELOAD")
+			{
+				IOS_ReloadIOS(SelectedIOS());
+			}
 		}
-		IOS_ReloadIOS(SelectedIOS());
 	}
-    wiiload_args = 0;
+
+	wiiload_args = 0;
 
 	/*this will also be called when wiiloading an application
 	will need to check if it's expected behavour? */

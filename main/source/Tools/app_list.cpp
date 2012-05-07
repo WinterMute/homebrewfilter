@@ -31,7 +31,6 @@ void add(string device, string apps_path)
 	char pathname[200];
 	char pathmeta[200];
 	string pathboot;
-	int rel_ios = 0;
 
 	pdir=opendir((device + ":/" + apps_path).c_str());
 
@@ -50,7 +49,7 @@ void add(string device, string apps_path)
 			{
 				sprintf(pathmeta, (device + ":/" + apps_path + "%s/meta.xml").c_str() ,pent->d_name);
 
-				string line, quelltext, name, info, foldername, iconpath, arg, force_reload;
+				string line, quelltext, name, info, foldername, iconpath, arg, force_reload, temp_reload, temp_reload2, temp_reload3;
 				ifstream in(pathmeta);
 				while(getline(in, line))
 					quelltext = quelltext + line + "\n";
@@ -75,29 +74,21 @@ void add(string device, string apps_path)
 				//hbc always reloads the ios, so we will as well
 				//unless we are in neek mode (it's just a waste of time there)
 
-				force_reload = parser(quelltext, "<force_ios_reload", ">");
-				if (force_reload[0] != 0)
+				temp_reload = parser(quelltext, "<force_ios_reload", ">");
+				temp_reload2 = parser(quelltext, "<ahb_access", ">");
+				temp_reload3 = parser(quelltext, "<no_ios_reload", ">");
+				if (temp_reload[0] != 0)
 				{
-					rel_ios = 1;
-					force_reload[0] = 0;
+					force_reload = "RELOAD";
 				}
-				force_reload = parser(quelltext, "<ahb_access", ">");
-				if (force_reload[0] != 0)
+				else if (temp_reload2[0] != 0)
 				{
-					rel_ios = 1;
-					force_reload[0] = 0;
+					force_reload = "HW_AHBPROT";
 				}
-				force_reload = parser(quelltext, "<no_ios_reload", ">");
-				if (force_reload[0] != 0)
+				else if (temp_reload3[0] != 0)
 				{
-					rel_ios = 1;
+					force_reload = "NORELOAD";
 				}
-				if (rel_ios == 1)
-				{
-					force_reload[0] = '/';
-					force_reload[1] = 0;
-				}
-
 
 				size_t amount_read;
 				FILE *fp = fopen(iconpath.c_str(),"r"); //open the png file
