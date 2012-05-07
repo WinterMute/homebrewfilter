@@ -249,9 +249,9 @@ int BootHomebrew()
 			{
 				//keep ahbprot rights in new ios
 				Patch_ahbprot();
-				IOS_ReloadIOS(SelectedIOS());
 			}
-			else if(Settings.force_reload != "NORELOAD")
+
+			if(Settings.force_reload != "NORELOAD")
 			{
 				IOS_ReloadIOS(SelectedIOS());
 			}
