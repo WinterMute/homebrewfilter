@@ -25,6 +25,7 @@ int temp_apps;
 bool temp_quick_start;
 bool temp_show_all;
 int temp_device_icon;
+int temp_wiiload_ios;
 int temp_wiiload_ahb;
 bool temp_navigation;
 string temp_device_dat;
@@ -71,6 +72,7 @@ int MenuSettingsFile()
 	sprintf(options.name[i++], tr("Storage Device"));
 	sprintf(options.name[i++], tr("Device icon"));
 	sprintf(options.name[i++], tr("Wiiload IOS"));
+	sprintf(options.name[i++], tr("Wiiload IOS Reload"));
 	sprintf(options.name[i++], tr("Childlock"));
 	sprintf(options.name[i++], tr("Navigation key exchange"));
 	sprintf(options.name[i++], tr("Display"));
@@ -182,6 +184,18 @@ int MenuSettingsFile()
 					device_icon = change;
 					break;
 
+				case WIILOAD_IOS:
+					change = atoi(options.value[ret]);
+					change++;
+					if(change == 71)
+						change = 80;
+					else if(change == 82)
+						change = 202;
+					else if(change > 255)
+						change = 255;
+					sprintf (options.value[ret], "%i", change);
+					break;
+
 				case WIILOAD_AHB:
 					change = wiiload_ahb;
 					change++;
@@ -248,6 +262,18 @@ int MenuSettingsFile()
 					device_icon = change;
 					break;
 
+				case WIILOAD_IOS:
+					change = atoi(options.value[ret]);
+					change--;
+					if(change == 201)
+						change = 81;
+					else if(change == 79)
+						change = 70;
+					else if(change < 0)
+						change = 0;
+					sprintf (options.value[ret], "%i", change);
+					break;
+
 				case WIILOAD_AHB:
 					change = wiiload_ahb;
 					change --;
@@ -282,6 +308,7 @@ int MenuSettingsFile()
 			temp_quick_start		= quick_start;
 			temp_show_all			= show_all;
 			temp_device_icon		= device_icon;
+			temp_wiiload_ios		= atoi(options.value[WIILOAD_IOS]);
 			temp_wiiload_ahb		= wiiload_ahb;
 			temp_device_dat			= device_dat;
 			temp_navigation			= navigation;
@@ -327,6 +354,7 @@ int MenuSettingsFile()
 				sprintf (options.value[LANGUAGE], Options.temp_language.c_str());
 				sprintf (options.value[FONT], Options.temp_font.c_str());
 				sprintf (options.value[SLIDE_EFFECT], "%i", temp_slide_effect);
+				sprintf (options.value[WIILOAD_IOS], "%i", temp_wiiload_ios);
 				sprintf (options.value[NUMBER_OF_APPS], "%i", temp_apps);
 				sprintf (options.value[STORAGE_DEVICE], temp_device_dat.c_str());
 				sprintf (options.value[DISPLAY], " ");
@@ -349,6 +377,7 @@ int MenuSettingsFile()
 				sprintf (options.value[LANGUAGE], Options.language);
 				sprintf (options.value[FONT], Options.font);
 				sprintf (options.value[SLIDE_EFFECT], "%i", Options.slide_effect);
+				sprintf (options.value[WIILOAD_IOS], "%i", Options.wiiload_ios);
 				sprintf (options.value[NUMBER_OF_APPS], "%i", Options.apps);
 				sprintf (options.value[STORAGE_DEVICE], device_dat.c_str());
 				sprintf (options.value[DISPLAY], " ");
@@ -463,6 +492,7 @@ int MenuSettingsFile()
 			Options.quick_start		= quick_start;
 			Options.show_all		= show_all;
 			Options.device_icon		= device_icon;
+			Options.wiiload_ios		= atoi(options.value[WIILOAD_IOS]);
 			Options.wiiload_ahb		= wiiload_ahb;
 			device_dat			= options.value[STORAGE_DEVICE];
 			Options.navigation		= navigation;

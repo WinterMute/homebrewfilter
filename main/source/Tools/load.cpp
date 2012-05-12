@@ -133,6 +133,9 @@ void load()
 		if(get_setting(source, "wiiload_ahb") != "")
 			Options.wiiload_ahb = atoi(get_setting(source, "wiiload_ahb").c_str());
 
+		if(get_setting(source, "wiiload_ios") != "")
+			Options.wiiload_ios = atoi(get_setting(source, "wiiload_ios").c_str());
+
 		if(get_setting(source, "system") != "")
 			Settings.system = atoi(get_setting(source, "system").c_str());
 

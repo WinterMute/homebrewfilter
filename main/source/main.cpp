@@ -156,6 +156,7 @@ DefaultOptions()
 	sprintf (Options.temp_code, "NULL");
 
 	Options.slide_effect	= 1;
+	Options.wiiload_ios	= 58;
 	Options.last_category	= 1;
 	Options.apps		= 4;
 	Options.quick_start	= 0;

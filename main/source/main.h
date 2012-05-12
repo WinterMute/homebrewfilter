@@ -129,6 +129,7 @@ struct SOptions
 	bool		network;
 	bool		newrevtext;
 	int		wiiload_ahb;
+	int		wiiload_ios;
 };
 extern struct SOptions Options;
 

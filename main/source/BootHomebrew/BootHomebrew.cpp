@@ -252,7 +252,7 @@ int BootHomebrew()
 
 			if(Options.wiiload_ahb != 0)
 			{
-				IOS_ReloadIOS(SelectedIOS());
+				IOS_ReloadIOS(Options.wiiload_ios);
 			}
 		}
 		else
