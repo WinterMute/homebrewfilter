@@ -25,6 +25,7 @@ int temp_apps;
 bool temp_quick_start;
 bool temp_show_all;
 int temp_device_icon;
+int temp_wiiload_ahb;
 bool temp_navigation;
 string temp_device_dat;
 
@@ -44,6 +45,7 @@ int MenuSettingsFile()
 	bool quick_start 	= Options.quick_start;
 	bool show_all 		= Options.show_all;
 	int device_icon 	= Options.device_icon;
+	int wiiload_ahb		= Options.wiiload_ahb;
 	bool childlock;
 	if(strcasecmp(Settings.code,"NULL") == 0 )
 		childlock = 0;
@@ -68,6 +70,7 @@ int MenuSettingsFile()
 	sprintf(options.name[i++], tr("Show All"));
 	sprintf(options.name[i++], tr("Storage Device"));
 	sprintf(options.name[i++], tr("Device icon"));
+	sprintf(options.name[i++], tr("Wiiload IOS"));
 	sprintf(options.name[i++], tr("Childlock"));
 	sprintf(options.name[i++], tr("Navigation key exchange"));
 	sprintf(options.name[i++], tr("Display"));
@@ -179,6 +182,14 @@ int MenuSettingsFile()
 					device_icon = change;
 					break;
 
+				case WIILOAD_AHB:
+					change = wiiload_ahb;
+					change++;
+					if(change > 2)
+						change = 3;
+					wiiload_ahb = change;
+					break;
+
 				case STORAGE_DEVICE:
 					device_dat = "USB";
 					sprintf (options.value[STORAGE_DEVICE], device_dat.c_str());
@@ -237,6 +248,14 @@ int MenuSettingsFile()
 					device_icon = change;
 					break;
 
+				case WIILOAD_AHB:
+					change = wiiload_ahb;
+					change --;
+					if(change < 0)
+						change = 0;
+					wiiload_ahb = change;
+					break;
+
 				case STORAGE_DEVICE:
 					device_dat = "SD";
 					sprintf (options.value[STORAGE_DEVICE], device_dat.c_str());
@@ -263,6 +282,7 @@ int MenuSettingsFile()
 			temp_quick_start		= quick_start;
 			temp_show_all			= show_all;
 			temp_device_icon		= device_icon;
+			temp_wiiload_ahb		= wiiload_ahb;
 			temp_device_dat			= device_dat;
 			temp_navigation			= navigation;
 			/******************************************************************************/
@@ -316,6 +336,7 @@ int MenuSettingsFile()
 				quick_start 	= temp_quick_start;
 				show_all	= temp_show_all;
 				device_icon 	= temp_device_icon;
+				wiiload_ahb	= temp_wiiload_ahb;
 				if(strcasecmp(Options.temp_code,"NULL") == 0 )
 					childlock = 0;
 				else
@@ -367,6 +388,13 @@ int MenuSettingsFile()
 				sprintf (options.value[DEVICE_ICON], tr("Dialog box"));
 			else if(device_icon == 3)
 				sprintf (options.value[DEVICE_ICON], tr("All"));
+
+			if(wiiload_ahb == 0)
+				sprintf (options.value[WIILOAD_AHB], tr("No IOS Reload"));
+			else if(wiiload_ahb == 1)
+				sprintf (options.value[WIILOAD_AHB], tr("IOS Reload"));
+			else if(wiiload_ahb == 2)
+				sprintf (options.value[WIILOAD_AHB], tr("AHB Access"));
 
 			if(!navigation)
 				sprintf (options.value[NAVIGATION], tr("No"));
@@ -435,6 +463,7 @@ int MenuSettingsFile()
 			Options.quick_start		= quick_start;
 			Options.show_all		= show_all;
 			Options.device_icon		= device_icon;
+			Options.wiiload_ahb		= wiiload_ahb;
 			device_dat			= options.value[STORAGE_DEVICE];
 			Options.navigation		= navigation;
 			Options.network			= Options.temp_network;

@@ -7,10 +7,11 @@
 - support for SD-Gecko and neek2o in HBF booter (obcd)
 - improved meta.xml arguements for IOS-reload/HW_AHBPROT
   - <ahb_access/>: preserve HW_AHBPROT and reload the selected IOS
-  - <no_ios_reload/>: do nothing
+  - <no_ios_reload/>: alias for <ahb_access/> (compat with HBC)
   - <force_ios_reload/> or nothing: just reload the selected IOS
-  - if we are in neek2o or start an app via wiiload, we have like
-    <no_ios_reload/> would have been given
+  - if we are in neek2o we do nothing
+  - for wiiload there is now an options to choose what to do
+- BUGFIX: fix compilation with libOGC 1.8.11 and newer
 
 //rev38:
 - changes to the app-info dialog:

@@ -128,6 +128,7 @@ struct SOptions
 	bool		navigation;
 	bool		network;
 	bool		newrevtext;
+	int		wiiload_ahb;
 };
 extern struct SOptions Options;
 

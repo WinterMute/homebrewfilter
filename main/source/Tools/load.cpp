@@ -130,6 +130,9 @@ void load()
 		if(get_setting(source, "device_icon") != "")
 			Options.device_icon = atoi(get_setting(source, "device_icon").c_str());
 
+		if(get_setting(source, "wiiload_ahb") != "")
+			Options.wiiload_ahb = atoi(get_setting(source, "wiiload_ahb").c_str());
+
 		if(get_setting(source, "system") != "")
 			Settings.system = atoi(get_setting(source, "system").c_str());
 

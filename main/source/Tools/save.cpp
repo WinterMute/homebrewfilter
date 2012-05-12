@@ -109,6 +109,7 @@ void save()
 		save_settings << "device = \""				<< Settings.device			<< "\"" << endl;
 		save_settings << "device_dat = \""			<< Settings.device_dat		<< "\"" << endl;
 		save_settings << "device_icon = \""			<< Options.device_icon		<< "\"" << endl;
+		save_settings << "wiiload_ahb = \""			<< Options.wiiload_ahb		<< "\"" << endl;
 		save_settings << "system = \""				<< Settings.system			<< "\"" << endl;
 		save_settings << "top = \""					<< Settings.top				<< "\"" << endl;
 		save_settings << "bottom = \""				<< Settings.bottom			<< "\"" << endl;
