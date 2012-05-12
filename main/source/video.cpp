@@ -133,7 +133,7 @@ InitVideo ()
     else
     {
         if (pal)
-            vmode = &TVPal574IntDfScale;
+            vmode = &TVPal576IntDfScale;
 
         vmode->viWidth = 672;
     }
