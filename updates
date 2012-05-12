@@ -13,6 +13,8 @@
   - for wiiload there are now two options to choose which IOS to
     use and whether to reload it
 - BUGFIX: fix compilation with libOGC 1.8.11 and newer
+- BUGFIX: installer upon exit checks whether THBF channel is installed,
+          if so, it will start the HomebrewFilter, else it enters SysMenu
 
 //rev38:
 - changes to the app-info dialog:
