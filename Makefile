@@ -1,5 +1,10 @@
 all: compile_installer
 
+clean:
+	@make -C main clean
+	@make -C boot clean
+	@make -C installer clean
+
 compile_hbf:
 	@make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
