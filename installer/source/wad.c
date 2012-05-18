@@ -349,7 +349,7 @@ s32 __Wad_Install(int startpos_x, int startpos_y)
 	if (ret >= 0)
 	{
 		Con_FgColor(2, 1);
-		printf("\x1b[%i;%iH", startpos_x +6, startpos_y);
+		printf("\x1b[%i;%iH", startpos_x +9, startpos_y + 42);
 		printf("SUCCESS");
 
 		goto out;

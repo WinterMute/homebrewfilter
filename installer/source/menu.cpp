@@ -35,7 +35,7 @@ void show_menu_head()
 {
 	Con_FgColor(6, 1);
 	printf("\x1b[%i;%iH", startpos_x, startpos_y);
-	printf("HBF installer v0.3");
+	printf("HBF installer v0.4");
 
 	Con_FgColor(7, 1);
 	printf("\t\t\t\t\t(C) 2011");
@@ -55,9 +55,14 @@ void fill_menu_main()
 	buffer << "Install the HomebrewFilter rev" << SvnRev();
 	text1.push_back(buffer.str());
 	if(CheckAppFound(GetTitleID()))
+	{
+		text1.push_back("Reinstall the HomebrewFilter");
 		text1.push_back("Uninstall the HomebrewFilter");
+	}
 	else
+	{
 		text1.push_back("");
+	}
 	text1.push_back("");
 	text1.push_back("Copyright");
 	text1.push_back("");
@@ -107,12 +112,20 @@ void menu()
 				currentMenu = menu_install_uninstall(1);
 				break;
 
+			case MENU_REINSTALL:
+				currentMenu = menu_install_uninstall(2);
+				break;
+
 			case MENU_UNINSTALL:
 				currentMenu = menu_install_uninstall(0);
 				break;
 
 			case MENU_INSTALLING:
 				currentMenu = menu_install();
+				break;
+
+			case MENU_REINSTALLING:
+				currentMenu = menu_reinstall();
 				break;
 
 			case MENU_UNINSTALLING:
@@ -202,9 +215,12 @@ int menu_main(int scrollpos)
 					return MENU_INSTALL;
 
 				case 1:
+					return MENU_REINSTALL;
+
+				case 2:
 					return MENU_UNINSTALL;
 
-				case 3:
+				case 4:
 					return MENU_COPYRIGHT;
 
 				default:
@@ -221,10 +237,12 @@ int menu_install_uninstall(int install)
 
 	Con_FgColor(7, 1);
 	printf("\x1b[%i;%iH", startpos_x +2, startpos_y);
-	if(install)
+	if(install == 0)
 		printf("Install the HomebrewFilter now");
-	else
+	else if(install == 1)
 		printf("Uninstall the HomebrewFilter now");
+	else if(install == 2)
+		printf("Reinstall the HomebrewFilter now");
 
 	for(int i=0; i < (signed)text2.size(); i++)
 	{
@@ -277,10 +295,12 @@ int menu_install_uninstall(int install)
 			switch(scrollpos)
 			{
 				case 0:
-					if(install)
+					if(install == 0)
 						return MENU_INSTALLING;
-					else
+					else if(install == 1)
 						return MENU_UNINSTALLING;
+					else if(install == 2)
+						return MENU_REINSTALLING;
 					break;
 
 				case 1:
@@ -349,6 +369,73 @@ int menu_install()
 		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
 			return MENU_MAIN;
 	}
+}
+
+int menu_reinstall()
+{
+	Con_Clear();
+	show_menu_head();
+
+	Con_FgColor(7, 1);
+	printf("\x1b[%i;%iH", startpos_x +2, startpos_y);
+	printf("Uninstalling the HomebrewFilter");
+
+	Wad_UninstallFromMemory(startpos_x, startpos_y);
+
+	Con_FgColor(7, 1);
+	printf("\x1b[%i;%iH", startpos_x +8, startpos_y);
+	printf("Installing the HomebrewFilter");
+
+	printf("\x1b[%i;%iH", startpos_x +9, startpos_y);
+	if(Wad_InstallFromMemory(startpos_x, startpos_y) >= 0)
+	{
+		if(!getIOS(58))
+		{
+			s32 fd;
+			u32 high = (u32)(GetTitleID() >> 32);
+			u32 low  = (u32)(GetTitleID() & 0xFFFFFFFF);
+
+			char filepath[ISFS_MAXPATH];
+			sprintf(filepath, "/title/%08x/%08x/content/title.tmd", high, low);
+
+			static fstats filestats ATTRIBUTE_ALIGN(32);
+			static u8 filearray[1024] ATTRIBUTE_ALIGN(32);
+
+			fd = ISFS_Open(filepath, ISFS_OPEN_READ);
+			if (fd <= 0)
+				ISFS_Close(fd);
+
+			ISFS_GetFileStats(fd, &filestats);
+			ISFS_Read(fd, filearray, filestats.file_length);
+			ISFS_Close(fd);
+
+			if(filestats.file_length >= 0)
+			{
+				fd = ISFS_Open(filepath, ISFS_OPEN_RW);
+
+				if(getIOS(61))
+					filearray[395] = 61;
+				else
+					filearray[395] = IOS_GetVersion();
+
+				ISFS_Write(fd, filearray, sizeof( filearray ));
+				ISFS_Close(fd);
+			}
+		}
+	}
+
+	Con_FgColor(7, 1);
+	printf("\x1b[%i;%iH", startpos_x +11, startpos_y);
+	printf(">> Continue");
+
+	while(1)
+	{
+		WPAD_ScanPads();
+		PAD_ScanPads();
+		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+			return MENU_MAIN;
+	}
+
 }
 
 int menu_uninstall()
