@@ -237,9 +237,9 @@ int menu_install_uninstall(int install)
 
 	Con_FgColor(7, 1);
 	printf("\x1b[%i;%iH", startpos_x +2, startpos_y);
-	if(install == 0)
+	if(install == 1)
 		printf("Install the HomebrewFilter now");
-	else if(install == 1)
+	else if(install == 2)
 		printf("Uninstall the HomebrewFilter now");
 	else if(install == 2)
 		printf("Reinstall the HomebrewFilter now");
@@ -295,9 +295,9 @@ int menu_install_uninstall(int install)
 			switch(scrollpos)
 			{
 				case 0:
-					if(install == 0)
+					if(install == 1)
 						return MENU_INSTALLING;
-					else if(install == 1)
+					else if(install == 0)
 						return MENU_UNINSTALLING;
 					else if(install == 2)
 						return MENU_REINSTALLING;
