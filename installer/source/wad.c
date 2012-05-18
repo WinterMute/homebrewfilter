@@ -349,16 +349,14 @@ s32 __Wad_Install(int startpos_x, int startpos_y)
 	if (ret >= 0)
 	{
 		Con_FgColor(2, 1);
-		printf("\x1b[%i;%iH", startpos_x +9, startpos_y + 42);
-		printf("SUCCESS");
+		printf("\t\t  SUCCESS");
 
 		goto out;
 	}
 
 err:
 	Con_FgColor(1, 1);
-	printf("\x1b[%i;%iH", startpos_x +6, startpos_y);
-	printf("ERROR! (ret = %d)\n", ret);
+	printf("\n\t\t\tERROR! (ret = %d)\n", ret);
 
 	/* Cancel install */
 	ES_AddTitleCancel();

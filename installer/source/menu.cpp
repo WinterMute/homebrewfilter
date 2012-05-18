@@ -476,7 +476,7 @@ int menu_copyright()
 	}
 
 	printf("\x1b[%i;%iH", startpos_x + text3.size() +3, startpos_y);
-	printf(">> Continue");
+	printf(">> Back");
 
 	while(1)
 	{
