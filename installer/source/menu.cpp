@@ -239,7 +239,7 @@ int menu_install_uninstall(int install)
 	printf("\x1b[%i;%iH", startpos_x +2, startpos_y);
 	if(install == 1)
 		printf("Install the HomebrewFilter now");
-	else if(install == 2)
+	else if(install == 0)
 		printf("Uninstall the HomebrewFilter now");
 	else if(install == 2)
 		printf("Reinstall the HomebrewFilter now");
