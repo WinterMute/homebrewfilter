@@ -62,6 +62,7 @@ void fill_menu_main()
 	else
 	{
 		text1.push_back("");
+		text1.push_back("");
 	}
 	text1.push_back("");
 	text1.push_back("Copyright");
