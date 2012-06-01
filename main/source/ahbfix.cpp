@@ -24,14 +24,13 @@ distribution.
 
 -------------------------------------------------------------*/
 
-
-
 #include <stdlib.h>
 #include <string.h>
 #include <gccore.h>
 #include <ogc/machine/processor.h>
 #include "gecko.h"
-
+#include "Tools/load_channel.h"
+#include "filelist.h"
 
 #define CHECK_AHB       0x0D800064
 #define MEM2_PROT       0x0D8B420A
@@ -72,6 +71,11 @@ s32 Patch_ahbprot(void)
 				//break;
 			}
 		}
+
+		memcpy((void*)0x80001800, stub_bin, stub_bin_size);
+		DCFlushRange((void*)0x80001800,stub_bin_size);
+
+		hbcStubAvailable();
 	}
 	return false;
 }
