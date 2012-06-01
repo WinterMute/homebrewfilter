@@ -141,3 +141,35 @@ bool getIOS(int ios)
 
 	return false;
 }
+
+s32 GetTMD(u64 TicketID, signed_blob **Output, u32 *Length)
+{
+    signed_blob* TMD = NULL;
+
+    u32 TMD_Length;
+    s32 ret;
+
+    /* Retrieve TMD length */
+    ret = ES_GetStoredTMDSize(TicketID, &TMD_Length);
+    if (ret < 0)
+        return ret;
+
+    /* Allocate memory */
+    TMD = (signed_blob*)memalign(32, (TMD_Length+31)&(~31));
+    if (!TMD)
+        return IPC_ENOMEM;
+
+    /* Retrieve TMD */
+    ret = ES_GetStoredTMD(TicketID, TMD, TMD_Length);
+    if (ret < 0)
+    {
+        free(TMD);
+        return ret;
+    }
+
+    /* Set values */
+    *Output = TMD;
+    *Length = TMD_Length;
+
+    return 0;
+}
