@@ -1,7 +1,7 @@
 //rev40:
 - new icon (JoostinOnline)
 - catalan language downloadble (Adrián Laviós)
-- added support SD-Gecko (both A and B, no hot-plugging)
+- added support for SD-Gecko (both Slot A and B, no hot-plugging)
 - fixed a regression from rev39. <no_ios_reload> is now
   treated correctly (makes WiiMC properly detect HDD)
 - fixed a regression from rev37. don't loop three times
