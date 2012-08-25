@@ -1,6 +1,19 @@
 //rev40:
 - new icon (JoostinOnline)
 - catalan language downloadble (Adrián Laviós)
+- added support SD-Gecko (both A and B, no hot-plugging)
+- fixed a regression from rev39. <no_ios_reload> is now
+  treated correctly (makes WiiMC properly detect HDD)
+- fixed a regression from rev37. don't loop three times
+  when selected storage device is DVD
+- added <force_no_ios_reload/> support, for testing purposes
+- fixed clean rule in main/Makefile
+- For theme designers: the following new icons have been added:
+	* gca_active (device menu)
+	* gca_inactive (device menu)
+	* gcb_active (device menu)
+	* gcb_inactive (device menu)
+	* choice_large (not new, but wider now)
 
 //rev39:
 - BUGFIX: before saving the update boot.dol, ensure directory

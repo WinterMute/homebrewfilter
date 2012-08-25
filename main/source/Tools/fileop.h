@@ -40,6 +40,11 @@ void UnMountDVD();
 bool DVD_Inserted();
 void check_dvd();
 
+bool GCA_Inserted();
+bool GCB_Inserted();
+void check_gca();
+void check_gcb();
+
 /*
 //!USB FAT Controls
 int USBDevice_Init();

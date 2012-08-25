@@ -18,12 +18,13 @@ void copy_app_in_unassigned()
 		int anzahl_device = 0, anzahl_ordner = 0;
 
 		// Geräte SD, USB
-		if(Settings.device == "sd1" || Settings.device == "usb1")
+		if(Settings.device == "sd1" || Settings.device == "usb1" || Settings.device == "dvd"
+		|| Settings.device == "gca" || Settings.device == "gcb")
 			anzahl_device = 1;
 		else if(Settings.device == "sd_usb")
 			anzahl_device = 2;
 		else if(Settings.device == "all")
-			anzahl_device = 3;
+			anzahl_device = 5;
 
 		// Ordner APPS, GC_APPS
 		if(Settings.system == 1 || Settings.system == 0)
@@ -57,13 +58,11 @@ void copy_app_in_unassigned()
 							foldername = "usb1" + ordner + apps[a] + "/";
 						else if(x == 2)
 							foldername = "dvd" + ordner + apps[a] + "/";
+						else if(x == 3)
+							foldername = "gca" + ordner + apps[a] + "/";
+						else if(x == 4)
+							foldername = "gcb" + ordner + apps[a] + "/";
 					}
-
-					if(
-					strcasecmp(vechomebrew_list_category[0][i].foldername.c_str(), foldername.c_str()) == 0 ||
-					strcasecmp(vechomebrew_list_category[0][i].foldername.c_str(), "the homebrew channel") == 0
-					)
-						present = false;
 				}
 			}
 		}

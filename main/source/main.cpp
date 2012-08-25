@@ -131,6 +131,8 @@ DefaultSettings()
 	Settings.sd_insert			= SDCard_Inserted();
 	Settings.usb_insert			= USBDevice_Inserted();
 	Settings.dvd_insert			= DVD_Inserted();
+	Settings.gca_insert			= GCA_Inserted();
+	Settings.gcb_insert			= GCB_Inserted();
 	Settings.category_name_all	= "All";
 	sprintf (Settings.new_category_name, "New Category");
 	Settings.current_category	= 0;

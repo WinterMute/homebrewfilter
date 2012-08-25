@@ -71,6 +71,8 @@ struct SSettings
 	int		sd_insert;
 	int		usb_insert;
 	int		dvd_insert;
+	int		gca_insert;
+	int		gcb_insert;
 	string	category_name_all;
 	string	category_name;
 	char	new_category_name[256];

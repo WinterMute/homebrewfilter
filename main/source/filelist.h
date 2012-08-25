@@ -194,11 +194,23 @@ extern const u32	sd_usb_inactive_png_size;
 extern const u8		dvd_active_png[];
 extern const u32	dvd_active_png_size;
 
+extern const u8		gca_active_png[];
+extern const u32	gca_active_png_size;
+
+extern const u8		gcb_active_png[];
+extern const u32	gcb_active_png_size;
+
 extern const u8		all_active_png[];
 extern const u32	all_active_png_size;
 
 extern const u8		dvd_inactive_png[];
 extern const u32	dvd_inactive_png_size;
+
+extern const u8		gca_inactive_png[];
+extern const u32	gca_inactive_png_size;
+
+extern const u8		gcb_inactive_png[];
+extern const u32	gcb_inactive_png_size;
 
 extern const u8		all_inactive_png[];
 extern const u32	all_inactive_png_size;

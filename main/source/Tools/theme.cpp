@@ -46,6 +46,10 @@ DefaultTheme()
 	Theme.sd_usb_inactive				= sd_usb_inactive_png;
 	Theme.dvd_active				= dvd_active_png;
 	Theme.dvd_inactive				= dvd_inactive_png;
+	Theme.gca_active				= gca_active_png;
+	Theme.gca_inactive				= gca_inactive_png;
+	Theme.gcb_active				= gcb_active_png;
+	Theme.gcb_inactive				= gcb_inactive_png;
 	Theme.all_active				= all_active_png;
 	Theme.all_inactive				= all_inactive_png;
 	Theme.wii_active				= wii_active_png;
@@ -197,6 +201,10 @@ void theme(string path)
 	Theme.sd_usb_inactive			= load_data(Theme.sd_usb_inactive			, path + "sd_usb_inactive.png");
 	Theme.dvd_active				= load_data(Theme.dvd_active				, path + "dvd_active.png");
 	Theme.dvd_inactive			= load_data(Theme.dvd_inactive			, path + "dvd_inactive.png");
+	Theme.gca_active				= load_data(Theme.gca_active				, path + "gca_active.png");
+	Theme.gca_inactive			= load_data(Theme.gca_inactive			, path + "gca_inactive.png");
+	Theme.gcb_active				= load_data(Theme.gcb_active				, path + "gcb_active.png");
+	Theme.gcb_inactive			= load_data(Theme.gcb_inactive			, path + "gcb_inactive.png");
 	Theme.all_active				= load_data(Theme.all_active				, path + "all_active.png");
 	Theme.all_inactive			= load_data(Theme.all_inactive			, path + "all_inactive.png");
 	Theme.loader_active			= load_data(Theme.loader_active			, path + "loader_active.png");

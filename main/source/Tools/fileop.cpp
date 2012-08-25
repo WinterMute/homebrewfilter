@@ -15,6 +15,7 @@
 #include <fat.h>
 #include <ext2.h>
 #include <sdcard/wiisd_io.h>
+#include <sdcard/gcsd.h>
 #include <ogc/usbstorage.h>
 #include <dirent.h>
 #include <di/di.h>
@@ -526,7 +527,6 @@ static void UnmountPartitions(int device)
 
 static bool MountPartitions(int device)
 {
-
 	const DISC_INTERFACE* disc = NULL;
 
 	switch(device)
@@ -564,6 +564,16 @@ void MountAllDevices()
 
 	if(dvd->startup() && dvd->isInserted())
 		MountDVD();
+
+	usleep(250000);
+
+	if(__io_gcsda.startup() && __io_gcsda.isInserted())
+		fatMountSimple("gca", &__io_gcsda);
+	
+	usleep(250000);
+
+	if(__io_gcsdb.startup() && __io_gcsdb.isInserted())
+		fatMountSimple("gcb", &__io_gcsdb);
 }
 
 bool MountDVDFS()
@@ -626,6 +636,59 @@ void UnmountAllDevices()
 {
 	UnmountPartitions(DEVICE_SD);
 	UnmountPartitions(DEVICE_USB);
+}
+
+bool GCA_Inserted()
+{
+
+	return __io_gcsda.isInserted();
+}
+
+void check_gca()
+{
+	if(Settings.gca_insert <= 0)
+	{
+
+		if(__io_gcsda.startup() && __io_gcsda.isInserted())		// wenn sd karte gefunden, neu einlesen
+		{
+			fatMountSimple("gca", &__io_gcsda);
+			Settings.gca_insert = 2;
+		}
+	}
+	else if(Settings.gca_insert == 1)
+	{
+		if(!__io_gcsda.isInserted())				// wenn sd karte nicht gefunden, beenden
+		{
+			fatUnmount("gca:");
+			Settings.gca_insert = -1;
+		}
+	}
+}
+
+bool GCB_Inserted()
+{
+	return __io_gcsdb.isInserted();
+}
+
+void check_gcb()
+{
+	if(Settings.gcb_insert <= 0)
+	{
+
+		if(__io_gcsdb.startup() && __io_gcsdb.isInserted())		// wenn sd karte gefunden, neu einlesen
+		{
+			fatMountSimple("gcb", &__io_gcsdb);
+			Settings.gcb_insert = 2;
+		}
+	}
+	else if(Settings.gcb_insert == 1)
+	{
+		if(!__io_gcsdb.isInserted())				// wenn sd karte nicht gefunden, beenden
+		{
+			fatUnmount("gcb:");
+			Settings.gcb_insert = -1;
+		}
+	}
 }
 
 bool SDCard_Inserted()
@@ -725,6 +788,16 @@ void check_device()
 		Settings.dvd_insert = 1;
 	else if(Settings.dvd_insert == -1)
 		Settings.dvd_insert = 0;
+
+	if(Settings.gca_insert == 2)
+		Settings.gca_insert = 1;
+	else if(Settings.gca_insert == -1)
+		Settings.gca_insert = 0;
+
+	if(Settings.gcb_insert == 2)
+		Settings.gcb_insert = 1;
+	else if(Settings.gcb_insert == -1)
+		Settings.gcb_insert = 0;
 
 	HaltThrobberThread();
 }

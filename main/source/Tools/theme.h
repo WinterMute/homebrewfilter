@@ -41,6 +41,10 @@ struct STheme
 	const u8*	sd_usb_inactive;
 	const u8*	dvd_active;
 	const u8*	dvd_inactive;
+	const u8*	gca_active;
+	const u8*	gca_inactive;
+	const u8*	gcb_active;
+	const u8*	gcb_inactive;
 	const u8*	all_active;
 	const u8*	all_inactive;
 	const u8*	loader_active;

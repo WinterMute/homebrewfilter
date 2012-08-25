@@ -49,7 +49,7 @@ void add(string device, string apps_path)
 			{
 				sprintf(pathmeta, (device + ":/" + apps_path + "%s/meta.xml").c_str() ,pent->d_name);
 
-				string line, quelltext, name, info, foldername, iconpath, arg, force_reload, temp_reload, temp_reload2, temp_reload3;
+				string line, quelltext, name, info, foldername, iconpath, arg, force_reload, temp_reload, temp_reload2, temp_reload3, temp_reload4;
 				ifstream in(pathmeta);
 				while(getline(in, line))
 					quelltext = quelltext + line + "\n";
@@ -77,6 +77,8 @@ void add(string device, string apps_path)
 				temp_reload = parser(quelltext, "<force_ios_reload", ">");
 				temp_reload2 = parser(quelltext, "<ahb_access", ">");
 				temp_reload3 = parser(quelltext, "<no_ios_reload", ">");
+				temp_reload4 = parser(quelltext, "<force_no_iois_reload", ">");
+
 				if (temp_reload[0] != 0)
 				{
 					force_reload = "RELOAD";
@@ -86,6 +88,10 @@ void add(string device, string apps_path)
 					force_reload = "HW_AHBPROT";
 				}
 				else if (temp_reload3[0] != 0)
+				{
+					force_reload = "RELOAD";
+				}
+				else if (temp_reload4[0] != 0)
 				{
 					force_reload = "NORELOAD";
 				}
@@ -119,7 +125,8 @@ void app_list()
 {
 	vechomebrew_list_category[0].clear();
 
-	if(Settings.device == "sd1" || Settings.device == "usb1" || Settings.device == "dvd")
+	if(Settings.device == "sd1" || Settings.device == "usb1" || Settings.device == "dvd"
+	|| Settings.device == "gca" || Settings.device == "gcb")
 	{
 		if(Settings.system == 1)
 			add(Settings.device, "apps/");
@@ -158,12 +165,16 @@ void app_list()
 			add("sd1", "apps/");
 			add("usb1", "apps/");
 			add("dvd", "apps/");
+			add("gca", "apps/");
+			add("gcb", "apps/");
 		}
 		else if(Settings.system == 0)
 		{
 			add("sd1", "gc_apps/");
 			add("usb1", "gc_apps/");
 			add("dvd", "gc_apps/");
+			add("gca", "gc_apps/");
+			add("gcb", "gc_apps/");
 		}
 		else if(Settings.system == 2)
 		{
@@ -173,6 +184,10 @@ void app_list()
 			add("usb1", "gc_apps/");
 			add("dvd", "apps/");
 			add("dvd", "gc_apps/");
+			add("gca", "apps/");
+			add("gca", "gc_apps/");
+			add("gcb", "apps/");
+			add("gcb", "gc_apps/");
 		}
 	}
 

@@ -106,6 +106,16 @@ int MenuMain()
 		temp_sd_usb_active = Theme.dvd_active;
 		temp_sd_usb_inactive = Theme.dvd_inactive;
 	}
+	else if(Settings.device == "gca")
+	{
+		temp_sd_usb_active = Theme.gca_active;
+		temp_sd_usb_inactive = Theme.gca_inactive;
+	}
+	else if(Settings.device == "gcb")
+	{
+		temp_sd_usb_active = Theme.gcb_active;
+		temp_sd_usb_inactive = Theme.gcb_inactive;
+	}
 	else if(Settings.device == "all")
 	{
 		temp_sd_usb_active = Theme.all_active;
@@ -404,6 +414,16 @@ int MenuMain()
 				viewdevice = new GuiImage (new GuiImageData(Theme.dvd_inactive));
 				icon = true;
 			}
+			else if(strncmp(vechomebrew_list_choice[i].foldername.c_str(), "gca", 3) == 0)
+			{
+				viewdevice = new GuiImage (new GuiImageData(Theme.gca_inactive));
+				icon = true;
+			}
+			else if(strncmp(vechomebrew_list_choice[i].foldername.c_str(), "gcb", 3) == 0)
+			{
+				viewdevice = new GuiImage (new GuiImageData(Theme.gcb_inactive));
+				icon = true;
+			}
 
 			if(icon)
 			{
@@ -692,7 +712,9 @@ int MenuMain()
 			// SD, USB
 			else if(sd_usb_Btn.GetState() == STATE_CLICKED 	|| Settings.sd_insert == -1 || Settings.sd_insert == 2
 									|| Settings.usb_insert == -1 || Settings.usb_insert == 2
-									|| Settings.dvd_insert == -1 || Settings.dvd_insert == 2)
+									|| Settings.dvd_insert == -1 || Settings.dvd_insert == 2
+									|| Settings.gca_insert == -1 || Settings.gca_insert == 2
+									|| Settings.gcb_insert == -1 || Settings.gcb_insert == 2)
 			{
 				int device = -1;
 				if(sd_usb_Btn.GetState() == STATE_CLICKED)
@@ -707,11 +729,17 @@ int MenuMain()
 				else if(device == 4)
 					Settings.device = "dvd";
 				else if(device == 5)
+					Settings.device = "gca";
+				else if(device == 6)
+					Settings.device = "gcb";
+				else if(device == 7)
 					Settings.device = "all";
 
 				if(device != -1 || Settings.sd_insert == -1 || Settings.sd_insert == 2
 						|| Settings.usb_insert == -1 || Settings.usb_insert == 2
-						|| Settings.dvd_insert == -1 || Settings.dvd_insert == 2)
+						|| Settings.dvd_insert == -1 || Settings.dvd_insert == 2
+						|| Settings.gca_insert == -1 || Settings.gca_insert == 2
+						|| Settings.gcb_insert == -1 || Settings.gcb_insert == 2)
 				{
 					check_device();
 					Settings.current_page = 1;
