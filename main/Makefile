@@ -125,7 +125,7 @@ $(BUILD):
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).dol $(OUTPUT).elf
-	@rm HomebrewFilter/boot.dol
+	@rm ../HomebrewFilter/boot.dol
 
 #---------------------------------------------------------------------------------
 run:
