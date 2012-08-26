@@ -5,8 +5,10 @@
 #include "main.h"
 #include "menu.h"
 #include "Tools/SelectIos.h"
+#include <dirent.h>
 // #include "Neek/bootneek.h"
 #include "Neek/uneek_fs.h"
+#include "BootHomebrew/BootHomebrew.h"
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -16,8 +18,62 @@ extern void ResumeGui();
 extern void HaltGui();
 extern bool goneek2o;
 extern bool gorealnand;
+extern bool gosegui;
+extern const char* segui_loc;
 
 int priicheck = 0;
+int seguicheck = 0;
+
+bool check_segui()
+{
+
+	if (opendir(check_path("sd1:/apps/SettingsEditorGUI/").c_str()) != NULL)
+	{
+		segui_loc = "sd1:/apps/SettingsEditorGUI/boot.dol";
+		return true;
+	}
+	else if(opendir(check_path("usb1:/apps/SettingsEditorGUI/").c_str()) != NULL)
+	{
+		segui_loc = "usb1:/apps/SettingsEditorGUI/boot.dol";
+		return true;
+	}
+	if (opendir(check_path("dvd:/apps/SettingsEditorGUI/").c_str()) != NULL)
+	{
+		segui_loc = "dvd1:/apps/SettingsEditorGUI/boot.dol";
+		return true;
+	}
+	else if(opendir(check_path("gca:/apps/Settings Editor GUI/").c_str()) != NULL)
+	{
+		segui_loc = "gca:/apps/SettingsEditorGUI/boot.dol";
+		return true;
+	}
+	else if(opendir(check_path("gcb:/apps/SettingsEditorGUI/").c_str()) != NULL)
+	{
+		segui_loc = "gcb:/apps/SettingsEditorGUI/boot.dol";
+		return true;
+	}
+	else
+	{
+		segui_loc = "";
+		return false;
+	}
+
+}
+
+int set_height(int num)
+{
+	if(num == 1)
+		return 75;
+	if(num == 2)
+		return 140;
+	if(num == 3)
+		return 205;
+	if(num == 4)
+		return 270;
+
+	return 0;
+
+}
 
 int
 loaderPrompt()
@@ -33,6 +89,13 @@ loaderPrompt()
 		check_priiloader();
 	}
 
+	bool have_segui;
+	if( ! seguicheck )
+	{
+		seguicheck = 1;
+		have_segui = check_segui();
+	}
+
 	GuiWindow promptWindow(520,360);
 	promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	promptWindow.SetPosition(0, -10);
@@ -43,7 +106,7 @@ loaderPrompt()
 	trigB.SetButtonOnlyTrigger(-1, WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B, PAD_BUTTON_B);
 	trigHOME.SetButtonOnlyTrigger(-1, WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME, PAD_BUTTON_START);
 
-	GuiText titleTxt(tr("External Loaders"), 26, (GXColor){Theme.title_1, Theme.title_2, Theme.title_3, 255});
+	GuiText titleTxt(tr("External Applications"), 26, (GXColor){Theme.title_1, Theme.title_2, Theme.title_3, 255});
 	titleTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	titleTxt.SetPosition(0,40);
 
@@ -56,7 +119,7 @@ loaderPrompt()
 	GuiImage neek2oImg(&btn);
 	GuiImage realnandImg(&btn);
 	GuiImage priiloaderImg(&btn);
-	GuiImage backImg(&btn);
+	GuiImage seguiImg(&btn);
 
 	// Buttons over data
 	GuiImageData btn_over(Theme.button_focus);
@@ -64,7 +127,7 @@ loaderPrompt()
 	GuiImage neek2oImgOver(&btn_over);
 	GuiImage realnandImgOver(&btn_over);
 	GuiImage priiloaderImgOver(&btn_over);
-	GuiImage backImgOver(&btn_over);
+	GuiImage seguiImgOver(&btn_over);
 
 	GuiText nandemuTxt(tr("Launch Uniiloader"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton nandemu(btn.GetWidth(), btn.GetHeight());
@@ -102,62 +165,78 @@ loaderPrompt()
 	priiloader.SetImageOver(&priiloaderImgOver);
 	priiloader.SetTrigger(&trigA);
 
-	GuiText backTxt(tr("Back"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
-	GuiButton back(btn.GetWidth(), btn.GetHeight());
-	back.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
-	back.SetPosition(0, 270);
-	back.SetLabel(&backTxt);
-	back.SetImage(&backImg);
-	back.SetImageOver(&backImgOver);
-	back.SetTrigger(&trigA);
-	back.SetTrigger(&trigB);
+	GuiText seguiTxt(tr("Launch Settings Editor GUI"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiButton segui(btn.GetWidth(), btn.GetHeight());
+	segui.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	segui.SetPosition(0, 90);
+	segui.SetLabel(&seguiTxt);
+	segui.SetImage(&seguiImg);
+	segui.SetImageOver(&seguiImgOver);
+	segui.SetTrigger(&trigA);
 
-	GuiButton back2(0, 0);
-	back2.SetTrigger(&trigHOME);
+	GuiButton back(0, 0);
+	back.SetTrigger(&trigB);
+	back.SetTrigger(&trigHOME);
 
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
 
+	int num_btns = 1;
+
 	if(!check_uneek_fs())
 	{
-
-		if(get_nandemu() && check_neek2o())
+		if(get_nandemu())
 		{
-			nandemu.SetPosition(0, 90);
+			nandemu.SetPosition(0, set_height(num_btns));
+			num_btns++;
 			promptWindow.Append(&nandemu);
-
-			neek2o.SetPosition(0, 140);
-			promptWindow.Append(&neek2o);
-
-			priiloader.SetPosition(0, 190);
 		}
-		else if (get_nandemu())
+
+		if(check_neek2o())
 		{
-			nandemu.SetPosition(0, 90);
-			promptWindow.Append(&nandemu);
-
-			priiloader.SetPosition(0, 140);
-		}
-		else if(check_neek2o())
-		{
-			neek2o.SetPosition(0, 90);
+			neek2o.SetPosition(0, set_height(num_btns));
+			num_btns++;
 			promptWindow.Append(&neek2o);
-
-			priiloader.SetPosition(0, 140);
 		}
+
+		if(get_priiloader())
+		{
+			priiloader.SetPosition(0, set_height(num_btns));
+			num_btns++;
+			promptWindow.Append(&priiloader);
+		}
+
+		if(have_segui)
+		{
+			segui.SetPosition(0, set_height(num_btns));
+			num_btns++;
+			promptWindow.Append(&segui);
+		}
+
 	}
 	else
 	{
-		realnand.SetPosition(0, 90);
+		realnand.SetPosition(0, set_height(num_btns));
+		num_btns++;
 		promptWindow.Append(&realnand);
 
-		priiloader.SetPosition(0, 140);
+		if(get_priiloader())
+		{
+			priiloader.SetPosition(0, set_height(num_btns));
+			num_btns++;
+			promptWindow.Append(&priiloader);
+		}
+
+		if(have_segui)
+		{
+			segui.SetPosition(0, set_height(num_btns));
+			num_btns++;
+			promptWindow.Append(&segui);
+		}
+
 	}
 
-	if(get_priiloader() == 1)
-		promptWindow.Append(&priiloader);
 	promptWindow.Append(&back);
-	promptWindow.Append(&back2);
 
 	HaltGui();
 	mainWindow->SetState(STATE_DISABLED);
@@ -190,6 +269,13 @@ loaderPrompt()
 			stop = true;
 		}
 
+		if(segui.GetState() == STATE_CLICKED)
+		{
+			gosegui = true;
+			menu = MENU_EXIT;
+			stop = true;
+		}
+
 		if(priiloader.GetState() == STATE_CLICKED)
 		{
 			set_priiloader(2);
@@ -197,7 +283,7 @@ loaderPrompt()
 			stop = true;
 		}
 
-		if(back.GetState() == STATE_CLICKED || back2.GetState() == STATE_CLICKED)
+		if(back.GetState() == STATE_CLICKED)
 			stop = true;
 	}
 

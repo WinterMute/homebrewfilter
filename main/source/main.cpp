@@ -64,6 +64,9 @@ bool boot_buffer = false;
 bool wiiload = false;
 bool goneek2o = false;
 bool gorealnand = false;
+bool restarthbf = false;
+bool gosegui = false;
+const char* segui_loc;
 bool runaway = false;
 bool gecko_connected;
 bool in_neek;
@@ -297,6 +300,15 @@ main(int argc, char *argv[])
 		DCFlushRange((void*)0x8132FFFB, 4);
 		//ExitApp();
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+	}
+
+	if(restarthbf)
+		WII_LaunchTitle(0x0001000154484246);
+
+	if(gosegui)
+	{
+		LoadHomebrew(segui_loc);
+		BootHomebrew();
 	}
 
 	if(goneek2o)

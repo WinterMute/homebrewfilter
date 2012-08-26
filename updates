@@ -9,6 +9,10 @@
 - added <force_no_ios_reload/> support, for testing purposes
 - fixed clean rule in main/Makefile
 - add 'Restart HBF' option to exit prompt
+- renamed 'external loaders' prompt to 'external applications'
+- add 'Start SE GUI' option to external applications prompt
+  must be :/apps/SettingsEditorGUI/boot.dol on any device
+  (all sd, usb, dvd, sd gecko a and sd gecko b supported)
 - remove back button from exit prompt (press B/HOME to go back)
 - For theme designers: the following new icons have been added:
 	* gca_active (device menu)
