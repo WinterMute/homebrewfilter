@@ -3,6 +3,7 @@
 
 #include "libwiigui/gui.h"
 #include "main.h"
+#include "Tools/fileop.h"
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -167,18 +168,22 @@ int devicePrompt()
 		if(gca_Btn.GetState() == STATE_CLICKED)
 		{
 			device = 5;
+			GCA_Remount();
 			stop = true;
 		}
 
 		if(gcb_Btn.GetState() == STATE_CLICKED)
 		{
 			device = 6;
+			GCB_Remount();
 			stop = true;
 		}
 
 		if(all_Btn.GetState() == STATE_CLICKED)
 		{
 			device = 7;
+			GCA_Remount();
+			GCB_Remount();
 			stop = true;
 		}
 
