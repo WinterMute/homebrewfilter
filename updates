@@ -8,6 +8,8 @@
   when selected storage device is DVD
 - added <force_no_ios_reload/> support, for testing purposes
 - fixed clean rule in main/Makefile
+- add 'Restart HBF' option to exit prompt
+- remove back button from exit prompt (press B/HOME to go back)
 - For theme designers: the following new icons have been added:
 	* gca_active (device menu)
 	* gca_inactive (device menu)

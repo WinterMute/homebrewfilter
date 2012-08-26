@@ -43,15 +43,15 @@ endPrompt()
 	GuiImageData btn(Theme.button);
 	GuiImage systemmenuImg(&btn);
 	GuiImage bootmiiImg(&btn);
+	GuiImage hbfImg(&btn);
 	GuiImage shutdownImg(&btn);
-	GuiImage backImg(&btn);
 
 	// Buttons over data
 	GuiImageData btn_over(Theme.button_focus);
 	GuiImage bootmiiImgOver(&btn_over);
+	GuiImage hbfImgOver(&btn_over);
 	GuiImage systemmenuImgOver(&btn_over);
 	GuiImage shutdownImgOver(&btn_over);
-	GuiImage backImgOver(&btn_over);
 
 	GuiText bootmiiTxt(tr("Launch BootMii"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton bootmii(btn.GetWidth(), btn.GetHeight());
@@ -62,12 +62,23 @@ endPrompt()
 	bootmii.SetImageOver(&bootmiiImgOver);
 	bootmii.SetTrigger(&trigA);
 
+	GuiText hbfTxt(tr("Restart HBF"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiButton hbf(btn.GetWidth(), btn.GetHeight());
+	hbf.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	hbf.SetPosition(0, 90);
+	if(get_bootmii())
+		hbf.SetPosition(0, 140);
+	hbf.SetLabel(&hbfTxt);
+	hbf.SetImage(&hbfImg);
+	hbf.SetImageOver(&hbfImgOver);
+	hbf.SetTrigger(&trigA);
+
 	GuiText systemmenuTxt(tr("Exit to System Menu"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton systemmenu(btn.GetWidth(), btn.GetHeight());
 	systemmenu.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
-	systemmenu.SetPosition(0, 90);
+	systemmenu.SetPosition(0, 180);
 	if(get_bootmii())
-		systemmenu.SetPosition(0, 140);
+		systemmenu.SetPosition(0, 205);
 	systemmenu.SetLabel(&systemmenuTxt);
 	systemmenu.SetImage(&systemmenuImg);
 	systemmenu.SetImageOver(&systemmenuImgOver);
@@ -76,27 +87,17 @@ endPrompt()
 	GuiText shutdownTxt(tr("Shutdown"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton shutdown(btn.GetWidth(), btn.GetHeight());
 	shutdown.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
-	shutdown.SetPosition(0, 180);
-	if(get_bootmii())
-		shutdown.SetPosition(0, 205);
+	shutdown.SetPosition(0, 270);
 	shutdown.SetLabel(&shutdownTxt);
 	shutdown.SetImage(&shutdownImg);
 	shutdown.SetImageOver(&shutdownImgOver);
 	shutdown.SetTrigger(&trigA);
 
-	GuiText backTxt(tr("Back"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
-	GuiButton back(btn.GetWidth(), btn.GetHeight());
-	back.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
-	back.SetPosition(0, 270);
-	back.SetLabel(&backTxt);
-	back.SetImage(&backImg);
-	back.SetImageOver(&backImgOver);
-	back.SetTrigger(&trigA);
+	GuiButton back(0, 0);
 	back.SetTrigger(&trigB);
 
 	GuiButton back2(0, 0);
-	back2.SetTrigger(&trigHOME);
-
+	back.SetTrigger(&trigHOME);
 
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
@@ -106,6 +107,7 @@ endPrompt()
 	promptWindow.Append(&shutdown);
 	promptWindow.Append(&back);
 	promptWindow.Append(&back2);
+	promptWindow.Append(&hbf);
 
 	HaltGui();
 	mainWindow->SetState(STATE_DISABLED);
@@ -120,6 +122,13 @@ endPrompt()
 		if(bootmii.GetState() == STATE_CLICKED)
 		{
 			set_bootmii(2);
+			menu = MENU_EXIT;
+			stop = true;
+		}
+
+		if(hbf.GetState() == STATE_CLICKED)
+		{
+			WII_LaunchTitle(0x0001000154484246);
 			menu = MENU_EXIT;
 			stop = true;
 		}
@@ -140,10 +149,10 @@ endPrompt()
 
 		if(back.GetState() == STATE_CLICKED || back2.GetState() == STATE_CLICKED)
 			stop = true;
+
 		if(runaway == true)
-		{
 			stop = true;
-		}
+
 	}
 
 	HaltGui();
