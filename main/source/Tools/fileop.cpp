@@ -35,8 +35,8 @@ static const DISC_INTERFACE* dvd = &__io_wiidvd;
 enum
 {
 	DEVICE_SD,
-	DEVICE_USB,
-	DEVICE_DVD
+	DEVICE_USB
+
 };
 
 static char prefix[2][4] = { "sd", "usb" };
@@ -173,10 +173,6 @@ static void AddPartition(sec_t sector, int device, int type, int *devnum)
 	if (device == DEVICE_USB)
 	{
 		disc = (DISC_INTERFACE *)usb;
-	}
-	else if (device == DEVICE_DVD)
-	{
-		disc = (DISC_INTERFACE *)dvd;
 	}
 
 	char mount[10];
@@ -537,8 +533,6 @@ static bool MountPartitions(int device)
 		case DEVICE_USB:
 			disc = usb;
 			break;
-		case DEVICE_DVD:
-			disc = dvd;
 			break;
 		default:
 			return false; // unknown device
@@ -569,7 +563,7 @@ void MountAllDevices()
 
 	if(__io_gcsda.startup() && __io_gcsda.isInserted())
 		fatMountSimple("gca", &__io_gcsda);
-	
+
 	usleep(250000);
 
 	if(__io_gcsdb.startup() && __io_gcsdb.isInserted())
