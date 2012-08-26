@@ -630,6 +630,9 @@ void UnmountAllDevices()
 {
 	UnmountPartitions(DEVICE_SD);
 	UnmountPartitions(DEVICE_USB);
+	UnMountDVD();
+	fatUnmount("gca:");
+	fatUnmount("gcb:");
 }
 
 bool GCA_Inserted()
