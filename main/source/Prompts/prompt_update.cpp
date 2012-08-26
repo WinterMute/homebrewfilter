@@ -20,6 +20,7 @@
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
 extern bool boot_buffer;
+extern bool updatehbf;
 
 /*** Extern functions ***/
 extern void ResumeGui();
@@ -129,8 +130,8 @@ updatePrompt(string rev)
 		if(file.data)
 			free(file.data);
 
-		LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str());
-		BootHomebrew ();
+		boot_buffer = true;
+		updatehbf = true;
 	}
 	else
 	{

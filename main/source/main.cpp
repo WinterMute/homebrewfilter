@@ -65,6 +65,7 @@ bool wiiload = false;
 bool goneek2o = false;
 bool gorealnand = false;
 bool restarthbf = false;
+bool updatehbf = false;
 bool gosegui = false;
 const char* segui_loc;
 bool runaway = false;
@@ -304,6 +305,13 @@ main(int argc, char *argv[])
 
 	if(restarthbf)
 		WII_LaunchTitle(0x0001000154484246);
+
+	if(updatehbf)
+	{
+		Settings.force_reload = "NORELOAD";
+		LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str());
+		BootHomebrew();
+	}
 
 	if(gosegui)
 	{
