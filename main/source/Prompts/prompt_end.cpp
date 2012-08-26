@@ -7,6 +7,7 @@
 #include "Tools/SelectIos.h"
 
 extern bool runaway;
+extern bool restarthbf;
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -128,7 +129,7 @@ endPrompt()
 
 		if(hbf.GetState() == STATE_CLICKED)
 		{
-			WII_LaunchTitle(0x0001000154484246);
+			restarthbf = true;
 			menu = MENU_EXIT;
 			stop = true;
 		}
