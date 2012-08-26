@@ -635,6 +635,12 @@ void UnmountAllDevices()
 	fatUnmount("gcb:");
 }
 
+void GCA_ReMount()
+{
+	fatUnmount("gca:");
+	fatMountSimple("gca", &__io_gcsda);
+}
+
 bool GCA_Inserted()
 {
 
@@ -660,6 +666,12 @@ void check_gca()
 			Settings.gca_insert = -1;
 		}
 	}
+}
+
+void GCB_ReMount()
+{
+	fatUnmount("gcb:");
+	fatMountSimple("gcb", &__io_gcsdb);
 }
 
 bool GCB_Inserted()

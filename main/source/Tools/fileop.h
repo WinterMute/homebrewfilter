@@ -40,6 +40,8 @@ void UnMountDVD();
 bool DVD_Inserted();
 void check_dvd();
 
+void GCA_Remount();
+void GCB_Remount();
 bool GCA_Inserted();
 bool GCB_Inserted();
 void check_gca();
