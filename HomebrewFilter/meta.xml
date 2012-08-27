@@ -3,7 +3,7 @@
   <name>HomebrewFilter Installer</name>
   <coder>Nano</coder>
   <version>rev39</version>
-  <no_ios_reload/>
+  <ahb_access/>
   <short_description>HBF Installer</short_description>
   <long_description>Installiert den Hombrew Filter
 
