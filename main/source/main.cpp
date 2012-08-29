@@ -102,7 +102,9 @@ void ExitApp()
 	xprintf("Running ExitApp()\n");
 	ShutdownPads();
 	StopGX();
+	xprintf("Saving Settings\n");
 	save();
+	xprintf("Unmount Devices and NAND\n");
 	UnmountAllDevices();
 	exit_uneek_fs();
 	ISFS_Deinitialize();
@@ -133,6 +135,7 @@ static void WiimotePowerPressed(s32 chan)
 void
 DefaultSettings()
 {
+	xprintf("Loading factory defaults 1/2\n");
 	Settings.sd_insert			= SDCard_Inserted();
 	Settings.usb_insert			= USBDevice_Inserted();
 	Settings.dvd_insert			= DVD_Inserted();
@@ -157,6 +160,7 @@ DefaultSettings()
 void
 DefaultOptions()
 {
+	xprintf("Loading factory defaults 2/2\n");
 	sprintf (Options.theme, tr("STANDARD"));
 	sprintf (Options.language, tr("STANDARD"));
 	sprintf (Options.font, tr("STANDARD"));
@@ -248,9 +252,7 @@ main(int argc, char *argv[])
 
     if(boothomebrew)
     {
-		/*if(SelectedIOS() != IOS_GetVersion())
-			IOS_ReloadIOS(SelectedIOS());*/
-
+	        xprintf("selected from homebrew list:\n  %s\n", Settings.forwarder_path.c_str());
 		if(strstr(Settings.forwarder_path.c_str(), ":/apps/") != 0)
 			BootHomebrew();
 		else if(strstr(Settings.forwarder_path.c_str(), ":/gc_apps/") != 0)
@@ -259,7 +261,6 @@ main(int argc, char *argv[])
     else if(boot_buffer)
 	if(wiiload)
 	{
-		//ExitApp();
 		BootHomebrew();
 	}
 
@@ -267,14 +268,14 @@ main(int argc, char *argv[])
 	{
 		if(!check_uneek_fs())
 		{
-			//ExitApp();
+			xprintf("Start BootMii\n");
 			IOS_ReloadIOS(254);
 		}
 		else
 		{
-			//ExitApp();
 			//we can't launch bootmii from within neek2o I assume
 			//so we should do something else
+			xprintf("We're in neek2o, not entering BootMii, but SystemMenu\n");
 			SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 		}
 	}
@@ -283,65 +284,75 @@ main(int argc, char *argv[])
 	{
 		if (opendir(check_path("sd1:/apps/NANDEmu-Boot").c_str()) != NULL)
 		{
+			xprintf("Booting NANDEmu from SD\n");
 			LoadHomebrew ("sd1:/apps/NANDEmu-Boot/boot.dol");
-			//ExitApp();
 			BootHomebrew ();
 		}
 		else if (opendir(check_path("usb1:/apps/NANDEmu-Boot").c_str()) != NULL)
 		{
+			xprintf("Booting NANDEmu from USB\n");
 			LoadHomebrew ("usb1:/apps/NANDEmu-Boot/boot.dol");
-			//ExitApp();
 			BootHomebrew ();
 		}
 	}
 
 	if(get_priiloader() == 2)
 	{
+		xprintf("Entering magic key\n");
 		*(vu32*)0x8132FFFB = 0x4461636f;
 		DCFlushRange((void*)0x8132FFFB, 4);
-		//ExitApp();
+		xprintf("Starting Priiloader");
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 
 	if(restarthbf)
+	{
+		xprintf("Relaunching myself\n");
 		WII_LaunchTitle(0x0001000154484246);
+	}
 
 	if(updatehbf)
 	{
+		xprintf("Setting force_reload to NORELOAD\n");
 		Settings.force_reload = "NORELOAD";
+		xprintf("Loading boot.dol from online update\n");
 		LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str());
 		BootHomebrew();
 	}
 
 	if(gosegui)
 	{
+		xprintf("Launching Settings Editor GUI\n");
 		LoadHomebrew(segui_loc);
 		BootHomebrew();
 	}
 
 	if(goneek2o)
 	{
-		//ExitApp();
+		xprintf("Entering neek2o\n");
 		boot_neek2o();
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 
 	if(gorealnand)
 	{
-		//ExitApp();
+		xprintf("Entering real NAND\n");
 		SYS_ResetSystem(SYS_RESTART, 0, 0);
 	}
 
 	if(PowerOff == SYS_RETURNTOMENU)
 	{
+		xprintf("Entering magic key\n");
 		*(vu32*)0x8132FFFB = 0x50756E65;
 		DCFlushRange((void*)0x8132FFFB, 4);
-		//ExitApp();
+		xprintf("Entering SystemMenu\n");
 		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 	}
 	else if(PowerOff != -1)
-		//ExitApp();
+	{
+		xprintf("Full Stop!\n");
 		SYS_ResetSystem(PowerOff, 0, 0);
+	}
 
 	return 0;
 }

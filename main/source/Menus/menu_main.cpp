@@ -29,6 +29,7 @@ extern void HaltResumeGui();
 bool grab = false;
 // slide temporär aktivieren
 bool temp_slide = true;
+bool first = false;
 
 /****************************************************************************
  * MenuSettings
@@ -619,7 +620,6 @@ int MenuMain()
 
 	bool next_page = false;
 	bool previous_page = false;
-	bool first = false;
 
 	while(menu == MENU_NONE)
 	{
