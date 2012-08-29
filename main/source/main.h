@@ -110,16 +110,16 @@ extern struct SSettings Settings;
 
 struct SOptions
 {
-	int			temp_last_setting;
+	int		temp_last_setting;
 	string		temp_theme;
 	string		temp_language;
 	string		temp_font;
 	char		temp_code[5];
-	int			temp_network;
-	int			temp_newrevtext;
-
-    int			last_category;			// letzte kategorie merken
-    int			slide_effect;
+	int		temp_network;
+	int		temp_wifigecko;
+	int		temp_newrevtext;
+    	int		last_category;			// letzte kategorie merken
+    	int		slide_effect;
 	char		theme[256];
 	char		language[256];
 	char		font[256];
@@ -129,6 +129,7 @@ struct SOptions
 	int		device_icon;
 	bool		navigation;
 	bool		network;
+	bool		wifigecko;
 	bool		newrevtext;
 	int		wiiload_ahb;
 	int		wiiload_ios;

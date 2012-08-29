@@ -169,6 +169,7 @@ DefaultOptions()
 	Options.show_all	= 1;
 	Options.navigation	= 0;
 	Options.temp_network	= 0;
+	Options.temp_wifigecko	= 0;
 	Options.temp_newrevtext	= 1;
 }
 

@@ -2,6 +2,7 @@
 - fixed auto-connecting Internet via WiFi
 - basic support for WifiGecko
   * only connection message is shown currently
+  * option to en/disable WifiGecko (settings->network)
   * no option yet to change IP and Port
   * also works via LAN
 

@@ -452,6 +452,7 @@ int MenuSettingsFile()
 		{
 			strcpy (Options.temp_code, Settings.code);
 			Options.temp_network	= Options.network;
+			Options.temp_wifigecko	= Options.wifigecko;
 			Options.temp_newrevtext	= Options.newrevtext;
 			menu					= MENU_SETTINGS;
 		}
@@ -497,6 +498,7 @@ int MenuSettingsFile()
 			device_dat			= options.value[STORAGE_DEVICE];
 			Options.navigation		= navigation;
 			Options.network			= Options.temp_network;
+			Options.wifigecko		= Options.temp_wifigecko;
 			Options.newrevtext		= Options.temp_newrevtext;
 
 			if(device_dat == "SD")
@@ -546,6 +548,7 @@ int MenuSettingsFile()
 		{
 			strcpy (Options.temp_code, Settings.code);
 			Options.temp_network	= Options.network;
+			Options.temp_wifigecko	= Options.wifigecko;
 			Options.temp_newrevtext	= Options.newrevtext;
 			menu = MENU_SETTINGS;
 		}

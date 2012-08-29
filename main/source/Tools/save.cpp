@@ -103,6 +103,7 @@ void save()
 		save_settings << "show_all = \""			<< Options.show_all		<< "\"" << endl;
 		save_settings << "navigation = \""			<< Options.navigation		<< "\"" << endl;
 		save_settings << "network = \""				<< Options.network			<< "\"" << endl;
+		save_settings << "wifigecko = \""			<< Options.wifigecko		<< "\"" << endl;
 		save_settings << "newrevtext = \""			<< Options.newrevtext		<< "\"" << endl;
 		save_settings << "code = \""				<< Settings.code			<< "\"" << endl;
 		save_settings << "grid = \""				<< Settings.grid			<< "\"" << endl;

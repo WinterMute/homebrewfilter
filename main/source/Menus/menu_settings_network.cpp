@@ -29,11 +29,13 @@ int MenuSettingsNetwork()
 	int focus = 0;
 
 	int network = Options.temp_network;
+	int wifigecko = Options.temp_wifigecko;
 	int newrevtext = Options.temp_newrevtext;
 
 	OptionList options;
 
 	sprintf(options.name[i++], tr("Auto Connect"));
+	sprintf(options.name[i++], tr("Enable Wifi Gecko"));
 	sprintf(options.name[i++], tr("Update Info"));
 	options.length = i;
 
@@ -112,6 +114,14 @@ int MenuSettingsNetwork()
 					break;
 
 				case 1:
+					change = wifigecko;
+					change++;
+					if(change > 1)
+						change = 1;
+					wifigecko = change;
+					break;
+
+				case 2:
 					change = newrevtext;
 					change++;
 					if(change > 1)
@@ -136,6 +146,14 @@ int MenuSettingsNetwork()
 					break;
 
 				case 1:
+					change = wifigecko;
+					change--;
+					if(change < 0)
+						change = 0;
+					wifigecko = change;
+					break;
+
+				case 2:
 					change = newrevtext;
 					change--;
 					if(change < 0)
@@ -155,10 +173,15 @@ int MenuSettingsNetwork()
 			else
 				sprintf (options.value[0], tr("Yes"));
 
-			if(newrevtext == 0)
+			if(wifigecko == 0)
 				sprintf (options.value[1], tr("No"));
 			else
 				sprintf (options.value[1], tr("Yes"));
+
+			if(newrevtext == 0)
+				sprintf (options.value[2], tr("No"));
+			else
+				sprintf (options.value[2], tr("Yes"));
 
 			optionBrowser.TriggerUpdate();
 		}
@@ -196,6 +219,7 @@ int MenuSettingsNetwork()
 				}
 			}
 			Options.temp_network = network;
+			Options.temp_wifigecko = wifigecko;
 			Options.temp_newrevtext = newrevtext;
 			menu = MENU_SETTINGS_FILE;
 		}

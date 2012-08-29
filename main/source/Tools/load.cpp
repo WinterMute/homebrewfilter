@@ -109,6 +109,12 @@ void load()
 			Options.temp_network = Options.network;
 		}
 
+		if(get_setting(source, "wifigecko") != "")
+		{
+			Options.wifigecko = atoi(get_setting(source, "wifigecko").c_str());
+			Options.temp_wifigecko = Options.wifigecko;
+		}
+
 		if(get_setting(source, "newrevtext") != "")
 		{
 			Options.newrevtext = atoi(get_setting(source, "newrevtext").c_str());

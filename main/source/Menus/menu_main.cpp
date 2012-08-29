@@ -662,7 +662,7 @@ int MenuMain()
 					if(boot_buffer)
 						menu = MENU_EXIT;
 
-					if(!first)
+					if(!first && Options.wifigecko)
 					{
 						WifiGecko_Connect();
 						wifi_printf("The HomebrewFilter rev%i\n", SvnRev());
