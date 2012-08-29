@@ -9,7 +9,7 @@
 #include <malloc.h>
 #include "common.h"
 #include "gecko.h"
-
+#include "Network/wifi_gecko.h"
 
 extern struct SSettingsNeek2o n2oSettings;
 
@@ -263,6 +263,7 @@ s32 set_neek_channel(void)
 		stitlexsb[17]= 0;
 		strcat(titlefolder,stitlexsb);
 		gprintf("Titlefolder = %s\n",titlefolder);
+		wifi_printf("Titlefolder = %s\n",titlefolder);
 		if (DirExist(titlefolder))
 		{
 	    	//calculate the channel for storage in launch.sys
@@ -275,6 +276,7 @@ s32 set_neek_channel(void)
 			title = (u64)(titlemsb) << 32;
 			title = title + (u64)(titlelsb);
 			gprintf( "titleid = %08x %08x\r\n", (u32)((title)>>32), (u32)(title) );
+			wifi_printf( "titleid = %08x %08x\r\n", (u32)((title)>>32), (u32)(title) );
 			fp = fopen(launchfile, "wb");
 			if(fp)
 			{

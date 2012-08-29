@@ -28,7 +28,7 @@ distribution.
 #include <string.h>
 #include <gccore.h>
 #include <ogc/machine/processor.h>
-#include "gecko.h"
+#include "xprintf.h"
 #include "Tools/load_channel.h"
 #include "filelist.h"
 
@@ -52,7 +52,7 @@ s32 Patch_ahbprot(void)
 
 	if (read32(CHECK_AHB) != 0xffffffff)
 	{
-		gprintf("AHBPROT doesn't seem to be disabled.\n");
+		xprintf("AHBPROT doesn't seem to be disabled.\n");
 		return false;
 	}
 	else
@@ -63,7 +63,7 @@ s32 Patch_ahbprot(void)
 		{
 			if (!memcmp(patchme, ticket_check, sizeof(ticket_check)))
 			{
-				gprintf("Found TMD Access rights check at %p\n", patchme);
+				xprintf("Found TMD Access rights check at %p\n", patchme);
 				// write16/uncached poke doesn't work for this. Go figure.
 				patchme[4] = 0x23FF; // li r3, 0xFF
 				DCFlushRange(patchme+4, 2);

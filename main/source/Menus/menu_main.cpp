@@ -12,6 +12,7 @@
 #include "Network/update.h"
 #include "Network/tcp.h"
 #include "Network/wifi_gecko.h"
+#include "xprintf.h"
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -662,14 +663,17 @@ int MenuMain()
 					if(boot_buffer)
 						menu = MENU_EXIT;
 
-					if(!first && Options.wifigecko)
+					if(!first)
 					{
-						WifiGecko_Connect();
-						wifi_printf("The HomebrewFilter rev%i\n", SvnRev());
-						usleep(500);
-						wifi_printf("= == == == == == == == =\n");
-						usleep(500);
-						wifi_printf("  Wifi Gecko connected.");
+						if(Options.wifigecko)
+							WifiGecko_Connect();
+
+						xprintf("The HomebrewFilter rev%i\n", SvnRev());
+						usleep(1000);
+						xprintf("= == == == == == == == =\n");
+						usleep(1000);
+						xprintf("  Wifi Gecko connected.\n\n");
+
 						first = true;
 					}
 

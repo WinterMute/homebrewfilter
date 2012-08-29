@@ -1,8 +1,12 @@
 //rev41:
 - fixed auto-connecting Internet via WiFi
 - basic support for WifiGecko
-  * only connection message is shown currently
+  * most messages are shown via WifiGecko
+    those that are sent prior to network initialization
+    will be missing
   * option to en/disable WifiGecko (settings->network)
+    if enabled messages will be send via WifiGecko,
+    elese via USB Gecko (if one is plugged in)
   * no option yet to change IP and Port
   * also works via LAN
 

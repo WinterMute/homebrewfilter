@@ -9,7 +9,7 @@
 #include "main.h"
 #include "BootHomebrew/BootHomebrew.h"
 #include "Prompts/prompts.h"
-#include "gecko.h"
+#include "xprintf.h"
 
 #define READ_SIZE (1 << 10)
 
@@ -67,7 +67,7 @@ int oport(unsigned short portnum)
 	sa.sin_len = 8;
 	if ((s= net_socket(AF_INET, SOCK_STREAM, 0)) < 0) /* create socket */
 	{
-		gprintf("net_socket failed\n");
+		xprintf("net_socket failed\n");
  		return(-1);
 	}
 
@@ -75,7 +75,7 @@ int oport(unsigned short portnum)
 	err = net_setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (const char *)&one, sizeof(one));
 	if (err < 0)
 	{
-		gprintf("net_setsockopt SO_REUSEADDR error");
+		xprintf("net_setsockopt SO_REUSEADDR error");
 		return (-1);
 	}
 
@@ -96,7 +96,7 @@ int oport(unsigned short portnum)
 /*
 	u32 buflen = 8;
 	int t = net_accept(s,(struct sockaddr *)&sa, &buflen);
-	gprintf("Dummy net_accept returned %d\n",t);
+	xprintf("Dummy net_accept returned %d\n",t);
 */
 
 	return(s);
@@ -142,7 +142,7 @@ int read_data(int s,     /* connected socket */
 		}
 		else if (br < 0)               /* signal an error to the caller */
 		{
-			gprintf("NetRead failure\n");
+			xprintf("NetRead failure\n");
 			return br;
 		}
 	}
@@ -192,7 +192,7 @@ static void * tcp_callback(void *arg)
 		//	Waiting for connection
 			client = get_connection(listen, &addr);
 
-			gprintf("After get_connection\n");
+			xprintf("After get_connection\n");
 			if(client > 0)
 			{
 		//		client connected
@@ -221,7 +221,7 @@ static void * tcp_callback(void *arg)
 
 				//wait 2 milliseconds hopefully fixes the error we see
 				//usleep (100000);
-				gprintf("reading protocol id\n");
+				xprintf("reading protocol id\n");
 				int temp = read_data(client, (char *)&read, 4);
 				if(temp < 0)
 				{
@@ -245,7 +245,7 @@ static void * tcp_callback(void *arg)
 					compress = true;
 					//printf("HAXX\n");
 
-					gprintf("reading version\n");
+					xprintf("reading version\n");
 					read_data(client, (char *)&read, 4);
 					/*int WIILOAD_VERSION_MAYOR	= (u8)(((u16)(read >> 16)) >> 8);
 					int WIILOAD_VERSION_MINOR	= (u8)(((u16)(read >> 16)) & 0xFF);
@@ -256,10 +256,10 @@ static void * tcp_callback(void *arg)
 					printf("args %x08\n", read);
 					printf("args a=%x  b=%x\n", a, b);*/
 
-					gprintf("reading size\n");
+					xprintf("reading size\n");
 					read_data(client, (char *)&size, 4);
 
-					gprintf("reading uncompressed size\n");
+					xprintf("reading uncompressed size\n");
 					read_data(client, (char *)&uncfilesize, 4);
 				}
 				else
@@ -268,7 +268,7 @@ static void * tcp_callback(void *arg)
 				offset = 0;
 				while(offset < size && (read = read_data(client, (char *)bfr, (size - offset) > READ_SIZE ? READ_SIZE : (size - offset))) > 0)
 				{
-					gprintf("finished reading block at offset %x\n",offset);
+					//xprintf("finished reading block at offset %x\n",offset);
 					memcpy(data + offset, bfr, READ_SIZE);
 					offset += read;
 
@@ -283,7 +283,7 @@ static void * tcp_callback(void *arg)
 				// These are the arguments....
 				int ret = NetRead(client, (u8 *) Argtemp, 1023, 250);
 				Argtemp[ret] = 0;
-				//gprintf("all arguments = %s\n",Argtemp);
+				//xprintf("all arguments = %s\n",Argtemp);
 				if (ret > 2 && Argtemp[ret - 1] == '\0' && Argtemp[ret - 2] == '\0') // Check if it is really an arg
 				{
 					CopyArgs((u8*)(Argtemp),ret);

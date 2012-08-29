@@ -16,7 +16,7 @@
 #include "Tools/parser.h"
 #include "Tools/SelectIos.h"
 #include "Neek/uneek_fs.h"
-#include "gecko.h"
+#include "xprintf.h"
 #include "ahbfix.h"
 
 #define BLOCKSIZE               70*1024      //70KB
@@ -211,7 +211,7 @@ int BootHomebrew()
 		asize = strlen(abuf);
 		while (asize != 0)
 		{
-			gprintf("argument = %s\n",abuf);
+			xprintf("argument = %s\n",abuf);
 			arg_add(abuf);
 			abuf+=asize;
 			abuf+=1;
@@ -243,29 +243,41 @@ int BootHomebrew()
 
 	if (in_neek == false)
 	{
+		xprintf("Booting Homebrew");
 		if(wiiload)
 		{
+			xprintf(" via wiiload\n");
+
 			if(Options.wiiload_ahb == 2)
 			{
+				xprintf("with HW_AHBPROT\n");
 				Patch_ahbprot();
 			}
 
 			if(Options.wiiload_ahb != 0)
 			{
+				xprintf("with IOS reload\n");
 				IOS_ReloadIOS(Options.wiiload_ios);
 			}
+			else
+				xprintf("without reloading IOS\n");
 		}
 		else
 		{
+			xprintf(" from storage device\n");
 			if(Settings.force_reload == "HW_AHBPROT")
 			{
+				xprintf("with HW_AHBPROT\n");
 				Patch_ahbprot();
 			}
 
 			if(Settings.force_reload != "NORELOAD")
 			{
+				xprintf("with IOS reload\n");
 				IOS_ReloadIOS(SelectedIOS());
 			}
+			else
+				xprintf("without IOS reload\n");
 		}
 	}
 
@@ -301,6 +313,9 @@ int BootGameCubeHomebrew()
     if(homebrewsize == 0)
         return -1;
 
+
+    xprintf("Booting GC Homebrew\n");
+    xprintf("if it fails, install correct cMIOS!\n");
     static tikview view ATTRIBUTE_ALIGN(32);
 
     DI2_Init();

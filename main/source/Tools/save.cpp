@@ -1,7 +1,7 @@
 #include "main.h"
 #include <dirent.h>
 #include <sstream>
-#include "gecko.h"
+#include "xprintf.h"
 
 extern const u8  banner_bin[];
 extern const u32 banner_bin_size;
@@ -132,7 +132,7 @@ void save()
 	}
 	else
 	{
-		gprintf("ERROR: ISFS: opening %s failed\n", Settings.settings_dat.c_str());
+		xprintf("ERROR: ISFS: opening %s failed\n", Settings.settings_dat.c_str());
 	}
 
 	ISFS_Close(file);

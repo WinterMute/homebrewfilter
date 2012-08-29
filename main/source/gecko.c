@@ -3,6 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <sys/iosupport.h>
+#include "xprintf.h"
 
 /* init-globals */
 static bool geckoinit = false;

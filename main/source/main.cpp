@@ -36,6 +36,7 @@
 #include "BootHomebrew/dolloader.h"
 #include "DiskOperations/di2.h"
 #include "gecko.h"
+#include "xprintf.h"
 #include "Network/wiiload_gecko.h"
 #include "Neek/uneek_fs.h"
 #include "Neek/bootneek.h"
@@ -98,7 +99,7 @@ void addAppIos(string foldername, int ios)
 
 void ExitApp()
 {
-	gprintf("Running ExitApp()\n");
+	xprintf("Running ExitApp()\n");
 	ShutdownPads();
 	StopGX();
 	save();
@@ -109,7 +110,7 @@ void ExitApp()
 
 static void WiiResetPressed()
 {
-	gprintf("Reset button pressed \n");
+	xprintf("Reset button pressed \n");
 	runaway = true;
 	PowerOff = SYS_RETURNTOMENU;
 }
@@ -118,7 +119,7 @@ static void WiiPowerPressed()
 {
 	if(runaway == false)
 	{
-		gprintf("Power button pressed \n");
+		xprintf("Power button pressed \n");
 		runaway = true;
 		PowerOff = SYS_POWEROFF_STANDBY;
 	}
@@ -232,7 +233,7 @@ main(int argc, char *argv[])
 		}
 		else
 		{
-			gprintf("Warning: no AHBPROT\n");
+			xprintf("Warning: no AHBPROT\n");
 		}
 	}
 	DI2_Init(); // Init DVD

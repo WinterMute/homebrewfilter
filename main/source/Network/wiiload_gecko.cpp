@@ -10,7 +10,7 @@
 #include "main.h"
 #include "BootHomebrew/BootHomebrew.h"
 #include "Prompts/prompts.h"
-#include "gecko.h"
+#include "xprintf.h"
 
 #define READ_SIZE	(1 << 10)
 
@@ -54,7 +54,7 @@ int read_gecko_data(int s,     	/* connected socket */
 		}
 		else if (br < 0)               /* signal an error to the caller */
 		{
-			gprintf("GeckoRead failure\n");
+			xprintf("GeckoRead failure\n");
 			return br;
 		}
 		if (ticks_to_millisecs(gettime()) > t)
@@ -104,12 +104,12 @@ static void * gecko_l_callback(void *arg)
 		}
 		else
 		{
-			//gprintf("wiiload_gecko thread running\n");
+			//xprintf("wiiload_gecko thread running\n");
 			int temp = usb_recvbuffer_safe_ex(channel,(char *)&read,4,100);
 			if(temp == 4)
 			{
 
-				gprintf("4 bytes received from usb buffer\n");
+				xprintf("4 bytes received from usb buffer\n");
 				GuiImage * progressImg = new GuiImage(new GuiImageData(Theme.progress));
 				progressImg->SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 
@@ -144,7 +144,7 @@ static void * gecko_l_callback(void *arg)
 					compress = true;
 		//			printf("HAXX\n");
 
-					gprintf("reading version\n");
+					xprintf("reading version\n");
 
 					read_gecko_data(channel, (char *)&read, 4,1000);
 		//			int WIILOAD_VERSION_MAYOR	= (u8)(((u16)(read >> 16)) >> 8);
@@ -156,11 +156,11 @@ static void * gecko_l_callback(void *arg)
 		//			printf("args %x08\n", read);
 		//			printf("args a=%x  b=%x\n", a, b);
 
-					gprintf("reading size\n");
+					xprintf("reading size\n");
 
 					read_gecko_data(channel, (char *)&size, 4, 1000);
 
-					gprintf("reading uncompressed size\n");
+					xprintf("reading uncompressed size\n");
 
 					read_gecko_data(channel, (char *)&uncfilesize, 4, 1000);
 				}
@@ -170,7 +170,7 @@ static void * gecko_l_callback(void *arg)
 				offset = 0;
 				while(offset < size && (read = read_gecko_data(channel, (char *)bfr, (size - offset) > READ_SIZE ? READ_SIZE : (size - offset), 2000)) > 0)
 				{
-					gprintf("finished reading block at offset %x\n",offset);
+					xprintf("finished reading block at offset %x\n",offset);
 					memcpy(gdata + offset, bfr, READ_SIZE);
 					offset += read;
 
@@ -187,12 +187,12 @@ static void * gecko_l_callback(void *arg)
 
 					// These are the arguments....
 					tms = ticks_to_millisecs(gettime());
-					gprintf("timer1 = %d\n",tms);
+					xprintf("timer1 = %d\n",tms);
 					int ret = read_gecko_data(channel, (char *) (GArgtemp), 1023, 1000);
 					tms = ticks_to_millisecs(gettime());
-					gprintf("timer2 = %d\n",tms);
+					xprintf("timer2 = %d\n",tms);
 					GArgtemp[ret] = 0;
-					//gprintf("all arguments = %s\n",GArgtemp);
+					//xprintf("all arguments = %s\n",GArgtemp);
 					if (ret > 2 && GArgtemp[ret - 1] == '\0' && GArgtemp[ret - 2] == '\0') // Check if it is really an arg
 					{
 						CopyArgs((u8*)(GArgtemp),ret);
@@ -254,7 +254,7 @@ static void * gecko_l_callback(void *arg)
 			else
 			{
 				usleep(250 * 1000);
-				//gprintf(".");
+				//xprintf(".");
 			}
 		}
 	}

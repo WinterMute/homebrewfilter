@@ -8,6 +8,7 @@
 #include <malloc.h>
 #include "uneek_fs.h"
 #include "gecko.h"
+#include "Network/wifi_gecko.h"
 #include "armboot.h"
 //#include "../build/kernel_bin.h"
 
@@ -33,6 +34,7 @@ void DoMini(u8* kbuf, size_t kernel_size)
                 return;
         }
         gprintf( "mini buffer: %p\n", mini );
+	wifi_printf( "mini buffer: %p\n", mini );
 
 
 //		memcpy( mini, kernel_bin,KERNEL_SIZE);
@@ -47,6 +49,7 @@ void DoMini(u8* kbuf, size_t kernel_size)
         DCFlushRange( mini+kernel_size+4, armboot_size );
 
         gprintf( "armboot.bin copied\n" );
+	wifi_printf( "armboot.bin copied\n" );
         *(u32*)0xc150f000 = 0x424d454d;
         asm volatile( "eieio" );
 
@@ -58,6 +61,8 @@ void DoMini(u8* kbuf, size_t kernel_size)
 
         gprintf( "physical memory address: %08x\n", MEM_VIRTUAL_TO_PHYSICAL( mini ) );
         gprintf( "loading bootmii IOS\n" );
+	wifi_printf( "physical memory address: %08x\n", MEM_VIRTUAL_TO_PHYSICAL( mini ) );
+        wifi_printf( "loading bootmii IOS\n" );
 
 
 // pass position of kernel.bin to mini
@@ -75,6 +80,7 @@ void DoMini(u8* kbuf, size_t kernel_size)
         IOS_ReloadIOS( 0xfe );
 
         gprintf( "well shit.  this shouldnt happen\n" );
+	wifi_printf( "well shit.  this shouldnt happen\n" );
 
         free( mini );
 }

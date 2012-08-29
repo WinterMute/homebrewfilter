@@ -7,7 +7,7 @@
 #include <dirent.h>
 
 #include "uneek_fs.h"
-#include "../gecko.h"
+#include "xprintf.h"
 #include "common.h"
 
 struct SSettingsNeek2o n2oSettings;
@@ -69,7 +69,7 @@ int boot_neek2o()
 	}
 	if(kpath[0] != 0)
 	{
-		gprintf ("Booting neek...\n");
+		xprintf ("Booting neek...\n");
 		//check if it's sneek or uneek
 		if (n2oSettings.neeknandpath[0] == 0)
 		{
@@ -92,21 +92,21 @@ int boot_neek2o()
 		{
 			if (n2oSettings.neeknandpath[0] == 0)
 			{
-				gprintf("Warning:bootneek.xml not found\n");
+				xprintf("Warning:bootneek.xml not found\n");
 			}
 			else
 			{
-				gprintf("Warning:bootneek.xml contains an invalid nandpath\n");
+				xprintf("Warning:bootneek.xml contains an invalid nandpath\n");
 			}
 		}
 		if (nresult == -2)
 		{
-			gprintf("Will use nandcfg.bin nand or rootnand instead\n");
+			xprintf("Will use nandcfg.bin nand or rootnand instead\n");
 		}
 		if (nresult == -3)
 		{
 			//we might still check if nandpath.bin contains a valid nandpath
-			gprintf("Will use nandpath.bin instead\n");
+			xprintf("Will use nandpath.bin instead\n");
 		}
 		//if a specific dipath is requested, let's generate the file
 		if (n2oSettings.neekdipath[0] != 0)
@@ -119,12 +119,12 @@ int boot_neek2o()
 		nresult = set_neek_channel();
 		if (nresult == -2)
 		{
-			gprintf("Error: could not create /sys/launch.sys\n");
-			gprintf("Unable to boot the neek with the requested startup channel\n");
+			xprintf("Error: could not create /sys/launch.sys\n");
+			xprintf("Unable to boot the neek with the requested startup channel\n");
 		}
 		if (nresult == -3)
 		{
-			gprintf("Error: could not locate the requested neek startup channel on the nand\n");
+			xprintf("Error: could not locate the requested neek startup channel on the nand\n");
 		}
 		if (nresult == 1)
 		{
@@ -141,7 +141,7 @@ int boot_neek2o()
 			}
 			else
 			{
-				gprintf("ERROR:unable to load kernel.bin\n");
+				xprintf("ERROR:unable to load kernel.bin\n");
 			}
 		}
 		else
@@ -151,7 +151,7 @@ int boot_neek2o()
 	}
 	else
 	{
-		gprintf("couldn't find sneek2o or uneek2o\n");
+		xprintf("couldn't find sneek2o or uneek2o\n");
 		ExitApp();
 	}
 	return false;

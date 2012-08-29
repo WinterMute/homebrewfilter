@@ -4,7 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "gecko.h"
-
+#include "Network/wifi_gecko.h"
 #include "RuntimeIOSPatch.h"
 
 #define MEM_PROT 0xD8B420A
@@ -32,6 +32,7 @@ const u8 addticket_patch[] = { 0xE0 };
 u32 apply_patch(const char *name, const u8 *old, u32 old_size, const u8 *patch, u32 patch_size, u32 patch_offset)
 {
 	gprintf("Applying patch %s.....", name);
+	wifi_printf("Applying patch %s.....", name);
 	u8 *ptr = (u8 *) 0x93400000;
 	u32 i, found = 0;
 	u8 *start;
@@ -51,9 +52,15 @@ u32 apply_patch(const char *name, const u8 *old, u32 old_size, const u8 *patch, 
 	}
 
 	if(found)
+	{
 		gprintf("Patched\n");
+		wifi_printf("Patched\n");
+	}
 	else
+	{
 		gprintf("\n");
+		wifi_printf("\n");
+	}
 
 	return found;
 }
