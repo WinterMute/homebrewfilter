@@ -202,8 +202,6 @@ main(int argc, char *argv[])
 
 	load();
 
-	if(Options.network)
-		ResumeNetworkThread();
 	if (gecko_connected)
 		ResumeGeckoThread();
 

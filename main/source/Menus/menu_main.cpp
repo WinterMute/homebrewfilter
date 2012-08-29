@@ -648,6 +648,9 @@ int MenuMain()
 				menu = MENU_MAIN;
 			}
 
+			if (Options.network)
+				ResumeNetworkThread();
+
 			if (!IsNetworkError())
 			{
 				if((IsNetworkInit())&&(!IsNetworkHalted()))
