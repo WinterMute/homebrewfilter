@@ -11,6 +11,7 @@
 #include "Network/network.h"
 #include "Network/update.h"
 #include "Network/tcp.h"
+#include "Network/wifi_gecko.h"
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -617,6 +618,7 @@ int MenuMain()
 
 	bool next_page = false;
 	bool previous_page = false;
+	bool first = false;
 
 	while(menu == MENU_NONE)
 	{
@@ -659,6 +661,18 @@ int MenuMain()
 					ResumeTcpThread();
 					if(boot_buffer)
 						menu = MENU_EXIT;
+
+					if(!first)
+					{
+						WifiGecko_Connect();
+						wifi_printf("The HomebrewFilter rev%i\n", SvnRev());
+						usleep(500);
+						wifi_printf("= == == == == == == == =\n");
+						usleep(500);
+						wifi_printf("  Wifi Gecko connected.");
+						first = true;
+					}
+
 				}
 				else
 					network_Btn.SetImage(&network_BtnImg);

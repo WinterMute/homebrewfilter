@@ -1,5 +1,9 @@
 //rev41:
 - fixed auto-connecting Internet via WiFi
+- basic support for WifiGecko
+  * only connection message is shown currently
+  * no option yet to change IP and Port
+  * also works via LAN
 
 //rev40:
 - new icon (JoostinOnline)
