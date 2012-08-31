@@ -112,7 +112,7 @@ void ExitApp()
 
 static void WiiResetPressed()
 {
-	xprintf("Reset button pressed \n");
+	//xprintf("Reset button pressed \n");
 	runaway = true;
 	PowerOff = SYS_RETURNTOMENU;
 }
@@ -121,7 +121,7 @@ static void WiiPowerPressed()
 {
 	if(runaway == false)
 	{
-		xprintf("Power button pressed \n");
+		//xprintf("Power button pressed \n");
 		runaway = true;
 		PowerOff = SYS_POWEROFF_STANDBY;
 	}
