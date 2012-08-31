@@ -1,5 +1,6 @@
 //rev41:
 - fixed auto-connecting Internet via WiFi
+- fixed video initialization problem at PAL 50Hz
 - basic support for WifiGecko
   * most messages are shown via WifiGecko
     those that are sent prior to network initialization

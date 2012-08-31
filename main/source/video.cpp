@@ -108,46 +108,22 @@ InitVideo ()
 	VIDEO_Init();
 	vmode = VIDEO_GetPreferredMode(NULL); // get default video mode
 
-    bool pal = false;
+	bool pal = (CONF_GetVideo() == CONF_VIDEO_PAL) && (CONF_GetEuRGB60() == 0);
 
-    if (vmode == &TVPal528IntDf)
-        pal = true;
-
-	if (CONF_GetAspectRatio() == CONF_ASPECT_16_9)
+	if(CONF_GetAspectRatio() == CONF_ASPECT_16_9)
 	{
-		vmode->fbWidth = 640;
-		vmode->efbHeight = 456;
-		vmode->viWidth = 686;
-
-		if (pal)
-		{
-			vmode->xfbHeight = 542;
-			vmode->viHeight = 542;
-		}
-		else
-		{
-			vmode->xfbHeight = 456;
-			vmode->viHeight = 456;
-		}
+		vmode->viWidth = 708;
+		screenwidth = 768;
 	}
-    else
-    {
-        if (pal)
-            vmode = &TVPal576IntDfScale;
 
-        vmode->viWidth = 672;
-    }
-
-    if (pal)
-    {
-        vmode->viXOrigin = (VI_MAX_WIDTH_PAL - vmode->viWidth) / 2;
-        vmode->viYOrigin = (VI_MAX_HEIGHT_PAL - vmode->viHeight) / 2;
-    }
-    else
-    {
-        vmode->viXOrigin = (VI_MAX_WIDTH_NTSC - vmode->viWidth) / 2;
-        vmode->viYOrigin = (VI_MAX_HEIGHT_NTSC - vmode->viHeight) / 2;
-    }
+	if (pal)
+	{
+		vmode->viXOrigin = (VI_MAX_WIDTH_PAL - vmode->viWidth) / 2;
+	}
+	else
+	{
+		vmode->viXOrigin = (VI_MAX_WIDTH_NTSC - vmode->viWidth) / 2;
+	}
 
 	// Allocate the video buffers
 	xfb[0] = (u32 *) MEM_K0_TO_K1 (SYS_AllocateFramebuffer (vmode));
@@ -155,6 +131,7 @@ InitVideo ()
 
 	// A console is always useful while debugging
 	console_init (xfb[0], 20, 64, vmode->fbWidth, vmode->xfbHeight, vmode->fbWidth * 2);
+	VIDEO_Configure (vmode);
 
 	// Clear framebuffers etc.
 	VIDEO_ClearFrameBuffer (vmode, xfb[0], COLOR_BLACK);
