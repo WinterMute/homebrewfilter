@@ -9,9 +9,9 @@ opportunities.
 Compared to the Homebrew Channel, the HomebrewFilter
 features the following additional functionality:
 
-- boot GameCube Homebrew
-- boot into external loaders (Uniiloader, Priiloader)
-- load Homebrew from SD, USB, DVD or All
+- boot GameCube Homebrew (device:/gc_apps/)
+- boot into external loaders (Uniiloader, Priiloader, Neek2o, BootMii)
+- load Homebrew from SD, USB, DVD, SD-Gecko Slot A, SD-Gecko Slot B or All
 - load Homebrew from FAT, NTFS or EXT2/3/4 formatted devices
 - categorize Homebrew (without the need to change directories)
 - download additional content directly from within The HomebrewFilter
@@ -22,6 +22,7 @@ features the following additional functionality:
 - child-lock mode
 - screen adjustment options
 - edit meta.xml from within the HomebrewFilter
+- support for debug-logs via network (WifiGecko)
 
 == Installation ==
 Various ways allow to install the HBF
@@ -48,6 +49,7 @@ Compilation requires devkitPPC and libogc with all portlibs installed.
 
 For more information see: http://www.devkitpro.org
 
-On POSIX systems issueing './distribute' should be enough - if all dependencies
-are properly installed - on Non-POSIX systems check the distribute script
-in order how to compile properly -- I'm not using any of those OS'
+a simple 'make' should be enough.
+
+boot/hbf_boot.dol: HBF standalone
+installer/installer.dol: HBF installer
