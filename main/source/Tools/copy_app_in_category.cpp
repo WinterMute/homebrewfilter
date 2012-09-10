@@ -133,9 +133,9 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 						else if(x == 2)
 							foldername = "dvd" + ordner + AvailableCategory.apps[category][a] + "/";
 						else if(x == 3)
-							foldername = "gca" + ordner + apps[a] + "/";
+							foldername = "gca" + ordner + AvailableCategory.apps[category][a] + "/";
 						else if(x == 4)
-							foldername = "gcb" + ordner + apps[a] + "/";
+							foldername = "gcb" + ordner + AvailableCategory.apps[category][a] + "/";
 					}
 
 					if(strcasecmp(vechomebrew_list_category[0][i].foldername.c_str(), foldername.c_str()) == 0)

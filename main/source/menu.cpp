@@ -172,6 +172,7 @@ UpdateGUI (void *arg)
 				check_gca();
 
 			else if(Settings.device == "gcb")
+				check_gcb();
 
 			else if(Settings.device == "all")
 			{
