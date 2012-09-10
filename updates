@@ -1,6 +1,8 @@
 //rev41:
 - fixed auto-connecting Internet via WiFi
 - fixed video initialization problem at PAL 50Hz
+- fixed categorizing apps from SD Gecko
+- removed remaining references to HBC
 - basic support for WifiGecko
   * most messages are shown via WifiGecko
     those that are sent prior to network initialization
