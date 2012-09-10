@@ -27,8 +27,7 @@ AppInfo(const char *title, string dir, u8* icon)
 {
 	int choice = -1;
 
-	if(dir != "the homebrew channel")
-		dir += "meta.xml";
+	dir += "meta.xml";
 
 	string line, quelltext = "", version, coder, descriptionTxt;
 
