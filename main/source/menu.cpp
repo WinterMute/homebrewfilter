@@ -134,13 +134,15 @@ UpdateGUI (void *arg)
 
 				if (boothomebrew)
 				{
-					if(Settings.forwarder_path != "the homebrew channel")
-						LoadHomebrew(Settings.forwarder_path.c_str());
+					LoadHomebrew(Settings.forwarder_path.c_str());
 
 					string startingAppName = Settings.forwarder_path;
+
 					if((signed)startingAppName.rfind("/") != -1)
 						startingAppName.erase(startingAppName.rfind("/"));
+
 					startingAppName.erase(0, startingAppName.rfind("/") +1);
+
 					if(IOS_GetVersion() != GetAppIOS(startingAppName))
 						addAppIos(Settings.startingAppName, SelectedIOS());
 				}
@@ -166,11 +168,18 @@ UpdateGUI (void *arg)
 			else if(Settings.device == "dvd")
 				check_dvd();
 
+			else if(Settings.device == "gca")
+				check_gca();
+
+			else if(Settings.device == "gcb")
+
 			else if(Settings.device == "all")
 			{
 				check_sd();
 				check_usb();
 				check_dvd();
+				check_gca();
+				check_gcb();
 			}
 
 			// screenshoot
