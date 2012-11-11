@@ -13,6 +13,11 @@
 #include "Network/tcp.h"
 #include "Network/wifi_gecko.h"
 #include "xprintf.h"
+#include "DiskOperations/di2.h"
+#include "Neek/uneek_fs.h"
+#include "Tools/RuntimeIOSPatch.h"
+
+#define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -27,7 +32,7 @@ extern void HaltGui();
 extern void HaltResumeGui();
 
 bool grab = false;
-// slide temporär aktivieren
+// slide temporr aktivieren
 bool temp_slide = true;
 bool first = false;
 
@@ -71,7 +76,7 @@ int MenuMain()
 		temp_apps_btn = Theme.apps_grid;
 		temp_apps_btnOver = Theme.apps_grid_hover;
 
-		// symbol für normale ansicht
+		// symbol fr normale ansicht
 		temp_normal_grid_inactive = Theme.grid_inactive;
 		temp_normal_grid_active = Theme.grid_active;
 	}
@@ -80,7 +85,7 @@ int MenuMain()
 		temp_apps_btn = Theme.apps_list;
 		temp_apps_btnOver = Theme.apps_list_hover;
 
-		// symbol für grid ansicht
+		// symbol fr grid ansicht
 		temp_normal_grid_inactive = Theme.normal_inactive;
 		temp_normal_grid_active = Theme.normal_active;
 
@@ -494,7 +499,7 @@ int MenuMain()
 
 		app_grid++;
 
-		// wenn zeile voll, zur nächsten gehen
+		// wenn zeile voll, zur nchsten gehen
 		if(app_grid == apps_row)
 		{
 			x = screenwidth / 2 - (apps_btn.GetWidth() * apps_row) / 2;
@@ -570,7 +575,7 @@ int MenuMain()
 	if(Options.slide_effect > 0 && temp_slide)
 		Apps.SetEffect(Settings.Apps_from | EFFECT_SLIDE_IN, Options.slide_effect * 50);
 
-	// slide temporär aktivieren
+	// slide temporr aktivieren
 	temp_slide = true;
 
 	HaltGui();
@@ -668,11 +673,21 @@ int MenuMain()
 						if(Options.wifigecko)
 							WifiGecko_Connect();
 
-						xprintf("The HomebrewFilter rev%i\n", SvnRev());
-						usleep(1000);
-						xprintf("= == == == == == == == =\n");
-						usleep(1000);
-						xprintf("  Wifi Gecko connected.\n\n");
+						xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\n  Wifi Gecko connected.\n\n", SvnRev());
+
+						usleep(1500);
+						if(!check_uneek_fs())
+						{
+							if(HAVE_AHBPROT)
+							{
+								runtimePatchApply();
+							}
+							else
+							{
+								xprintf("Warning: no AHBPROT\n");
+							}
+						}
+						DI2_Init(); // Init DVD
 
 						first = true;
 					}
@@ -716,11 +731,11 @@ int MenuMain()
 				menu = MENU_MAIN;
 			}
 
-			// wenn A gedrückt
+			// wenn A gedrckt
 			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A)
 				button = "A";
 
-			// wenn B gedrückt
+			// wenn B gedrckt
 			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B)
 				button = "B";
 
@@ -815,7 +830,7 @@ int MenuMain()
 				ResumeNetworkThread();
 			}
 
-			// eine Seite weiter bzw zurück
+			// eine Seite weiter bzw zurck
 			else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_RIGHT | WPAD_CLASSIC_BUTTON_RIGHT) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_BUTTON_RIGHT || rightBtn.GetState() == STATE_CLICKED ||
@@ -823,7 +838,7 @@ int MenuMain()
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_BUTTON_LEFT || leftBtn.GetState() == STATE_CLICKED)
 			{
-				// Abbrechen Seite zurück
+				// Abbrechen Seite zurck
 				if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_RIGHT | WPAD_CLASSIC_BUTTON_RIGHT) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_BUTTON_RIGHT || rightBtn.GetState() == STATE_CLICKED)
@@ -870,7 +885,7 @@ int MenuMain()
 
 				if(change)
 				{
-					HaltResumeGui(); // -> um nur eine Seite zu blättern
+					HaltResumeGui(); // -> um nur eine Seite zu blttern
 
 					// alten apps ausblenden
 					if(Options.slide_effect > 0 && Settings.Apps_to != 0)
@@ -914,7 +929,7 @@ int MenuMain()
 					else
 						AppsBtnFree->SetPosition(-1000, -1000);
 
-					// app 1 auf der aktuellen seite markieren, außer beim verschieben
+					// app 1 auf der aktuellen seite markieren, auer beim verschieben
 					if(!grab)
 						AppsBtn[(Settings.current_page-1)*apps_numers]->SetState(STATE_SELECTED);
 
@@ -937,7 +952,7 @@ int MenuMain()
 				menu = MENU_MAIN;
 			}
 
-			// eine Kategorie zurück
+			// eine Kategorie zurck
 			else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_LEFT | WPAD_CLASSIC_BUTTON_LEFT) && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_TRIGGER_L || minusBtn.GetState() == STATE_CLICKED)
@@ -955,7 +970,7 @@ int MenuMain()
 				menu = MENU_MAIN;
 			}
 
-			// für die grid ansicht, navigation der einzelnen zellen
+			// fr die grid ansicht, navigation der einzelnen zellen
 			previous_page = false;
 			next_page = false;
 			for(int i = 0; i< apps_numers/apps_row; i++)
@@ -990,7 +1005,7 @@ int MenuMain()
 						boothomebrew = true;
 						menu = MENU_EXIT;
 					}
-					if(choice == 2)				// App Einfügen
+					if(choice == 2)				// App Einfgen
 					{
 						string app_in_kategorie = AddApp(vechomebrew_list_choice[i].name.c_str());
 						if( app_in_kategorie != "NULL" )
@@ -1035,7 +1050,7 @@ int MenuMain()
 						move.nr = i;
 						move.page = Settings.current_page;
 
-						// Werte Move Button übergeben
+						// Werte Move Button bergeben
 						icon_dataMove = new GuiImageData(vechomebrew_list_choice[i].icon);
 						ViewIconMove = new GuiImage(icon_dataMove);
 
@@ -1132,7 +1147,7 @@ int MenuMain()
 							else
 								AppsBtn[x]->SetPosition(pos_x[x], pos_y[x]);
 						}
-						// buttons 1 größer button 2
+						// buttons 1 grer button 2
 						else if(move.nr > move.nr_selected)
 						{
 							if(x < move.nr && x >= move.nr_selected)
@@ -1182,7 +1197,7 @@ int MenuMain()
 
 						AppVerschieben(Settings.category_name, AppOrdner1, vor, AppOrdner2);
 						copy_app_in_category();
-						// slide temporär deaktivieren
+						// slide temporr deaktivieren
 						temp_slide = false;
 						menu = MENU_MAIN;
 					}

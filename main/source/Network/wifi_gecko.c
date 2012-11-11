@@ -31,7 +31,7 @@
 #include <network.h>
 #include "xprintf.h"
 
-#define DESTINATION_IP		"10.0.0.6"
+#define DESTINATION_IP		"192.168.1.4"
 #define DESTINATION_PORT	4405
 
 static int connection = -1;

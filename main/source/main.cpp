@@ -26,7 +26,6 @@
 #include "Tools/FontSystem.h"
 #include "Tools/load.h"
 #include "Tools/load_channel.h"
-#include "Tools/RuntimeIOSPatch.h"
 #include "Tools/save.h"
 #include "Tools/SelectIos.h"
 #include "Tools/throbber.h"
@@ -40,8 +39,6 @@
 #include "Network/wiiload_gecko.h"
 #include "Neek/uneek_fs.h"
 #include "Neek/bootneek.h"
-
-#define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -73,7 +70,7 @@ bool runaway = false;
 bool gecko_connected;
 bool in_neek;
 
-// kopiere ios für app in einen vector
+// kopiere ios fr app in einen vector
 void addAppIos(string foldername, int ios)
 {
 	if(appios.size() == 0)
@@ -228,19 +225,6 @@ main(int argc, char *argv[])
 
 	ResumeGui();
 	stretch(Settings.top, Settings.bottom, Settings.left, Settings.right);
-
- 	if(!check_uneek_fs())
-	{
-		if(HAVE_AHBPROT)
-		{
-			runtimePatchApply();
-		}
-		else
-		{
-			xprintf("Warning: no AHBPROT\n");
-		}
-	}
-	DI2_Init(); // Init DVD
 
 	if(strstr(Options.language, tr("STANDARD")))
 		translate();
