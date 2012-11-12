@@ -2,35 +2,37 @@
 <app version="1">
   <name>HomebrewFilter Installer</name>
   <coder>Nano</coder>
-  <version>rev39</version>
+  <version>rev41</version>
   <ahb_access/>
   <short_description>HBF Installer</short_description>
-  <long_description>Installiert den Hombrew Filter
+  <long_description>Installs The HomebrewFilter
 
-  Änderungen in rev39:
+  Changes in rev41:
 
-//rev39:
-- BUGFIX: before saving the update boot.dol, ensure directory
-          apps/HomebrewFilter exists, if not create it
-- overall improvements to the NAND-loader in THBF channel (obcd)
-- BUGFIX: properly check whether we're in neek2o environment (obcd)
-- improved neek2o booter (obcd)
-- support for SD-Gecko and neek2o in HBF booter (obcd)
-- improved meta.xml arguements for IOS-reload/HW_AHBPROT
-  - &lt;ahb_access/&gt;: preserve HW_AHBPROT and reload the selected IOS
-  - &lt;no_ios_reload/&gt;: alias for &lt;ahb_access/&gt; (compat with HBC)
-  - &lt;force_ios_reload/&gt; or nothing: just reload the selected IOS
-  - if we are in neek2o we do nothing
-  - for wiiload there are now two options to choose which IOS to
-    use and whether to reload it
-- BUGFIX: fix compilation with libOGC 1.8.11 and newer
-- BUGFIX: installer upon exit checks whether THBF channel is installed,
-          if so, it will start the HomebrewFilter, else it enters SysMenu
-- Add 'Reinstall the HomebrewFilter' option in the installer. If the
-  installation fails for you, when you update from an older version use
-  this option. (the failure is caused by IOS58 not beeing able to
-  downgrade an existing channel - old THBF channel had version 512,
-  new THBF channel has same version than the application.)
+//rev41:
+- fixed auto-connecting Internet via WiFi
+- fixed video initialization problem at PAL 50Hz
+- fixed categorizing apps from SD Gecko
+- removed remaining references to HBC
+- basic support for WifiGecko
+  * most messages are shown via WifiGecko. Those that are
+    sent prior to network initialization will be missing
+  * option to en/disable WifiGecko (settings->network)
+  * no option yet to change IP and Port, currently sending
+    to 192.168.1.4:4405 (you change your PCs IP from Router
+    configuration interface)
+- support for SDCardGecko (not SD Gecko!)
+  * saves debug messages to SD:/config/HBF/debug.txt
+  * endless logging, different logs are split with an
+    "HBF Log (YYYY-MM-DD / HH:MM:SS)" message. HBF never
+    deletes the logfile on it's own.
+Note: ** Gecko priority:
+	1. SD Card Gecko
+	2. Wifi Gecko
+	3. USB Gecko
+	if SD Card Gecko is enabled, there's no messages
+	send via Wifi or USB and so on. By default HBF
+	tries to connect to USB Gecko.
 
   </long_description>
 </app>
