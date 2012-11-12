@@ -112,8 +112,8 @@ InitVideo ()
 
 	if(CONF_GetAspectRatio() == CONF_ASPECT_16_9)
 	{
-		vmode->viWidth = 708;
-		screenwidth = 768;
+		vmode->viWidth = 686;
+//		screenwidth = 768;
 	}
 
 	if (pal)
