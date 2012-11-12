@@ -4,18 +4,25 @@
 - fixed categorizing apps from SD Gecko
 - removed remaining references to HBC
 - basic support for WifiGecko
-  * most messages are shown via WifiGecko
-    those that are sent prior to network initialization
-    will be missing
+  * most messages are shown via WifiGecko those that are
+    sent prior to network initialization will be missing
   * option to en/disable WifiGecko (settings->network)
     if enabled messages will be send via WifiGecko,
-    elese via USB Gecko (if one is plugged in)
-  * no option yet to change IP and Port
-  * also works via LAN
+    else via USB Gecko (if one is plugged in)
+  * no option yet to change IP and Port, currently sending
+    to 192.168.1.4:4405
+- support for SDCardGecko (not SD Gecko!)
+  * saves debug messages to SD:/config/HBF/debug.txt
+Note: ** Gecko priority:
+	1. SD Card Gecko
+	2. Wifi Gecko
+	3. USB Gecko
+	if SD Card Gecko is enabled, there's no messages
+	send via Wifi or USB and so on.
 
 //rev40:
 - new icon (JoostinOnline)
-- catalan language downloadble (Adrián Laviós)
+- catalan language downloadble (Adrin Lavis)
 - added support for SD-Gecko (both Slot A and B, no hot-plugging)
 - fixed a regression from rev39. <no_ios_reload> is now
   treated correctly (makes WiiMC properly detect HDD)
@@ -161,7 +168,7 @@
 	* Zekton
 
 //rev35:
-- individuelle Anpassung an den Bildschirm überarbeitet
+- individuelle Anpassung an den Bildschirm berarbeitet
 - anzeigen von GC Apps in Kategorien
 - letzte Version
 
@@ -170,76 +177,76 @@
 - meta.xml kann direkt bearbeitet werden
 - automatische Netzwerk Initialisierung beim Start (de)aktivierbar
 - Update-Info (de)aktivierbar
-- Navigationstasten können getauscht werden (PLUS/MINUS und LINKS/RECHTS)
+- Navigationstasten knnen getauscht werden (PLUS/MINUS und LINKS/RECHTS)
 
 //rev33:
-- übertragen von Apps an die Wii per wiiload
-- Fehler beim entfernen von der SD-Karte und USB-Geräten behoben
+- bertragen von Apps an die Wii per wiiload
+- Fehler beim entfernen von der SD-Karte und USB-Gerten behoben
 
 //rev32:
-- HBF installer eingeführt
-- Sprachen müssen jetzt seperat runtergeladen werden wie bei Fonts und Themes
+- HBF installer eingefhrt
+- Sprachen mssen jetzt seperat runtergeladen werden wie bei Fonts und Themes
 - Fehler beim Sortieren von SD und USB behoben
 - Einstellungen werden im NAND gespeichert
-- Löschen der Einstellungen ist über die Datenverwaltung möglich
+- Lschen der Einstellungen ist ber die Datenverwaltung mglich
 
 //rev31:
-- NTFS Unterstützung
-- GameCube Apps Unterstützung ( Ordner "gc_apps" )
-- zuletzt benutztes Gerät wird gespeichert ( SD/USB )
-- Funktion fürs alphabetische Sortieren in einer Kategorie. ( Taste 1 )
+- NTFS UnterstÃ¼tzung
+- GameCube Apps Untersttzung ( Ordner "gc_apps" )
+- zuletzt benutztes Gert wird gespeichert ( SD/USB )
+- Funktion frs alphabetische Sortieren in einer Kategorie. ( Taste 1 )
 - Verschieben von Apps mit gehaltener B Taste
-- leicht überarbeitete Gui ( Menü und Passwort )
+- leicht berarbeitete Gui ( Men und Passwort )
 - Gleichzeitiges Anzeigen von Programmen auf SD und USB
 - Config speichern auf SD oder USB
 
 PS:
-für GC Apps muss ein kompatibles cMIOS installiert sein
+fr GC Apps muss ein kompatibles cMIOS installiert sein
 
 //rev30:
 - Fehler in der Navigation beim Theme-download behoben
-- Sprachen überarbeitet
-- Japanisch eingefügt
-- Download und Auswahl von Schriftarten möglich
+- Sprachen berarbeitet
+- Japanisch eingefgt
+- Download und Auswahl von Schriftarten mglich
 
 //rev29:
 - starten von BootMii integriert
 
 //rev28:
 - Kein Code/Stack-Dump mehr mit dem Wii-Pointer
-- HOME-Button ruft Menü zum Beenden auf
+- HOME-Button ruft Men zum Beenden auf
 - Fehler beim Starten von Applikationen in der Gitteransicht behoben
-- Position der Buttons "Laden" und "Einfügen/Entfernen" getauscht
-- Letzte Katergorie beim Einfügen einer Applikation wird temporär gespeichert
+- Position der Buttons "Laden" und "Einfgen/Entfernen" getauscht
+- Letzte Katergorie beim Einfgen einer Applikation wird temporr gespeichert
 
 //rev27:
 - Wii Pointer Code Dump beseitigt
-- Arguments-Tag eingeführt
-- interner Forwarder geändert
-- fehlender USB-Support für gestartete Apps behoben
+- Arguments-Tag eingefhrt
+- interner Forwarder gendert
+- fehlender USB-Support fr gestartete Apps behoben
 -> WiiXplorer, WiiMC, ...
 
 //rev26:
 - Themes erweitert
-- Startkategorie eingeführt
-- Schnellstart eingeführt für Apps
-- Anzeigefehler beim löschen einer Katgorie behoben
+- Startkategorie eingefhrt
+- Schnellstart eingefhrt fr Apps
+- Anzeigefehler beim lschen einer Katgorie behoben
 - Fehler beim Speichern des Standard Start-IOS
 - Kindersicherung
 
 //rev25:
 - Fehler behoben beim Anzeigen der Beschreibung von Apps
-- Löschen von Apps von SD und USB
+- Lschen von Apps von SD und USB
 - libogc 1.8.5 -> libogc 1.8.4
-- Info, wenn Update verfügbat ist
+- Info, wenn Update verfgbat ist
 
 //rev24:
 - Fehler bei der Auswahl im Themedownload behoben
-- Fehler beim Abbrechen im Update-Menü behoben
+- Fehler beim Abbrechen im Update-Men behoben
 
 //rev23:
-- Navigation in der Grid-Ansicht überarbeitet
-- Fehler beim speichern von einem erneut geänderten Start-IOS behoben
+- Navigation in der Grid-Ansicht berarbeitet
+- Fehler beim speichern von einem erneut genderten Start-IOS behoben
 - Fehler bei der Auswahl zum verschieben der Apps behoben
 - Position und Seite des zuletzt gestarteten App wird gespeichert
 
@@ -250,71 +257,71 @@ für GC Apps muss ein kompatibles cMIOS installiert sein
 
 //rev21:
 - neuer Forwarder mit IOS 58 und HW_AHBPROT
-- IOS Anzeige auf was der HBF läuft wird unter Info angezeigt
-- Start IOS Auswahl für ein App
+- IOS Anzeige auf was der HBF luft wird unter Info angezeigt
+- Start IOS Auswahl fr ein App
 
 //rev20:
 - automatische Netzwerk Initialisierung beim Start
-- Rückkehr zum HBF, wenn einen Forwarder mit der Titel ID "HBF0" installiert ist ( beta )
+- Rckkehr zum HBF, wenn einen Forwarder mit der Titel ID "HBF0" installiert ist ( beta )
 
 //rev19:
-- Design leicht geändert
-- Beenden Button eingefügt
+- Design leicht gendert
+- Beenden Button eingefgt
 
 //rev18:
 - Fehler beim kopieren in Kategorien behoben
 
 //rev17:
 - Fehler beim erstellen von Kategorien behoben
-- Kategorien löschen überarbeitet
+- Kategorien lschen berarbeitet
 
 //rev16:
-- Apps auflisten von USB-Geräten
-- Neuauflistung der Apps beim wechseln von SD-Karte und USB-Gerät
+- Apps auflisten von USB-Gerten
+- Neuauflistung der Apps beim wechseln von SD-Karte und USB-Gert
 
 //rev15:
 - Anzeigen von unkategorisierten Apps
 - Info zur Rev beim Online-Update
-- HBC Channel -> Version, Coder, Beschreibung hinzugefügt
+- HBC Channel -> Version, Coder, Beschreibung hinzugefgt
 
 //rev14:
-- Gitter-Ansicht hinzugefügt ( Taste 2 )
-- Wii-Reset-Button -> Rückkehr ins Wii-Menü
+- Gitter-Ansicht hinzugefgt ( Taste 2 )
+- Wii-Reset-Button -> Rckkehr ins Wii-Men
 - Wii-Power-Button -> Schaltet die Wii Aus bzw. in den Standby
-- HomeBrew Channel in die Liste der Apps mit eingefügt
-- mit der Home Taste zurück zum HomeBrew Channel wurde entfernt
+- HomeBrew Channel in die Liste der Apps mit eingefgt
+- mit der Home Taste zurck zum HomeBrew Channel wurde entfernt
 
 //rev13:
-- Anpassung an den Bildschirm möglich ( beta )
+- Anpassung an den Bildschirm mglich ( beta )
 
 //rev12:
 - Sprachen angepasst ( bei manchen Sonderzeichen wurde das Wort abgetrennt )
-- neue Sprachen hinzugefügt ( french.lang, portuguese.lang, spanish.lang )
-- Update menü überarbeitet ( Auswahl der Rev möglich )
+- neue Sprachen hinzugefgt ( french.lang, portuguese.lang, spanish.lang )
+- Update men berarbeitet ( Auswahl der Rev mglich )
 
 //rev11:
-- fehler beim übergeben des Verzeichnissnamens behoben ( z.B. BootMii Configuration Editor v2.6 )
+- fehler beim bergeben des Verzeichnissnamens behoben ( z.B. BootMii Configuration Editor v2.6 )
 - schnelleres einlesen der Kategorien
-- paar Schönheitsfehler beseitigt
+- paar Schnheitsfehler beseitigt
 
 //rev10:
 - update funktion eingebaut
 - probleme beim laden behoben (priiloader, forwarder, wiiload, exploit)
 - "kategorien.dat" wurde zu "categories.dat"
-- pfade geändert von settings.xml, categories.dat -> "Root/Config/Homebrew Filter/"
+- pfade gendert von settings.xml, categories.dat -> "Root/Config/Homebrew Filter/"
 
 //rev9:
-- englische Sprache hinzugefügt
-- Screenshot erstellen ( 1 + 2 gleichzeitig drücken )
+- englische Sprache hinzugefgt
+- Screenshot erstellen ( 1 + 2 gleichzeitig drcken )
 
 //rev8:
 - wegen total verlust neu gecodet
 - lange Beschreibung
 - Kategorien verschieben
-- neue Einstellmöglichkeiten
+- neue Einstellmglichkeiten
 
 //rev7:
-- Themes können nun ausgewählt werden
+- Themes knnen nun ausgewhlt werden
 - Design angepasst
 
 //rev6:
@@ -330,22 +337,22 @@ für GC Apps muss ein kompatibles cMIOS installiert sein
 - apps verschieben
 
 //rev3:
-- Pfeile navigieren eingefügt
+- Pfeile navigieren eingefgt
 
 //rev2:
 - bugfixes
 
 //rev1:
-- erste Veröffentlichung
+- erste Verffentlichung
 
 //rev_Beta:
 - beta test
-- NTFS Unterstützung
-- GameCube Apps Unterstützung ( Ordner "gc_apps" )
-- zuletzt benutztes Gerät wird gespeichert ( SD/USB )
-- Funktion fürs alphabetische Sortieren in einer Kategorie. ( Taste 1 )
-- Verschieben von Apps mit gedrückter B Taste
-- leicht überarbeitete Gui ( Menü und Passwort )
+- NTFS Untersttzung
+- GameCube Apps Untersttzung ( Ordner "gc_apps" )
+- zuletzt benutztes Gert wird gespeichert ( SD/USB )
+- Funktion frs alphabetische Sortieren in einer Kategorie. ( Taste 1 )
+- Verschieben von Apps mit gedrckter B Taste
+- leicht berarbeitete Gui ( Men und Passwort )
 - Gleichzeitiges Anzeigen von Programmen auf SD und USB
 - Config speichern auf SD oder USB
 

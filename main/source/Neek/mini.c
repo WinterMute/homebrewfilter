@@ -7,8 +7,7 @@
 #include <sys/unistd.h>
 #include <malloc.h>
 #include "uneek_fs.h"
-#include "gecko.h"
-#include "Network/wifi_gecko.h"
+#include "../xprintf.h"
 #include "armboot.h"
 //#include "../build/kernel_bin.h"
 
@@ -33,9 +32,7 @@ void DoMini(u8* kbuf, size_t kernel_size)
         {
                 return;
         }
-        gprintf( "mini buffer: %p\n", mini );
-	wifi_printf( "mini buffer: %p\n", mini );
-
+        xprintf( "mini buffer: %p\n", mini );
 
 //		memcpy( mini, kernel_bin,KERNEL_SIZE);
 //        DCFlushRange( mini, KERNEL_SIZE );
@@ -48,8 +45,7 @@ void DoMini(u8* kbuf, size_t kernel_size)
         memcpy( mini+kernel_size+4, armboot, armboot_size );
         DCFlushRange( mini+kernel_size+4, armboot_size );
 
-        gprintf( "armboot.bin copied\n" );
-	wifi_printf( "armboot.bin copied\n" );
+        xprintf( "armboot.bin copied\n" );
         *(u32*)0xc150f000 = 0x424d454d;
         asm volatile( "eieio" );
 
@@ -59,11 +55,8 @@ void DoMini(u8* kbuf, size_t kernel_size)
 
         asm volatile( "eieio" );
 
-        gprintf( "physical memory address: %08x\n", MEM_VIRTUAL_TO_PHYSICAL( mini ) );
-        gprintf( "loading bootmii IOS\n" );
-	wifi_printf( "physical memory address: %08x\n", MEM_VIRTUAL_TO_PHYSICAL( mini ) );
-        wifi_printf( "loading bootmii IOS\n" );
-
+        xprintf( "physical memory address: %08x\n", MEM_VIRTUAL_TO_PHYSICAL( mini ) );
+        xprintf( "loading bootmii IOS\n" );
 
 // pass position of kernel.bin to mini
 		*(u32*)0x8132FFF0 = MEM_VIRTUAL_TO_PHYSICAL( mini );
@@ -75,12 +68,9 @@ void DoMini(u8* kbuf, size_t kernel_size)
         asm volatile( "eieio" );
 		DCFlushRange((void*)0x8132FFF4,4);
 
-
-
         IOS_ReloadIOS( 0xfe );
 
-        gprintf( "well shit.  this shouldnt happen\n" );
-	wifi_printf( "well shit.  this shouldnt happen\n" );
+        xprintf( "well shit.  this shouldnt happen\n" );
 
         free( mini );
 }

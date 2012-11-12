@@ -80,8 +80,7 @@ distribution.
 //#define SHOW_GECKO_DEBUG			1
 
 #ifdef SHOW_GECKO_DEBUG
-#include "gecko.h"
-#include "Network/wifi_gecko.h"
+#include "../xprintf.h"
 #endif
 
 #define MAX_READ_SECTORS			16			//yet to be determined how much is allowed?
@@ -619,8 +618,7 @@ bool WII_Launch_Channel(char* which)
 	if ((wlen != 4) && (wlen != 16))
 	{
 #ifdef SHOW_GECKO_DEBUG
-		gprintf("Title %s has an invalid length\n",which);
-		wifi_printf("Title %s has an invalid length\n",which);
+		xprintf("Title %s has an invalid length\n",which);
 #endif
 		return false;
 	}
@@ -642,11 +640,9 @@ bool WII_Launch_Channel(char* which)
 	title_id = (u64)(titlemsb) << 32;
 	title_id = title_id + (u64)(titlelsb);
 #ifdef SHOW_GECKO_DEBUG
-	gprintf( "titleid = %08x %08x\r\n", (u32)((title_id)>>32), (u32)(title_id) );
-	wifi_printf( "titleid = %08x %08x\r\n", (u32)((title_id)>>32), (u32)(title_id) );
+	xprintf( "titleid = %08x %08x\r\n", (u32)((title_id)>>32), (u32)(title_id) );
 	s32 lret = WII_LaunchTitle(title_id);
-	gprintf("WII_LaunchTitle returned %d\r\n",lret);
-	wifi_printf("WII_LaunchTitle returned %d\r\n",lret);
+	xprintf("WII_LaunchTitle returned %d\r\n",lret);
 #else
 	WII_LaunchTitle(title_id);
 #endif

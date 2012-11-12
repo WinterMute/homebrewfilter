@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <wiiuse/wpad.h>
 #include <dirent.h>
+#include <time.h>
 
 #include "filelist.h"
 #include "FreeTypeGX.h"
@@ -39,6 +40,9 @@
 #include "Network/wiiload_gecko.h"
 #include "Neek/uneek_fs.h"
 #include "Neek/bootneek.h"
+#include "Tools/RuntimeIOSPatch.h"
+
+#define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -169,6 +173,7 @@ DefaultOptions()
 	Options.apps		= 4;
 	Options.quick_start	= 0;
 	Options.show_all	= 1;
+	Options.sdgecko		= 0;
 	Options.navigation	= 0;
 	Options.temp_network	= 0;
 	Options.temp_wifigecko	= 0;
@@ -225,6 +230,29 @@ main(int argc, char *argv[])
 
 	ResumeGui();
 	stretch(Settings.top, Settings.bottom, Settings.left, Settings.right);
+
+	struct tm *current;
+	time_t now;
+	char buffer[80];
+
+	time(&now);
+	current = localtime(&now);
+
+	strftime(buffer, 80, "(%Y-%m-%d / %H:%M:%S)", current);
+	xprintf("\nStarting HBF Debug Log %s\n", buffer);
+
+	if(!check_uneek_fs())
+	{
+		if(HAVE_AHBPROT)
+		{
+			runtimePatchApply();
+		}
+		else
+		{
+			xprintf("Warning: no AHBPROT\n");
+		}
+	}
+	DI2_Init(); // Init DVD
 
 	if(strstr(Options.language, tr("STANDARD")))
 		translate();

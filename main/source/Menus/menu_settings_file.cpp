@@ -27,6 +27,7 @@ bool temp_show_all;
 int temp_device_icon;
 int temp_wiiload_ios;
 int temp_wiiload_ahb;
+bool temp_sdgecko;
 bool temp_navigation;
 string temp_device_dat;
 
@@ -53,6 +54,7 @@ int MenuSettingsFile()
 	else
 		childlock = 1;
 	bool navigation = Options.navigation;
+	bool sdgecko = Options.sdgecko;
 
 	string device_dat;
 	if(Settings.device_dat == "sd1")
@@ -73,6 +75,7 @@ int MenuSettingsFile()
 	sprintf(options.name[i++], tr("Device icon"));
 	sprintf(options.name[i++], tr("Wiiload IOS"));
 	sprintf(options.name[i++], tr("Wiiload IOS Reload"));
+	sprintf(options.name[i++], tr("SD Gecko"));
 	sprintf(options.name[i++], tr("Childlock"));
 	sprintf(options.name[i++], tr("Navigation key exchange"));
 	sprintf(options.name[i++], tr("Display"));
@@ -204,6 +207,10 @@ int MenuSettingsFile()
 					wiiload_ahb = change;
 					break;
 
+				case SDGECKO:
+					sdgecko = 1;
+					break;
+
 				case STORAGE_DEVICE:
 					device_dat = "USB";
 					sprintf (options.value[STORAGE_DEVICE], device_dat.c_str());
@@ -282,6 +289,10 @@ int MenuSettingsFile()
 					wiiload_ahb = change;
 					break;
 
+				case SDGECKO:
+					sdgecko = 0;
+					break;
+
 				case STORAGE_DEVICE:
 					device_dat = "SD";
 					sprintf (options.value[STORAGE_DEVICE], device_dat.c_str());
@@ -297,7 +308,7 @@ int MenuSettingsFile()
 
 		if(ret2 != -1)
 		{
-			// einstellungen temporär speichern
+			// einstellungen temporr speichern
 			/******************************************************************************/
 			Options.temp_theme		= options.value[THEME];
 			Options.temp_language		= options.value[LANGUAGE];
@@ -311,6 +322,7 @@ int MenuSettingsFile()
 			temp_wiiload_ios		= atoi(options.value[WIILOAD_IOS]);
 			temp_wiiload_ahb		= wiiload_ahb;
 			temp_device_dat			= device_dat;
+			temp_sdgecko			= sdgecko;
 			temp_navigation			= navigation;
 			/******************************************************************************/
 
@@ -369,6 +381,7 @@ int MenuSettingsFile()
 					childlock = 0;
 				else
 					childlock = 1;
+				sdgecko = temp_sdgecko;
 				navigation = temp_navigation;
 			}
 			else
@@ -425,6 +438,11 @@ int MenuSettingsFile()
 			else if(wiiload_ahb == 2)
 				sprintf (options.value[WIILOAD_AHB], tr("AHB Access"));
 
+			if(!sdgecko)
+				sprintf (options.value[SDGECKO], tr("No"));
+			else
+				sprintf (options.value[SDGECKO], tr("Yes"));
+
 			if(!navigation)
 				sprintf (options.value[NAVIGATION], tr("No"));
 			else
@@ -459,14 +477,14 @@ int MenuSettingsFile()
 
 		if(saveBtn.GetState() == STATE_CLICKED)
 		{
-			// Theme ändern
+			// Theme ndern
 			if(stricmp(Options.theme, options.value[THEME]) != 0 || GetMenuSettingsThemeDL())
 			{
 				sprintf (Options.theme, options.value[THEME]);
 				DefaultTheme();
 				if(stricmp(Options.theme, tr("STANDARD")) != 0)
 					theme(Settings.device_dat + ":/config/HBF/themes/" + Options.theme + "/");
-				// Cursor und Hintergrund ändern
+				// Cursor und Hintergrund ndern
 				#ifdef HW_RVL
 				pointer = new GuiImageData(Theme.player_point);
 				#endif
@@ -476,7 +494,7 @@ int MenuSettingsFile()
 				mainWindow->Append(bgImg);
 			}
 
-			// Schriftart ändern
+			// Schriftart ndern
 			if(stricmp(Options.font, options.value[FONT]) != 0 || GetMenuSettingsFontDL())
 			{
 				sprintf(Options.font, options.value[FONT]);
@@ -496,6 +514,7 @@ int MenuSettingsFile()
 			Options.wiiload_ios		= atoi(options.value[WIILOAD_IOS]);
 			Options.wiiload_ahb		= wiiload_ahb;
 			device_dat			= options.value[STORAGE_DEVICE];
+			Options.sdgecko			= sdgecko;
 			Options.navigation		= navigation;
 			Options.network			= Options.temp_network;
 			Options.wifigecko		= Options.temp_wifigecko;
@@ -506,7 +525,7 @@ int MenuSettingsFile()
 			else if(device_dat == "USB")
 				Settings.device_dat	= "usb1";
 
-			// Sprache ändern zum schluss wegen STANDARD
+			// Sprache ndern zum schluss wegen STANDARD
 			if(stricmp(Options.language, options.value[LANGUAGE]) != 0 || GetMenuSettingsLanguageDL())
 			{
 				sprintf (Options.language, options.value[LANGUAGE]);

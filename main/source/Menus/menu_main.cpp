@@ -15,9 +15,6 @@
 #include "xprintf.h"
 #include "DiskOperations/di2.h"
 #include "Neek/uneek_fs.h"
-#include "Tools/RuntimeIOSPatch.h"
-
-#define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -670,25 +667,19 @@ int MenuMain()
 
 					if(!first)
 					{
-						if(Options.wifigecko)
-							WifiGecko_Connect();
-
-						xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\n  Wifi Gecko connected.\n\n", SvnRev());
-
-						usleep(1500);
-						if(!check_uneek_fs())
+						if (Options.sdgecko)
 						{
-							if(HAVE_AHBPROT)
-							{
-								runtimePatchApply();
-							}
-							else
-							{
-								xprintf("Warning: no AHBPROT\n");
-							}
+							xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\nSD Card Gecko initialized.\n\n", SvnRev());
 						}
-						DI2_Init(); // Init DVD
-
+						else if(Options.wifigecko)
+						{
+							WifiGecko_Connect();
+							xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\nWifi Gecko connected.\n\n", SvnRev());
+						}
+						else
+						{
+							xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\nUSB Gecko initialized.\n\n", SvnRev());
+						}
 						first = true;
 					}
 

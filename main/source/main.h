@@ -127,6 +127,7 @@ struct SOptions
 	bool		quick_start;
 	bool		show_all;
 	int		device_icon;
+	bool		sdgecko;
 	bool		navigation;
 	bool		network;
 	bool		wifigecko;
