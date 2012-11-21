@@ -1,3 +1,8 @@
+//rev42:
+- changed default options:
+  * disable checking for new version automatically
+  * enable sd-card debug logging
+
 //rev41:
 - fixed auto-connecting Internet via WiFi
 - fixed video initialization problem at PAL 50Hz
