@@ -22,7 +22,7 @@ features the following additional functionality:
 - child-lock mode
 - screen adjustment options
 - edit meta.xml from within the HomebrewFilter
-- support for debug-logs via network (WifiGecko)
+- debugging using USB Gecko, WiFi and SD-Card (SD:/config/HBF/debug.txt)
 
 == Installation ==
 Various ways allow to install the HBF
