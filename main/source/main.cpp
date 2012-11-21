@@ -173,11 +173,11 @@ DefaultOptions()
 	Options.apps		= 4;
 	Options.quick_start	= 0;
 	Options.show_all	= 1;
-	Options.sdgecko		= 0;
+	Options.sdgecko		= 1;
 	Options.navigation	= 0;
 	Options.temp_network	= 0;
 	Options.temp_wifigecko	= 0;
-	Options.temp_newrevtext	= 1;
+	Options.temp_newrevtext	= 0;
 }
 
 int
