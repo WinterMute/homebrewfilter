@@ -199,7 +199,7 @@ loaderPrompt()
 			promptWindow.Append(&neek2o);
 		}
 
-		if(get_priiloader())
+		if(get_priiloader() > 0)
 		{
 			priiloader.SetPosition(0, set_height(num_btns));
 			num_btns++;
@@ -220,7 +220,7 @@ loaderPrompt()
 		num_btns++;
 		promptWindow.Append(&realnand);
 
-		if(get_priiloader())
+		if(get_priiloader() > 0)
 		{
 			priiloader.SetPosition(0, set_height(num_btns));
 			num_btns++;

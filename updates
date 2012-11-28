@@ -7,6 +7,9 @@
 - black-listed v65280 of IOS254 (if that version is
   installed there's no "Load BootMii (IOS)" anymore
   in Exit-Prompt
+- ensure 'Launch Priiloader' is only shown if Priiloader
+  is really installed (in some cases it could appear even
+  if Priiloader hasn't been installed)
 
 //rev41:
 - fixed auto-connecting Internet via WiFi
