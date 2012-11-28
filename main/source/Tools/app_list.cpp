@@ -78,7 +78,7 @@ void add(string device, string apps_path)
 				temp_reload = parser(quelltext, "<force_ios_reload", ">");
 				temp_reload2 = parser(quelltext, "<ahb_access", ">");
 				temp_reload3 = parser(quelltext, "<no_ios_reload", ">");
-				temp_reload4 = parser(quelltext, "<force_no_iois_reload", ">");
+				temp_reload4 = parser(quelltext, "<force_no_ios_reload", ">");
 
 				if (temp_reload[0] != 0)
 				{
