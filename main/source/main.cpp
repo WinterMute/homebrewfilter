@@ -271,105 +271,101 @@ main(int argc, char *argv[])
 			BootGameCubeHomebrew();
     }
     else if(boot_buffer)
-	if(wiiload)
-	{
-		BootHomebrew();
-	}
-
-	if(get_bootmii() != 0)
-	{
-        if(Options.bootmii_boot2)
+    {
+        if(wiiload)
         {
-            xprintf("Load BootMii (Boot2)\n");
+            BootHomebrew();
+        }
+    }
+    else
+    {
+        if(get_nandemu() == 2)
+        {
+            if (opendir(check_path("sd1:/apps/NANDEmu-Boot").c_str()) != NULL)
+            {
+                xprintf("Booting NANDEmu from SD\n");
+                LoadHomebrew ("sd1:/apps/NANDEmu-Boot/boot.dol");
+                BootHomebrew ();
+            }
+            else if (opendir(check_path("usb1:/apps/NANDEmu-Boot").c_str()) != NULL)
+            {
+                xprintf("Booting NANDEmu from USB\n");
+                LoadHomebrew ("usb1:/apps/NANDEmu-Boot/boot.dol");
+                BootHomebrew ();
+            }
+        }
+        else if(get_priiloader() == 2)
+        {
+            xprintf("Entering magic key\n");
+            *(vu32*)0x8132FFFB = 0x4461636f;
+            DCFlushRange((void*)0x8132FFFB, 4);
+            xprintf("Starting Priiloader");
+            SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+        }
+        else if(restarthbf)
+        {
+            xprintf("Relaunching myself\n");
+            WII_LaunchTitle(0x0001000154484246);
+        }
+        else if(updatehbf)
+        {
+            xprintf("Setting force_reload to NORELOAD\n");
+            Settings.force_reload = "NORELOAD";
+            xprintf("Loading boot.dol from online update\n");
+            LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str());
+            BootHomebrew();
+        }
+        else if(gosegui)
+        {
+            xprintf("Launching Settings Editor GUI\n");
+            LoadHomebrew(segui_loc);
+            BootHomebrew();
+        }
+        else if(goneek2o)
+        {
+            xprintf("Entering neek2o\n");
+            boot_neek2o();
+            SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+        }
+        else if(gorealnand)
+        {
+            xprintf("Entering real NAND\n");
             SYS_ResetSystem(SYS_RESTART, 0, 0);
         }
-		else if(!check_uneek_fs())
-		{
-			xprintf("Load BootMii (IOS)\n");
-			IOS_ReloadIOS(254);
-		}
-		else
-		{
-			//we can't launch bootmii from within neek2o I assume
-			//so we should do something else
-			xprintf("We're in neek2o, not entering BootMii, but SystemMenu\n");
-			SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
-		}
-	}
-
-	if(get_nandemu() == 2)
-	{
-		if (opendir(check_path("sd1:/apps/NANDEmu-Boot").c_str()) != NULL)
-		{
-			xprintf("Booting NANDEmu from SD\n");
-			LoadHomebrew ("sd1:/apps/NANDEmu-Boot/boot.dol");
-			BootHomebrew ();
-		}
-		else if (opendir(check_path("usb1:/apps/NANDEmu-Boot").c_str()) != NULL)
-		{
-			xprintf("Booting NANDEmu from USB\n");
-			LoadHomebrew ("usb1:/apps/NANDEmu-Boot/boot.dol");
-			BootHomebrew ();
-		}
-	}
-
-	if(get_priiloader() == 2)
-	{
-		xprintf("Entering magic key\n");
-		*(vu32*)0x8132FFFB = 0x4461636f;
-		DCFlushRange((void*)0x8132FFFB, 4);
-		xprintf("Starting Priiloader");
-		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
-	}
-
-	if(restarthbf)
-	{
-		xprintf("Relaunching myself\n");
-		WII_LaunchTitle(0x0001000154484246);
-	}
-
-	if(updatehbf)
-	{
-		xprintf("Setting force_reload to NORELOAD\n");
-		Settings.force_reload = "NORELOAD";
-		xprintf("Loading boot.dol from online update\n");
-		LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str());
-		BootHomebrew();
-	}
-
-	if(gosegui)
-	{
-		xprintf("Launching Settings Editor GUI\n");
-		LoadHomebrew(segui_loc);
-		BootHomebrew();
-	}
-
-	if(goneek2o)
-	{
-		xprintf("Entering neek2o\n");
-		boot_neek2o();
-		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
-	}
-
-	if(gorealnand)
-	{
-		xprintf("Entering real NAND\n");
-		SYS_ResetSystem(SYS_RESTART, 0, 0);
-	}
-
-	if(PowerOff == SYS_RETURNTOMENU)
-	{
-		xprintf("Entering magic key\n");
-		*(vu32*)0x8132FFFB = 0x50756E65;
-		DCFlushRange((void*)0x8132FFFB, 4);
-		xprintf("Entering SystemMenu\n");
-		SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
-	}
-	else if(PowerOff != -1)
-	{
-		xprintf("Full Stop!\n");
-		SYS_ResetSystem(PowerOff, 0, 0);
-	}
+        else if(PowerOff == SYS_RETURNTOMENU)
+        {
+            xprintf("Entering magic key\n");
+            *(vu32*)0x8132FFFB = 0x50756E65;
+            DCFlushRange((void*)0x8132FFFB, 4);
+            xprintf("Entering SystemMenu\n");
+            SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+        }
+        else if(PowerOff != -1)
+        {
+            xprintf("Full Stop!\n");
+            SYS_ResetSystem(PowerOff, 0, 0);
+        }
+        else if(get_bootmii() != 0)
+        {
+            if(Options.bootmii_boot2)
+            {
+                xprintf("Load BootMii (Boot2)\n");
+                SYS_ResetSystem(SYS_RESTART, 0, 0);
+            }
+            else if(!check_uneek_fs())
+            {
+                xprintf("Load BootMii (IOS)\n");
+                IOS_ReloadIOS(254);
+            }
+            else
+            {
+                //we can't launch bootmii from within neek2o I assume
+                //so we should do something else
+                xprintf("We're in neek2o, not entering BootMii, but SystemMenu\n");
+                SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
+            }
+        }
+    }
 
 	return 0;
 }
