@@ -5,6 +5,7 @@
 #include "main.h"
 #include "menu.h"
 #include "Tools/SelectIos.h"
+#include "xprintf.h"
 
 extern bool runaway;
 extern bool restarthbf;
@@ -54,16 +55,18 @@ endPrompt()
 	GuiImage systemmenuImgOver(&btn_over);
 	GuiImage shutdownImgOver(&btn_over);
 
-	GuiText bootmiiTxt(tr("Launch BootMii (IOS)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
-	if(get_bootmii() == 3)
-        GuiText bootmiiTxt(tr("Launch BootMii (Boot2)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
-	GuiButton bootmii(btn.GetWidth(), btn.GetHeight());
-	bootmii.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
-	bootmii.SetPosition(0, 75);
-	bootmii.SetLabel(&bootmiiTxt);
-	bootmii.SetImage(&bootmiiImg);
-	bootmii.SetImageOver(&bootmiiImgOver);
-	bootmii.SetTrigger(&trigA);
+    GuiText bootmiiTxtBoot2(tr("Launch BootMii (Boot2)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+    GuiText bootmiiTxtIOS(tr("Launch BootMii (IOS)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+    GuiButton bootmii(btn.GetWidth(), btn.GetHeight());
+    if(get_bootmii() == 3)
+        bootmii.SetLabel(&bootmiiTxtBoot2);
+    else
+        bootmii.SetLabel(&bootmiiTxtIOS);
+    bootmii.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+    bootmii.SetPosition(0, 75);
+    bootmii.SetImage(&bootmiiImg);
+    bootmii.SetImageOver(&bootmiiImgOver);
+    bootmii.SetTrigger(&trigA);
 
 	GuiText hbfTxt(tr("Restart HBF"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton hbf(btn.GetWidth(), btn.GetHeight());
@@ -124,10 +127,6 @@ endPrompt()
 
 		if(bootmii.GetState() == STATE_CLICKED)
 		{
-			if(get_bootmii() == 3)
-				set_bootmii(4);
-			else
-				set_bootmii(2);
 			menu = MENU_EXIT;
 			stop = true;
 		}

@@ -149,7 +149,6 @@ DefaultSettings()
 	Settings.last_app_pos		= -1;
 	Settings.checkrev			= -1;
 	sprintf (Settings.code, "NULL");
-
 	Settings.Apps_from			= EFFECT_SLIDE_TOP;	// Apps kommen von "EFFECT_SLIDE_TOP", "EFFECT_SLIDE_BOTTOM", "EFFECT_SLIDE_RIGHT", "EFFECT_SLIDE_LEFT"
 	Settings.Apps_to			= 0;				// Apps geht nach "EFFECT_SLIDE_TOP", "EFFECT_SLIDE_BOTTOM", "EFFECT_SLIDE_RIGHT", "EFFECT_SLIDE_LEFT"
 	Settings.grid				= false;
@@ -277,9 +276,14 @@ main(int argc, char *argv[])
 		BootHomebrew();
 	}
 
-	if(get_bootmii() == 2)
+	if(get_bootmii() != 0)
 	{
-		if(!check_uneek_fs())
+        if(Options.bootmii_boot2)
+        {
+            xprintf("Load BootMii (Boot2)\n");
+            SYS_ResetSystem(SYS_RESTART, 0, 0);
+        }
+		else if(!check_uneek_fs())
 		{
 			xprintf("Load BootMii (IOS)\n");
 			IOS_ReloadIOS(254);
@@ -291,12 +295,6 @@ main(int argc, char *argv[])
 			xprintf("We're in neek2o, not entering BootMii, but SystemMenu\n");
 			SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 		}
-	}
-
-	if(get_bootmii() == 4)
-	{
-		xprintf("Load BootMii (Boot2)\n");
-		SYS_ResetSystem(SYS_RESTART, 0, 0);
 	}
 
 	if(get_nandemu() == 2)
