@@ -28,6 +28,7 @@ int temp_device_icon;
 int temp_wiiload_ios;
 int temp_wiiload_ahb;
 bool temp_sdgecko;
+bool temp_bootmii_boot2;
 bool temp_navigation;
 string temp_device_dat;
 
@@ -55,6 +56,7 @@ int MenuSettingsFile()
 		childlock = 1;
 	bool navigation = Options.navigation;
 	bool sdgecko = Options.sdgecko;
+    bool bootmii_boot2 = Options.bootmii_boot2;
 
 	string device_dat;
 	if(Settings.device_dat == "sd1")
@@ -76,6 +78,7 @@ int MenuSettingsFile()
 	sprintf(options.name[i++], tr("Wiiload IOS"));
 	sprintf(options.name[i++], tr("Wiiload IOS Reload"));
 	sprintf(options.name[i++], tr("SD Gecko"));
+	sprintf(options.name[i++], tr("BootMii in Boot2"));
 	sprintf(options.name[i++], tr("Childlock"));
 	sprintf(options.name[i++], tr("Navigation key exchange"));
 	sprintf(options.name[i++], tr("Display"));
@@ -211,6 +214,10 @@ int MenuSettingsFile()
 					sdgecko = 1;
 					break;
 
+                case BOOTMII_BOOT2:
+                    bootmii_boot2 = 1;
+                    break;
+
 				case STORAGE_DEVICE:
 					device_dat = "USB";
 					sprintf (options.value[STORAGE_DEVICE], device_dat.c_str());
@@ -293,6 +300,10 @@ int MenuSettingsFile()
 					sdgecko = 0;
 					break;
 
+                case BOOTMII_BOOT2:
+                    bootmii_boot2 = 0;
+                    break;
+
 				case STORAGE_DEVICE:
 					device_dat = "SD";
 					sprintf (options.value[STORAGE_DEVICE], device_dat.c_str());
@@ -323,6 +334,7 @@ int MenuSettingsFile()
 			temp_wiiload_ahb		= wiiload_ahb;
 			temp_device_dat			= device_dat;
 			temp_sdgecko			= sdgecko;
+            temp_bootmii_boot2      = bootmii_boot2;
 			temp_navigation			= navigation;
 			/******************************************************************************/
 
@@ -382,6 +394,7 @@ int MenuSettingsFile()
 				else
 					childlock = 1;
 				sdgecko = temp_sdgecko;
+                bootmii_boot2 = temp_bootmii_boot2;
 				navigation = temp_navigation;
 			}
 			else
@@ -442,6 +455,11 @@ int MenuSettingsFile()
 				sprintf (options.value[SDGECKO], tr("No"));
 			else
 				sprintf (options.value[SDGECKO], tr("Yes"));
+
+            if(!bootmii_boot2)
+                sprintf (options.value[BOOTMII_BOOT2], tr("No"));
+            else
+                sprintf (options.value[BOOTMII_BOOT2], tr("Yes"));
 
 			if(!navigation)
 				sprintf (options.value[NAVIGATION], tr("No"));
@@ -515,6 +533,7 @@ int MenuSettingsFile()
 			Options.wiiload_ahb		= wiiload_ahb;
 			device_dat			= options.value[STORAGE_DEVICE];
 			Options.sdgecko			= sdgecko;
+            Options.bootmii_boot2   = bootmii_boot2;
 			Options.navigation		= navigation;
 			Options.network			= Options.temp_network;
 			Options.wifigecko		= Options.temp_wifigecko;

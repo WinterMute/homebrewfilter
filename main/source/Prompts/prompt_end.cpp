@@ -54,7 +54,9 @@ endPrompt()
 	GuiImage systemmenuImgOver(&btn_over);
 	GuiImage shutdownImgOver(&btn_over);
 
-	GuiText bootmiiTxt(tr("Launch BootMii"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiText bootmiiTxt(tr("Launch BootMii (IOS)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	if(get_bootmii() == 3)
+        GuiText bootmiiTxt(tr("Launch BootMii (Boot2)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton bootmii(btn.GetWidth(), btn.GetHeight());
 	bootmii.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	bootmii.SetPosition(0, 75);
@@ -67,7 +69,7 @@ endPrompt()
 	GuiButton hbf(btn.GetWidth(), btn.GetHeight());
 	hbf.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	hbf.SetPosition(0, 90);
-	if(get_bootmii())
+	if(get_bootmii() != 0)
 		hbf.SetPosition(0, 140);
 	hbf.SetLabel(&hbfTxt);
 	hbf.SetImage(&hbfImg);
@@ -78,7 +80,7 @@ endPrompt()
 	GuiButton systemmenu(btn.GetWidth(), btn.GetHeight());
 	systemmenu.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	systemmenu.SetPosition(0, 180);
-	if(get_bootmii())
+	if(get_bootmii() != 0)
 		systemmenu.SetPosition(0, 205);
 	systemmenu.SetLabel(&systemmenuTxt);
 	systemmenu.SetImage(&systemmenuImg);
@@ -102,7 +104,7 @@ endPrompt()
 
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
-	if(get_bootmii())
+	if(get_bootmii() != 0)
 		promptWindow.Append(&bootmii);
 	promptWindow.Append(&systemmenu);
 	promptWindow.Append(&shutdown);
@@ -122,7 +124,10 @@ endPrompt()
 
 		if(bootmii.GetState() == STATE_CLICKED)
 		{
-			set_bootmii(2);
+			if(get_bootmii() == 3)
+				set_bootmii(4);
+			else
+				set_bootmii(2);
 			menu = MENU_EXIT;
 			stop = true;
 		}

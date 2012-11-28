@@ -174,6 +174,7 @@ DefaultOptions()
 	Options.quick_start	= 0;
 	Options.show_all	= 1;
 	Options.sdgecko		= 1;
+    Options.bootmii_boot2 = 0;
 	Options.navigation	= 0;
 	Options.temp_network	= 0;
 	Options.temp_wifigecko	= 0;
@@ -280,7 +281,7 @@ main(int argc, char *argv[])
 	{
 		if(!check_uneek_fs())
 		{
-			xprintf("Start BootMii\n");
+			xprintf("Load BootMii (IOS)\n");
 			IOS_ReloadIOS(254);
 		}
 		else
@@ -290,6 +291,12 @@ main(int argc, char *argv[])
 			xprintf("We're in neek2o, not entering BootMii, but SystemMenu\n");
 			SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 		}
+	}
+
+	if(get_bootmii() == 4)
+	{
+		xprintf("Load BootMii (Boot2)\n");
+		SYS_ResetSystem(SYS_RESTART, 0, 0);
 	}
 
 	if(get_nandemu() == 2)

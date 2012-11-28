@@ -2,6 +2,11 @@
 - changed default options:
   * disable checking for new version automatically
   * enable sd-card debug logging
+- added option for choosing whether bootmii boot2 is
+  installed (adds "Load BootMii (Boot2)" in Exit-Prompt
+- black-listed v65280 of IOS254 (if that version is
+  installed there's no "Load BootMii (IOS)" anymore
+  in Exit-Prompt
 
 //rev41:
 - fixed auto-connecting Internet via WiFi

@@ -209,11 +209,8 @@ bool IsKnownStub(u32 noIOS, s32 noRevision)
 	if (noIOS == 254 && noRevision ==     2) return true;
 	if (noIOS == 254 && noRevision ==     3) return true;
 	if (noIOS == 254 && noRevision ==   260) return true;
-
-	// BootMii As IOS is installed on IOS254 rev 31338
-	if (noIOS == 254 && noRevision == 31338) return true;
-
-	// NAND Emu
+	if (noIOS == 254 && noRevision == 65280) return true;
+	// NAND Emu (to avoid freeze when accessing this IOS)
 	if (noIOS == 253 && noRevision == 65535) return true;
 
 	return false;
@@ -308,7 +305,6 @@ bool listIOS()
 		// Skip bootmii IOS
 		if (titleID == 254)
 		{
-			bootmii = 1;
 			continue;
 		}
 
@@ -352,7 +348,11 @@ bool listIOS()
 		}
 
 		if(!isStub)
+		{
+			if(titleID == 254)
+				bootmii = 1;
 			ioslist.push_back(titleID);
+		}
 
 	}
 	std::sort( ioslist.begin(), ioslist.end() ); // sortieren
@@ -413,7 +413,10 @@ void set_priiloader(int choice)
 
 int get_bootmii()
 {
-	return bootmii;
+	if(Options.bootmii_boot2)
+		return 3;
+	else
+		return bootmii;
 }
 
 void set_bootmii(int choice)
