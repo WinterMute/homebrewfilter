@@ -276,6 +276,14 @@ main(int argc, char *argv[])
         {
             BootHomebrew();
         }
+        else if(updatehbf)
+        {
+            xprintf("Setting force_reload to NORELOAD\n");
+            Settings.force_reload = "NORELOAD";
+            xprintf("Loading boot.dol from online update\n");
+            LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str());
+            BootHomebrew();
+        }
     }
     else
     {
@@ -306,14 +314,6 @@ main(int argc, char *argv[])
         {
             xprintf("Relaunching myself\n");
             WII_LaunchTitle(0x0001000154484246);
-        }
-        else if(updatehbf)
-        {
-            xprintf("Setting force_reload to NORELOAD\n");
-            Settings.force_reload = "NORELOAD";
-            xprintf("Loading boot.dol from online update\n");
-            LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str());
-            BootHomebrew();
         }
         else if(gosegui)
         {
