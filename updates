@@ -10,6 +10,8 @@
 - ensure 'Launch Priiloader' is only shown if Priiloader
   is really installed (in some cases it could appear even
   if Priiloader hasn't been installed)
+- fixed a bug that caused black-screen then returning into
+  HBF from app loaded with <ahb_access/>
 
 //rev41:
 - fixed auto-connecting Internet via WiFi
