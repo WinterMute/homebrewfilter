@@ -125,7 +125,7 @@ $(OUTPUT).elf: $(OFILES)
 
 %.elf:
 	@echo linking ... $(notdir $@)
-	$(LD) $^ $(LDFLAGS) $(LIBPATHS) $(LIBS) -o $@
+	$(LD) -T ../rvl.ld $^ $(LDFLAGS) $(LIBPATHS) $(LIBS) -o $@
 
 -include $(DEPENDS)
 
