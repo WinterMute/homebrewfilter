@@ -18,8 +18,8 @@ include $(DEVKITPPC)/wii_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source source/libpng/pngu
-DATA		:=	data  
+SOURCES		:=	source
+DATA		:=	data
 INCLUDES	:=
 
 #---------------------------------------------------------------------------------
@@ -40,7 +40,8 @@ LIBS	:=	-lpng -lmodplay -lasnd -lwiiuse -lbte -logc -lm -lz
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(CURDIR)
+LIBDIRS	:=	$(PORTLIBS)
+
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -86,7 +87,7 @@ export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
 export INCLUDE	:=	$(foreach dir,$(INCLUDES), -iquote $(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD) \
-					-I$(LIBOGC_INC)
+					-I$(LIBOGC_INC) -I$(PORTLIBS)/include/
 
 #---------------------------------------------------------------------------------
 # build a list of library paths
@@ -124,7 +125,7 @@ $(OUTPUT).elf: $(OFILES)
 
 %.elf:
 	@echo linking ... $(notdir $@)
-	$(LD) -T ../rvl.ld $^ $(LDFLAGS) $(LIBPATHS) $(LIBS) -o $@
+	$(LD) $^ $(LDFLAGS) $(LIBPATHS) $(LIBS) -o $@
 
 -include $(DEPENDS)
 
