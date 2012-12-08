@@ -42,15 +42,15 @@ void __Loader_SetLowMem(void)
 	*(vu32*)0x800000FC = 0x2B73A840;
 
 	/* Flush cache */
-	DCFlushRange((void *)(0x80000000), 0x3F00);
+	DCFlushRange((void *)(0x800000F8), 0xFF);
 
 	// Set the clock
 	settime(secs_to_ticks(time(NULL) - 946684800)); 
 	
-	// Remove 002 error (set to IOS 53)
-	*(u16 *)0x80003140 = 0x0035;
+	// Remove 002 error
+	*(u16 *)0x80003140 = 0x0038;
 	*(u16 *)0x80003142 = 0xffff;
-	*(u16 *)0x80003188 = 0x0035;
+	*(u16 *)0x80003188 = 0x0038;
 	*(u16 *)0x8000318A = 0xffff;
 	
 	DCFlushRange((void*)0x80003140, 4);
