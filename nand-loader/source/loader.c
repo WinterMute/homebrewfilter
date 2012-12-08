@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <ogcsys.h>
+#include <ogc/lwp_watchdog.h>
 
 #include "config.h"
 #include "patches.h"
 #include "video.h"
 #include "wpad.h"
+#include "tools.h"
 
 /* DOL header structure */
 typedef struct {
@@ -41,6 +43,18 @@ void __Loader_SetLowMem(void)
 
 	/* Flush cache */
 	DCFlushRange((void *)(0x80000000), 0x3F00);
+
+	// Set the clock
+	settime(secs_to_ticks(time(NULL) - 946684800)); 
+	
+	// Remove 002 error (set to IOS 53)
+	*(u16 *)0x80003140 = 0x0035;
+	*(u16 *)0x80003142 = 0xffff;
+	*(u16 *)0x80003188 = 0x0035;
+	*(u16 *)0x8000318A = 0xffff;
+	
+	DCFlushRange((void*)0x80003140, 4);
+	DCFlushRange((void*)0x80003188, 4);
 }
 
 void __Loader_SetVMode(u64 tid)
@@ -115,6 +129,11 @@ void __Loader_SetVMode(u64 tid)
 		Video_Configure(vmode_ptr);
 		Video_Clear(COLOR_BLACK);
 	}
+	
+	// Anti-green screen fix
+    VIDEO_SetBlack(TRUE);
+    VIDEO_Flush();
+    VIDEO_WaitVSync();
 }
 
 
