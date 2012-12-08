@@ -3,9 +3,6 @@
 #---------------------------------------------------------------------------------
 .SUFFIXES:
 
-DEVKITPRO =	/opt/devkitPPC
-DEVKITPPC =	/opt/devkitPPC
-
 #---------------------------------------------------------------------------------
 ifeq ($(strip $(DEVKITPPC)),)
 $(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPPC)
