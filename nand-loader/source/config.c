@@ -28,6 +28,7 @@ struct menu entryList[] = {
 	{ "Force NTSC",		&loaderCfg.forceNtsc },
 	{ "Force HDTV",		&loaderCfg.forceHdtv },
 	{ "Patch Video Mode",	&loaderCfg.patchVmode },
+	{ "Show Splash",	&loaderCfg.showSplash },
 };
 
 /* Macros */

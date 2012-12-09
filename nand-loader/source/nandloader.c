@@ -60,7 +60,8 @@ int main(int argc, char **argv)
 		Menu();
 
 	/* Draw loading image */
-	Gui_DrawLoading();
+	if(loaderCfg.showSplash)
+		Gui_DrawLoading();
 
 	/* Execute application */
 	Loader_Execute();

@@ -11,6 +11,9 @@ struct config {
 
 	/* Video mode patching */
 	bool patchVmode;
+
+	/* Splash screen */
+	bool showSplash;
 };
 
 /* NANDLoader configuration */
