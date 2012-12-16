@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include "main.h"
+#include "xprintf.h"
 
 std::vector<int> ioslist;
 int selectedIos = IOS_GetVersion();
@@ -240,6 +241,7 @@ int nextIos()
 		selectedIos= ioslist[ios_pos];
 	}
 
+	xprintf("Previous IOS: %d\n", selectedIos);
 	return selectedIos;
 }
 int previousIos()
@@ -253,6 +255,7 @@ int previousIos()
 		selectedIos= ioslist[ios_pos];
 	}
 
+	xprintf("Next IOS: %d\n", selectedIos);
 	return selectedIos;
 }
 
@@ -347,10 +350,15 @@ bool listIOS()
 				isStub = false;
 		}
 
+		xprintf("testing IOS: %d\n", titleID);
+
 		if(!isStub)
 		{
 			if(titleID == 254)
+			{	
 				bootmii = 1;
+			}
+			xprintf("added IOS %d to list.\n", titleID);
 			ioslist.push_back(titleID);
 		}
 
