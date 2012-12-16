@@ -3,8 +3,8 @@ all: compile_installer
 REV=$(shell grep define svnrev/svnrev.c | gawk '{print $$3}')
 
 dist: compile-installer
-	@tar cfj HomebrewFilter-rev42.tar.bz HomebrewFilter/
-	@tar cfj HomebrewFilter-Standalone-rev42.tar.bz2 HomebrewFilter.Standalone/
+	@tar cfj HomebrewFilter-rev$(REV).tar.bz HomebrewFilter/
+	@tar cfj HomebrewFilter-Standalone-rev$(REV).tar.bz2 HomebrewFilter.Standalone/
 
 clean:
 	@make -C main clean
