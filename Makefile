@@ -13,6 +13,7 @@ compile_hbf:
 compile_boot: compile_hbf
 	@make -C boot
 	@cp boot/hbf_boot.dol installer/wad/00000001.app
+	@cp boot/hbf_boot.dol HomebrewFilter.Standalone/boot.dol
 
 compile_installer: compile_boot
 	@tools/WadMii.exe -input "Z:$(PWD)\installer\wad" -output "Z:$(PWD)\installer\data\install.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\installer\wad" -output "Z:$(PWD)\installer\data\install.wad"

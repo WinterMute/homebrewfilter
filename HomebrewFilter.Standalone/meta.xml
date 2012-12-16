@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+  <name>HomebrewFilter</name>
+  <coder>Nano</coder>
+  <version>rev41</version>
+  <ahb_access/>
+  <short_description>HBF</short_description>
+  <long_description>The HomebrewFilter
+
+  Changes in rev41:
+
+//rev41:
+- fixed auto-connecting Internet via WiFi
+- fixed video initialization problem at PAL 50Hz
+- fixed categorizing apps from SD Gecko
+- removed remaining references to HBC
+- basic support for WifiGecko
+  * most messages are shown via WifiGecko. Those that are
+    sent prior to network initialization will be missing
+  * option to en/disable WifiGecko (settings->network)
+  * no option yet to change IP and Port, currently sending
+    to 192.168.1.4:4405 (you change your PCs IP from Router
+    configuration interface)
+- support for SDCardGecko (not SD Gecko!)
+  * saves debug messages to SD:/config/HBF/debug.txt
+  * endless logging, different logs are split with an
+    "HBF Log (YYYY-MM-DD / HH:MM:SS)" message. HBF never
+    deletes the logfile on it's own.
+Note: ** Gecko priority:
+	1. SD Card Gecko
+	2. Wifi Gecko
+	3. USB Gecko
+	if SD Card Gecko is enabled, there's no messages
+	send via Wifi or USB and so on. By default HBF
+	tries to connect to USB Gecko.
+  </long_description>
+</app>
