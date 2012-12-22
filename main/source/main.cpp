@@ -42,8 +42,6 @@
 #include "Neek/uneek_fs.h"
 #include "Neek/bootneek.h"
 
-#define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
-
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
 extern GuiImageData * pointer;
@@ -243,7 +241,7 @@ main(int argc, char *argv[])
 
 	if(!check_uneek_fs())
 	{
-		if(HAVE_AHBPROT)
+		if(have_ahbprot())
 		{
 			IosPatch_RUNTIME(true, false, false, false);
 		}

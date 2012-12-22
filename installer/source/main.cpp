@@ -8,8 +8,6 @@
 #include "wad.h"
 #include "getios.h"
 
-#define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
-
 //---------------------------------------------------------------------------------
 int main(int argc, char **argv) {
 //---------------------------------------------------------------------------------
@@ -18,7 +16,7 @@ int main(int argc, char **argv) {
 	VIDEO_Init();
 	Video_SetMode();
 
-	if(HAVE_AHBPROT)
+	if(have_ahbprot())
 		IosPatch_RUNTIME(true, false, false, true);
 
 	WPAD_Init();
