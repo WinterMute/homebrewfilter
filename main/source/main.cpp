@@ -17,6 +17,7 @@
 #include <wiiuse/wpad.h>
 #include <dirent.h>
 #include <time.h>
+#include <runtimeiospatch.h>
 
 #include "filelist.h"
 #include "FreeTypeGX.h"
@@ -40,7 +41,6 @@
 #include "Network/wiiload_gecko.h"
 #include "Neek/uneek_fs.h"
 #include "Neek/bootneek.h"
-#include "Tools/RuntimeIOSPatch.h"
 
 #define HAVE_AHBPROT ((*(vu32*)0xcd800064 == 0xFFFFFFFF) ? 1 : 0)
 
@@ -245,7 +245,7 @@ main(int argc, char *argv[])
 	{
 		if(HAVE_AHBPROT)
 		{
-			runtimePatchApply();
+			IosPatch_RUNTIME(true, false, false, false);
 		}
 		else
 		{
