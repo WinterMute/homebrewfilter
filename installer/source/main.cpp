@@ -1,8 +1,8 @@
 
 #include <malloc.h>
 #include <wiiuse/wpad.h>
+#include <runtimeiospatch.h>
 
-#include "RuntimeIOSPatch.h"
 #include "menu.h"
 #include "video.h"
 #include "wad.h"
@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
 	Video_SetMode();
 
 	if(HAVE_AHBPROT)
-		runtimePatchApply();
+		IosPatch_RUNTIME(true, false, false, true);
 
 	WPAD_Init();
 	PAD_Init();
