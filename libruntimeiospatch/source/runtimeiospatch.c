@@ -81,8 +81,9 @@ const u8 Kill_AntiSysTitleInstallv2_pt5_old[] = { 0x42, 0x94, 0xD0, 0x03, 0x9C, 
 const u8 Kill_AntiSysTitleInstallv2_pt5_patch[] = { 0x42, 0x94, 0x46, 0xC0, 0x9C, 0x03 };
 
 static u32 apply_patch(char *name, const u8 *old, u32 old_size, const u8 *patch, u32 patch_size, u32 patch_offset, bool verbose) {
-	u8 *ptr_start = (u8*)*((u32*)0x80003134), *ptr_end = (u8*)0x94000000;
-    printf("    Patching %-30s", name);
+    u8 *ptr_start = (u8*)*((u32*)0x80003134), *ptr_end = (u8*)0x94000000;
+    if(verbose)
+    	printf("    Patching %-30s", name);
     u32 found = 0;
     u8 *location = NULL;
     while (ptr_start < (ptr_end - patch_size)) {
@@ -99,10 +100,12 @@ static u32 apply_patch(char *name, const u8 *old, u32 old_size, const u8 *patch,
         }
         ptr_start++;
     }
-    if (found)
-        printf(" patched\n");
-    else
-        printf(" not patched\n");
+    if(verbose){
+   	 if (found)
+   	     printf(" patched\n");
+   	 else
+    	    printf(" not patched\n");
+    }
 
     return found;
 }
