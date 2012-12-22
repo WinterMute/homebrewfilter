@@ -1,6 +1,7 @@
 === libruntimeiospatch ===
 
-a library providing necessary functions for patching IOS at runtime using HW_AHBPROT
+a library providing necessary functions for patching IOS at runtime using HW_AHBPROT.
+It is distributed under the terms of the GNU General Public License v2
 
 === Including ===
 
