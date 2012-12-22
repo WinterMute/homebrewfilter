@@ -1,0 +1,47 @@
+=== libruntimeiospatch ===
+
+a library providing necessary functions for patching IOS at runtime using HW_AHBPROT
+
+=== Including ===
+
+include the library as
+
+#include <libruntimeiospatch.h> // Code
+LIBS := -lruntimeiospatch // Makefile
+
+=== API ===
+
+have_ahbprot(): this function returns true, then there is HW_AHBPROT available
+
+IosPatch_AHBPROT(bool verbose): this function can be used to keep HW_AHBPROT when going to reload IOS
+
+example:
+...
+if(have_ahbprot()) {
+	IosPatch_AHBPROT(false);
+	IOS_ReloadIOS(36);
+	...
+}
+...
+
+IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose): this function applies patches into IOS
+
+Flags:
+wii: apply standard wii patches (DI Readlimit, ISFS Permissions, ES SetUID, ES SetIdentify, Hash Check (aka Trucha), New Hash Check (aka New Trucha))
+sciifii: apply additional sciifii patches (MEM2 Prot, ES OpenTitleContent 1+2, ES ReadContent Prot, ES CloseContent, Es TitleVersionCheck, ES TitleDeleteCheck)
+vwii: apply special vwii-only patches (Kill Anti-SystemTitle-Install 1-5)
+
+example:
+
+...
+If(have_ahbprot()) {
+	IosPatch_RUNTIME(true, false, false, false);
+	...
+}
+...
+
+= Thanks =
+- libOGC devs
+- Team Twizzers
+- damysterman
+- anyone I forgot to mention here

@@ -14,6 +14,12 @@
 
 //const u8 check_tmd_patch1[] = { 0x23, 0x01, 0x42, 0x5B };
 
+bool have_ahbprot() {
+	if(!HAVE_AHBPROT)
+		return false;
+	return true;
+}
+
 static void disable_memory_protection() {
     write32(MEM_PROT, read32(MEM_PROT) & 0x0000FFFF);
 }
@@ -102,7 +108,7 @@ static u32 apply_patch(char *name, const u8 *old, u32 old_size, const u8 *patch,
 }
 
 u32 IosPatch_AHBPROT(bool verbose) {
-    if (HAVE_AHBPROT) {
+    if (have_ahbprot()) {
         disable_memory_protection();
         //return apply_patch("set_ahbprot", check_tmd_old, sizeof(check_tmd_old), check_tmd_patch, sizeof(check_tmd_patch), 6, verbose);
         return apply_patch("es_set_ahbprot", es_set_ahbprot_old, sizeof(es_set_ahbprot_old), es_set_ahbprot_patch, sizeof(es_set_ahbprot_patch), 25, verbose);
@@ -113,7 +119,7 @@ u32 IosPatch_AHBPROT(bool verbose) {
 u32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
     u32 count = 0;
 
-    if (HAVE_AHBPROT) {
+    if (have_ahbprot()) {
         disable_memory_protection();
         if(wii)
         {
