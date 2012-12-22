@@ -7,8 +7,8 @@
 extern "C" {
 #endif
 
-u32 IosPatch_AHBPROT();
-u32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii);
+u32 IosPatch_AHBPROT(bool verbose);
+u32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose);
 
 #ifdef __cplusplus
 }
