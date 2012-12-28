@@ -12,7 +12,7 @@ This function returns true, then there is HW_AHBPROT access available.
 >> Flags: none
 
 ******
-if (have_ahbprot()) {
+if (have_ahbprot())
     do_something
 else
     do_something_else
@@ -29,6 +29,7 @@ This function can be used to keep HW_AHBPROT access when going to reload IOS
 
 >> Return:
 -5: no HW_AHBPROT access
+-7: patching HW_AHBPROT access failed
 >0: success
 
 ******
@@ -72,7 +73,7 @@ Sciifii:
     * ES OpenTitleContent 1 & 2
     * ES ReadContent Prot
     * ES CloseContent
-    * Es TitleVersionCheck
+    * ES TitleVersionCheck
     * ES TitleDeleteCheck
 
 vWii:

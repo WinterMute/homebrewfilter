@@ -122,7 +122,10 @@ u32 IosPatch_AHBPROT(bool verbose) {
         disable_memory_protection();
         //return apply_patch("set_ahbprot", check_tmd_old, sizeof(check_tmd_old), check_tmd_patch, sizeof(check_tmd_patch), 6, verbose);
         ret = apply_patch("es_set_ahbprot", es_set_ahbprot_old, sizeof(es_set_ahbprot_old), es_set_ahbprot_patch, sizeof(es_set_ahbprot_patch), 25, verbose);
-	xret = ret;
+	if (ret)
+	    xret = ret;
+        else
+	    xret = -7;
     } else {
 	xret = -5;
     }
