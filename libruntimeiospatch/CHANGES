@@ -1,0 +1,17 @@
+1,2:
+[NEW]	get_libruntimeiospatch_version()
+[MOD]	IosPatch_AHBPROT() - return code re-work
+[MOD]	IosPatch_RUNTIME() - return code re-work
+[MOD]	IosPatch_FULL() - retun code re-work
+[MOD]	API doc file updated
+[NEW]	CHANGES doc file
+
+1.1:
+[NEW]	IosPatch_FULL()
+[MOD]	IosPatch_AHBPROT() - proper return work
+[NEW]	API doc file
+
+1.0: initial release
+[NEW]	have_ahbprot()
+[NEW]	IosPatch_AHBPROT()
+[NEW]	IosPatch_RUNTIME()

@@ -14,6 +14,10 @@
 
 //const u8 check_tmd_patch1[] = { 0x23, 0x01, 0x42, 0x5B };
 
+int get_libruntimeiospatch_version() {
+	return 120;
+}
+
 bool have_ahbprot() {
 	if(!HAVE_AHBPROT)
 		return false;
@@ -112,25 +116,29 @@ static u32 apply_patch(char *name, const u8 *old, u32 old_size, const u8 *patch,
 
 u32 IosPatch_AHBPROT(bool verbose) {
     s32 ret = 0;
+    s32 xret = 0;
 
     if (have_ahbprot()) {
         disable_memory_protection();
         //return apply_patch("set_ahbprot", check_tmd_old, sizeof(check_tmd_old), check_tmd_patch, sizeof(check_tmd_patch), 6, verbose);
         ret = apply_patch("es_set_ahbprot", es_set_ahbprot_old, sizeof(es_set_ahbprot_old), es_set_ahbprot_patch, sizeof(es_set_ahbprot_patch), 25, verbose);
-        return ret;
+	xret = ret;
+    } else {
+	xret = -5;
     }
-    return 0;
+    return xret;
 }
 
 u32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
     u32 count = 0;
+    u32 xret = 0;
 
     if (have_ahbprot()) {
         disable_memory_protection();
         if(wii)
         {
 	    if(verbose)
-            	printf(">> Applying standard Wii patches:\n");
+		printf(">> Applying standard Wii patches:\n");
             count += apply_patch("di_readlimit", di_readlimit_old, sizeof(di_readlimit_old), di_readlimit_patch, sizeof(di_readlimit_patch), 12, verbose);
             count += apply_patch("isfs_permissions", isfs_permissions_old, sizeof(isfs_permissions_old), isfs_permissions_patch, sizeof(isfs_permissions_patch), 0, verbose);
             count += apply_patch("es_setuid", setuid_old, sizeof(setuid_old), setuid_patch, sizeof(setuid_patch), 0, verbose);
@@ -160,25 +168,29 @@ u32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
             count += apply_patch("Kill_AntiSysTitleInstallv2_pt4", Kill_AntiSysTitleInstallv2_pt4_old, sizeof(Kill_AntiSysTitleInstallv2_pt4_old), Kill_AntiSysTitleInstallv2_pt4_patch, sizeof(Kill_AntiSysTitleInstallv2_pt4_patch), 0, verbose);
             count += apply_patch("Kill_AntiSysTitleInstallv2_pt5", Kill_AntiSysTitleInstallv2_pt5_old, sizeof(Kill_AntiSysTitleInstallv2_pt5_old), Kill_AntiSysTitleInstallv2_pt5_patch, sizeof(Kill_AntiSysTitleInstallv2_pt5_patch), 0, verbose);
 	}
+    xret = count;
+    } else {
+        xret = -5;
     }
-    return count;
+    return xret;
 }
 
 u32 IosPatch_FULL(bool wii, bool sciifii, bool vwii, bool verbose, int IOS) {
-
-    s32 count = 0;
     s32 ret = 0;
+    s32 xret = 0;
 
     if (have_ahbprot())
-        ret = IosPatch_AHBPROT(verbose);
+	ret = IosPatch_AHBPROT(verbose);
+    else
+	return -5;
 
     if (ret) {
         IOS_ReloadIOS(IOS);
+	xret = IosPatch_RUNTIME(wii, sciifii, vwii, verbose);
     } else {
-        return 0;
+        xret = -7;
     }
 
-    count = IosPatch_RUNTIME(wii, sciifii, vwii, verbose);
-    return count;
+    return xret;
 
 }
