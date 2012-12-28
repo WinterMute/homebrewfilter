@@ -111,10 +111,13 @@ static u32 apply_patch(char *name, const u8 *old, u32 old_size, const u8 *patch,
 }
 
 u32 IosPatch_AHBPROT(bool verbose) {
+    s32 ret = 0;
+
     if (have_ahbprot()) {
         disable_memory_protection();
         //return apply_patch("set_ahbprot", check_tmd_old, sizeof(check_tmd_old), check_tmd_patch, sizeof(check_tmd_patch), 6, verbose);
-        return apply_patch("es_set_ahbprot", es_set_ahbprot_old, sizeof(es_set_ahbprot_old), es_set_ahbprot_patch, sizeof(es_set_ahbprot_patch), 25, verbose);
+        ret = apply_patch("es_set_ahbprot", es_set_ahbprot_old, sizeof(es_set_ahbprot_old), es_set_ahbprot_patch, sizeof(es_set_ahbprot_patch), 25, verbose);
+        return ret;
     }
     return 0;
 }
@@ -159,4 +162,23 @@ u32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 	}
     }
     return count;
+}
+
+u32 IosPatch_FULL(bool wii, bool sciifii, bool vwii, bool verbose, int IOS) {
+
+    s32 count = 0;
+    s32 ret = 0;
+
+    if (have_ahbprot())
+        ret = IosPatch_AHBPROT(verbose);
+
+    if (ret) {
+        IOS_ReloadIOS(IOS);
+    } else {
+        return 0;
+    }
+
+    count = IosPatch_RUNTIME(wii, sciifii, vwii, verbose);
+    return count;
+
 }

@@ -41,6 +41,17 @@ If(have_ahbprot()) {
 }
 ...
 
+IosPatch_FULL(bool wii, bool sciifii, bool vwii, bool verbose, int IOS): this function combines IosPatch_AHBPROT + IOS_ReloadIOS + IosPatch_RUNTIME
+
+example:
+
+...
+If(have_ahbprot()) {
+	IosPatch_FULL(true, false, false, false, 58);
+	...
+}
+...
+
 = Thanks =
 - libOGC devs
 - Team Twizzers

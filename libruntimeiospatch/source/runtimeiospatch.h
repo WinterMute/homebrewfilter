@@ -10,6 +10,7 @@ extern "C" {
 bool have_ahbprot();
 u32 IosPatch_AHBPROT(bool verbose);
 u32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose);
+u32 IosPatch_FULL(bool wii, bool sciifii, bool vwii, bool verbose, int IOS);
 
 #ifdef __cplusplus
 }
