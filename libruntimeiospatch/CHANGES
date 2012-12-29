@@ -1,4 +1,14 @@
-1,2:
+1.3: thanks to JoostinOnline
+* replaced HAVE_ABHPROT by AHBPROT_DISABLED (now public)
+* removed (now) redundant have_ahbprot()
+* store version in #LIB_RUNTIMEIOSPATCH_VERSION
+* removed (now) redundant get_libruntimeiospatch_version()
+* minor code clean-ups
+* changed some unsigned ints to signed
+* added license header to runtimeiospatch.[ch]
+* updated API
+
+1.2:
 [NEW]	get_libruntimeiospatch_version()
 [MOD]	IosPatch_AHBPROT() - return code re-work
 [MOD]	IosPatch_RUNTIME() - return code re-work

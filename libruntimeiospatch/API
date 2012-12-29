@@ -1,23 +1,54 @@
 libruntimeiospatch function overview
 ====================================
 
-libruntimeiospatch 1.0:
+>>>>>>>> libruntimeiospatch 1.3: <<<<<<<<
 
-====================
-=== have_ahbprot ===
-====================
+========================
+=== AHBPROT_DISABLED ===
+========================
 
-This function returns true, then there is HW_AHBPROT access available.
-
->> Flags: none
+Returns true when HW_AHBPROT access can be applied
 
 ******
-if (have_ahbprot())
-    do_something
-else
-    do_something_else
-fi
+If(AHBPROT_DISABLED) {
+	do_something
+} else {
+	do_something_else
+}
 ******
+
+===================================
+=== LIB_RUNTIMEIOSPATCH_VERSION ===
+===================================
+
+Stores printable version of libruntimeiospatch.
+
+>>>>>>>> libruntimeiospatch 1.1: <<<<<<<<
+
+=====================
+=== IosPatch_FULL ===
+=====================
+
+This function combines IosPatch_AHBPROT + IOS_ReloadIOS + IosPatch_RUNTIME
+
+>> Flags: [bool]wii (whether to apply Wii patches)
+          [bool]sciifii (whether to apply extra Sciifii patches)
+          [bool]vwii (whether to apply extra vWii patches)
+          [bool]verbose (whether to print messages on-screen)
+          [int]ios (which IOS to reload into)
+
+>> Return:
+-5: no HW_AHBPROT access
+-7: patching HW_AHBPROT access failed
+>0: success (return equals to number of applied patches)
+
+******
+If(AHBPROT_DISABLED) {
+	IosPatch_FULL(true, false, false, false, 58);
+}
+******
+
+>>>>>>>> libruntimeiospatch 1.0: <<<<<<<<
 
 ========================
 === IosPatch_AHBPROT ===
@@ -33,7 +64,7 @@ This function can be used to keep HW_AHBPROT access when going to reload IOS
 >0: success
 
 ******
-if(have_ahbprot()) {
+if(AHBPROT_DISABLED) {
 	s32 ret;
     ret = IosPatch_AHBPROT(false);
 	if (ret) {
@@ -81,49 +112,7 @@ vWii:
 
 
 ******
-If(have_ahbprot()) {
+If(AHBPROT_DISABLED) {
 	IosPatch_RUNTIME(true, false, false, false);
 }
-******
-
-libruntimeiospatch 1.1:
-
-=====================
-=== IosPatch_FULL ===
-=====================
-
-This function combines IosPatch_AHBPROT + IOS_ReloadIOS + IosPatch_RUNTIME
-
->> Flags: [bool]wii (whether to apply Wii patches)
-          [bool]sciifii (whether to apply extra Sciifii patches)
-          [bool]vwii (whether to apply extra vWii patches)
-          [bool]verbose (whether to print messages on-screen)
-          [int]ios (which IOS to reload into)
-
->> Return:
--5: no HW_AHBPROT access
--7: patching HW_AHBPROT access failed
->0: success (return equals to number of applied patches)
-
-******
-If(have_ahbprot()) {
-	IosPatch_FULL(true, false, false, false, 58);
-}
-******
-
-libruntimeiospatch 1.2:
-
-======================================
-=== get_libruntimeiospatch_version ===
-======================================
-
-This function returns the version of libruntimeiospatch in MMM format.
-
-MMM = MajorMinorMicro. 1.2 = 120, 1.9.1 = 191, and so on.
-
->> Flags: none
-
-******
-int lrip = 0;
-lrip = get_libruntimeiospatch_version()
 ******
