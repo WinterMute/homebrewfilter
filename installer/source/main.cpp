@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 	VIDEO_Init();
 	Video_SetMode();
 
-	if(have_ahbprot())
+	if(AHBPROT_DISABLED)
 		IosPatch_RUNTIME(true, false, false, true);
 
 	WPAD_Init();
