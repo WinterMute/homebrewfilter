@@ -241,7 +241,7 @@ main(int argc, char *argv[])
 
 	if(!check_uneek_fs())
 	{
-		if(have_ahbprot())
+		if(AHBPROT_DISABLED)
 		{
 			IosPatch_RUNTIME(true, false, false, false);
 		}
