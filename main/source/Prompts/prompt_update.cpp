@@ -102,20 +102,43 @@ updatePrompt(string rev)
 	ResumeGui();
 
 	char url[100];
+#ifdef VWII
+	if(rev == "Beta")
+		sprintf(url, "http://www.nanolx.org/hbf/DOL.vwii/Beta/boot.dol");
+	else
+		sprintf(url, "http://www.nanolx.org/hbf/DOL.vwii/rev%s/boot.dol", rev.c_str());
+
+    // copy boot.dol to prev.dol
+	std::ifstream infile((Settings.device_dat + ":/apps/HomebrewFilter.vWii/boot.dol").c_str(), std::ios_base::binary);
+	std::ofstream outfile((Settings.device_dat + ":/apps/HomebrewFilter.vWii/prev.dol").c_str(), std::ios_base::binary);
+#else
 	if(rev == "Beta")
 		sprintf(url, "http://www.nanolx.org/hbf/DOL/Beta/boot.dol");
 	else
 		sprintf(url, "http://www.nanolx.org/hbf/DOL/rev%s/boot.dol", rev.c_str());
 
-	// copy boot.dol to prev.dol
+    // copy boot.dol to prev.dol
 	std::ifstream infile((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str(), std::ios_base::binary);
 	std::ofstream outfile((Settings.device_dat + ":/apps/HomebrewFilter/prev.dol").c_str(), std::ios_base::binary);
+#endif
 
 	outfile << infile.rdbuf();
 
 	struct block file = downloadfile(url);
 	if (file.data && file.size > 0)
 	{
+#ifdef VWII
+        // write file
+		if(opendir(check_path(Settings.device_dat + ":/apps/HomebrewFilter.vWii").c_str()) == NULL)
+				mkdir((Settings.device_dat + ":/apps/HomebrewFilter.vWii").c_str(), 0777);
+
+		FILE * data = fopen((Settings.device_dat + ":/apps/HomebrewFilter.vWii/boot.dol").c_str(), "wb");
+		if(data)
+		{
+			fwrite(file.data, 1, file.size, data);
+			fclose(data);
+		}
+#else
 		// write file
 		if(opendir(check_path(Settings.device_dat + ":/apps/HomebrewFilter").c_str()) == NULL)
 				mkdir((Settings.device_dat + ":/apps/HomebrewFilter").c_str(), 0777);
@@ -126,7 +149,7 @@ updatePrompt(string rev)
 			fwrite(file.data, 1, file.size, data);
 			fclose(data);
 		}
-
+#endif
 		if(file.data)
 			free(file.data);
 
@@ -324,7 +347,7 @@ string checkUpdatePrompt()
 	ResumeGui();
 
 	string rev = "NULL";
-	// überprüfen, ob netzwerk initialisiert wird
+	// berprfen, ob netzwerk initialisiert wird
 	Initialize_Network();
 	if(!IsNetworkInit())
 	{

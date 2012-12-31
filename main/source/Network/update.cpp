@@ -13,7 +13,11 @@ string CheckNewVersions()
 {
 	string revs = "error";
 	char buffer[100];
+#ifdef VWII
+	sprintf(buffer, "http://www.nanolx.org/hbf/DOL.vwii/revisions.vwii");
+#else
 	sprintf(buffer, "http://www.nanolx.org/hbf/DOL/revisions");
+#endif
 
 	struct block file = downloadfile(buffer);
 	if (file.data != NULL)
@@ -27,7 +31,11 @@ string CheckNewVersions()
 string NewVersionsText()
 {
 	string text = "error";
+#ifdef VWII
+	struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.vwii/updates.vwii");
+#else
 	struct block file = downloadfile("http://www.nanolx.org/hbf/DOL/updates");
+#endif
 	if (file.data != NULL)
 	{
 		text = (char*)file.data;
@@ -40,10 +48,17 @@ struct block file;
 string new_update(string rev, string filename)
 {
 	char url[100];
+#ifdef VWII
+	if(rev == "Beta")
+		sprintf(url, "http://www.nanolx.org/hbf/DOL.vwii/Beta/%s", filename.c_str());
+	else
+		sprintf(url, "http://www.nanolx.org/hbf/DOL.vwii/rev%s/%s", rev.c_str(), filename.c_str());
+#else
 	if(rev == "Beta")
 		sprintf(url, "http://www.nanolx.org/hbf/DOL/Beta/%s", filename.c_str());
 	else
 		sprintf(url, "http://www.nanolx.org/hbf/DOL/rev%s/%s", rev.c_str(), filename.c_str());
+#endif
 
 	file = downloadfile(url);
 	if (file.data && file.size > 0)

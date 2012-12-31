@@ -16,11 +16,13 @@ int main(int argc, char **argv) {
 	VIDEO_Init();
 	Video_SetMode();
 
-	if(AHBPROT_DISABLED)
-		IosPatch_RUNTIME(true, false, false, true);
-
 	WPAD_Init();
 	PAD_Init();
+
+   	if(AHBPROT_DISABLED)
+		IosPatch_RUNTIME(true, false, true, true);
+	else
+		IOS_ReloadIOS(236);
 
 	menu();
 

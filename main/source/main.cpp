@@ -279,7 +279,11 @@ main(int argc, char *argv[])
             xprintf("Setting force_reload to NORELOAD\n");
             Settings.force_reload = "NORELOAD";
             xprintf("Loading boot.dol from online update\n");
+#ifdef VWII
+            LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter.vWii/boot.dol").c_str());
+#else
             LoadHomebrew ((Settings.device_dat + ":/apps/HomebrewFilter/boot.dol").c_str());
+#endif
             BootHomebrew();
         }
     }
