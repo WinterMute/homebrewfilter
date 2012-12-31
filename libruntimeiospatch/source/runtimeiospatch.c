@@ -50,7 +50,7 @@ const s8 addticket_patch[] = { 0xE0 };
 const s8 es_set_ahbprot_old[] = { 0x68, 0x5B, 0x22, 0xEC, 0x00, 0x52, 0x18, 0x9B, 0x68, 0x1B, 0x46, 0x98, 0x07, 0xDB };
 const s8 es_set_ahbprot_patch[]   = { 0x01 };
 
-// Following patches added to iospatch.c by damysteryman, taken from sciifii v5
+//Following patches added to iospatch.c by damysteryman, taken from sciifii v5
 const s8 MEM2_prot_old[] = { 0xB5, 0x00, 0x4B, 0x09, 0x22, 0x01, 0x80, 0x1A, 0x22, 0xF0 };
 const s8 MEM2_prot_patch[] = { 0xB5, 0x00, 0x4B, 0x09, 0x22, 0x00, 0x80, 0x1A, 0x22, 0xF0 };
 const s8 ES_OpenTitleContent1_old[] = { 0x9D, 0x05, 0x42, 0x9D, 0xD0, 0x03 };
@@ -72,9 +72,9 @@ const s8 ES_TitleVersionCheck_patch[] = { 0xE0, 0x01, 0x4E, 0x56 };
 const s8 ES_TitleDeleteCheck_old[] = { 0xD8, 0x00, 0x4A, 0x04 };
 const s8 ES_TitleDeleteCheck_patch[] = { 0xE0, 0x00, 0x4A, 0x04 };
 
-// Following patches made my damysteryman for use with Wii U's vWii
+//Following patches made my damysteryman for use with Wii U's vWii
 const s8 Kill_AntiSysTitleInstallv2_pt1_old[] = { 0x68, 0x1A, 0x2A, 0x01, 0xD0, 0x05 };	// Make sure that the pt1
-const s8 Kill_AntiSysTitleInstallv2_pt1_patch[] = { 0x68, 0x1A, 0x2A, 0x01, 0x46, 0xC0 }; // patch is applied twice. -dmm
+const s8 Kill_AntiSysTitleInstallv2_pt1_patch[] = { 0x68, 0x1A, 0x2A, 0x01, 0x46, 0xC0 };	// patch is applied twice. -dmm
 const s8 Kill_AntiSysTitleInstallv2_pt2_old[] = { 0x4B, 0x29, 0x42, 0x9A, 0xD0, 0x02 };
 const s8 Kill_AntiSysTitleInstallv2_pt2_patch[] = { 0x4B, 0x29, 0x42, 0x9A, 0x46, 0xC0 };
 const s8 Kill_AntiSysTitleInstallv2_pt3_old[] = { 0xD0, 0x02, 0x33, 0x06 };
@@ -122,9 +122,9 @@ s32 IosPatch_AHBPROT(bool verbose) {
 		if (ret)
 			return ret;
 		else
-			return -7;
+			return ERROR_PATCH;
 	}
-	return -5;
+	return ERROR_AHBPROT;
 }
 
 s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
@@ -164,7 +164,7 @@ s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 		}
 		return count;
 	}
-	return -5;
+	return ERROR_AHBPROT;
 }
 
 s32 IosPatch_FULL(bool wii, bool sciifii, bool vwii, bool verbose, int IOS) {
@@ -174,13 +174,13 @@ s32 IosPatch_FULL(bool wii, bool sciifii, bool vwii, bool verbose, int IOS) {
 	if (AHBPROT_DISABLED)
 		ret = IosPatch_AHBPROT(verbose);
 	else
-		return -5;
+		return ERROR_AHBPROT;
 
 	if (ret) {
 		IOS_ReloadIOS(IOS);
 		xret = IosPatch_RUNTIME(wii, sciifii, vwii, verbose);
 	} else {
-		xret = -7;
+		xret = ERROR_PATCH;
 	}
 
 	return xret;

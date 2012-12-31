@@ -3,6 +3,19 @@ libruntimeiospatch function overview
 
 >>>>>>>> libruntimeiospatch 1.3: <<<<<<<<
 
+===================== ===================
+=== ERROR_AHBPROT === === ERROR_PATCH ===
+===================== ===================
+
+Use those to catch occuring errors
+
+******
+if (IosPatch_AHBPROT(false) == ERROR_AHBPROT)
+	printf("AHBPROT is still enabled!");
+
+if (IosPatch_RUNTIME(true, false, false, false) == ERROR_PATCH)
+	printf("Patching IOS failed!");
+
 ========================
 === AHBPROT_DISABLED ===
 ========================
