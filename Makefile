@@ -54,7 +54,7 @@ compile_hbf_vwii: clean_vwii
 
 compile_boot_vwii: compile_hbf_vwii
 	@make -C boot
-	@cp boot/hbf_boot.dol installer/wad.vwii/00000001.app
+	@cp boot/hbf_boot.dol installer/wad.vwii/00000002.app
 
 compile_installer_vwii: compile_boot_vwii
 	@tools/WadMii.exe -input "Z:$(PWD)\installer\wad.vwii" -output "Z:$(PWD)\installer\data\install.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\installer\wad.vwii" -output "Z:$(PWD)\installer\data\install.wad"
