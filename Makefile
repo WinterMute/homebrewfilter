@@ -18,7 +18,7 @@ clean:
 	@make -C libruntimeiospatch clean
 
 clean_vwii:
-	@make -C main clean
+	@make -C main -f Makefile.vWii clean
 	@make -C boot clean
 	@make -C installer clean
 
