@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 	PAD_Init();
 
    	if(AHBPROT_DISABLED)
-		IosPatch_RUNTIME(true, false, true, true);
+		IosPatch_RUNTIME(true, false, false, true);
 	else
 		IOS_ReloadIOS(236);
 
