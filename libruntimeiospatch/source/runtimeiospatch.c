@@ -50,7 +50,7 @@ const s8 addticket_patch[] = { 0xE0 };
 const s8 es_set_ahbprot_old[] = { 0x68, 0x5B, 0x22, 0xEC, 0x00, 0x52, 0x18, 0x9B, 0x68, 0x1B, 0x46, 0x98, 0x07, 0xDB };
 const s8 es_set_ahbprot_patch[]   = { 0x01 };
 
-//Following patches added to iospatch.c by damysteryman, taken from sciifii v5
+// Following patches added to iospatch.c by damysteryman, taken from sciifii v5
 const s8 MEM2_prot_old[] = { 0xB5, 0x00, 0x4B, 0x09, 0x22, 0x01, 0x80, 0x1A, 0x22, 0xF0 };
 const s8 MEM2_prot_patch[] = { 0xB5, 0x00, 0x4B, 0x09, 0x22, 0x00, 0x80, 0x1A, 0x22, 0xF0 };
 const s8 ES_OpenTitleContent1_old[] = { 0x9D, 0x05, 0x42, 0x9D, 0xD0, 0x03 };
@@ -72,9 +72,9 @@ const s8 ES_TitleVersionCheck_patch[] = { 0xE0, 0x01, 0x4E, 0x56 };
 const s8 ES_TitleDeleteCheck_old[] = { 0xD8, 0x00, 0x4A, 0x04 };
 const s8 ES_TitleDeleteCheck_patch[] = { 0xE0, 0x00, 0x4A, 0x04 };
 
-//Following patches made my damysteryman for use with Wii U's vWii
+// Following patches made my damysteryman for use with Wii U's vWii
 const s8 Kill_AntiSysTitleInstallv2_pt1_old[] = { 0x68, 0x1A, 0x2A, 0x01, 0xD0, 0x05 };	// Make sure that the pt1
-const s8 Kill_AntiSysTitleInstallv2_pt1_patch[] = { 0x68, 0x1A, 0x2A, 0x01, 0x46, 0xC0 };	// patch is applied twice. -dmm
+const s8 Kill_AntiSysTitleInstallv2_pt1_patch[] = { 0x68, 0x1A, 0x2A, 0x01, 0x46, 0xC0 }; // patch is applied twice. -dmm
 const s8 Kill_AntiSysTitleInstallv2_pt2_old[] = { 0x4B, 0x29, 0x42, 0x9A, 0xD0, 0x02 };
 const s8 Kill_AntiSysTitleInstallv2_pt2_patch[] = { 0x4B, 0x29, 0x42, 0x9A, 0x46, 0xC0 };
 const s8 Kill_AntiSysTitleInstallv2_pt3_old[] = { 0xD0, 0x02, 0x33, 0x06 };
@@ -84,14 +84,14 @@ const s8 Kill_AntiSysTitleInstallv2_pt4_patch[] = { 0x2C, 0x01, 0x46, 0xC0};
 const s8 Kill_AntiSysTitleInstallv2_pt5_old[] = { 0x42, 0x94, 0xD0, 0x03, 0x9C, 0x03 };
 const s8 Kill_AntiSysTitleInstallv2_pt5_patch[] = { 0x42, 0x94, 0x46, 0xC0, 0x9C, 0x03 };
 
-static s32 apply_patch(char *name, const s8 *old, s32 old_size, const s8 *patch, s32 patch_size, s32 patch_offset, bool verbose) {
+static s32 apply_patch(char *name, const s8 *old, const s8 *patch, s32 patch_offset, bool verbose) {
+	s32 patch_size = sizeof(patch);
 	s8 *ptr_start = (s8*)*((s32*)0x80003134), *ptr_end = (s8*)0x94000000;
-	if(verbose)
-		printf("    Patching %-30s", name);
+	if(verbose) printf("    Patching %-30s", name);
 	s32 found = 0;
 	s8 *location = NULL;
 	while (ptr_start < (ptr_end - patch_size)) {
-		if (!memcmp(ptr_start, old, old_size)) {
+		if (!memcmp(ptr_start, old, sizeof(old))) {
 			found++;
 			location = ptr_start + patch_offset;
 			s8 *start = location;
@@ -105,9 +105,9 @@ static s32 apply_patch(char *name, const s8 *old, s32 old_size, const s8 *patch,
 		ptr_start++;
 	}
 	if(verbose){
-   	 if (found)
-   	     printf(" patched\n");
-   	 else
+		if (found)
+			printf(" patched\n");
+		else
 			printf(" not patched\n");
 	}
 
@@ -117,8 +117,8 @@ static s32 apply_patch(char *name, const s8 *old, s32 old_size, const s8 *patch,
 s32 IosPatch_AHBPROT(bool verbose) {
 	if (AHBPROT_DISABLED) {
 		disable_memory_protection();
-		//return apply_patch("set_ahbprot", check_tmd_old, sizeof(check_tmd_old), check_tmd_patch, sizeof(check_tmd_patch), 6, verbose);
-		s32 ret = apply_patch("es_set_ahbprot", es_set_ahbprot_old, sizeof(es_set_ahbprot_old), es_set_ahbprot_patch, sizeof(es_set_ahbprot_patch), 25, verbose);
+		//return apply_patch("set_ahbprot", check_tmd_old, check_tmd_patch, 6, verbose);
+		s32 ret = apply_patch("es_set_ahbprot", es_set_ahbprot_old, es_set_ahbprot_patch, 25, verbose);
 		if (ret)
 			return ret;
 		else
@@ -134,36 +134,33 @@ s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 		disable_memory_protection();
 		if(wii)
 		{
-		if(verbose)
-		printf(">> Applying standard Wii patches:\n");
-			count += apply_patch("di_readlimit", di_readlimit_old, sizeof(di_readlimit_old), di_readlimit_patch, sizeof(di_readlimit_patch), 12, verbose);
-			count += apply_patch("isfs_permissions", isfs_permissions_old, sizeof(isfs_permissions_old), isfs_permissions_patch, sizeof(isfs_permissions_patch), 0, verbose);
-			count += apply_patch("es_setuid", setuid_old, sizeof(setuid_old), setuid_patch, sizeof(setuid_patch), 0, verbose);
-			count += apply_patch("es_identify", es_identify_old, sizeof(es_identify_old), es_identify_patch, sizeof(es_identify_patch), 2, verbose);
-			count += apply_patch("hash_check", hash_old, sizeof(hash_old), hash_patch, sizeof(hash_patch), 1, verbose);
-			count += apply_patch("new_hash_check", new_hash_old, sizeof(new_hash_old), hash_patch, sizeof(hash_patch), 1, verbose);
+			if(verbose) printf(">> Applying standard Wii patches:\n");
+			count += apply_patch("di_readlimit", di_readlimit_old, di_readlimit_patch, 12, verbose);
+			count += apply_patch("isfs_permissions", isfs_permissions_old, isfs_permissions_patch, 0, verbose);
+			count += apply_patch("es_setuid", setuid_old, setuid_patch, 0, verbose);
+			count += apply_patch("es_identify", es_identify_old, es_identify_patch, 2, verbose);
+			count += apply_patch("hash_check", hash_old, hash_patch, 1, verbose);
+			count += apply_patch("new_hash_check", new_hash_old, hash_patch, 1, verbose);
 		}
 		if(sciifii)
 		{
-		if(verbose)
-		   	 printf(">> Applying Sciifii patches:\n");
-			count += apply_patch("MEM2_prot", MEM2_prot_old, sizeof(MEM2_prot_old), MEM2_prot_patch, sizeof(MEM2_prot_patch), 0, verbose);
-			count += apply_patch("ES_OpenTitleContent1", ES_OpenTitleContent1_old, sizeof(ES_OpenTitleContent1_old), ES_OpenTitleContent1_patch, sizeof(ES_OpenTitleContent1_patch), 0, verbose);
-			count += apply_patch("ES_OpenTitleContent2", ES_OpenTitleContent2_old, sizeof(ES_OpenTitleContent2_old), ES_OpenTitleContent2_patch, sizeof(ES_OpenTitleContent2_patch), 0, verbose);
-			count += apply_patch("ES_ReadContent_prot", ES_ReadContent_old, sizeof(ES_ReadContent_old), ES_ReadContent_patch, sizeof(ES_ReadContent_patch), 0, verbose);
-			count += apply_patch("ES_CloseContent", ES_CloseContent_old, sizeof(ES_CloseContent_old), ES_CloseContent_patch, sizeof(ES_CloseContent_patch), 0, verbose);
-			count += apply_patch("ES_TitleVersionCheck", ES_TitleVersionCheck_old, sizeof(ES_TitleVersionCheck_old), ES_TitleVersionCheck_patch, sizeof(ES_TitleVersionCheck_patch), 0, verbose);
-			count += apply_patch("ES_TitleDeleteCheck", ES_TitleDeleteCheck_old, sizeof(ES_TitleDeleteCheck_old), ES_TitleDeleteCheck_patch, sizeof(ES_TitleDeleteCheck_patch), 0, verbose);
+			if(verbose) printf(">> Applying Sciifii patches:\n");
+			count += apply_patch("MEM2_prot", MEM2_prot_old, MEM2_prot_patch, 0, verbose);
+			count += apply_patch("ES_OpenTitleContent1", ES_OpenTitleContent1_old, ES_OpenTitleContent1_patch, 0, verbose);
+			count += apply_patch("ES_OpenTitleContent2", ES_OpenTitleContent2_old, ES_OpenTitleContent2_patch, 0, verbose);
+			count += apply_patch("ES_ReadContent_prot", ES_ReadContent_old, ES_ReadContent_patch, 0, verbose);
+			count += apply_patch("ES_CloseContent", ES_CloseContent_old, ES_CloseContent_patch, 0, verbose);
+			count += apply_patch("ES_TitleVersionCheck", ES_TitleVersionCheck_old, ES_TitleVersionCheck_patch, 0, verbose);
+			count += apply_patch("ES_TitleDeleteCheck", ES_TitleDeleteCheck_old, ES_TitleDeleteCheck_patch, 0, verbose);
 		}
 		if(vwii)
 		{
-			if(verbose)
-				printf(">> Applying vWii patches:\n");
-			count += apply_patch("Kill_AntiSysTitleInstallv2_pt1", Kill_AntiSysTitleInstallv2_pt1_old, sizeof(Kill_AntiSysTitleInstallv2_pt1_old), Kill_AntiSysTitleInstallv2_pt1_patch, sizeof(Kill_AntiSysTitleInstallv2_pt1_patch), 0, verbose);
-			count += apply_patch("Kill_AntiSysTitleInstallv2_pt2", Kill_AntiSysTitleInstallv2_pt2_old, sizeof(Kill_AntiSysTitleInstallv2_pt2_old), Kill_AntiSysTitleInstallv2_pt2_patch, sizeof(Kill_AntiSysTitleInstallv2_pt2_patch), 0, verbose);
-			count += apply_patch("Kill_AntiSysTitleInstallv2_pt3", Kill_AntiSysTitleInstallv2_pt3_old, sizeof(Kill_AntiSysTitleInstallv2_pt3_old), Kill_AntiSysTitleInstallv2_pt3_patch, sizeof(Kill_AntiSysTitleInstallv2_pt3_patch), 0, verbose);
-			count += apply_patch("Kill_AntiSysTitleInstallv2_pt4", Kill_AntiSysTitleInstallv2_pt4_old, sizeof(Kill_AntiSysTitleInstallv2_pt4_old), Kill_AntiSysTitleInstallv2_pt4_patch, sizeof(Kill_AntiSysTitleInstallv2_pt4_patch), 0, verbose);
-			count += apply_patch("Kill_AntiSysTitleInstallv2_pt5", Kill_AntiSysTitleInstallv2_pt5_old, sizeof(Kill_AntiSysTitleInstallv2_pt5_old), Kill_AntiSysTitleInstallv2_pt5_patch, sizeof(Kill_AntiSysTitleInstallv2_pt5_patch), 0, verbose);
+			if(verbose) printf(">> Applying vWii patches:\n");
+			count += apply_patch("Kill_AntiSysTitleInstallv2_pt1", Kill_AntiSysTitleInstallv2_pt1_old, Kill_AntiSysTitleInstallv2_pt1_patch, 0, verbose);
+			count += apply_patch("Kill_AntiSysTitleInstallv2_pt2", Kill_AntiSysTitleInstallv2_pt2_old, Kill_AntiSysTitleInstallv2_pt2_patch, 0, verbose);
+			count += apply_patch("Kill_AntiSysTitleInstallv2_pt3", Kill_AntiSysTitleInstallv2_pt3_old, Kill_AntiSysTitleInstallv2_pt3_patch, 0, verbose);
+			count += apply_patch("Kill_AntiSysTitleInstallv2_pt4", Kill_AntiSysTitleInstallv2_pt4_old, Kill_AntiSysTitleInstallv2_pt4_patch, 0, verbose);
+			count += apply_patch("Kill_AntiSysTitleInstallv2_pt5", Kill_AntiSysTitleInstallv2_pt5_old, Kill_AntiSysTitleInstallv2_pt5_patch, 0, verbose);
 		}
 		return count;
 	}
@@ -181,7 +178,7 @@ s32 IosPatch_FULL(bool wii, bool sciifii, bool vwii, bool verbose, int IOS) {
 
 	if (ret) {
 		IOS_ReloadIOS(IOS);
-	xret = IosPatch_RUNTIME(wii, sciifii, vwii, verbose);
+		xret = IosPatch_RUNTIME(wii, sciifii, vwii, verbose);
 	} else {
 		xret = -7;
 	}

@@ -5,6 +5,7 @@
 * removed (now) redundant get_libruntimeiospatch_version()
 * minor code clean-ups
 * changed some unsigned ints to signed
+* no more need for passing patch_size to apply_patch()
 * added license header to runtimeiospatch.[ch]
 * updated API
 
