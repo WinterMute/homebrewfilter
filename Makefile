@@ -21,7 +21,7 @@ clean:
 	@make -C libruntimeiospatch clean
 
 clean_vwii:
-	@make -C main -f Makefile.vWii clean
+	@make -C main clean
 	@make -C boot clean
 	@make -C installer clean
 
@@ -35,6 +35,8 @@ compile_stboot: clean
 	@echo "============================"
 	@echo "== HBF Standalone for Wii =="
 	@echo "============================"
+	@rm -f HomebrewFilter.Standalone/boot.dol
+	@rm -f main/hbf.dol main/hbf.elf
 	@XFLAGS="-DSTBOOT" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 	@make -C boot
@@ -44,6 +46,8 @@ compile_stboot_vwii: clean_vwii
 	@echo "============================="
 	@echo "== HBF Standalone for vWii =="
 	@echo "============================="
+	@rm -f HomebrewFilter.vWii.Standalone/boot.dol
+	@rm -f main/hbf.dol main/hbf.elf
 	@XFLAGS="-DSTBOOTVWII -DVWII" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 	@make -C boot
@@ -53,6 +57,7 @@ compile_hbf: clean
 	@echo "==========================="
 	@echo "== HBF Installer for Wii =="
 	@echo "==========================="
+	@rm -f HomebrewFilter/boot.dol
 	@make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 
@@ -69,6 +74,7 @@ compile_hbf_vwii: clean_vwii
 	@echo "============================"
 	@echo "== HBF Installer for vWii =="
 	@echo "============================"
+	@rm -f HomebrewFilter.vWii/boot.dol
 	@XFLAGS="-DVWII" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 
