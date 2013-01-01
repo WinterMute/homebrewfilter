@@ -14,9 +14,10 @@
 - build separate vWii-version using FIX94s NAND-Loader (still using
   modified Waninkoko NAND-Loader on real Wii)
 - build using libruntimeiospatch 1.3
-- vWii version does NOT YET disable functions not applicable von vWii
+- vWii version does disable functions not applicable von vWii
 - installer now falls back to IOS236 if there's no HW_AHBPROT access
 - SDCardGecko (Debugfile) is now stored on general settings device
+  (no more hardcoded to SD Card)
 
 //rev41:
 - fixed auto-connecting Internet via WiFi
