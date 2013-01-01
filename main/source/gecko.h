@@ -21,6 +21,12 @@ extern "C"
 #define hexdump( x, y )
 #endif /* NO_DEBUG */
 
+#ifdef VWII
+#define gprintf(...)
+#define InitGecko()      false
+#define hexdump( x, y )
+#endif
+
 #ifdef __cplusplus
 }
 #endif
