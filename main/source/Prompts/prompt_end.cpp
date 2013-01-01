@@ -54,20 +54,20 @@ endPrompt()
 	GuiImage hbfImgOver(&btn_over);
 	GuiImage systemmenuImgOver(&btn_over);
 	GuiImage shutdownImgOver(&btn_over);
-
-    GuiText bootmiiTxtBoot2(tr("Launch BootMii (Boot2)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
-    GuiText bootmiiTxtIOS(tr("Launch BootMii (IOS)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
-    GuiButton bootmii(btn.GetWidth(), btn.GetHeight());
-    if(get_bootmii() == 3)
-        bootmii.SetLabel(&bootmiiTxtBoot2);
-    else
-        bootmii.SetLabel(&bootmiiTxtIOS);
-    bootmii.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
-    bootmii.SetPosition(0, 75);
-    bootmii.SetImage(&bootmiiImg);
-    bootmii.SetImageOver(&bootmiiImgOver);
-    bootmii.SetTrigger(&trigA);
-
+#ifndef VWII
+	GuiText bootmiiTxtBoot2(tr("Launch BootMii (Boot2)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiText bootmiiTxtIOS(tr("Launch BootMii (IOS)"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiButton bootmii(btn.GetWidth(), btn.GetHeight());
+	if(get_bootmii() == 3)
+		bootmii.SetLabel(&bootmiiTxtBoot2);
+	else
+		bootmii.SetLabel(&bootmiiTxtIOS);
+	bootmii.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	bootmii.SetPosition(0, 75);
+	bootmii.SetImage(&bootmiiImg);
+	bootmii.SetImageOver(&bootmiiImgOver);
+	bootmii.SetTrigger(&trigA);
+#endif
 	GuiText hbfTxt(tr("Restart HBF"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton hbf(btn.GetWidth(), btn.GetHeight());
 	hbf.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -124,13 +124,13 @@ endPrompt()
 	while(!stop)
 	{
 		usleep(100);
-
+#ifndef VWII
 		if(bootmii.GetState() == STATE_CLICKED)
 		{
 			menu = MENU_EXIT;
 			stop = true;
 		}
-
+#endif
 		if(hbf.GetState() == STATE_CLICKED)
 		{
 			restarthbf = true;
