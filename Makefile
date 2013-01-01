@@ -3,11 +3,11 @@ all:
 
 REV=$(shell grep define svnrev/svnrev.c | gawk '{print $$3}')
 
-dist: compile_installer
+dist: compile_installer compile_stboot
 	@tar cfj HomebrewFilter-rev$(REV).tar.bz2 HomebrewFilter/
 	@tar cfj HomebrewFilter-Standalone-rev$(REV).tar.bz2 HomebrewFilter.Standalone/
 
-dist_vwii: compile_installer_vwii
+dist_vwii: compile_installer_vwii compile_stboot_vwii
 	@tar cfj HomebrewFilter-vWii-rev$(REV).tar.bz2 HomebrewFilter.vWii/
 	@tar cfj HomebrewFilter-vWii-Standalone-rev$(REV).tar.bz2 HomebrewFilter.vWii.Standalone/
 
@@ -29,9 +29,27 @@ nand_loader:
 libruntimeiospatch:
 	@make -C libruntimeiospatch
 
+compile_stboot: clean
+	@echo "============================"
+	@echo "== HBF Standalone for Wii =="
+	@echo "============================"
+	@XFLAGS="-DSTBOOT" make -C main
+	@cp main/hbf.dol boot/source/hbf.dol
+	@make -C boot
+	@cp boot/hbf_boot.dol HomebrewFilter.Standalone/boot.dol
+
+compile_stboot_vwii: clean_vwii
+	@echo "============================="
+	@echo "== HBF Standalone for vWii =="
+	@echo "============================="
+	@XFLAGS="-DSTBOOTVWII -DVWII" make -C main
+	@cp main/hbf.dol boot/source/hbf.dol
+	@make -C boot
+	@cp boot/hbf_boot.dol HomebrewFilter.vWii.Standalone/boot.dol
+
 compile_hbf: clean
 	@echo "==========================="
-	@echo "======= HBF for Wii ======="
+	@echo "== HBF Installer for Wii =="
 	@echo "==========================="
 	@make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
@@ -39,7 +57,6 @@ compile_hbf: clean
 compile_boot: compile_hbf
 	@make -C boot
 	@cp boot/hbf_boot.dol installer/wad/00000001.app
-	@cp boot/hbf_boot.dol HomebrewFilter.Standalone/boot.dol
 
 compile_installer: compile_boot
 	@tools/WadMii.exe -input "Z:$(PWD)\installer\wad" -output "Z:$(PWD)\installer\data\install.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\installer\wad" -output "Z:$(PWD)\installer\data\install.wad"
@@ -48,14 +65,13 @@ compile_installer: compile_boot
 
 compile_hbf_vwii: clean_vwii
 	@echo "============================"
-	@echo "======= HBF for vWii ======="
+	@echo "== HBF Installer for vWii =="
 	@echo "============================"
-	@CFLAGS="$(CFLAGS) -DVWII" make -C main
+	@XFLAGS="-DVWII" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 
 compile_boot_vwii: compile_hbf_vwii
 	@make -C boot
-	@cp boot/hbf_boot.dol HomebrewFilter.vWii.Standalone/boot.dol
 	@cp boot/hbf_boot.dol installer/wad.vwii/00000002.app
 
 compile_installer_vwii: compile_boot_vwii
