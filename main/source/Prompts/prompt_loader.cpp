@@ -42,6 +42,7 @@ bool check_segui()
 		segui_loc = "dvd1:/apps/SettingsEditorGUI/boot.dol";
 		return true;
 	}
+#ifndef VWII
 	else if(opendir(check_path("gca:/apps/Settings Editor GUI/").c_str()) != NULL)
 	{
 		segui_loc = "gca:/apps/SettingsEditorGUI/boot.dol";
@@ -52,6 +53,7 @@ bool check_segui()
 		segui_loc = "gcb:/apps/SettingsEditorGUI/boot.dol";
 		return true;
 	}
+#endif
 	else
 	{
 		segui_loc = "";
@@ -82,13 +84,13 @@ loaderPrompt()
 	int menu = 0;
 
 	listIOS();
-
+#ifndef VWII
 	if( ! priicheck )
 	{
 		priicheck = 1;
 		check_priiloader();
 	}
-
+#endif
 	bool have_segui;
 	if( ! seguicheck )
 	{
@@ -115,20 +117,25 @@ loaderPrompt()
 
  	// Buttons data
 	GuiImageData btn(Theme.button);
+#ifndef VWII
 	GuiImage nandemuImg(&btn);
 	GuiImage neek2oImg(&btn);
 	GuiImage realnandImg(&btn);
 	GuiImage priiloaderImg(&btn);
+#endif
 	GuiImage seguiImg(&btn);
 
 	// Buttons over data
 	GuiImageData btn_over(Theme.button_focus);
+#ifndef VWII
 	GuiImage nandemuImgOver(&btn_over);
 	GuiImage neek2oImgOver(&btn_over);
 	GuiImage realnandImgOver(&btn_over);
 	GuiImage priiloaderImgOver(&btn_over);
+#endif
 	GuiImage seguiImgOver(&btn_over);
 
+#ifndef VWII
 	GuiText nandemuTxt(tr("Launch Uniiloader"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton nandemu(btn.GetWidth(), btn.GetHeight());
 	nandemu.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
@@ -164,6 +171,7 @@ loaderPrompt()
 	priiloader.SetImage(&priiloaderImg);
 	priiloader.SetImageOver(&priiloaderImgOver);
 	priiloader.SetTrigger(&trigA);
+#endif
 
 	GuiText seguiTxt(tr("Launch Settings Editor GUI"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton segui(btn.GetWidth(), btn.GetHeight());
@@ -182,7 +190,7 @@ loaderPrompt()
 	promptWindow.Append(&titleTxt);
 
 	int num_btns = 1;
-
+#ifndef VWII
 	if(!check_uneek_fs())
 	{
 		if(get_nandemu())
@@ -205,14 +213,14 @@ loaderPrompt()
 			num_btns++;
 			promptWindow.Append(&priiloader);
 		}
-
+#endif
 		if(have_segui)
 		{
 			segui.SetPosition(0, set_height(num_btns));
 			num_btns++;
 			promptWindow.Append(&segui);
 		}
-
+#ifndef VWII
 	}
 	else
 	{
@@ -235,6 +243,7 @@ loaderPrompt()
 		}
 
 	}
+#endif
 
 	promptWindow.Append(&back);
 
@@ -247,7 +256,7 @@ loaderPrompt()
 	while(!stop)
 	{
 		usleep(100);
-
+#ifndef VWII
 		if(nandemu.GetState() == STATE_CLICKED)
 		{
 			set_nandemu(2);
@@ -268,21 +277,21 @@ loaderPrompt()
 			menu = MENU_EXIT;
 			stop = true;
 		}
-
+#endif
 		if(segui.GetState() == STATE_CLICKED)
 		{
 			gosegui = true;
 			menu = MENU_EXIT;
 			stop = true;
 		}
-
+#ifndef VWII
 		if(priiloader.GetState() == STATE_CLICKED)
 		{
 			set_priiloader(2);
 			menu = MENU_EXIT;
 			stop = true;
 		}
-
+#endif
 		if(back.GetState() == STATE_CLICKED)
 			stop = true;
 	}
