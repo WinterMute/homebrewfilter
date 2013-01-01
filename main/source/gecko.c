@@ -8,6 +8,7 @@
 /* init-globals */
 static bool geckoinit = false;
 
+#ifndef VWII
 #ifndef NO_DEBUG
 #include <stdarg.h>
 
@@ -118,3 +119,4 @@ void USBGeckoOutput()
 }
 
 #endif /* NO_DEBUG */
+#endif /* VWII */

@@ -14,6 +14,8 @@
 
 #define READ_SIZE	(1 << 10)
 
+#ifndef VWII
+
 u8 *gdata = (u8 *)0x92000000;
 
 /*** Extern variables ***/
@@ -278,3 +280,5 @@ void ShutdownGeckoThread()
         geckothread = LWP_THREAD_NULL;
     }
 }
+
+#endif /* VWII */
