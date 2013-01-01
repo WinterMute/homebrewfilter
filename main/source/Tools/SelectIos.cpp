@@ -421,9 +421,11 @@ void set_priiloader(int choice)
 
 int get_bootmii()
 {
+#ifndef VWII
 	if(Options.bootmii_boot2)
 		return 3;
 	else
+#endif
 		return bootmii;
 }
 
