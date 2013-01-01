@@ -132,7 +132,9 @@ struct SOptions
 	bool		network;
 	bool		wifigecko;
 	bool		newrevtext;
+#ifndef VWII
 	bool		bootmii_boot2;
+#endif
 	int		wiiload_ahb;
 	int		wiiload_ios;
 };

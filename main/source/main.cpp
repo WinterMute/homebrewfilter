@@ -171,7 +171,9 @@ DefaultOptions()
 	Options.quick_start	= 0;
 	Options.show_all	= 1;
 	Options.sdgecko		= 1;
-    Options.bootmii_boot2 = 0;
+#ifndef VWII
+	Options.bootmii_boot2   = 0;
+#endif
 	Options.navigation	= 0;
 	Options.temp_network	= 0;
 	Options.temp_wifigecko	= 0;
@@ -193,10 +195,10 @@ main(int argc, char *argv[])
 	MountAllDevices();
 	InitNetworkThread();	// Initialize Network
 	InitTcpThread();
-
+#ifndef VWII
 	if (gecko_connected)
 		InitGeckoThread();
-
+#endif
 	InitThrobberThread();	// Initialize Throbber
 	ISFS_Initialize();		// Initialize Nand
 
@@ -207,10 +209,10 @@ main(int argc, char *argv[])
 	DefaultTheme();
 
 	load();
-
+#ifndef VWII
 	if (gecko_connected)
 		ResumeGeckoThread();
-
+#endif
 	SetFont();
 
 	SYS_SetResetCallback(WiiResetPressed);
