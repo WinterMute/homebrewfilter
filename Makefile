@@ -3,6 +3,8 @@ all:
 
 REV=$(shell grep define svnrev/svnrev.c | gawk '{print $$3}')
 
+full_dist: dist dist_vwii
+
 dist: compile_installer compile_stboot
 	@tar cfj HomebrewFilter-rev$(REV).tar.bz2 HomebrewFilter/
 	@tar cfj HomebrewFilter-Standalone-rev$(REV).tar.bz2 HomebrewFilter.Standalone/
