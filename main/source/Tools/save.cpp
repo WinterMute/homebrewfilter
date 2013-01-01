@@ -102,7 +102,9 @@ void save()
 		save_settings << "quick_start = \""			<< Options.quick_start		<< "\"" << endl;
 		save_settings << "show_all = \""			<< Options.show_all		<< "\"" << endl;
 		save_settings << "sdgecko = \""				<< Options.sdgecko		<< "\"" << endl;
-        save_settings << "bootmii_boot2 = \""       << Options.bootmii_boot2    << "\"" << endl;
+#ifndef VWII
+		save_settings << "bootmii_boot2 = \""       << Options.bootmii_boot2    << "\"" << endl;
+#endif
 		save_settings << "navigation = \""			<< Options.navigation		<< "\"" << endl;
 		save_settings << "network = \""				<< Options.network			<< "\"" << endl;
 		save_settings << "wifigecko = \""			<< Options.wifigecko		<< "\"" << endl;
