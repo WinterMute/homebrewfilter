@@ -107,8 +107,10 @@ endPrompt()
 
 	promptWindow.Append(&dialogBoxImg);
 	promptWindow.Append(&titleTxt);
+#ifndef VWII
 	if(get_bootmii() != 0)
 		promptWindow.Append(&bootmii);
+#endif
 	promptWindow.Append(&systemmenu);
 	promptWindow.Append(&shutdown);
 	promptWindow.Append(&back);
