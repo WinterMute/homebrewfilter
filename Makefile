@@ -36,7 +36,7 @@ compile_stboot: clean
 	@echo "== HBF Standalone for Wii =="
 	@echo "============================"
 	@rm -f HomebrewFilter.Standalone/boot.dol
-	@rm -f main/hbf.dol main/hbf.elf
+	@make -C main clean
 	@XFLAGS="-DSTBOOT" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 	@make -C boot
@@ -47,7 +47,7 @@ compile_stboot_vwii: clean_vwii
 	@echo "== HBF Standalone for vWii =="
 	@echo "============================="
 	@rm -f HomebrewFilter.vWii.Standalone/boot.dol
-	@rm -f main/hbf.dol main/hbf.elf
+	@make -C main clean
 	@XFLAGS="-DSTBOOTVWII -DVWII" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 	@make -C boot
