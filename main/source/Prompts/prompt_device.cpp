@@ -68,8 +68,10 @@ int devicePrompt()
 	GuiImage usb_BtnImgOver(&usb_BtnImgDataOver);
 	GuiImage sd_usb_BtnImgOver(&sd_usb_BtnImgDataOver);
 	GuiImage dvd_BtnImgOver(&dvd_BtnImgDataOver);
+#ifndef VWII
 	GuiImage gca_BtnImgOver(&gca_BtnImgDataOver);
 	GuiImage gcb_BtnImgOver(&gca_BtnImgDataOver);
+#endif
 	GuiImage all_BtnImgOver(&all_BtnImgDataOver);
 
 	GuiButton sd_Btn(sd_BtnImgData.GetWidth(), sd_BtnImgData.GetHeight());
