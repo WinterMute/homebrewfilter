@@ -265,10 +265,14 @@ main(int argc, char *argv[])
     if(boothomebrew)
     {
 	        xprintf("selected from homebrew list:\n  %s\n", Settings.forwarder_path.c_str());
+#ifndef VWII
 		if(strstr(Settings.forwarder_path.c_str(), ":/apps/") != 0)
 			BootHomebrew();
 		else if(strstr(Settings.forwarder_path.c_str(), ":/gc_apps/") != 0)
 			BootGameCubeHomebrew();
+#else
+			BootHomebrew();
+#endif
     }
     else if(boot_buffer)
     {
@@ -306,6 +310,7 @@ main(int argc, char *argv[])
                 BootHomebrew ();
             }
         }
+#ifndef VWII
         else if(get_priiloader() == 2)
         {
             xprintf("Entering magic key\n");
@@ -314,6 +319,7 @@ main(int argc, char *argv[])
             xprintf("Starting Priiloader");
             SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
         }
+#endif
         else if(restarthbf)
         {
             xprintf("Relaunching myself\n");
@@ -325,6 +331,7 @@ main(int argc, char *argv[])
             LoadHomebrew(segui_loc);
             BootHomebrew();
         }
+#ifndef VWII
         else if(goneek2o)
         {
             xprintf("Entering neek2o\n");
@@ -336,6 +343,7 @@ main(int argc, char *argv[])
             xprintf("Entering real NAND\n");
             SYS_ResetSystem(SYS_RESTART, 0, 0);
         }
+#endif
         else if(PowerOff == SYS_RETURNTOMENU)
         {
             xprintf("Entering magic key\n");
@@ -349,6 +357,7 @@ main(int argc, char *argv[])
             xprintf("Full Stop!\n");
             SYS_ResetSystem(PowerOff, 0, 0);
         }
+#ifndef VWII
         else if(get_bootmii() != 0)
         {
             if(Options.bootmii_boot2)
@@ -369,6 +378,7 @@ main(int argc, char *argv[])
                 SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
             }
         }
+#endif
     }
 
 	return 0;

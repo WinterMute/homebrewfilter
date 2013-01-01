@@ -19,12 +19,19 @@ void copy_app_in_unassigned()
 
 		// Geräte SD, USB
 		if(Settings.device == "sd1" || Settings.device == "usb1" || Settings.device == "dvd"
-		|| Settings.device == "gca" || Settings.device == "gcb")
+#ifndef VWII
+		|| Settings.device == "gca" || Settings.device == "gcb"
+#endif
+		)
 			anzahl_device = 1;
 		else if(Settings.device == "sd_usb")
 			anzahl_device = 2;
 		else if(Settings.device == "all")
+#ifndef VWII
 			anzahl_device = 5;
+#else
+			anzahl_device = 3;
+#endif
 
 		// Ordner APPS, GC_APPS
 		if(Settings.system == 1 || Settings.system == 0)
@@ -39,6 +46,7 @@ void copy_app_in_unassigned()
 				for(int a = 0; a < (signed)apps.size(); a++)
 				{
 					string foldername, ordner;
+#ifndef VWII
 					if(Settings.system == 1)
 						ordner = ":/apps/";
 					else if(Settings.system == 0)
@@ -47,6 +55,9 @@ void copy_app_in_unassigned()
 						ordner = ":/apps/";
 					else if(Settings.system == 2 && y == 1)
 						ordner = ":/gc_apps/";
+#else
+					ordner = ":/apps/";
+#endif
 
 					if(anzahl_device == 1)
 						foldername = Settings.device  + ordner + apps[a] + "/";
@@ -58,10 +69,12 @@ void copy_app_in_unassigned()
 							foldername = "usb1" + ordner + apps[a] + "/";
 						else if(x == 2)
 							foldername = "dvd" + ordner + apps[a] + "/";
+#ifndef VWII
 						else if(x == 3)
 							foldername = "gca" + ordner + apps[a] + "/";
 						else if(x == 4)
 							foldername = "gcb" + ordner + apps[a] + "/";
+#endif
 					}
 				}
 			}
@@ -95,12 +108,19 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 
 			// Geräte SD, USB
 			if(Settings.device == "sd1" || Settings.device == "usb1" || Settings.device == "dvd"
-			|| Settings.device == "gca" || Settings.device == "gcb")
+#ifndef VWII
+			|| Settings.device == "gca" || Settings.device == "gcb"
+#endif
+			)
 				anzahl_device = 1;
 			else if(Settings.device == "sd_usb")
 				anzahl_device = 2;
 			else if(Settings.device == "all")
+#ifndef VWII
 				anzahl_device = 5;
+#else
+				anzahl_device = 3;
+#endif
 
 			// Ordner APPS, GC_APPS
 			if(Settings.system == 1 || Settings.system == 0)
@@ -113,6 +133,7 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 				for(int y = 0; y < anzahl_ordner; y++	)
 				{
 					string foldername, ordner;
+#ifndef VWII
 					if(Settings.system == 1)
 						ordner = ":/apps/";
 					else if(Settings.system == 0)
@@ -121,6 +142,9 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 						ordner = ":/apps/";
 					else if(Settings.system == 2 && y == 1)
 						ordner = ":/gc_apps/";
+#else
+						ordner = ":/apps/";
+#endif
 
 					if(anzahl_device == 1)
 						foldername = Settings.device + ordner + AvailableCategory.apps[category][a] + "/";
@@ -132,10 +156,12 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 							foldername = "usb1" + ordner + AvailableCategory.apps[category][a] + "/";
 						else if(x == 2)
 							foldername = "dvd" + ordner + AvailableCategory.apps[category][a] + "/";
+#ifndef VWII
 						else if(x == 3)
 							foldername = "gca" + ordner + AvailableCategory.apps[category][a] + "/";
 						else if(x == 4)
 							foldername = "gcb" + ordner + AvailableCategory.apps[category][a] + "/";
+#endif
 					}
 
 					if(strcasecmp(vechomebrew_list_category[0][i].foldername.c_str(), foldername.c_str()) == 0)

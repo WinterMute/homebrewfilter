@@ -111,6 +111,7 @@ int MenuMain()
 		temp_sd_usb_active = Theme.dvd_active;
 		temp_sd_usb_inactive = Theme.dvd_inactive;
 	}
+#ifndef VWII
 	else if(Settings.device == "gca")
 	{
 		temp_sd_usb_active = Theme.gca_active;
@@ -121,6 +122,7 @@ int MenuMain()
 		temp_sd_usb_active = Theme.gcb_active;
 		temp_sd_usb_inactive = Theme.gcb_inactive;
 	}
+#endif
 	else if(Settings.device == "all")
 	{
 		temp_sd_usb_active = Theme.all_active;
@@ -128,10 +130,13 @@ int MenuMain()
 	}
 
 	// wii / gc ansicht
+#ifndef VWII
 	if(Settings.system == 1)
 	{
+#endif
 		temp_wii_gc_active = Theme.wii_active;
 		temp_wii_gc_inactive = Theme.wii_inactive;
+#ifndef VWII
 	}
 	else if(Settings.system == 0)
 	{
@@ -143,6 +148,7 @@ int MenuMain()
 		temp_wii_gc_active = Theme.wii_gc_active;
 		temp_wii_gc_inactive = Theme.wii_gc_inactive;
 	}
+#endif
 
 	// Seite der zuletzt gestarteten app
 	if(Settings.last_app_pos != -1)
@@ -308,7 +314,9 @@ int MenuMain()
 		wii_gc_Btn.SetPosition(-185, 375);
 	wii_gc_Btn.SetImage(&wii_gc_BtnImg);
 	wii_gc_Btn.SetImageOver(&wii_gc_BtnImgOver);
+#ifndef VWII
 	wii_gc_Btn.SetTrigger(&trigA);
+#endif
 	wii_gc_Btn.SetEffectGrow();
 
 	// normal / grid ansicht
@@ -419,6 +427,7 @@ int MenuMain()
 				viewdevice = new GuiImage (new GuiImageData(Theme.dvd_inactive));
 				icon = true;
 			}
+#ifndef VWII
 			else if(strncmp(vechomebrew_list_choice[i].foldername.c_str(), "gca", 3) == 0)
 			{
 				viewdevice = new GuiImage (new GuiImageData(Theme.gca_inactive));
@@ -429,7 +438,7 @@ int MenuMain()
 				viewdevice = new GuiImage (new GuiImageData(Theme.gcb_inactive));
 				icon = true;
 			}
-
+#endif
 			if(icon)
 			{
 				viewdevice->SetAlignment(ALIGN_RIGHT, ALIGN_TOP);
@@ -740,8 +749,11 @@ int MenuMain()
 			else if(sd_usb_Btn.GetState() == STATE_CLICKED 	|| Settings.sd_insert == -1 || Settings.sd_insert == 2
 									|| Settings.usb_insert == -1 || Settings.usb_insert == 2
 									|| Settings.dvd_insert == -1 || Settings.dvd_insert == 2
+#ifndef VWII
 									|| Settings.gca_insert == -1 || Settings.gca_insert == 2
-									|| Settings.gcb_insert == -1 || Settings.gcb_insert == 2)
+									|| Settings.gcb_insert == -1 || Settings.gcb_insert == 2
+#endif
+									)
 			{
 				int device = -1;
 				if(sd_usb_Btn.GetState() == STATE_CLICKED)
@@ -755,18 +767,23 @@ int MenuMain()
 					Settings.device = "sd_usb";
 				else if(device == 4)
 					Settings.device = "dvd";
+#ifndef VWII
 				else if(device == 5)
 					Settings.device = "gca";
 				else if(device == 6)
 					Settings.device = "gcb";
+#endif
 				else if(device == 7)
 					Settings.device = "all";
 
 				if(device != -1 || Settings.sd_insert == -1 || Settings.sd_insert == 2
 						|| Settings.usb_insert == -1 || Settings.usb_insert == 2
 						|| Settings.dvd_insert == -1 || Settings.dvd_insert == 2
+#ifndef VWII
 						|| Settings.gca_insert == -1 || Settings.gca_insert == 2
-						|| Settings.gcb_insert == -1 || Settings.gcb_insert == 2)
+						|| Settings.gcb_insert == -1 || Settings.gcb_insert == 2
+#endif
+						)
 				{
 					check_device();
 					Settings.current_page = 1;
@@ -775,7 +792,7 @@ int MenuMain()
 				else
 					sd_usb_Btn.ResetState();
 			}
-
+#ifndef VWII
 			// Wii, GC
 			else if(wii_gc_Btn.GetState() == STATE_CLICKED)
 			{
@@ -797,6 +814,7 @@ int MenuMain()
 				else
 					wii_gc_Btn.ResetState();
 			}
+#endif
 
 			// Power button
 			else if(power_Btn.GetState() == STATE_CLICKED || WPAD_ButtonsDown(0) & (WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME) || PAD_ButtonsDown(0) & PAD_BUTTON_START)

@@ -558,7 +558,7 @@ void MountAllDevices()
 
 	if(dvd->startup() && dvd->isInserted())
 		MountDVD();
-
+#ifndef VWII
 	usleep(250000);
 
 	if(__io_gcsda.startup() && __io_gcsda.isInserted())
@@ -568,6 +568,7 @@ void MountAllDevices()
 
 	if(__io_gcsdb.startup() && __io_gcsdb.isInserted())
 		fatMountSimple("gcb", &__io_gcsdb);
+#endif
 }
 
 bool MountDVDFS()
@@ -785,7 +786,7 @@ void check_device()
 		Settings.dvd_insert = 1;
 	else if(Settings.dvd_insert == -1)
 		Settings.dvd_insert = 0;
-
+#ifndef VWII
 	if(Settings.gca_insert == 2)
 		Settings.gca_insert = 1;
 	else if(Settings.gca_insert == -1)
@@ -795,7 +796,7 @@ void check_device()
 		Settings.gcb_insert = 1;
 	else if(Settings.gcb_insert == -1)
 		Settings.gcb_insert = 0;
-
+#endif
 	HaltThrobberThread();
 }
 

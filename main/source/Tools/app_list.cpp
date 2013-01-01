@@ -127,8 +127,12 @@ void app_list()
 	vechomebrew_list_category[0].clear();
 
 	if(Settings.device == "sd1" || Settings.device == "usb1" || Settings.device == "dvd"
-	|| Settings.device == "gca" || Settings.device == "gcb")
+#ifndef VWII
+			|| Settings.device == "gca" || Settings.device == "gcb"
+#endif
+	  )
 	{
+#ifndef VWII
 		if(Settings.system == 1)
 			add(Settings.device, "apps/");
 		else if(Settings.system == 0)
@@ -138,6 +142,9 @@ void app_list()
 			add(Settings.device, "apps/");
 			add(Settings.device, "gc_apps/");
 		}
+#else
+			add(Settings.device, "apps/");
+#endif
 	}
 	else if(Settings.device == "sd_usb")
 	{
@@ -146,17 +153,21 @@ void app_list()
 			add("sd1", "apps/");
 			add("usb1", "apps/");
 		}
+#ifndef VWII
 		else if(Settings.system == 0)
 		{
 			add("sd1", "gc_apps/");
 			add("usb1", "gc_apps/");
 		}
+#endif
 		else if(Settings.system == 2)
 		{
 			add("sd1", "apps/");
-			add("sd1", "gc_apps/");
 			add("usb1", "apps/");
+#ifndef VWII
+			add("sd1", "gc_apps/");
 			add("usb1", "gc_apps/");
+#endif
 		}
 	}
 	else if(Settings.device == "all")
@@ -166,8 +177,10 @@ void app_list()
 			add("sd1", "apps/");
 			add("usb1", "apps/");
 			add("dvd", "apps/");
+#ifndef VWII
 			add("gca", "apps/");
 			add("gcb", "apps/");
+
 		}
 		else if(Settings.system == 0)
 		{
@@ -189,6 +202,7 @@ void app_list()
 			add("gca", "gc_apps/");
 			add("gcb", "apps/");
 			add("gcb", "gc_apps/");
+#endif
 		}
 	}
 

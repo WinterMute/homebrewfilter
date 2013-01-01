@@ -43,10 +43,12 @@ int devicePrompt()
 	GuiImageData sd_usb_BtnImgDataOver(Theme.sd_usb_active);
 	GuiImageData dvd_BtnImgData(Theme.dvd_inactive);
 	GuiImageData dvd_BtnImgDataOver(Theme.dvd_active);
+#ifndef VWII
 	GuiImageData gca_BtnImgData(Theme.gca_inactive);
 	GuiImageData gca_BtnImgDataOver(Theme.gca_active);
 	GuiImageData gcb_BtnImgData(Theme.gcb_inactive);
 	GuiImageData gcb_BtnImgDataOver(Theme.gcb_active);
+#endif
 	GuiImageData all_BtnImgData(Theme.all_inactive);
 	GuiImageData all_BtnImgDataOver(Theme.all_active);
 
@@ -55,8 +57,10 @@ int devicePrompt()
 	GuiImage usb_BtnImg(&usb_BtnImgData);
 	GuiImage sd_usb_BtnImg(&sd_usb_BtnImgData);
 	GuiImage dvd_BtnImg(&dvd_BtnImgData);
+#ifndef VWII
 	GuiImage gca_BtnImg(&gca_BtnImgData);
 	GuiImage gcb_BtnImg(&gca_BtnImgData);
+#endif
 	GuiImage all_BtnImg(&all_BtnImgData);
 
 	// button over
@@ -95,7 +99,7 @@ int devicePrompt()
 	dvd_Btn.SetImage(&dvd_BtnImg);
 	dvd_Btn.SetImageOver(&dvd_BtnImgOver);
 	dvd_Btn.SetTrigger(&trigA);
-
+#ifndef VWII
 	GuiButton gca_Btn(gca_BtnImgData.GetWidth(), gca_BtnImgData.GetHeight());
 	gca_Btn.SetAlignment(ALIGN_RIGHT, ALIGN_MIDDLE);
 	gca_Btn.SetPosition(-96, 0);
@@ -109,7 +113,7 @@ int devicePrompt()
 	gcb_Btn.SetImage(&gcb_BtnImg);
 	gcb_Btn.SetImageOver(&gcb_BtnImgOver);
 	gcb_Btn.SetTrigger(&trigA);
-
+#endif
 	GuiButton all_Btn(all_BtnImgData.GetWidth(), all_BtnImgData.GetHeight());
 	all_Btn.SetAlignment(ALIGN_RIGHT, ALIGN_MIDDLE);
 	all_Btn.SetPosition(-8, 0);
@@ -125,8 +129,10 @@ int devicePrompt()
 	promptWindow.Append(&usb_Btn);
 	promptWindow.Append(&sd_usb_Btn);
 	promptWindow.Append(&dvd_Btn);
+#ifndef VWII
 	promptWindow.Append(&gca_Btn);
 	promptWindow.Append(&gcb_Btn);
+#endif
 	promptWindow.Append(&all_Btn);
 	promptWindow.Append(&back);
 
@@ -163,7 +169,7 @@ int devicePrompt()
 			device = 4;
 			stop = true;
 		}
-
+#ifndef VWII
 		if(gca_Btn.GetState() == STATE_CLICKED)
 		{
 			device = 5;
@@ -175,7 +181,7 @@ int devicePrompt()
 			device = 6;
 			stop = true;
 		}
-
+#endif
 		if(all_Btn.GetState() == STATE_CLICKED)
 		{
 			device = 7;
