@@ -14,13 +14,13 @@ string CheckNewVersions()
 	string revs = "error";
 	char buffer[100];
 #ifdef STBOOTVWII
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.st.vwii/revisions.st.vwii");
+		sprintf(buffer, "http://www.nanolx.org/hbf/DOL.st.vwii/revisions.st.vwii");
 #elif VWII
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.vwii/revisions.vwii");
+		sprintf(buffer, "http://www.nanolx.org/hbf/DOL.vwii/revisions.vwii");
 #elif STBOOT
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.st/revisions.st");
+		sprintf(buffer, "http://www.nanolx.org/hbf/DOL.st/revisions.st");
 #else
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL/revisions");
+		sprintf(buffer, "http://www.nanolx.org/hbf/DOL/revisions");
 #endif
 	struct block file = downloadfile(buffer);
 	if (file.data != NULL)
