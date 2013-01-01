@@ -1,5 +1,5 @@
 all:
-	@echo either use "make compile_installer" or "make compile_installer_vwii"
+	@echo either use "make dist" or "make dist_vwii"
 
 REV=$(shell grep define svnrev/svnrev.c | gawk '{print $$3}')
 
@@ -9,6 +9,7 @@ dist: compile_installer
 
 dist_vwii: compile_installer_vwii
 	@tar cfj HomebrewFilter-vWii-rev$(REV).tar.bz2 HomebrewFilter.vWii/
+	@tar cfj HomebrewFilter-vWii-Standalone-rev$(REV).tar.bz2 HomebrewFilter.vWii.Standalone/
 
 clean:
 	@make -C main clean
@@ -54,6 +55,7 @@ compile_hbf_vwii: clean_vwii
 
 compile_boot_vwii: compile_hbf_vwii
 	@make -C boot
+	@cp boot/hbf_boot.dol HomebrewFilter.vWii.Standalone/boot.dol
 	@cp boot/hbf_boot.dol installer/wad.vwii/00000002.app
 
 compile_installer_vwii: compile_boot_vwii
