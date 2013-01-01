@@ -50,8 +50,8 @@ compile_hbf_vwii: clean_vwii
 	@echo "============================"
 	@echo "======= HBF for vWii ======="
 	@echo "============================"
-	@make -C main -f Makefile.vWii
-	@cp main/hbf.vwii.dol boot/source/hbf.dol
+	@CFLAGS="$(CFLAGS) -DVWII" make -C main
+	@cp main/hbf.dol boot/source/hbf.dol
 
 compile_boot_vwii: compile_hbf_vwii
 	@make -C boot
