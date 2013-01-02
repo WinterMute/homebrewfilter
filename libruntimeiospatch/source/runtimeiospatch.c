@@ -191,7 +191,7 @@ s32 IosPatch_FULL(bool wii, bool sciifii, bool vwii, bool verbose, int IOS) {
 
 	if (ret) {
 		IOS_ReloadIOS(IOS);
-	xret = IosPatch_RUNTIME(wii, sciifii, vwii, verbose);
+		xret = IosPatch_RUNTIME(wii, sciifii, vwii, verbose);
 	} else {
 		xret = ERROR_PATCH;
 	}
