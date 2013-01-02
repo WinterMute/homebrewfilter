@@ -6,7 +6,7 @@
 * minor code clean-ups
 * changed some unsigned ints to signed
 * added license header to runtimeiospatch.[ch]
-* new vWii patches by damysteryman
+* new vWii patches by damysteryman (fixes installation of hidden channels)
 * updated API
 
 1.2:
