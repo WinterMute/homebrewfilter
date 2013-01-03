@@ -13,7 +13,12 @@ dist_vwii: compile_installer_vwii compile_stboot_vwii
 	@tar cfj HomebrewFilter-vWii-rev$(REV).tar.bz2 HomebrewFilter.vWii/
 	@tar cfj HomebrewFilter-vWii-Standalone-rev$(REV).tar.bz2 HomebrewFilter.vWii.Standalone/
 
-pack_forwarder:
+compile_forwarder:
+	@make -C forwarder
+	@cp forwarder/forwarder.dol forwarder/wad/00000001.app
+	@cp forwarder/forwarder.dol forwarder/wad.vwii/00000001.app
+
+pack_forwarder: compile_forwarder
 	@tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\HBF0.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\HBF0.wad"
 	@tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad.vwii" -output "Z:$(PWD)\HBF0.vWii.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\HBF0.vWii.wad"
 
@@ -22,6 +27,7 @@ clean:
 	@make -C boot clean
 	@make -C installer clean
 	@make -C nand-loader clean
+	@make -C forwarder clean
 	@make -C libruntimeiospatch clean
 
 clean_vwii:
