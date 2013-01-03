@@ -34,15 +34,7 @@ string CheckNewVersions()
 string NewVersionsText()
 {
 	string text = "error";
-#ifdef STBOOTVWII
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.st.vwii/updates.st.vwii");
-#elif VWII
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.vwii/updates.vwii");
-#elif STBOOT
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.st/updates.st");
-#else
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL/updates");
-#endif
+	struct block file = downloadfile("http://www.nanolx.org/hbf/updates");
 	if (file.data != NULL)
 	{
 		text = (char*)file.data;
