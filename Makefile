@@ -3,7 +3,7 @@ all:
 
 REV=$(shell grep define svnrev/svnrev.c | gawk '{print $$3}')
 
-full_dist: dist dist_vwii
+full_dist: dist dist_vwii pack_forwarder
 
 dist: compile_installer compile_stboot
 	@tar cfj HomebrewFilter-rev$(REV).tar.bz2 HomebrewFilter/
@@ -12,6 +12,10 @@ dist: compile_installer compile_stboot
 dist_vwii: compile_installer_vwii compile_stboot_vwii
 	@tar cfj HomebrewFilter-vWii-rev$(REV).tar.bz2 HomebrewFilter.vWii/
 	@tar cfj HomebrewFilter-vWii-Standalone-rev$(REV).tar.bz2 HomebrewFilter.vWii.Standalone/
+
+pack_forwarder:
+	@tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\HBF0.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\HBF0.wad"
+	@tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad.vwii" -output "Z:$(PWD)\HBF0.vWii.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\HBF0.vWii.wad"
 
 clean:
 	@make -C main clean
