@@ -51,6 +51,7 @@ bool folder_exists()
 
 void save()
 {
+#if !defined(STBOOT) || !defined(STBOOTVWII)
 	s32 file;
 
 	// create save banner
@@ -74,8 +75,10 @@ void save()
 
 	ISFS_CreateFile(Settings.settings_dat.c_str(), 0, 3, 3, 3);
 	file = ISFS_Open(Settings.settings_dat.c_str(), ISFS_OPEN_RW);
+
 	if (file > 0)
 	{
+#endif
 		int last_category;
 		string last_category_name;
 
@@ -90,37 +93,44 @@ void save()
 			last_category_name = Settings.category_name;
 		}
 
+#if !defined(STBOOT) || !defined(STBOOTVWII)
 		stringstream save_settings;
-		save_settings << "theme = \""				<< Options.theme			<< "\"" << endl;
-		save_settings << "language = \""			<< Options.language			<< "\"" << endl;
-		save_settings << "font = \""				<< Options.font				<< "\"" << endl;
+#else
+		ofstream save_settings;
+		save_settings.open(Settings.ios_dat.c_str());
+#endif
+		save_settings << "theme = \""			<< Options.theme		<< "\"" << endl;
+		save_settings << "language = \""		<< Options.language		<< "\"" << endl;
+		save_settings << "font = \""			<< Options.font			<< "\"" << endl;
 		save_settings << "slide_effect = \""		<< Options.slide_effect		<< "\"" << endl;
-		save_settings << "last_category = \""		<< last_category			<< "\"" << endl;
+		save_settings << "last_category = \""		<< last_category		<< "\"" << endl;
 		save_settings << "last_category_name = \""	<< last_category_name		<< "\"" << endl;
 		save_settings << "last_app_name = \""		<< Settings.startingAppName	<< "\"" << endl;
-		save_settings << "apps_nr = \""				<< Options.apps				<< "\"" << endl;
-		save_settings << "quick_start = \""			<< Options.quick_start		<< "\"" << endl;
-		save_settings << "show_all = \""			<< Options.show_all		<< "\"" << endl;
-		save_settings << "sdgecko = \""				<< Options.sdgecko		<< "\"" << endl;
+		save_settings << "apps_nr = \""			<< Options.apps			<< "\"" << endl;
+		save_settings << "quick_start = \""		<< Options.quick_start		<< "\"" << endl;
+		save_settings << "show_all = \""		<< Options.show_all		<< "\"" << endl;
+		save_settings << "sdgecko = \""			<< Options.sdgecko		<< "\"" << endl;
 #ifndef VWII
-		save_settings << "bootmii_boot2 = \""       << Options.bootmii_boot2    << "\"" << endl;
+		save_settings << "bootmii_boot2 = \""		<< Options.bootmii_boot2	<< "\"" << endl;
 #endif
-		save_settings << "navigation = \""			<< Options.navigation		<< "\"" << endl;
-		save_settings << "network = \""				<< Options.network			<< "\"" << endl;
-		save_settings << "wifigecko = \""			<< Options.wifigecko		<< "\"" << endl;
-		save_settings << "newrevtext = \""			<< Options.newrevtext		<< "\"" << endl;
-		save_settings << "code = \""				<< Settings.code			<< "\"" << endl;
-		save_settings << "grid = \""				<< Settings.grid			<< "\"" << endl;
-		save_settings << "device = \""				<< Settings.device			<< "\"" << endl;
-		save_settings << "device_dat = \""			<< Settings.device_dat		<< "\"" << endl;
-		save_settings << "device_icon = \""			<< Options.device_icon		<< "\"" << endl;
-		save_settings << "wiiload_ahb = \""			<< Options.wiiload_ahb		<< "\"" << endl;
-		save_settings << "wiiload_ios = \""			<< Options.wiiload_ios		<< "\"" << endl;
-		save_settings << "system = \""				<< Settings.system			<< "\"" << endl;
-		save_settings << "top = \""					<< Settings.top				<< "\"" << endl;
-		save_settings << "bottom = \""				<< Settings.bottom			<< "\"" << endl;
-		save_settings << "left = \""				<< Settings.left			<< "\"" << endl;
-		save_settings << "right = \""				<< Settings.right			<< "\"" << endl;
+		save_settings << "navigation = \""		<< Options.navigation		<< "\"" << endl;
+		save_settings << "network = \""			<< Options.network		<< "\"" << endl;
+		save_settings << "wifigecko = \""		<< Options.wifigecko		<< "\"" << endl;
+		save_settings << "newrevtext = \""		<< Options.newrevtext		<< "\"" << endl;
+		save_settings << "code = \""			<< Settings.code		<< "\"" << endl;
+		save_settings << "grid = \""			<< Settings.grid		<< "\"" << endl;
+		save_settings << "device = \""			<< Settings.device		<< "\"" << endl;
+		save_settings << "device_dat = \""		<< Settings.device_dat		<< "\"" << endl;
+		save_settings << "device_icon = \""		<< Options.device_icon		<< "\"" << endl;
+		save_settings << "wiiload_ahb = \""		<< Options.wiiload_ahb		<< "\"" << endl;
+		save_settings << "wiiload_ios = \""		<< Options.wiiload_ios		<< "\"" << endl;
+		save_settings << "system = \""			<< Settings.system		<< "\"" << endl;
+		save_settings << "top = \""			<< Settings.top			<< "\"" << endl;
+		save_settings << "bottom = \""			<< Settings.bottom		<< "\"" << endl;
+		save_settings << "left = \""			<< Settings.left		<< "\"" << endl;
+		save_settings << "right = \""			<< Settings.right		<< "\"" << endl;
+
+#if !defined(STBOOT) || !defined(STBOOTVWII)
 
 		char *pbuf = NULL;
 		unsigned int psize = save_settings.str().size();
@@ -165,7 +175,16 @@ void save()
 		ISFS_Write(file, pbuf, sizeof(char) *psize);
 	}
 	ISFS_Close(file);
+#else
+	save_settings.close();
 
+	ofstream outfile;
+	outfile.open(Settings.ios_dat.c_str());
+	for(int i = 0; i < (signed)appios.size(); i++)
+		outfile << appios[i].foldername << " = " << appios[i].ios << endl;
+	outfile.close();
+#endif
 	// save category
 	AvailableCategorySave(Settings.dir_dat);
+
 }

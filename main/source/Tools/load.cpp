@@ -19,20 +19,38 @@ string get_setting(string source, string search)
 
 void load()
 {
-	s32 fd;
 	u32 file_size;
 	static fstats filestats_settings	ATTRIBUTE_ALIGN(32);
 	static fstats filestats_appios		ATTRIBUTE_ALIGN(32);
 	static u8 filearray_settings[1024]	ATTRIBUTE_ALIGN(32);
 	static u8 filearray_appios[1024]	ATTRIBUTE_ALIGN(32);
 
+#if defined(STBOOT) || defined(STBOOTVWII)
+	Settings.ios_dat		= (Settings.device_dat + ":/config/HBF/appios.dat").c_str()
+	Settings.dir_dat		= (Settings.device_dat + ":/config/HBF/list.dat").c_str()
+	Settings.settings_dat		= (Settings.device_dat + ":/config/HBF/settings.dat").c_str()
+#else
 	Settings.ios_dat		= "/title/00010001/54484246/data/appios.dat";
 	Settings.dir_dat		= "/title/00010001/54484246/data/list.dat";
-	Settings.settings_dat	= "/title/00010001/54484246/data/settings.dat";
+	Settings.settings_dat		= "/title/00010001/54484246/data/settings.dat";
+#endif
 
 	AvailableCategoryLoad(Settings.dir_dat);
 
 	// get settings
+#if defined(STBOOT) || defined(STBOOTVWII)
+	FILE *fd = NULL;
+	fd = fopen((Settings.settings_dat).c_str(), "rb");
+
+	if(fd)
+	{
+		fseek (fd , 0, SEEK_END);
+		file_size = ftell (fd);
+		rewind (fd);
+	}
+
+#else
+	s32 fd;
 	fd = ISFS_Open(Settings.settings_dat.c_str(), ISFS_OPEN_READ);
 	if (fd <= 0)
 		ISFS_Close(fd);
@@ -42,6 +60,7 @@ void load()
 	file_size = ISFS_Read(fd, filearray_settings, filestats_settings.file_length);
 
 	ISFS_Close(fd);
+#endif
 
 	if(file_size >= 0)
 	{
@@ -165,6 +184,16 @@ void load()
 	}
 
 	// 	get appios
+#if defined(STBOOT) || defined(STBOOTVWII)
+	fd = fopen((Settings.ios_dat).c_str(), "rb");
+
+	if(fd)
+	{
+		fseek (fd , 0, SEEK_END);
+		file_size = ftell (fd);
+		rewind (fd);
+	}
+#else
 	fd = ISFS_Open(Settings.ios_dat.c_str(), ISFS_OPEN_READ);
 	if (fd <= 0)
 		ISFS_Close(fd);
@@ -174,7 +203,7 @@ void load()
 	file_size = ISFS_Read(fd, filearray_appios,  filestats_appios.file_length);
 
 	ISFS_Close(fd);
-
+#endif
 	if(file_size >= 0)
 	{
 		string line;

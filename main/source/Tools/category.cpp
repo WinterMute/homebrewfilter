@@ -10,6 +10,44 @@ CategoryAvailable AvailableCategory;
 // einlesen
 void AvailableCategoryLoad(string pfad)
 {
+#if defined(STBOOT) || defined(STBOOTVWII)
+	string line, quelltext, temp;
+	ifstream in(pfad.c_str());
+	while(getline(in, line))
+		quelltext = quelltext + line;
+
+	int Anzahl = 0;
+	for (int i = 0; (unsigned)i < quelltext.size(); i++)
+	{
+		temp = quelltext[i];
+		if(strcmp(temp.c_str(),"[") == 0)
+			Anzahl++;
+	}
+
+	AvailableCategory.categories.clear();
+	AvailableCategory.categories.push_back(tr(Settings.category_name_all));
+	// alle Kategorien durchlaufen
+	for(int i=1; i < Anzahl +1; i++)
+	{
+		AvailableCategory.apps[i].clear();
+		// Kategorie durchsuchen
+		temp = quelltext.erase(0,quelltext.find("[") +1);
+		AvailableCategory.categories.push_back(quelltext.substr(0, quelltext.find("]")));
+		temp = quelltext.erase(0,quelltext.find("]") +1);
+		if((signed)temp.find("[") != -1)
+			temp.erase(temp.find("["));
+
+		// alle Apps auflisten
+		while((signed)temp.find("*") != -1)
+		{
+			string temp2 = temp.erase(0,temp.find("*") +1);
+			temp2 = temp2.erase(temp.find("*"));
+			transform(temp2.begin(), temp2.end(), temp2.begin(),::tolower);	// in kleinebuchstaben umwandeln
+			AvailableCategory.apps[i].push_back(temp2);
+			temp.erase(0,temp.find("*") +1);
+		}
+	}
+#else
 	s32 fd;
 	static fstats filestats ATTRIBUTE_ALIGN(32);
 	static u8 filearray[1024] ATTRIBUTE_ALIGN(32);
@@ -61,11 +99,27 @@ void AvailableCategoryLoad(string pfad)
 			temp.erase(0,temp.find("*") +1);
 		}
 	}
+#endif
 }
 
 // speichern
 void AvailableCategorySave(string pfad)
 {
+#if defined(STBOOT) || defined(STBOOTVWII)
+	ofstream out(pfad.c_str());
+	// alle Kategorien durchlaufen auer "Alle"
+
+	for(int i = 1; i < (signed)AvailableCategory.categories.size(); i++)
+	{
+		// Kategorie speichern
+		out << "[" << AvailableCategory.categories[i] << "]" << endl;
+		// alle Apps auflisten und speichern
+		for(int x = 0; x < (signed)AvailableCategory.apps[i].size(); x++)
+			out << "*" << AvailableCategory.apps[i][x] << "*" << endl;
+		// Zeilenumbruch nach Kategorie
+		out << endl;
+	}
+#else
 	ISFS_Delete(pfad.c_str());
 	ISFS_CreateFile(pfad.c_str(), 0, 3, 3, 3);
 	s32 file = ISFS_Open(pfad.c_str(), ISFS_OPEN_RW);
@@ -73,7 +127,7 @@ void AvailableCategorySave(string pfad)
 	{
 		stringstream save_category;
 
-		// alle Kategorien durchlaufen außer "Alle"
+		// alle Kategorien durchlaufen auer "Alle"
 		for(int i = 1; i < (signed)AvailableCategory.categories.size(); i++)
 		{
 			// Kategorie speichern
@@ -98,6 +152,7 @@ void AvailableCategorySave(string pfad)
 		ISFS_Write(file, pbuf, sizeof(char) *psize);
 	}
 	ISFS_Close(file);
+#endif
 }
 
 int KategorieNr(string Kategorie)
@@ -157,7 +212,7 @@ void KategorieVerschieben(string Kategorie1, bool vor, string Kategorie2)
 	int a = KategorieNr(Kategorie1);
 	if(a != -1 && Kategorie1 != Kategorie2)
 	{
-		// apps temporär speichen und Kategorie entfernen
+		// apps temporr speichen und Kategorie entfernen
 		vector<string> temp_apps = AvailableCategory.apps[a];
 		KategorieEntfernen(Kategorie1);
 
@@ -187,7 +242,7 @@ void KategorieVerschieben(string Kategorie1, bool vor, string Kategorie2)
 			AvailableCategory.apps[i +1] = AvailableCategory.apps[i];
 		// apps leeren
 		AvailableCategory.apps[a].clear();
-		// apps befüllen
+		// apps befllen
 		for(int i = 0; i < (signed)temp_apps.size(); i++)
 			AvailableCategory.apps[a].push_back(temp_apps[i]);
 	}
@@ -200,12 +255,12 @@ void AppEinfuegen(string Kategorie, string App)
 	if((signed)App.find_last_of("/") != -1)
 		App.erase(0,App.find_last_of("/") +1);
 
-	// kategorie auswählen
+	// kategorie auswhlen
 
 	int i = KategorieNr(Kategorie);
 	if(i != -1)
 	{
-		// überprüfen, ob App in Kategorie ist
+		// berprfen, ob App in Kategorie ist
 		bool found = false;
 		for(int x = 0; x < (signed)AvailableCategory.apps[i].size(); x++)
 		{
@@ -225,11 +280,11 @@ void AppEntfernen(string Kategorie, string App)
 		App.erase(0,App.find_last_of("/") +1);
 	std::transform(App.begin(),App.end(),App.begin(),::tolower);	// in kleinebuchstaben umwandeln
 
-	// Kategorie auswählen
+	// Kategorie auswhlen
 	int i = KategorieNr(Kategorie);
 	if(i != -1)
 	{
-		// überprüfen, ob App in Kategorie ist
+		// berprfen, ob App in Kategorie ist
 		vector<string>::iterator pos = find(AvailableCategory.apps[i].begin(), AvailableCategory.apps[i].end(), App);
 		if ( pos != AvailableCategory.apps[i].end() )
 			AvailableCategory.apps[i].erase(pos);
@@ -248,11 +303,11 @@ void AppVerschieben(string Kategorie, string AppOrdner1, bool vor, string AppOrd
 	if((signed)AppOrdner2.find_last_of("/") != -1)
 		AppOrdner2.erase(0,AppOrdner2.find_last_of("/") +1);
 
-	// Kategorie auswählen
+	// Kategorie auswhlen
 	int i = KategorieNr(Kategorie);
 	if(i != -1 && AppOrdner1 != AppOrdner2)
 	{
-		// überprüfen, ob App in Kategorie ist
+		// berprfen, ob App in Kategorie ist
 		vector<string>::iterator pos = find(AvailableCategory.apps[i].begin(), AvailableCategory.apps[i].end(), AppOrdner1);
 		if ( pos != AvailableCategory.apps[i].end() )
 			AvailableCategory.apps[i].erase(pos);
