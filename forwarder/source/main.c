@@ -56,22 +56,22 @@ extern const u32 app_booter_bin_size;
 
 static FILE *open_file(const char *dev, char *filepath)
 {
-	sprintf(filepath, "%s:/apps/usbloader/boot.dol", dev);
+	sprintf(filepath, "%s:/apps/HomebrewFilter.Standalone/boot.dol", dev);
 	FILE *exeFile = fopen(filepath ,"rb");
 
 	if (exeFile == NULL)
 	{
-		sprintf(filepath, "%s:/apps/usbloader_cfg/boot.dol", dev);
+		sprintf(filepath, "%s:/apps/HomebrewFilter.vWii.Standalone/boot.dol", dev);
 		exeFile = fopen(filepath ,"rb");
 	}
 	if (exeFile == NULL)
 	{
-		sprintf(filepath, "%s:/apps/usbloader/boot.elf", dev);
+		sprintf(filepath, "%s:/apps/HomebrewFilter.Standalone/boot.elf", dev);
 		exeFile = fopen(filepath ,"rb");
 	}
 	if (exeFile == NULL)
 	{
-		sprintf(filepath, "%s:/apps/usbloader_cfg/boot.elf", dev);
+		sprintf(filepath, "%s:/apps/HomebrewFilter.vWii.Standalone/boot.elf", dev);
 		exeFile = fopen(filepath ,"rb");
 	}
 
