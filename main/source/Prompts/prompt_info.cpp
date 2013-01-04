@@ -96,8 +96,15 @@ infoPrompt()
     int CreditEntries = i;
 
 	char Rev[50];
-    sprintf(Rev, "Rev. %i", SvnRev());
-
+#ifdef STBOOTVWII
+	sprintf(Rev, "Rev. %i (vWii ST)", SvnRev());
+#elif
+	sprintf(Rev, "Rev. %i (vWii Full)", SvnRev());
+#elif STBOOT
+	sprintf(Rev, "Rev. %i (Wii ST)", SvnRev());
+#else
+	sprintf(Rev, "Rev. %i (Wii Full)", SvnRev());
+#endif
 	GuiText RevTxt(Rev, 20, (GXColor){Theme.text_1, Theme.text_2, Theme.text_3, 255});
 	RevTxt.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
 	RevTxt.SetPosition(30,24);

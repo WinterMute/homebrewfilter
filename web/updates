@@ -16,8 +16,12 @@
 - build using libruntimeiospatch 1.3
 - vWii version does disable functions not applicable von vWii
 - installer now falls back to IOS236 if there's no HW_AHBPROT access
-- SDCardGecko (Debugfile) is now stored on general settings device
-  (no more hardcoded to SD Card)
+- updated HBF0 (forwarder for standalone version) with FIX94 forwarder
+  12.7 (both Wii/vWii) and FIX94 NAND-Loader (vWii only)
+- Update-System for standalone-versions now available
+- Settings can now be saved when using HBF0 channel aswell
+- "Restart HBF" does now distinguish between HBF0 and THBF
+- about-dialog now shows the HBF flavour (Wii/vWii, forwarder/fullchannel)
 
 //rev41:
 - fixed auto-connecting Internet via WiFi
