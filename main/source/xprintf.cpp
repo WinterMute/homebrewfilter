@@ -11,7 +11,7 @@ extern "C" void sdprintf(const char * format, ...)
 	{
 		FILE * file;
 
-		file = fopen((Settings.device_dat + ":/config/HBF/debug.txt").c_str(), "a");
+		file = fopen("sd1:/config/HBF/debug.txt", "a");
 		if(file)
 		{
 			fprintf(file, "%s", tmp);
@@ -28,10 +28,10 @@ extern "C" void xprintf(const char *str, ...)
 {
 	if(Options.sdgecko)
 		sdprintf(str);
+
 	else if(Options.wifigecko)
 		wifi_printf(str);
-#ifndef VWII
 	else
 		gprintf(str);
-#endif
+
 }
