@@ -73,12 +73,15 @@ u8 hbcStubAvailable()
 int DetectHBF()
 {
 	u64 *list;
-    u32 titlecount;
-    int ret;
+    	u32 titlecount;
+    	int ret;
 
 	vector<u64>	TitleID;
-	TitleID.push_back(0x0001000154484246LL);	//THBF
-//	TitleID.push_back(0x0001000148424630LL);	//HBF0
+#if defined(STBOOT) || defined(STBOOTVWII)
+	TitleID.push_back(0x0001000148424630LL);	//HBF0
+#else
+	TitleID.push_back(0x0001000154484246LL);        //THBF
+#endif
 
     ret = ES_GetNumTitles(&titlecount);
     if(ret < 0)
@@ -87,36 +90,38 @@ int DetectHBF()
 		return 0;
 	}
 
-    list = (u64*)memalign(32, titlecount * sizeof(u64) + 32);
+	list = (u64*)memalign(32, titlecount * sizeof(u64) + 32);
 
 	ret = ES_GetTitles(list, titlecount);
 	if(ret < 0) {
 		printf("DetectHBF: ES_GetTitles Error\n");
 		free_pointer(list);
 		return 0;
-    }
+    	}
 	ret = 0;
 
 	//lets check for known HBF title id's.
-    for(u32 i=0; i<titlecount; i++)
+    	for(u32 i=0; i<titlecount; i++)
 	{
 		u32 tmd_size;
 		ES_GetStoredTMDSize(list[i], &tmd_size);
 		static u8 tmd_buf[MAX_SIGNED_TMD_SIZE] ATTRIBUTE_ALIGN(32);
 		signed_blob *s_tmd = (signed_blob *)tmd_buf;
 		ES_GetStoredTMD(list[i], s_tmd, tmd_size);
-
+#if defined(STBOOT) || defined(STBOOTVWII)
+		if (list[i] == TitleID[1] && CheckAppFound(list[i]))	//HBF0
+        {
+			if (ret < 2)
+				ret = 2;
+		}
+#else
 		if (list[i] == TitleID[0] && CheckAppFound(list[i]))	//THBF
         {
 			if (ret < 1)
 				ret = 1;
 		}
-/*		if (list[i] == TitleID[1] && CheckAppFound(list[i]))	//HBF0
-        {
-			if (ret < 2)
-				ret = 2;
-		}
-*/	}
+#endif
+	}
 	free_pointer(list);
 
 	if(ret != 0)
@@ -139,10 +144,10 @@ void LoadHBF()
 		*(vu16*)0x800024CA = 0x5448;//"TH";
 		*(vu16*)0x800024D2 = 0x4246;//"BF";
 	}
-/*	else if(ret == 2)
+	else if(ret == 2)
 	{
 		*(vu16*)0x800024CA = 0x4842;//"HB";
 		*(vu16*)0x800024D2 = 0x4630;//"F0";
 	}
-*/
+
 }

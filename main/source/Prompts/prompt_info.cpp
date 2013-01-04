@@ -98,7 +98,7 @@ infoPrompt()
 	char Rev[50];
 #ifdef STBOOTVWII
 	sprintf(Rev, "Rev. %i (vWii ST)", SvnRev());
-#elif
+#elif VWII
 	sprintf(Rev, "Rev. %i (vWii Full)", SvnRev());
 #elif STBOOT
 	sprintf(Rev, "Rev. %i (Wii ST)", SvnRev());

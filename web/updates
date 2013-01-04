@@ -22,6 +22,7 @@
 - Settings can now be saved when using HBF0 channel aswell
 - "Restart HBF" does now distinguish between HBF0 and THBF
 - about-dialog now shows the HBF flavour (Wii/vWii, forwarder/fullchannel)
+- "Return to" from homebrews into HBF0 works again
 
 //rev41:
 - fixed auto-connecting Internet via WiFi
