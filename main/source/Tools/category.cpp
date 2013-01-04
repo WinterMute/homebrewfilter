@@ -3,6 +3,7 @@
 #include <cstring>
 #include <algorithm>
 #include "main.h"
+#include <fstream>
 
 string Zeilenumbruch = "\n";
 CategoryAvailable AvailableCategory;

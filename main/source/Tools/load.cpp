@@ -26,9 +26,9 @@ void load()
 	static u8 filearray_appios[1024]	ATTRIBUTE_ALIGN(32);
 
 #if defined(STBOOT) || defined(STBOOTVWII)
-	Settings.ios_dat		= (Settings.device_dat + ":/config/HBF/appios.dat").c_str()
-	Settings.dir_dat		= (Settings.device_dat + ":/config/HBF/list.dat").c_str()
-	Settings.settings_dat		= (Settings.device_dat + ":/config/HBF/settings.dat").c_str()
+	Settings.ios_dat		= (Settings.device_dat + ":/config/HBF/appios.dat").c_str();
+	Settings.dir_dat		= (Settings.device_dat + ":/config/HBF/list.dat").c_str();
+	Settings.settings_dat		= (Settings.device_dat + ":/config/HBF/settings.dat").c_str();
 #else
 	Settings.ios_dat		= "/title/00010001/54484246/data/appios.dat";
 	Settings.dir_dat		= "/title/00010001/54484246/data/list.dat";
