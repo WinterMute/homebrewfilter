@@ -323,8 +323,12 @@ main(int argc, char *argv[])
         else if(restarthbf)
         {
             xprintf("Relaunching myself\n");
-            WII_LaunchTitle(0x0001000154484246);
-        }
+#if defined (STBOOTVWII) || defined(STBOOT)
+	    WII_LaunchTitle(0x0001000148424630);
+#else
+	    WII_LaunchTitle(0x0001000154484246);
+#endif
+	}
         else if(gosegui)
         {
             xprintf("Launching Settings Editor GUI\n");
