@@ -11,44 +11,6 @@ CategoryAvailable AvailableCategory;
 // einlesen
 void AvailableCategoryLoad(string pfad)
 {
-#if defined(STBOOT) || defined(STBOOTVWII)
-	string line, quelltext, temp;
-	ifstream in(pfad.c_str());
-	while(getline(in, line))
-		quelltext = quelltext + line;
-
-	int Anzahl = 0;
-	for (int i = 0; (unsigned)i < quelltext.size(); i++)
-	{
-		temp = quelltext[i];
-		if(strcmp(temp.c_str(),"[") == 0)
-			Anzahl++;
-	}
-
-	AvailableCategory.categories.clear();
-	AvailableCategory.categories.push_back(tr(Settings.category_name_all));
-	// alle Kategorien durchlaufen
-	for(int i=1; i < Anzahl +1; i++)
-	{
-		AvailableCategory.apps[i].clear();
-		// Kategorie durchsuchen
-		temp = quelltext.erase(0,quelltext.find("[") +1);
-		AvailableCategory.categories.push_back(quelltext.substr(0, quelltext.find("]")));
-		temp = quelltext.erase(0,quelltext.find("]") +1);
-		if((signed)temp.find("[") != -1)
-			temp.erase(temp.find("["));
-
-		// alle Apps auflisten
-		while((signed)temp.find("*") != -1)
-		{
-			string temp2 = temp.erase(0,temp.find("*") +1);
-			temp2 = temp2.erase(temp.find("*"));
-			transform(temp2.begin(), temp2.end(), temp2.begin(),::tolower);	// in kleinebuchstaben umwandeln
-			AvailableCategory.apps[i].push_back(temp2);
-			temp.erase(0,temp.find("*") +1);
-		}
-	}
-#else
 	s32 fd;
 	static fstats filestats ATTRIBUTE_ALIGN(32);
 	static u8 filearray[1024] ATTRIBUTE_ALIGN(32);
@@ -100,29 +62,11 @@ void AvailableCategoryLoad(string pfad)
 			temp.erase(0,temp.find("*") +1);
 		}
 	}
-#endif
 }
 
 // speichern
 void AvailableCategorySave(string pfad)
 {
-#if defined(STBOOT) || defined(STBOOTVWII)
-	ofstream out(pfad.c_str());
-	// alle Kategorien durchlaufen auer "Alle"
-
-	for(int i = 1; i < (signed)AvailableCategory.categories.size(); i++)
-	{
-		// Kategorie speichern
-		out << "[" << AvailableCategory.categories[i] << "]" << endl;
-		// alle Apps auflisten und speichern
-		for(int x = 0; x < (signed)AvailableCategory.apps[i].size(); x++)
-			out << "*" << AvailableCategory.apps[i][x] << "*" << endl;
-		// Zeilenumbruch nach Kategorie
-		out << endl;
-	}
-
-	out.close();
-#else
 	ISFS_Delete(pfad.c_str());
 	ISFS_CreateFile(pfad.c_str(), 0, 3, 3, 3);
 	s32 file = ISFS_Open(pfad.c_str(), ISFS_OPEN_RW);
@@ -155,7 +99,6 @@ void AvailableCategorySave(string pfad)
 		ISFS_Write(file, pbuf, sizeof(char) *psize);
 	}
 	ISFS_Close(file);
-#endif
 }
 
 int KategorieNr(string Kategorie)
