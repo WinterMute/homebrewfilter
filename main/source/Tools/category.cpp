@@ -120,6 +120,8 @@ void AvailableCategorySave(string pfad)
 		// Zeilenumbruch nach Kategorie
 		out << endl;
 	}
+
+	out.close();
 #else
 	ISFS_Delete(pfad.c_str());
 	ISFS_CreateFile(pfad.c_str(), 0, 3, 3, 3);

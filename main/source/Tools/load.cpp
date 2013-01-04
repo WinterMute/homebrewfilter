@@ -20,8 +20,6 @@ string get_setting(string source, string search)
 void load()
 {
 	u32 file_size;
-	static fstats filestats_settings	ATTRIBUTE_ALIGN(32);
-	static fstats filestats_appios		ATTRIBUTE_ALIGN(32);
 	static u8 filearray_settings[1024]	ATTRIBUTE_ALIGN(32);
 	static u8 filearray_appios[1024]	ATTRIBUTE_ALIGN(32);
 
@@ -30,6 +28,8 @@ void load()
 	Settings.dir_dat		= (Settings.device_dat + ":/config/HBF/list.dat").c_str();
 	Settings.settings_dat		= (Settings.device_dat + ":/config/HBF/settings.dat").c_str();
 #else
+	static fstats filestats_settings	ATTRIBUTE_ALIGN(32);
+	static fstats filestats_appios		ATTRIBUTE_ALIGN(32);
 	Settings.ios_dat		= "/title/00010001/54484246/data/appios.dat";
 	Settings.dir_dat		= "/title/00010001/54484246/data/list.dat";
 	Settings.settings_dat		= "/title/00010001/54484246/data/settings.dat";
