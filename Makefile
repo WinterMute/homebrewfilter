@@ -22,6 +22,11 @@ pack_forwarder: compile_forwarder
 	@tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\HBF0.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\HBF0.wad"
 	@tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad.vwii" -output "Z:$(PWD)\HBF0.vWii.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\HBF0.vWii.wad"
 
+distclean: clean
+	@rm -f HomebrewFilter*/boot.dol
+	@rm -f HomebrewFilter*.tar.bz2
+	@rm -f HBF0*.wad
+
 clean:
 	@make -C main clean
 	@make -C boot clean
