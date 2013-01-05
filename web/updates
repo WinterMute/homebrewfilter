@@ -1,3 +1,7 @@
+//rev43:
+- added chinese translation and font file (thanks to kavid)
+- fixed downloading japanese font file from server
+
 //rev42:
 - changed default options:
   * disable checking for new version automatically
