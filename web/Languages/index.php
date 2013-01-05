@@ -15,6 +15,10 @@
   </tr>
 
   <tr>
+    <td><td align="left"><a href="../Languages/chinese.lang">chinese.lang</a></td>
+  </tr>
+
+  <tr>
     <td><td align="left"><a href="../Languages/english.lang">english.lang</a></td>
   </tr>
 

@@ -11,6 +11,10 @@
   </tr>
 
   <tr>
+    <td><td align="left"><a href="../Fonts/Chinese.ttf">Chinese.ttf</a></td>
+  </tr>
+
+  <tr>
     <td><td align="left"><a href="../Fonts/Final_Frontier.ttf">Final_Frontier.ttf</a></td>
   </tr>
 
@@ -23,7 +27,7 @@
   </tr>
 
   <tr>
-    <td><td align="left"><a href="../Fonts/Japaese.ttf">Japanese.ttf</a></td>
+    <td><td align="left"><a href="../Fonts/Japanese.ttf">Japanese.ttf</a></td>
   </tr>
 
   <tr>
