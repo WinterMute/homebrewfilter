@@ -9,6 +9,7 @@
 
 extern bool runaway;
 extern bool restarthbf;
+extern bool gowiiu;
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -45,12 +46,14 @@ endPrompt()
 	GuiImageData btn(Theme.button);
 	GuiImage systemmenuImg(&btn);
 	GuiImage bootmiiImg(&btn);
+	GuiImage wiiuImg(&btn);
 	GuiImage hbfImg(&btn);
 	GuiImage shutdownImg(&btn);
 
 	// Buttons over data
 	GuiImageData btn_over(Theme.button_focus);
 	GuiImage bootmiiImgOver(&btn_over);
+	GuiImage wiiuImgOver(&btn_over);
 	GuiImage hbfImgOver(&btn_over);
 	GuiImage systemmenuImgOver(&btn_over);
 	GuiImage shutdownImgOver(&btn_over);
@@ -67,6 +70,14 @@ endPrompt()
 	bootmii.SetImage(&bootmiiImg);
 	bootmii.SetImageOver(&bootmiiImgOver);
 	bootmii.SetTrigger(&trigA);
+#else
+	GuiText wiiuTxt(tr("Exit to Wii U menu"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
+	GuiButton wiiu(btn.GetWidth(), btn.GetHeight());
+	wiiu.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	wiiu.SetPosition(0, 75);
+	wiiu.SetImage(&wiiuImg);
+	wiiu.SetImageOver(&wiiuImgOver);
+	wiiu.SetTrigger(&trigA);
 #endif
 	GuiText hbfTxt(tr("Restart HBF"), 22, (GXColor){Theme.button_small_text_1, Theme.button_small_text_2, Theme.button_small_text_3, 255});
 	GuiButton hbf(btn.GetWidth(), btn.GetHeight());
@@ -129,6 +140,13 @@ endPrompt()
 #ifndef VWII
 		if(bootmii.GetState() == STATE_CLICKED)
 		{
+			menu = MENU_EXIT;
+			stop = true;
+		}
+#else
+		if(wiiu.GetState() == STATE_CLICKED)
+		{
+			gowiiu = true;
 			menu = MENU_EXIT;
 			stop = true;
 		}

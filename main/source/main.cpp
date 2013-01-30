@@ -65,6 +65,7 @@ bool wiiload = false;
 bool goneek2o = false;
 bool gorealnand = false;
 bool restarthbf = false;
+bool gowiiu = false;
 bool updatehbf = false;
 bool gosegui = false;
 const char* segui_loc;
@@ -310,7 +311,13 @@ main(int argc, char *argv[])
                 BootHomebrew ();
             }
         }
-#ifndef VWII
+#ifdef VWII
+	else if(gowiiu)
+	{
+	    xprintf("Going into Wii U menu\n");
+	    WII_LaunchTitle(0x0001000248435641);
+	}
+#else
         else if(get_priiloader() == 2)
         {
             xprintf("Entering magic key\n");
