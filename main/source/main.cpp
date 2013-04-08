@@ -138,18 +138,24 @@ DefaultSettings()
 	xprintf("Loading factory defaults 1/2\n");
 	Settings.sd_insert			= SDCard_Inserted();
 	Settings.usb_insert			= USBDevice_Inserted();
+#ifndef VWII
 	Settings.dvd_insert			= DVD_Inserted();
 	Settings.gca_insert			= GCA_Inserted();
 	Settings.gcb_insert			= GCB_Inserted();
-	Settings.category_name_all	= "All";
+#else
+	Settings.dvd_insert			= false;
+	Settings.gca_insert			= false;
+	Settings.gcb_insert			= false;
+#endif
+	Settings.category_name_all		= "All";
 	sprintf (Settings.new_category_name, "New Category");
-	Settings.current_category	= 0;
-	Settings.current_page		= 1;
-	Settings.last_app_pos		= -1;
+	Settings.current_category		= 0;
+	Settings.current_page			= 1;
+	Settings.last_app_pos			= -1;
 	Settings.checkrev			= -1;
 	sprintf (Settings.code, "NULL");
 	Settings.Apps_from			= EFFECT_SLIDE_TOP;	// Apps kommen von "EFFECT_SLIDE_TOP", "EFFECT_SLIDE_BOTTOM", "EFFECT_SLIDE_RIGHT", "EFFECT_SLIDE_LEFT"
-	Settings.Apps_to			= 0;				// Apps geht nach "EFFECT_SLIDE_TOP", "EFFECT_SLIDE_BOTTOM", "EFFECT_SLIDE_RIGHT", "EFFECT_SLIDE_LEFT"
+	Settings.Apps_to			= 0;			// Apps geht nach "EFFECT_SLIDE_TOP", "EFFECT_SLIDE_BOTTOM", "EFFECT_SLIDE_RIGHT", "EFFECT_SLIDE_LEFT"
 	Settings.grid				= false;
 	Settings.system				= 1;
 	Settings.device				= "sd1";

@@ -37,12 +37,12 @@ bool check_segui()
 		segui_loc = "usb1:/apps/SettingsEditorGUI/boot.dol";
 		return true;
 	}
-	if (opendir(check_path("dvd:/apps/SettingsEditorGUI/").c_str()) != NULL)
+#ifndef VWII
+	else if (opendir(check_path("dvd:/apps/SettingsEditorGUI/").c_str()) != NULL)
 	{
 		segui_loc = "dvd1:/apps/SettingsEditorGUI/boot.dol";
 		return true;
 	}
-#ifndef VWII
 	else if(opendir(check_path("gca:/apps/Settings Editor GUI/").c_str()) != NULL)
 	{
 		segui_loc = "gca:/apps/SettingsEditorGUI/boot.dol";

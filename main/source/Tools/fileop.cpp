@@ -553,12 +553,12 @@ void MountAllDevices()
 
 	if(usb->startup() && usb->isInserted())
 		MountPartitions(DEVICE_USB);
-
+#ifndef VWII
 	usleep(250000); // 1/4 sec
 
 	if(dvd->startup() && dvd->isInserted())
 		MountDVD();
-#ifndef VWII
+
 	usleep(250000);
 
 	if(__io_gcsda.startup() && __io_gcsda.isInserted())
@@ -781,12 +781,12 @@ void check_device()
 		Settings.usb_insert = 1;
 	else if(Settings.usb_insert == -1)
 		Settings.usb_insert = 0;
-
+#ifndef VWII
 	if(Settings.dvd_insert == 2)
 		Settings.dvd_insert = 1;
 	else if(Settings.dvd_insert == -1)
 		Settings.dvd_insert = 0;
-#ifndef VWII
+
 	if(Settings.gca_insert == 2)
 		Settings.gca_insert = 1;
 	else if(Settings.gca_insert == -1)

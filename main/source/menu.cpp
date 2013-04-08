@@ -164,10 +164,10 @@ UpdateGUI (void *arg)
 				check_sd();
 				check_usb();
 			}
-
+#ifndef VWII
 			else if(Settings.device == "dvd")
 				check_dvd();
-#ifndef VWII
+
 			else if(Settings.device == "gca")
 				check_gca();
 
@@ -178,8 +178,8 @@ UpdateGUI (void *arg)
 			{
 				check_sd();
 				check_usb();
-				check_dvd();
 #ifndef VWII
+				check_dvd();
 				check_gca();
 				check_gcb();
 #endif

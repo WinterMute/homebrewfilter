@@ -18,9 +18,9 @@ void copy_app_in_unassigned()
 		int anzahl_device = 0, anzahl_ordner = 0;
 
 		// Geräte SD, USB
-		if(Settings.device == "sd1" || Settings.device == "usb1" || Settings.device == "dvd"
+		if(Settings.device == "sd1" || Settings.device == "usb1"
 #ifndef VWII
-		|| Settings.device == "gca" || Settings.device == "gcb"
+		|| Settings.device == "dvd" || Settings.device == "gca" || Settings.device == "gcb"
 #endif
 		)
 			anzahl_device = 1;
@@ -30,7 +30,7 @@ void copy_app_in_unassigned()
 #ifndef VWII
 			anzahl_device = 5;
 #else
-			anzahl_device = 3;
+			anzahl_device = 2;
 #endif
 
 		// Ordner APPS, GC_APPS
@@ -67,9 +67,9 @@ void copy_app_in_unassigned()
 							foldername = "sd1" + ordner + apps[a] + "/";
 						else if(x == 1)
 							foldername = "usb1" + ordner + apps[a] + "/";
+#ifndef VWII
 						else if(x == 2)
 							foldername = "dvd" + ordner + apps[a] + "/";
-#ifndef VWII
 						else if(x == 3)
 							foldername = "gca" + ordner + apps[a] + "/";
 						else if(x == 4)
@@ -107,9 +107,9 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 			int anzahl_device = 0, anzahl_ordner = 0;
 
 			// Geräte SD, USB
-			if(Settings.device == "sd1" || Settings.device == "usb1" || Settings.device == "dvd"
+			if(Settings.device == "sd1" || Settings.device == "usb1" 
 #ifndef VWII
-			|| Settings.device == "gca" || Settings.device == "gcb"
+			|| Settings.device == "dvd" || Settings.device == "gca" || Settings.device == "gcb"
 #endif
 			)
 				anzahl_device = 1;
@@ -119,7 +119,7 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 #ifndef VWII
 				anzahl_device = 5;
 #else
-				anzahl_device = 3;
+				anzahl_device = 2;
 #endif
 
 			// Ordner APPS, GC_APPS
@@ -154,9 +154,9 @@ void copy_app_in_category(int category) //Apps im Kategorie kopieren
 							foldername = "sd1" + ordner + AvailableCategory.apps[category][a] + "/";
 						else if(x == 1)
 							foldername = "usb1" + ordner + AvailableCategory.apps[category][a] + "/";
+#ifndef VWII
 						else if(x == 2)
 							foldername = "dvd" + ordner + AvailableCategory.apps[category][a] + "/";
-#ifndef VWII
 						else if(x == 3)
 							foldername = "gca" + ordner + AvailableCategory.apps[category][a] + "/";
 						else if(x == 4)

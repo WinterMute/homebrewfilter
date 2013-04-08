@@ -126,9 +126,9 @@ void app_list()
 {
 	vechomebrew_list_category[0].clear();
 
-	if(Settings.device == "sd1" || Settings.device == "usb1" || Settings.device == "dvd"
+	if(Settings.device == "sd1" || Settings.device == "usb1"
 #ifndef VWII
-			|| Settings.device == "gca" || Settings.device == "gcb"
+			|| Settings.device == "dvd" || Settings.device == "gca" || Settings.device == "gcb"
 #endif
 	  )
 	{
@@ -176,8 +176,8 @@ void app_list()
 		{
 			add("sd1", "apps/");
 			add("usb1", "apps/");
-			add("dvd", "apps/");
 #ifndef VWII
+			add("dvd", "apps/");
 			add("gca", "apps/");
 			add("gcb", "apps/");
 

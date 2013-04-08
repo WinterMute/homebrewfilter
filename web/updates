@@ -2,6 +2,12 @@
 - added chinese translation and font file (thanks to kavid)
 - fixed downloading japanese font file from server
 - add "Return to Wii U menu" in vWii versions
+- disable reading Homewbrew from DVD on vWii
+- display GC-MemoryCard symbol in app-info-dialog on real
+  Wii, if device icon is enabled in settings
+- Fixed bug that made HBF search for Settings Editor GUI
+  on DVD, GCA and GCB, even if already found on SD or USB
+- Set "Settings.{dvd,gca,gcb}_insert" to false on vWii
 
 //rev42:
 - changed default options:

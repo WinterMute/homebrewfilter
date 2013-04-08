@@ -41,9 +41,9 @@ int devicePrompt()
 	GuiImageData usb_BtnImgDataOver(Theme.usb_active);
 	GuiImageData sd_usb_BtnImgData(Theme.sd_usb_inactive);
 	GuiImageData sd_usb_BtnImgDataOver(Theme.sd_usb_active);
+#ifndef VWII
 	GuiImageData dvd_BtnImgData(Theme.dvd_inactive);
 	GuiImageData dvd_BtnImgDataOver(Theme.dvd_active);
-#ifndef VWII
 	GuiImageData gca_BtnImgData(Theme.gca_inactive);
 	GuiImageData gca_BtnImgDataOver(Theme.gca_active);
 	GuiImageData gcb_BtnImgData(Theme.gcb_inactive);
@@ -56,8 +56,8 @@ int devicePrompt()
 	GuiImage sd_BtnImg(&sd_BtnImgData);
 	GuiImage usb_BtnImg(&usb_BtnImgData);
 	GuiImage sd_usb_BtnImg(&sd_usb_BtnImgData);
-	GuiImage dvd_BtnImg(&dvd_BtnImgData);
 #ifndef VWII
+	GuiImage dvd_BtnImg(&dvd_BtnImgData);
 	GuiImage gca_BtnImg(&gca_BtnImgData);
 	GuiImage gcb_BtnImg(&gca_BtnImgData);
 #endif
@@ -67,8 +67,8 @@ int devicePrompt()
 	GuiImage sd_BtnImgOver(&sd_BtnImgDataOver);
 	GuiImage usb_BtnImgOver(&usb_BtnImgDataOver);
 	GuiImage sd_usb_BtnImgOver(&sd_usb_BtnImgDataOver);
-	GuiImage dvd_BtnImgOver(&dvd_BtnImgDataOver);
 #ifndef VWII
+	GuiImage dvd_BtnImgOver(&dvd_BtnImgDataOver);
 	GuiImage gca_BtnImgOver(&gca_BtnImgDataOver);
 	GuiImage gcb_BtnImgOver(&gca_BtnImgDataOver);
 #endif
@@ -94,14 +94,14 @@ int devicePrompt()
 	sd_usb_Btn.SetImage(&sd_usb_BtnImg);
 	sd_usb_Btn.SetImageOver(&sd_usb_BtnImgOver);
 	sd_usb_Btn.SetTrigger(&trigA);
-
+#ifndef VWII
 	GuiButton dvd_Btn(dvd_BtnImgData.GetWidth(), dvd_BtnImgData.GetHeight());
 	dvd_Btn.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	dvd_Btn.SetPosition(0, 0);
 	dvd_Btn.SetImage(&dvd_BtnImg);
 	dvd_Btn.SetImageOver(&dvd_BtnImgOver);
 	dvd_Btn.SetTrigger(&trigA);
-#ifndef VWII
+
 	GuiButton gca_Btn(gca_BtnImgData.GetWidth(), gca_BtnImgData.GetHeight());
 	gca_Btn.SetAlignment(ALIGN_RIGHT, ALIGN_MIDDLE);
 	gca_Btn.SetPosition(-96, 0);
@@ -130,8 +130,8 @@ int devicePrompt()
 	promptWindow.Append(&sd_Btn);
 	promptWindow.Append(&usb_Btn);
 	promptWindow.Append(&sd_usb_Btn);
-	promptWindow.Append(&dvd_Btn);
 #ifndef VWII
+	promptWindow.Append(&dvd_Btn);
 	promptWindow.Append(&gca_Btn);
 	promptWindow.Append(&gcb_Btn);
 #endif
@@ -165,13 +165,13 @@ int devicePrompt()
 			device = 3;
 			stop = true;
 		}
-
+#ifndef VWII
 		if(dvd_Btn.GetState() == STATE_CLICKED)
 		{
 			device = 4;
 			stop = true;
 		}
-#ifndef VWII
+
 		if(gca_Btn.GetState() == STATE_CLICKED)
 		{
 			device = 5;
