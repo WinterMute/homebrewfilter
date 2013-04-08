@@ -72,13 +72,14 @@ AppInfo(const char *title, string dir, u8* icon)
 			viewdevice = new GuiImage(new GuiImageData(Theme.usb_inactive));
 			icon = true;
 		}
-		#ifndef VWII
+#ifndef VWII
 		else if(strncmp(dir.c_str(), "dvd", 3) == 0)
 		{
 			viewdevice = new GuiImage(new GuiImageData(Theme.dvd_inactive));
 			icon = true;
 		}
 		else if(strncmp(dir.c_str(), "gca", 3) == 0)
+		{
 			viewdevice = new GuiImage(new GuiImageData(Theme.gca_inactive));
 			icon = true;
 		}
@@ -87,7 +88,7 @@ AppInfo(const char *title, string dir, u8* icon)
 			viewdevice = new GuiImage(new GuiImageData(Theme.gcb_inactive));
 			icon = true;
 		}
-
+#endif
 		if(icon)
 		{
 			viewdevice->SetAlignment(ALIGN_LEFT, ALIGN_TOP);
