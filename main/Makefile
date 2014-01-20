@@ -41,7 +41,7 @@ DATA		:=	data/fonts \
 #---------------------------------------------------------------------------------
 
 CFLAGS		=	-g -O2 -Wall $(MACHDEP) $(INCLUDE) $(XFLAGS)
-CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS)
+CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS) $(XFLAGS)
 LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map -Wl,--section-start,.init=0x81330000
 #LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
