@@ -2,7 +2,7 @@
 <app version="1">
   <name>HomebrewFilter vWii (Installer)</name>
   <coder>Nano</coder>
-  <version>rev42</version>
+  <version>rev44</version>
   <ahb_access/>
   <short_description>HBF vWii (Installer)</short_description>
   <long_description>Installs The HomebrewFilter on vWii
