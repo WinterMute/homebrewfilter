@@ -2,12 +2,15 @@
 - built against libruntimeiospatch 1.5.1
 - apply XFLAGS (flag specifying build-type (Wii/vWii,
   installer/forwarder) to CXXFLAGS not just CFLAGS
-  ... this will speed up HBF on vWii. The _first_ time
-  you choose an application will delay 1 or 2 seconds
-  as we are scanning all available IOSes, for you to
-  choose a diffrent IOS to start an application with.
-  No more delays when opening Settings, external launchers
-  aswell only 1 or 2 seconds upon first start.
+  * this will speed up HBF on vWii.
+    x only the first time you choose an application will
+      delay 1 or 2 seconds (as we are scanning all available
+      IOSes, for you to choose a different IOS to start an
+      application with, before it always delayed)
+    x same for external launchers menu
+    x no more delay when opening the settings
+  * this will fix upgrading HBF via network on vWii.
+    x previously it was accidently downloading the Wii version
 - move creation of distribution files into dist/
 - bump channel version to 44 (accidently skipped for 43)
 
