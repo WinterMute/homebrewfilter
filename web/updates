@@ -1,3 +1,10 @@
+//rev44:
+- built against libruntimeiospatch 1.5.1
+- apply XFLAGS (flag specifying build-type (Wii/vWii,
+  installer/forwarder) to CXXFLAGS not just CFLAGS
+- move creation of distribution files into dist/
+- bump channel version to 44 (accidently skipped for 43)
+
 //rev43:
 - added chinese translation and font file (thanks to kavid)
 - fixed downloading japanese font file from server
