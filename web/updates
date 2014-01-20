@@ -11,6 +11,9 @@
     x no more delay when opening the settings
   * this will fix upgrading HBF via network on vWii.
     x previously it was accidently downloading the Wii version
+  * this will fix upgrading standalone HBF via network.
+    x previously it was accidently downloading the installer
+  * ... yeah, one variable, huge impact ...
 - move creation of distribution files into dist/
 - bump channel version to 44 (accidently skipped for 43)
 
