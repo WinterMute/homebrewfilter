@@ -10,6 +10,9 @@
 // Copyright (C) 2010		Joseph Jordan <joe.ftpii@psychlaw.com.au>
 // Copyright (C) 2012-2013	damysteryman
 // Copyright (C) 2012-2013	Christopher Bratusek <nano@tuxfamily.org>
+// Copyright (C) 2013		DarkMatterCore
+// Copyright (C) 2014		megazig
+// Copyright (C) 2015		FIX94
 
 #include <gccore.h>
 #include <ogc/machine/processor.h>
@@ -50,6 +53,16 @@ const u8 addticket_patch[] = { 0xE0 };
 const u8 es_set_ahbprot_old[] = { 0x68, 0x5B, 0x22, 0xEC, 0x00, 0x52, 0x18, 0x9B, 0x68, 0x1B, 0x46, 0x98, 0x07, 0xDB };
 const u8 es_set_ahbprot_patch[]   = { 0x01 };
 
+/* SSL patches made by FIX94 for Nintendont. Ported to libruntimeiospatch by DarkMatterCore */
+const u8 ssl_patch1_old[] = { 0xFE, 0x0E, 0xE3, 0x50, 0x00, 0x00, 0x05, 0x9F };
+const u8 ssl_patch1_new[] = { 0xFE, 0x0E, 0xE3, 0x28, 0xF1, 0x02, 0x05, 0x9F }; // Fixes SSL error -9 (wrong host)
+const u8 ssl_patch2_old[] = { 0x00, 0x00, 0x0A, 0x00, 0x00, 0x09, 0xEA, 0x00 };
+const u8 ssl_patch2_new[] = { 0x00, 0x00, 0xEA, 0x00, 0x00, 0x09, 0xEA, 0x00 }; // Fixes SSL error -10 (part 1) (wrong root cert)
+const u8 ssl_patch3_old[] = { 0x00, 0x00, 0x1A, 0x00, 0x00, 0x08, 0xE3, 0xE0 };
+const u8 ssl_patch3_new[] = { 0x00, 0x00, 0xEA, 0x00, 0x00, 0x08, 0xE3, 0xE0 }; // Fixes SSL error -10 (part 2) (wrong root cert)
+const u8 ssl_patch4_old[] = { 0x00, 0x00, 0xDA, 0x00, 0x00, 0x16, 0xE7, 0x96 };
+const u8 ssl_patch4_new[] = { 0x00, 0x00, 0xEA, 0x00, 0x00, 0x16, 0xE7, 0x96 }; // Fixes SSL error -11 (wrong client cert)
+
 //Following patches added to iospatch.c by damysteryman, taken from sciifii v5
 const u8 MEM2_prot_old[] = { 0xB5, 0x00, 0x4B, 0x09, 0x22, 0x01, 0x80, 0x1A, 0x22, 0xF0 };
 const u8 MEM2_prot_patch[] = { 0xB5, 0x00, 0x4B, 0x09, 0x22, 0x00, 0x80, 0x1A, 0x22, 0xF0 };
@@ -71,18 +84,6 @@ const u8 ES_TitleVersionCheck_old[] = { 0xD2, 0x01, 0x4E, 0x56 };
 const u8 ES_TitleVersionCheck_patch[] = { 0xE0, 0x01, 0x4E, 0x56 };
 const u8 ES_TitleDeleteCheck_old[] = { 0xD8, 0x00, 0x4A, 0x04 };
 const u8 ES_TitleDeleteCheck_patch[] = { 0xE0, 0x00, 0x4A, 0x04 };
-
-//Following patches made my damysteryman for use with Wii U's vWii
-/*const u8 Kill_AntiSysTitleInstallv2_pt1_old[] = { 0x68, 0x1A, 0x2A, 0x01, 0xD0, 0x05 };	// Make sure that the pt1
-const u8 Kill_AntiSysTitleInstallv2_pt1_patch[] = { 0x68, 0x1A, 0x2A, 0x01, 0x46, 0xC0 };	// patch is applied twice. -dmm
-const u8 Kill_AntiSysTitleInstallv2_pt2_old[] = { 0x4B, 0x29, 0x42, 0x9A, 0xD0, 0x02 };
-const u8 Kill_AntiSysTitleInstallv2_pt2_patch[] = { 0x4B, 0x29, 0x42, 0x9A, 0x46, 0xC0 };
-const u8 Kill_AntiSysTitleInstallv2_pt3_old[] = { 0xD0, 0x02, 0x33, 0x06 };
-const u8 Kill_AntiSysTitleInstallv2_pt3_patch[] = { 0x46, 0xC0, 0x33, 0x06 };
-const u8 Kill_AntiSysTitleInstallv2_pt4_old[] = { 0x2C, 0x01, 0xD0, 0x07};
-const u8 Kill_AntiSysTitleInstallv2_pt4_patch[] = { 0x2C, 0x01, 0x46, 0xC0};
-const u8 Kill_AntiSysTitleInstallv2_pt5_old[] = { 0x42, 0x94, 0xD0, 0x03, 0x9C, 0x03 };
-const u8 Kill_AntiSysTitleInstallv2_pt5_patch[] = { 0x42, 0x94, 0x46, 0xC0, 0x9C, 0x03 };*/
 
 //Following patches made my damysteryman for use with Wii U's vWii
 const u8 Kill_AntiSysTitleInstallv3_pt1_old[] = { 0x68, 0x1A, 0x2A, 0x01, 0xD0, 0x05 };	// Make sure that the pt1
@@ -149,6 +150,10 @@ s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 			count += apply_patch("es_identify", es_identify_old, sizeof(es_identify_old), es_identify_patch, sizeof(es_identify_patch), 2, verbose);
 			count += apply_patch("hash_check", hash_old, sizeof(hash_old), hash_patch, sizeof(hash_patch), 1, verbose);
 			count += apply_patch("new_hash_check", new_hash_old, sizeof(new_hash_old), hash_patch, sizeof(hash_patch), 1, verbose);
+			count += apply_patch("ssl_patch1", ssl_patch1_old, sizeof(ssl_patch1_old), ssl_patch1_new, sizeof(ssl_patch1_new), 0, verbose);
+			count += apply_patch("ssl_patch2", ssl_patch2_old, sizeof(ssl_patch2_old), ssl_patch2_new, sizeof(ssl_patch2_new), 0, verbose);
+			count += apply_patch("ssl_patch3", ssl_patch3_old, sizeof(ssl_patch3_old), ssl_patch3_new, sizeof(ssl_patch3_new), 0, verbose);
+			count += apply_patch("ssl_patch4", ssl_patch4_old, sizeof(ssl_patch4_old), ssl_patch4_new, sizeof(ssl_patch4_new), 0, verbose);
 		}
 		if(sciifii)
 		{
