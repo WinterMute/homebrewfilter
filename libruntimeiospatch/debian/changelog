@@ -1,0 +1,11 @@
+libruntimeiospatch (1.5.2-1nano) unstable; urgency=low
+
+  * New upstream release
+
+ -- Christopher Roy Bratusek <nano@jpberlin.de>  Sat, 11 Jul 2015 18:35:38 +0200
+
+libruntimeiospatch (1.5.1-1nano) unstable; urgency=low
+
+  * Initial release
+
+ -- Christopher Roy Bratusek <nano@tuxfamily.org>  Sun, 19 Jan 2014 19:00:03 +0100

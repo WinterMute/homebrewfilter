@@ -1,0 +1,13 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	mkdir -p $(CURDIR)/debian/libruntimeiospatch/opt/devkitpro/libogc/lib/wii
+	mkdir -p $(CURDIR)/debian/libruntimeiospatch/opt/devkitpro/libogc/include
+	cp $(CURDIR)/libruntimeiospatch.a $(CURDIR)/debian/libruntimeiospatch/opt/devkitpro/libogc/lib/wii/
+	cp $(CURDIR)/source/runtimeiospatch.h $(CURDIR)/debian/libruntimeiospatch/opt/devkitpro/libogc/include/

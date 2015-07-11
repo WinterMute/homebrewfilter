@@ -1,0 +1,14 @@
+Source: libruntimeiospatch
+Section: devel
+Priority: optional
+Maintainer: Christopher Roy Bratusek <nano@jpberlin.de>
+Build-Depends: debhelper (>= 8.0.0), devkitppc-amd64 | devkitppc-i686, libogc
+Standards-Version: 3.9.4
+Homepage: http://www.nanolx.org/homebrew/libruntimeiospatch
+
+Package: libruntimeiospatch
+Architecture: all
+Depends: devkitppc-amd64 | devkitppc-i686, libogc
+Conflicts: libogc-runtimeiospatch
+Description: Wii/vWii development library for homebrew
+ A library providing necessary functions for patching IOS at runtime using HW_AHBPROT.
