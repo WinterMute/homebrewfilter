@@ -1,3 +1,8 @@
+1.5.2:
+* added SSL module patches made by FIX94 to fix some certificate
+  errors that occur when attempting to connect to a host using a
+  secure connection (DarkMatterCore)
+
 1.5.1:
 * code clean-up (JoostinOnline)
 * add typedef for s32 (JoostinOnline)
