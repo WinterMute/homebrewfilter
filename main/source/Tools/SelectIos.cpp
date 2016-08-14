@@ -192,6 +192,7 @@ bool IsKnownStub(u32 noIOS, s32 noRevision)
 {
 	if (noIOS ==   3 && noRevision == 65280) return true;
 	if (noIOS ==   4 && noRevision == 65280) return true;
+	if (noIOS ==   5 && noRevision == 65280) return true;
 	if (noIOS ==  10 && noRevision ==   768) return true;
 	if (noIOS ==  11 && noRevision ==   256) return true;
 	if (noIOS ==  16 && noRevision ==   512) return true;
@@ -426,7 +427,7 @@ int get_bootmii()
 		return 3;
 	else
 #endif
-		return bootmii;
+	return bootmii;
 }
 
 void set_bootmii(int choice)

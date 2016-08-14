@@ -57,7 +57,6 @@ string new_update(string rev, string filename)
 		sprintf(url, "http://www.nanolx.org/hbf/DOL.vwii/Beta/%s", filename.c_str());
 	else
 		sprintf(url, "http://www.nanolx.org/hbf/DOL.vwii/rev%s/%s", rev.c_str(), filename.c_str());
-
 #elif STBOOT
 	if(rev == "Beta")
 		sprintf(url, "http://www.nanolx.org/hbf/DOL.st/Beta/%s", filename.c_str());
