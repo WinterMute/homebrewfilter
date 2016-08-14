@@ -1,12 +1,12 @@
 //rev45:
 - built against libruntimeiospatch 1.5.2
-- fixup loading new HBF boot.dol from online update of
-  standalone versions
+- fixed loading newly downloaded HomebrewFilter from online
+  update of standalone builds
 - always return 0 (not found) for bootmii on vWii
 - add IOS5 rev 65280 to list of stub IOS
-- fix Settings Editor GUI path for SD Gecko in GameCube
-  Memory Card Slot A
-- fix 'Exit to Wii U menu' not visible in vWii versions
+- fix Settings Editor GUI path for SD Gecko in GC MC Slot A
+- fix 'Exit to Wii U menu' not visible in vWii builds
+- hide 'SD Gecko' setting in vWii builds
 - various Makefile improvements
 - other minor or internal changes
 
