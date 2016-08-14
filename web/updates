@@ -29,7 +29,6 @@
 - move creation of distribution files into dist/
 - bump channel version to 44 (accidently skipped for 43)
 
-
 //rev43:
 - added chinese translation and font file (thanks to kavid)
 - fixed downloading japanese font file from server
