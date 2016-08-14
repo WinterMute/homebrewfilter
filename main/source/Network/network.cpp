@@ -55,11 +55,11 @@ void CheckVersion(void)
 	if(Settings.checkrev == -1)
 	{
 #ifdef STBOOTVWII
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.st.vwii/revisions.st.vwii");
+		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.st.vwii/revisions");
 #elif VWII
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.vwii/revisions.vwii");
+		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.vwii/revisions");
 #elif STBOOT
-		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.st/revisions.st");
+		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL.st/revisions");
 #else
 		struct block file = downloadfile("http://www.nanolx.org/hbf/DOL/revisions");
 #endif
