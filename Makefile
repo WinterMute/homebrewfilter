@@ -41,31 +41,34 @@ nand_loader:
 libruntimeiospatch:
 	@make -C libruntimeiospatch
 
-compile_stboot: clean
+compile_stboot:
 	@echo "============================"
 	@echo "== HBF Standalone for Wii =="
 	@echo "============================"
 	@rm -f dist/HomebrewFilter.Standalone/boot.dol
+	@make clean
 	@XFLAGS="-DSTBOOT" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 	@make -C boot
 	@cp boot/hbf_boot.dol dist/HomebrewFilter.Standalone/boot.dol
 
-compile_stboot_vwii: clean
+compile_stboot_vwii:
 	@echo "============================="
 	@echo "== HBF Standalone for vWii =="
 	@echo "============================="
 	@rm -f dist/HomebrewFilter.vWii.Standalone/boot.dol
+	@make clean
 	@XFLAGS="-DSTBOOTVWII -DVWII" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 	@make -C boot
 	@cp boot/hbf_boot.dol dist/HomebrewFilter.vWii.Standalone/boot.dol
 
-compile_hbf: clean
+compile_hbf:
 	@echo "==========================="
 	@echo "== HBF Installer for Wii =="
 	@echo "==========================="
 	@rm -f dist/HomebrewFilter/boot.dol
+	@make clean
 	@make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 
@@ -78,11 +81,12 @@ compile_installer: compile_boot
 	@make -C installer
 	@cp installer/installer.dol dist/HomebrewFilter/boot.dol
 
-compile_hbf_vwii: clean
+compile_hbf_vwii:
 	@echo "============================"
 	@echo "== HBF Installer for vWii =="
 	@echo "============================"
 	@rm -f dist/HomebrewFilter.vWii/boot.dol
+	@make clean
 	@XFLAGS="-DVWII" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 
