@@ -1,3 +1,0 @@
-[submodule "nand-loader"]
-	path = nand-loader
-	url = https://github.com/FIX94/tiny-vwii-nand-loader

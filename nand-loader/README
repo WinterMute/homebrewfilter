@@ -1,0 +1,2 @@
+This Project is based on megazigs stub, tinyload and dimoks app loader.
+With this NAND Loader you can update existing forwarders to work in WiiU vWii Mode, just unpack your wad file, replace the app file with the one in the binary folder, repack the wad and its ready to use.
