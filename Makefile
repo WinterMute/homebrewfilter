@@ -1,11 +1,11 @@
 all:
-	@echo either use "make dist" or "make dist_vwii"
+	@echo either use "make full_dist", "make dist_wii" or "make dist_vwii"
 
 REV=$(shell grep define svnrev/svnrev.c | gawk '{print $$3}')
 
-full_dist: dist dist_vwii pack_forwarder
+full_dist: dist_wii dist_vwii pack_forwarder
 
-dist: compile_installer compile_stboot
+dist_wii: compile_installer compile_stboot
 	@tar cfj dist/HomebrewFilter-rev$(REV).tar.bz2 dist/HomebrewFilter/
 	@tar cfj dist/HomebrewFilter-Standalone-rev$(REV).tar.bz2 dist/HomebrewFilter.Standalone/
 
