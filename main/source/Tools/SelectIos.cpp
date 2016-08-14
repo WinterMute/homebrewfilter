@@ -307,10 +307,7 @@ bool listIOS()
 		}
 
 		// Skip bootmii IOS
-		if (titleID == 254)
-		{
-			continue;
-		}
+		if (titleID == 254) continue;
 
 		// Check if this title is an IOS stub
 		u32 tmdSize;
@@ -426,8 +423,10 @@ int get_bootmii()
 	if(Options.bootmii_boot2)
 		return 3;
 	else
+		return bootmii;
+#else
+	return 0;
 #endif
-	return bootmii;
 }
 
 void set_bootmii(int choice)
