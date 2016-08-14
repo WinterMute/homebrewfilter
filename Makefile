@@ -35,11 +35,6 @@ clean:
 	@make -C forwarder clean
 	@make -C libruntimeiospatch clean
 
-clean_vwii:
-	@make -C main clean
-	@make -C boot clean
-	@make -C installer clean
-
 nand_loader:
 	@make -C nand-loader
 
@@ -51,18 +46,16 @@ compile_stboot: clean
 	@echo "== HBF Standalone for Wii =="
 	@echo "============================"
 	@rm -f dist/HomebrewFilter.Standalone/boot.dol
-	@make -C main clean
 	@XFLAGS="-DSTBOOT" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 	@make -C boot
 	@cp boot/hbf_boot.dol dist/HomebrewFilter.Standalone/boot.dol
 
-compile_stboot_vwii: clean_vwii
+compile_stboot_vwii: clean
 	@echo "============================="
 	@echo "== HBF Standalone for vWii =="
 	@echo "============================="
 	@rm -f dist/HomebrewFilter.vWii.Standalone/boot.dol
-	@make -C main clean
 	@XFLAGS="-DSTBOOTVWII -DVWII" make -C main
 	@cp main/hbf.dol boot/source/hbf.dol
 	@make -C boot
@@ -85,7 +78,7 @@ compile_installer: compile_boot
 	@make -C installer
 	@cp installer/installer.dol dist/HomebrewFilter/boot.dol
 
-compile_hbf_vwii: clean_vwii
+compile_hbf_vwii: clean
 	@echo "============================"
 	@echo "== HBF Installer for vWii =="
 	@echo "============================"
