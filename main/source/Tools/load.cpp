@@ -109,9 +109,10 @@ void load()
 		if(get_setting(source, "navigation") != "")
 			Options.navigation = atoi(get_setting(source, "navigation").c_str());
 
+#ifndef VWII
 		if(get_setting(source, "sdgecko") != "")
 			Options.sdgecko = atoi(get_setting(source, "sdgecko").c_str());
-#ifndef VWII
+
 		if(get_setting(source, "bootmii_boot2") != "")
 			Options.bootmii_boot2 =  atoi(get_setting(source, "bootmii_boot2").c_str());
 #endif

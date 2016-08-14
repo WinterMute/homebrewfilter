@@ -26,10 +26,15 @@ extern "C" void sdprintf(const char * format, ...)
 
 extern "C" void xprintf(const char *str, ...)
 {
+#ifndef VWII
 	if(Options.sdgecko)
 		sdprintf(str);
+	else if
+#else
+	if
+#endif
 
-	else if(Options.wifigecko)
+	(Options.wifigecko)
 		wifi_printf(str);
 	else
 		gprintf(str);

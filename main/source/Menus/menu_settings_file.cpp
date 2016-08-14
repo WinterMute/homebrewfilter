@@ -27,8 +27,8 @@ bool temp_show_all;
 int temp_device_icon;
 int temp_wiiload_ios;
 int temp_wiiload_ahb;
-bool temp_sdgecko;
 #ifndef VWII
+bool temp_sdgecko;
 bool temp_bootmii_boot2;
 #endif
 bool temp_navigation;
@@ -57,8 +57,8 @@ int MenuSettingsFile()
 	else
 		childlock = 1;
 	bool navigation = Options.navigation;
-	bool sdgecko = Options.sdgecko;
 #ifndef VWII
+	bool sdgecko = Options.sdgecko;
 	bool bootmii_boot2 = Options.bootmii_boot2;
 #endif
 	string device_dat;
@@ -80,8 +80,8 @@ int MenuSettingsFile()
 	sprintf(options.name[i++], tr("Device icon"));
 	sprintf(options.name[i++], tr("Wiiload IOS"));
 	sprintf(options.name[i++], tr("Wiiload IOS Reload"));
-	sprintf(options.name[i++], tr("SD Gecko"));
 #ifndef VWII
+	sprintf(options.name[i++], tr("SD Gecko"));
 	sprintf(options.name[i++], tr("BootMii in Boot2"));
 #endif
 	sprintf(options.name[i++], tr("Childlock"));
@@ -214,11 +214,11 @@ int MenuSettingsFile()
 						change = 3;
 					wiiload_ahb = change;
 					break;
-
+#ifndef VWII
 				case SDGECKO:
 					sdgecko = 1;
 					break;
-#ifndef VWII
+
 				case BOOTMII_BOOT2:
 					bootmii_boot2 = 1;
 					break;
@@ -300,11 +300,11 @@ int MenuSettingsFile()
 						change = 0;
 					wiiload_ahb = change;
 					break;
-
+#ifndef VWII
 				case SDGECKO:
 					sdgecko = 0;
 					break;
-#ifndef VWII
+
 				case BOOTMII_BOOT2:
 					bootmii_boot2 = 0;
 					break;
@@ -338,8 +338,8 @@ int MenuSettingsFile()
 			temp_wiiload_ios		= atoi(options.value[WIILOAD_IOS]);
 			temp_wiiload_ahb		= wiiload_ahb;
 			temp_device_dat			= device_dat;
-			temp_sdgecko			= sdgecko;
 #ifndef VWII
+			temp_sdgecko			= sdgecko;
 			temp_bootmii_boot2      = bootmii_boot2;
 #endif
 			temp_navigation			= navigation;
@@ -400,8 +400,8 @@ int MenuSettingsFile()
 					childlock = 0;
 				else
 					childlock = 1;
-				sdgecko = temp_sdgecko;
 #ifndef VWII
+				sdgecko = temp_sdgecko;
 				bootmii_boot2 = temp_bootmii_boot2;
 #endif
 				navigation = temp_navigation;
@@ -459,12 +459,12 @@ int MenuSettingsFile()
 				sprintf (options.value[WIILOAD_AHB], tr("IOS Reload"));
 			else if(wiiload_ahb == 2)
 				sprintf (options.value[WIILOAD_AHB], tr("AHB Access"));
-
+#ifndef VWII
 			if(!sdgecko)
 				sprintf (options.value[SDGECKO], tr("No"));
 			else
 				sprintf (options.value[SDGECKO], tr("Yes"));
-#ifndef VWII
+
 			if(!bootmii_boot2)
 				sprintf (options.value[BOOTMII_BOOT2], tr("No"));
 			else
@@ -541,8 +541,8 @@ int MenuSettingsFile()
 			Options.wiiload_ios		= atoi(options.value[WIILOAD_IOS]);
 			Options.wiiload_ahb		= wiiload_ahb;
 			device_dat			= options.value[STORAGE_DEVICE];
-			Options.sdgecko			= sdgecko;
 #ifndef VWII
+			Options.sdgecko			= sdgecko;
 			Options.bootmii_boot2   = bootmii_boot2;
 #endif
 			Options.navigation		= navigation;

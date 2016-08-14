@@ -676,11 +676,16 @@ int MenuMain()
 
 					if(!first)
 					{
+#ifndef VWII
 						if (Options.sdgecko)
 						{
 							xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\nSD Card Gecko initialized.\n\n", SvnRev());
 						}
-						else if(Options.wifigecko)
+						else if
+#else
+						if
+#endif
+						(Options.wifigecko)
 						{
 							WifiGecko_Connect();
 							xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\nWifi Gecko connected.\n\n", SvnRev());
