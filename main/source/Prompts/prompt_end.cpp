@@ -75,6 +75,7 @@ endPrompt()
 	GuiButton wiiu(btn.GetWidth(), btn.GetHeight());
 	wiiu.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	wiiu.SetPosition(0, 75);
+	wiiu.SetLabel(&wiiuTxt);
 	wiiu.SetImage(&wiiuImg);
 	wiiu.SetImageOver(&wiiuImgOver);
 	wiiu.SetTrigger(&trigA);
