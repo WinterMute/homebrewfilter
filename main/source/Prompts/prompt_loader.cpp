@@ -92,12 +92,7 @@ loaderPrompt()
 	}
 #endif
 	bool have_segui;
-	have_segui = false;
-	if( ! seguicheck )
-	{
-		seguicheck = 1;
-		have_segui = check_segui();
-	}
+	have_segui = check_segui();
 
 	GuiWindow promptWindow(520,360);
 	promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
