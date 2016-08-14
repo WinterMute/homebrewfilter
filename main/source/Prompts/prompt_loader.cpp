@@ -92,6 +92,7 @@ loaderPrompt()
 	}
 #endif
 	bool have_segui;
+	have_segui = false;
 	if( ! seguicheck )
 	{
 		seguicheck = 1;

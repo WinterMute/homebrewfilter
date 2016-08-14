@@ -30,7 +30,9 @@
 
 static const DISC_INTERFACE* sd = &__io_wiisd;
 static const DISC_INTERFACE* usb = &__io_usbstorage;
+#ifndef VWII
 static const DISC_INTERFACE* dvd = &__io_wiidvd;
+#endif
 
 enum
 {
@@ -532,7 +534,6 @@ static bool MountPartitions(int device)
 			break;
 		case DEVICE_USB:
 			disc = usb;
-			break;
 			break;
 		default:
 			return false; // unknown device

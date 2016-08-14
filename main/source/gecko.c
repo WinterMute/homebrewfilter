@@ -1,3 +1,6 @@
+#ifndef VWII
+#ifndef NO_DEBUG
+
 #include <gccore.h>
 #include <stdio.h>
 #include <string.h>
@@ -8,8 +11,6 @@
 /* init-globals */
 static bool geckoinit = false;
 
-#ifndef VWII
-#ifndef NO_DEBUG
 #include <stdarg.h>
 
 void gprintf(const char *format, ...)
