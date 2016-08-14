@@ -19,8 +19,8 @@ compile_forwarder:
 	@cp forwarder/forwarder.dol forwarder/wad.vwii/00000001.app
 
 pack_forwarder: compile_forwarder
-	@tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\dist\HBF0.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\dist\HBF0.wad"
-	@tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad.vwii" -output "Z:$(PWD)\dist\HBF0.vWii.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\dist\HBF0.vWii.wad"
+	@wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\dist\HBF0.wad"
+	@wine tools/WadMii.exe -input "Z:$(PWD)\forwarder\wad" -output "Z:$(PWD)\dist\HBF0.vWii.wad"
 
 distclean: clean
 	@rm -f dist/HomebrewFilter*/boot.dol
@@ -81,7 +81,7 @@ compile_boot: compile_hbf
 	@cp boot/hbf_boot.dol installer/wad/00000001.app
 
 compile_installer: compile_boot
-	@tools/WadMii.exe -input "Z:$(PWD)\installer\wad" -output "Z:$(PWD)\installer\data\install.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\installer\wad" -output "Z:$(PWD)\installer\data\install.wad"
+	@wine tools/WadMii.exe -input "Z:$(PWD)\installer\wad" -output "Z:$(PWD)\installer\data\install.wad"
 	@make -C installer
 	@cp installer/installer.dol dist/HomebrewFilter/boot.dol
 
@@ -98,6 +98,6 @@ compile_boot_vwii: compile_hbf_vwii
 	@cp boot/hbf_boot.dol installer/wad.vwii/00000002.app
 
 compile_installer_vwii: compile_boot_vwii
-	@tools/WadMii.exe -input "Z:$(PWD)\installer\wad.vwii" -output "Z:$(PWD)\installer\data\install.wad" || wine tools/WadMii.exe -input "Z:$(PWD)\installer\wad.vwii" -output "Z:$(PWD)\installer\data\install.wad"
+	@wine tools/WadMii.exe -input "Z:$(PWD)\installer\wad.vwii" -output "Z:$(PWD)\installer\data\install.wad"
 	@make -C installer
 	@cp installer/installer.dol dist/HomebrewFilter.vWii/boot.dol
