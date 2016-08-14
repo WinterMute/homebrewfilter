@@ -6,8 +6,9 @@
 - add IOS5 rev 65280 to list of stub IOS
 - fix Settings Editor GUI path for SD Gecko in GameCube
   Memory Card Slot A
-- minor change in Makefile target
-- other minor changes
+- fix 'Exit to Wii U menu' not visible in vWii versions
+- various Makefile improvements
+- other minor or internal changes
 
 //rev44:
 - built against libruntimeiospatch 1.5.1

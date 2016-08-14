@@ -83,8 +83,12 @@ endPrompt()
 	GuiButton hbf(btn.GetWidth(), btn.GetHeight());
 	hbf.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	hbf.SetPosition(0, 90);
+#ifndef VWII
 	if(get_bootmii() != 0)
 		hbf.SetPosition(0, 140);
+#else
+	hbf.SetPosition(0, 140);
+#endif
 	hbf.SetLabel(&hbfTxt);
 	hbf.SetImage(&hbfImg);
 	hbf.SetImageOver(&hbfImgOver);
@@ -94,8 +98,12 @@ endPrompt()
 	GuiButton systemmenu(btn.GetWidth(), btn.GetHeight());
 	systemmenu.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	systemmenu.SetPosition(0, 180);
+#ifndef VWII
 	if(get_bootmii() != 0)
 		systemmenu.SetPosition(0, 205);
+#else
+	systemmenu.SetPosition(0, 205);
+#endif
 	systemmenu.SetLabel(&systemmenuTxt);
 	systemmenu.SetImage(&systemmenuImg);
 	systemmenu.SetImageOver(&systemmenuImgOver);
@@ -121,6 +129,8 @@ endPrompt()
 #ifndef VWII
 	if(get_bootmii() != 0)
 		promptWindow.Append(&bootmii);
+#else
+	promptWindow.Append(&wiiu);
 #endif
 	promptWindow.Append(&systemmenu);
 	promptWindow.Append(&shutdown);
