@@ -259,7 +259,9 @@ main(int argc, char *argv[])
 			xprintf("Warning: no AHBPROT\n");
 		}
 	}
+#ifndef VWII
 	DI2_Init(); // Init DVD
+#endif
 
 	if(strstr(Options.language, tr("STANDARD")))
 		translate();

@@ -678,19 +678,10 @@ int MenuMain()
 
 					if(!first)
 					{
-						if (Options.sdgecko)
-						{
-							xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\nSD Card Gecko initialized.\n\n", SvnRev());
-						}
-						else if(Options.wifigecko)
-						{
+						if(Options.wifigecko)
 							WifiGecko_Connect();
-							xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\nWifi Gecko connected.\n\n", SvnRev());
-						}
-						else
-						{
-							xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\nUSB Gecko initialized.\n\n", SvnRev());
-						}
+
+						xprintf("The HomebrewFilter rev%i\n= == == == == == == == =\n\n", SvnRev());
 						first = true;
 					}
 
@@ -754,7 +745,9 @@ int MenuMain()
 			}
 
 			// SD, USB
-			else if(sd_usb_Btn.GetState() == STATE_CLICKED 	|| Settings.sd_insert == -1 || Settings.sd_insert == 2
+			else if(sd_usb_Btn.GetState() == STATE_CLICKED 	|| WPAD_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_ZL
+									|| WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_ZL
+									|| Settings.sd_insert == -1  || Settings.sd_insert == 2
 									|| Settings.usb_insert == -1 || Settings.usb_insert == 2
 #ifndef VWII
 									|| Settings.dvd_insert == -1 || Settings.dvd_insert == 2
@@ -764,8 +757,7 @@ int MenuMain()
 									)
 			{
 				int device = -1;
-				if(sd_usb_Btn.GetState() == STATE_CLICKED)
-					device = devicePrompt();
+				device = devicePrompt();
 
 				if(device == 1)
 					Settings.device = "sd1";
@@ -780,9 +772,9 @@ int MenuMain()
 					Settings.device = "gca";
 				else if(device == 6)
 					Settings.device = "gcb";
-#endif
 				else if(device == 7)
 					Settings.device = "all";
+#endif
 
 				if(device != -1 || Settings.sd_insert == -1 || Settings.sd_insert == 2
 						|| Settings.usb_insert == -1 || Settings.usb_insert == 2
@@ -802,7 +794,9 @@ int MenuMain()
 			}
 #ifndef VWII
 			// Wii, GC
-			else if(wii_gc_Btn.GetState() == STATE_CLICKED)
+			else if(wii_gc_Btn.GetState() == STATE_CLICKED ||
+				   WPAD_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_ZR ||
+				   WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_ZR)
 			{
 				int choice = systemPrompt();
 

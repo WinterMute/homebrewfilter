@@ -29,9 +29,10 @@ extern "C" void xprintf(const char *str, ...)
 	if(Options.sdgecko)
 		sdprintf(str);
 
-	else if(Options.wifigecko)
+	if(Options.wifigecko)
 		wifi_printf(str);
-	else
+
+	if(!Options.wifigecko && !Options.sdgecko)
 		gprintf(str);
 
 }

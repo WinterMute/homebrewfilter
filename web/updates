@@ -11,12 +11,22 @@
 - press Z on Game Cube Controller or L Classic Controller or
   Wii U Pro Controller to open Settings menu
 - press R on Classic Controller or Wii U Pro Controller to
-  open External Applications menu (no unsued button left for
+  open External Applications menu (no unused button left for
+  Game Cube Controller)
+- press ZL on the Classic Controller or Wii U Pro Controller to
+  open the device selection prompt (no unused button left for
+  Game Cube Controller)
+- press ZR on the Classic Controller or Wii U Pro Controller to
+  open the system selection prompt (no unused button left for
   Game Cube Controller)
 - previously only the first controller was honoured, now all
   four are being connected, though only the first one of each
   kind (Wii Remote, Game Cube Controller or Wii U Pro Controller)
   can be used, each additional non-unique controller is ignored
+- in partition mounter replace debug_printf with xprintf
+- disable several DVD and Memory Card related functions in vWii
+- don't initialize DVD drive on start in vWii builds
+- allow 'SD Gecko' and 'Wifi Gecko' in parallel
 - update german translation
 
 //rev45:
