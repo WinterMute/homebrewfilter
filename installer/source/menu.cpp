@@ -24,7 +24,6 @@ void Pad_unpressed( void )
 {
 	while(1)
 	{
-		WUPC_UpdateButtonStats();
 		PAD_ScanPads();
 		u32 PAD_Unpressed  = PAD_ButtonsUp(0);
 		if ( PAD_Unpressed )
@@ -171,7 +170,8 @@ int menu_main(int scrollpos)
 		PAD_ScanPads();
 
 		if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN)
-			|| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)) && scrollpos < (signed)text1.size() -1)
+			|| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
+			|| (WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_DOWN)) && scrollpos < (signed)text1.size() -1)
 		{
 			scrollpos++;
 			while(text1[scrollpos] == "")
@@ -183,7 +183,8 @@ int menu_main(int scrollpos)
 				Pad_unpressed();
 		}
 		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP)
-			|| (PAD_ButtonsDown(0) & PAD_BUTTON_UP)) && scrollpos != 0)
+			|| (PAD_ButtonsDown(0) & PAD_BUTTON_UP)
+			|| (WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_UP)) && scrollpos != 0)
 		{
 			scrollpos--;
 			while(text1[scrollpos] == "")
@@ -209,7 +210,9 @@ int menu_main(int scrollpos)
 			scroll = false;
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A)
+		   || PAD_ButtonsDown(0) & PAD_BUTTON_A
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_A)
 		{
 			menu_main_choice = scrollpos;
 			switch(scrollpos)
@@ -262,7 +265,8 @@ int menu_install_uninstall(int install)
 		PAD_ScanPads();
 
 		if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN)
-			|| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)) && scrollpos < (signed)text2.size() -1)
+			|| (PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
+			|| (WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_DOWN)) && scrollpos < (signed)text2.size() -1)
 		{
 			scrollpos++;
 			scroll = true;
@@ -271,7 +275,8 @@ int menu_install_uninstall(int install)
 				Pad_unpressed();
 		}
 		else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP)
-			|| (PAD_ButtonsDown(0) & PAD_BUTTON_UP)) && scrollpos != 0)
+			|| (PAD_ButtonsDown(0) & PAD_BUTTON_UP)
+			|| (WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_UP)) && scrollpos != 0)
 		{
 			scrollpos--;
 			scroll = true;
@@ -294,7 +299,9 @@ int menu_install_uninstall(int install)
 			scroll = false;
 		}
 
-		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A)
+		   || PAD_ButtonsDown(0) & PAD_BUTTON_A
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_A)
 		{
 			switch(scrollpos)
 			{
@@ -371,7 +378,9 @@ int menu_install()
 		WPAD_ScanPads();
 		PAD_ScanPads();
 
-		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A)
+		   || PAD_ButtonsDown(0) & PAD_BUTTON_A
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_A)
 			return MENU_MAIN;
 	}
 }
@@ -438,7 +447,9 @@ int menu_reinstall()
 		WUPC_UpdateButtonStats();
 		WPAD_ScanPads();
 		PAD_ScanPads();
-		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A)
+		   || PAD_ButtonsDown(0) & PAD_BUTTON_A
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_A)
 			return MENU_MAIN;
 	}
 
@@ -464,7 +475,9 @@ int menu_uninstall()
 		WUPC_UpdateButtonStats();
 		WPAD_ScanPads();
 		PAD_ScanPads();
-		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A)
+		   || PAD_ButtonsDown(0) & PAD_BUTTON_A
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_A)
 			return MENU_MAIN;
 	}
 }
@@ -491,7 +504,9 @@ int menu_copyright()
 		WPAD_ScanPads();
 		PAD_ScanPads();
 
-		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A)
+		   || PAD_ButtonsDown(0) & PAD_BUTTON_A
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_A)
 			return MENU_MAIN;
 	}
 }
