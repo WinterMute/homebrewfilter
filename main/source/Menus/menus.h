@@ -30,8 +30,8 @@ enum
 	DEVICE_ICON,
 	WIILOAD_IOS,
 	WIILOAD_AHB,
-#ifndef VWII
 	SDGECKO,
+#ifndef VWII
 	BOOTMII_BOOT2,
 #endif
 	CHILDLOCK,

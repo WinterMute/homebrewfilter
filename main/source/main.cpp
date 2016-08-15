@@ -177,8 +177,8 @@ DefaultOptions()
 	Options.apps		= 4;
 	Options.quick_start	= 0;
 	Options.show_all	= 1;
-#ifndef VWII
 	Options.sdgecko		= 1;
+#ifndef VWII
 	Options.bootmii_boot2   = 0;
 #endif
 	Options.navigation	= 0;

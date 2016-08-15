@@ -106,8 +106,8 @@ void save()
 		save_settings << "apps_nr = \""			<< Options.apps			<< "\"" << endl;
 		save_settings << "quick_start = \""		<< Options.quick_start		<< "\"" << endl;
 		save_settings << "show_all = \""		<< Options.show_all		<< "\"" << endl;
-#ifndef VWII
 		save_settings << "sdgecko = \""			<< Options.sdgecko		<< "\"" << endl;
+#ifndef VWII
 		save_settings << "bootmii_boot2 = \""		<< Options.bootmii_boot2	<< "\"" << endl;
 #endif
 		save_settings << "navigation = \""		<< Options.navigation		<< "\"" << endl;
