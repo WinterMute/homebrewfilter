@@ -36,15 +36,15 @@ void show_menu_head()
 {
 	Con_FgColor(6, 1);
 	printf("\x1b[%i;%iH", startpos_x, startpos_y);
-	printf("HBF installer v0.4");
+	printf("HBF installer v0.5");
 
 	Con_FgColor(7, 1);
-	printf("\t\t\t\t\t(C) 2011");
+	printf("\t\t\t\t\t(C) 2011      ");
 	Con_FgColor(6, 1);
 	printf(" hamachi-mp");
 
 	Con_FgColor(7, 1);
-	printf("\n\t\t\t\t\t\t\t\t\t\t\t\t(C) 2012");
+	printf("\n\t\t\t\t\t\t\t\t\t\t\t\t(C) 2012, 2016");
 	Con_FgColor(6, 1);
 	printf(" Nano & Obcd");
 }
