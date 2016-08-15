@@ -22,7 +22,11 @@ int devicePrompt()
 	bool stop = false;
 	int device = -1;
 
+#ifndef VWII
 	GuiWindow promptWindow(328,64);
+#else
+	GuiWindow promptWindow(144,64);
+#endif
 	promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	promptWindow.SetPosition(-135, 280);
 	GuiTrigger trigA;
@@ -31,7 +35,11 @@ int devicePrompt()
 	trigB.SetButtonOnlyTrigger(-1, WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B, PAD_BUTTON_B);
 
 	// Hintergrund
+#ifndef VWII
 	GuiImageData dialogBox(Theme.choice_large);
+#else
+	GuiImageData dialogBox(Theme.choice);
+#endif
 	GuiImage dialogBoxImg(&dialogBox);
 
 	// button data
@@ -48,9 +56,9 @@ int devicePrompt()
 	GuiImageData gca_BtnImgDataOver(Theme.gca_active);
 	GuiImageData gcb_BtnImgData(Theme.gcb_inactive);
 	GuiImageData gcb_BtnImgDataOver(Theme.gcb_active);
-#endif
 	GuiImageData all_BtnImgData(Theme.all_inactive);
 	GuiImageData all_BtnImgDataOver(Theme.all_active);
+#endif
 
 	// button
 	GuiImage sd_BtnImg(&sd_BtnImgData);
@@ -60,8 +68,8 @@ int devicePrompt()
 	GuiImage dvd_BtnImg(&dvd_BtnImgData);
 	GuiImage gca_BtnImg(&gca_BtnImgData);
 	GuiImage gcb_BtnImg(&gca_BtnImgData);
-#endif
 	GuiImage all_BtnImg(&all_BtnImgData);
+#endif
 
 	// button over
 	GuiImage sd_BtnImgOver(&sd_BtnImgDataOver);
@@ -71,8 +79,8 @@ int devicePrompt()
 	GuiImage dvd_BtnImgOver(&dvd_BtnImgDataOver);
 	GuiImage gca_BtnImgOver(&gca_BtnImgDataOver);
 	GuiImage gcb_BtnImgOver(&gca_BtnImgDataOver);
-#endif
 	GuiImage all_BtnImgOver(&all_BtnImgDataOver);
+#endif
 
 	GuiButton sd_Btn(sd_BtnImgData.GetWidth(), sd_BtnImgData.GetHeight());
 	sd_Btn.SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
@@ -115,14 +123,14 @@ int devicePrompt()
 	gcb_Btn.SetImage(&gcb_BtnImg);
 	gcb_Btn.SetImageOver(&gcb_BtnImgOver);
 	gcb_Btn.SetTrigger(&trigA);
-#endif
+
 	GuiButton all_Btn(all_BtnImgData.GetWidth(), all_BtnImgData.GetHeight());
 	all_Btn.SetAlignment(ALIGN_RIGHT, ALIGN_MIDDLE);
 	all_Btn.SetPosition(-8, 0);
 	all_Btn.SetImage(&all_BtnImg);
 	all_Btn.SetImageOver(&all_BtnImgOver);
 	all_Btn.SetTrigger(&trigA);
-
+#endif
 	GuiButton back(0, 0);
 	back.SetTrigger(&trigB);
 
@@ -134,8 +142,8 @@ int devicePrompt()
 	promptWindow.Append(&dvd_Btn);
 	promptWindow.Append(&gca_Btn);
 	promptWindow.Append(&gcb_Btn);
-#endif
 	promptWindow.Append(&all_Btn);
+#endif
 	promptWindow.Append(&back);
 
 	HaltGui();
@@ -183,13 +191,13 @@ int devicePrompt()
 			device = 6;
 			stop = true;
 		}
-#endif
+
 		if(all_Btn.GetState() == STATE_CLICKED)
 		{
 			device = 7;
 			stop = true;
 		}
-
+#endif
 		if(back.GetState() == STATE_CLICKED)
 			stop = true;
 	}

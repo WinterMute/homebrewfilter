@@ -1,3 +1,9 @@
+//rev46:
+- fix size and layout of device prompt in vWii builds
+- remove 'All' button from device prompt in vWii builds
+- re-enable 'SD Gecko' setting in vWii builds
+- update german translation
+
 //rev45:
 - built against libruntimeiospatch 1.5.2
 - fixed loading newly downloaded HomebrewFilter from online
