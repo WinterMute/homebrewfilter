@@ -238,7 +238,8 @@ string ThemeList()
 		{
 			usleep(100);
 
-			if(WPAD_ButtonsHeld(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
+			if(WPAD_ButtonsHeld(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP
+			   || WUPC_ButtonsHeld(0) & WPAD_CLASSIC_BUTTON_UP)
 			{
 				selection--;
 				if(selection < 0)
@@ -258,7 +259,8 @@ string ThemeList()
 				usleep(100000);
 			}
 
-			if(WPAD_ButtonsHeld(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
+			if(WPAD_ButtonsHeld(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN
+			  || WUPC_ButtonsHeld(0) & WPAD_CLASSIC_BUTTON_DOWN)
 			{
 				selection++;
 				if(selection == (signed)themes.size())
@@ -279,13 +281,15 @@ string ThemeList()
 				usleep(100000);
 			}
 
-			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A)
+			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A
+			  || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_A)
 			{
 				downloadtheme = themes[selection + textScrollPos];
 				stop = true;
 			}
 
-			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B)
+			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B
+			  || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_B)
 			{
 				downloadtheme = "NULL";
 				stop = true;

@@ -41,7 +41,7 @@ void GuiTrigger::SetSimpleTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
 {
 	type = TRIGGER_SIMPLE;
 	chan = ch;
-	wupad->btns_d = wiibtns;
+	wupcdata.btns_d = wiibtns;
 	wpaddata.btns_d = wiibtns;
 	pad.btns_d = gcbtns;
 }
@@ -55,7 +55,7 @@ void GuiTrigger::SetHeldTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
 {
 	type = TRIGGER_HELD;
 	chan = ch;
-	wupad->btns_h = wiibtns;
+	wupcdata.btns_h = wiibtns;
 	wpaddata.btns_h = wiibtns;
 	pad.btns_h = gcbtns;
 }
@@ -67,8 +67,8 @@ void GuiTrigger::SetButtonOnlyHeldTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
 {
 	type = TRIGGER_BUTTON_ONLY_HELD;
 	chan = ch;
-	wupad->btns_d = wiibtns;
-	wupad->btns_h = wiibtns;
+	wupcdata.btns_d = wiibtns;
+	wupcdata.btns_h = wiibtns;
 	wpaddata.btns_d = wiibtns;
 	wpaddata.btns_h = wiibtns;
 	pad.btns_d = gcbtns;
@@ -83,7 +83,7 @@ void GuiTrigger::SetButtonOnlyTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
 {
 	type = TRIGGER_BUTTON_ONLY;
 	chan = ch;
-	wupad->btns_d = wiibtns;
+	wupcdata.btns_d = wiibtns;
 	wpaddata.btns_d = wiibtns;
 	pad.btns_d = gcbtns;
 }
@@ -97,7 +97,7 @@ void GuiTrigger::SetButtonOnlyInFocusTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
 {
 	type = TRIGGER_BUTTON_ONLY_IN_FOCUS;
 	chan = ch;
-	wupad->btns_d = wiibtns;
+	wupcdata.btns_d = wiibtns;
 	wpaddata.btns_d = wiibtns;
 	pad.btns_d = gcbtns;
 }
@@ -157,15 +157,15 @@ s8 GuiTrigger::WPAD_Stick(u8 right, int axis)
 bool GuiTrigger::Left()
 {
 	u32 wiibtn = WPAD_BUTTON_LEFT;
-	if(wpad->exp.type == WPAD_EXP_CLASSIC || (wupad->btns_d  | wupad->btns_h) > 0)
+	if(wpad->exp.type == WPAD_EXP_CLASSIC || (wupcdata.btns_d  | wupcdata.btns_h) > 0)
 		wiibtn |= WPAD_CLASSIC_BUTTON_LEFT;
 
 	if(    ((wpad->btns_d | wpad->btns_h) & wiibtn)
-		|| ((wupad->btns_d | wupad->btns_h) & wiibtn)
+		|| ((wupcdata.btns_d | wupcdata.btns_h) & wiibtn)
 		|| ((pad.btns_d | pad.btns_h) & PAD_BUTTON_LEFT))
 	{
 		if(    (wpad->btns_d & wiibtn) 
-			|| (wupad->btns_d & wiibtn)
+			|| (wupcdata.btns_d & wiibtn)
 			|| (pad.btns_d & PAD_BUTTON_LEFT))
 		{
 			scrollDelay = SCROLL_INITIAL_DELAY; // reset scroll delay.
@@ -183,16 +183,16 @@ bool GuiTrigger::Left()
 bool GuiTrigger::Right()
 {
 	u32 wiibtn = WPAD_BUTTON_RIGHT;
-	if(wpad->exp.type == WPAD_EXP_CLASSIC || (wupad->btns_d | wupad->btns_h))
+	if(wpad->exp.type == WPAD_EXP_CLASSIC || (wupcdata.btns_d | wupcdata.btns_h))
 		wiibtn |= WPAD_CLASSIC_BUTTON_RIGHT;
 
 	if(    ((wpad->btns_d | wpad->btns_h) & wiibtn)
 		|| ((pad.btns_d | pad.btns_h) & PAD_BUTTON_RIGHT)
-		|| ((wupad->btns_d | wupad->btns_h) & wiibtn))
+		|| ((wupcdata.btns_d | wupcdata.btns_h) & wiibtn))
 	{
 		if(    (wpad->btns_d & wiibtn) 
 			|| (pad.btns_d & PAD_BUTTON_RIGHT)
-			|| (wupad->btns_d & wiibtn))
+			|| (wupcdata.btns_d & wiibtn))
 		{
 			scrollDelay = SCROLL_INITIAL_DELAY; // reset scroll delay.
 			return true;
@@ -209,15 +209,15 @@ bool GuiTrigger::Right()
 bool GuiTrigger::Up()
 {
 	u32 wiibtn = WPAD_BUTTON_UP;
-	if(wpad->exp.type == WPAD_EXP_CLASSIC || (wupad->btns_d | wupad->btns_h))
+	if(wpad->exp.type == WPAD_EXP_CLASSIC || (wupcdata.btns_d | wupcdata.btns_h))
 		wiibtn |= WPAD_CLASSIC_BUTTON_UP;
 
 	if(    ((wpad->btns_d | wpad->btns_h) & wiibtn)
 		|| ((pad.btns_d | pad.btns_h) & PAD_BUTTON_UP)
-		|| ((wupad->btns_d | wupad->btns_h) & wiibtn))
+		|| ((wupcdata.btns_d | wupcdata.btns_h) & wiibtn))
 	{
 		if(    (wpad->btns_d & wiibtn) 
-			|| (wupad->btns_d & wiibtn)
+			|| (wupcdata.btns_d & wiibtn)
 			|| (pad.btns_d & PAD_BUTTON_UP))
 		{
 			scrollDelay = SCROLL_INITIAL_DELAY; // reset scroll delay.
@@ -235,16 +235,16 @@ bool GuiTrigger::Up()
 bool GuiTrigger::Down()
 {
 	u32 wiibtn = WPAD_BUTTON_DOWN;
-	if(wpad->exp.type == WPAD_EXP_CLASSIC || (wupad->btns_d | wupad->btns_h))
+	if(wpad->exp.type == WPAD_EXP_CLASSIC || (wupcdata.btns_d | wupcdata.btns_h))
 		wiibtn |= WPAD_CLASSIC_BUTTON_DOWN;
 
 	if(    ((wpad->btns_d | wpad->btns_h) & wiibtn)
 		|| ((pad.btns_d | pad.btns_h) & PAD_BUTTON_DOWN)
-		|| ((wupad->btns_d | wupad->btns_h) & wiibtn))
+		|| ((wupcdata.btns_d | wupcdata.btns_h) & wiibtn))
 	{
 		if(    (wpad->btns_d & wiibtn) 
 			|| (pad.btns_d & PAD_BUTTON_DOWN)
-			|| (wupad->btns_d & wiibtn))
+			|| (wupcdata.btns_d & wiibtn))
 		{
 			scrollDelay = SCROLL_INITIAL_DELAY; // reset scroll delay.
 			return true;

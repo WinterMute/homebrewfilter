@@ -164,7 +164,8 @@ int MenuSettingsLanguage()
 			optionBrowser.TriggerUpdate();
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_B)
 		{
 			if(focus == 0)
 			{

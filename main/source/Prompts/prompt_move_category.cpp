@@ -111,19 +111,22 @@ void MoveCategory(int moveCategoryNr, string &Kategorie1, bool &vor, string &Kat
 	{
 		usleep(100);
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_R)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_R
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_PLUS)
 		{
 			vor = false;
 			zeile3_2Txt.SetText(tr("after"));
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_L)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_L
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_MINUS)
 		{
 			vor = true;
 			zeile3_2Txt.SetText(tr("before"));
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_UP)
 		{
 			CategoryInt--;
 
@@ -134,7 +137,8 @@ void MoveCategory(int moveCategoryNr, string &Kategorie1, bool &vor, string &Kat
 			HaltResumeGui();
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_DOWN)
 		{
 			CategoryInt++;
 

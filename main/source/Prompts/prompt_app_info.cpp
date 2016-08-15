@@ -283,7 +283,8 @@ AppInfo(const char *title, string dir, u8* icon)
 	{
 		usleep(100);
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_UP)
 		{
 			int z = description.text_up();
 
@@ -294,7 +295,8 @@ AppInfo(const char *title, string dir, u8* icon)
 			HaltResumeGui();
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_DOWN)
 		{
 			int z = description.text_down(number);
 
@@ -305,14 +307,16 @@ AppInfo(const char *title, string dir, u8* icon)
 			HaltResumeGui();
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_R)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_R
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_PLUS)
 		{
 			sprintf(SelectIos, tr("Start with IOS %i   (-/+)"), nextIos());
 			SelectIosTxt.SetText(SelectIos);
 			HaltResumeGui();
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_L)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_L
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_MINUS)
 		{
 			sprintf(SelectIos, tr("Start with IOS %i   (-/+)"), previousIos());
 			SelectIosTxt.SetText(SelectIos);

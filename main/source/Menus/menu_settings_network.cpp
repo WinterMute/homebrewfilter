@@ -100,7 +100,8 @@ int MenuSettingsNetwork()
 
 		ret = optionBrowser.GetChangedOption();
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_RIGHT | WPAD_CLASSIC_BUTTON_RIGHT) || PAD_ButtonsDown(0) & PAD_BUTTON_RIGHT)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_RIGHT | WPAD_CLASSIC_BUTTON_RIGHT) || PAD_ButtonsDown(0) & PAD_BUTTON_RIGHT
+		  || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_RIGHT)
 		{
 			change = 0;
 			switch (ret)
@@ -132,7 +133,8 @@ int MenuSettingsNetwork()
 			HaltResumeGui();
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_LEFT | WPAD_CLASSIC_BUTTON_LEFT) || PAD_ButtonsDown(0) & PAD_BUTTON_LEFT)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_LEFT | WPAD_CLASSIC_BUTTON_LEFT) || PAD_ButtonsDown(0) & PAD_BUTTON_LEFT
+		  || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_LEFT)
 		{
 			change = 0;
 			switch (ret)
@@ -189,7 +191,8 @@ int MenuSettingsNetwork()
 		if(optionBrowser.GetClickedOption() != -1)
 			optionBrowser.TriggerUpdate();
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_B)
 		{
 			if(focus == 0)
 			{

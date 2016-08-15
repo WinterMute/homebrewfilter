@@ -121,7 +121,8 @@ MetaEdit(string dir)
 	{
 		usleep(100);
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_UP | WPAD_CLASSIC_BUTTON_UP) || PAD_ButtonsDown(0) & PAD_BUTTON_UP
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_UP)
 		{
 			startline = meta.text_up();
 
@@ -131,7 +132,8 @@ MetaEdit(string dir)
 			HaltResumeGui();
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_DOWN) || PAD_ButtonsDown(0) & PAD_BUTTON_DOWN
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_DOWN)
 		{
 			startline = meta.text_down(number);
 

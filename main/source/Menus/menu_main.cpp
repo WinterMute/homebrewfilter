@@ -732,11 +732,13 @@ int MenuMain()
 			}
 
 			// wenn A gedrckt
-			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A)
+			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A
+			  || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_A)
 				button = "A";
 
 			// wenn B gedrckt
-			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B)
+			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || PAD_ButtonsDown(0) & PAD_BUTTON_B
+			  || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_B)
 				button = "B";
 
 			// Settings
@@ -817,7 +819,8 @@ int MenuMain()
 #endif
 
 			// Power button
-			else if(power_Btn.GetState() == STATE_CLICKED || WPAD_ButtonsDown(0) & (WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME) || PAD_ButtonsDown(0) & PAD_BUTTON_START)
+			else if(power_Btn.GetState() == STATE_CLICKED || WPAD_ButtonsDown(0) & (WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME)
+			        || PAD_ButtonsDown(0) & PAD_BUTTON_START || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_HOME)
 			{
 				power_Btn.ResetState();
 				if(endPrompt() == MENU_EXIT)
@@ -825,7 +828,8 @@ int MenuMain()
 			}
 
 			// Loader button
-			else if(loader_Btn.GetState() ==  STATE_CLICKED || WPAD_ButtonsDown(0) & (WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME) || PAD_ButtonsDown(0) & PAD_BUTTON_START)
+			else if(loader_Btn.GetState() ==  STATE_CLICKED || WPAD_ButtonsDown(0) & (WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME)
+			       || PAD_ButtonsDown(0) & PAD_BUTTON_START || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_HOME)
 			{
 				loader_Btn.ResetState();
 				if(loaderPrompt() == MENU_EXIT)
@@ -842,26 +846,34 @@ int MenuMain()
 			// eine Seite weiter bzw zurck
 			else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_RIGHT | WPAD_CLASSIC_BUTTON_RIGHT) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) && Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_RIGHT && !Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_PLUS && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_BUTTON_RIGHT || rightBtn.GetState() == STATE_CLICKED ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_LEFT | WPAD_CLASSIC_BUTTON_LEFT) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) && Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_LEFT && !Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_MINUS && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_BUTTON_LEFT || leftBtn.GetState() == STATE_CLICKED)
 			{
 				// Abbrechen Seite zurck
 				if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_RIGHT | WPAD_CLASSIC_BUTTON_RIGHT) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) && Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_RIGHT && !Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_PLUS && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_BUTTON_RIGHT || rightBtn.GetState() == STATE_CLICKED)
 					previous_page = false;
 
 				// Abbrechen Seite weiter
 				if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_LEFT | WPAD_CLASSIC_BUTTON_LEFT) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) && Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_LEFT && !Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_MINUS && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_BUTTON_LEFT || leftBtn.GetState() == STATE_CLICKED)
 					next_page = false;
 
 				int page = Settings.current_page;
 				bool change = false;
-				if(next_page || rightBtn.GetState() == STATE_CLICKED || (WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) && Options.navigation))
+				if(next_page || rightBtn.GetState() == STATE_CLICKED || (WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) && Options.navigation) || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_PLUS)
 				{
 					rightBtn.ResetState();
 					Settings.current_page++;
@@ -877,7 +889,7 @@ int MenuMain()
 						change = true;
 				}
 
-				if(previous_page || leftBtn.GetState() == STATE_CLICKED || (WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) && Options.navigation))
+				if(previous_page || leftBtn.GetState() == STATE_CLICKED || (WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) && Options.navigation) || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_MINUS)
 				{
 					leftBtn.ResetState();
 					Settings.current_page--;
@@ -955,6 +967,8 @@ int MenuMain()
 			// eine Kategorie weiter
 			else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_RIGHT | WPAD_CLASSIC_BUTTON_RIGHT) && Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_PLUS && !Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_RIGHT && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_TRIGGER_R || plusBtn.GetState() == STATE_CLICKED)
 			{
 				Next_Category();
@@ -964,6 +978,8 @@ int MenuMain()
 			// eine Kategorie zurck
 			else if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) && !Options.navigation) ||
 					(WPAD_ButtonsDown(0) & (WPAD_BUTTON_LEFT | WPAD_CLASSIC_BUTTON_LEFT) && Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_MINUS && !Options.navigation) ||
+					(WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_LEFT && Options.navigation) ||
 					PAD_ButtonsDown(0) & PAD_TRIGGER_L || minusBtn.GetState() == STATE_CLICKED)
 			{
 				Previous_Category();
@@ -1052,7 +1068,7 @@ int MenuMain()
 				if(AppsBtn[i]->GetState() == STATE_CLICKED && button == "B" && !grab)
 				{
 					AppsBtn[i]->ResetState();
-					if(Settings.current_category != 0 && strcasecmp(Settings.code,"NULL") == 0 && WPAD_ButtonsDown(0) & WPAD_BUTTON_B)
+					if(Settings.current_category != 0 && strcasecmp(Settings.code,"NULL") == 0 && (WPAD_ButtonsDown(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_B))
 					{
 						pointer = new GuiImageData(Theme.player_grab);
 						grab = true;
@@ -1191,7 +1207,7 @@ int MenuMain()
 				}
 
 				// wenn b losgelassen wurde
-				if(WPAD_ButtonsUp(0) & WPAD_BUTTON_B)
+				if(WPAD_ButtonsUp(0) & (WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B) || WUPC_ButtonsUp(0) & WPAD_CLASSIC_BUTTON_B)
 				{
 					grab = false;
 					pointer = new GuiImageData(Theme.player_point);

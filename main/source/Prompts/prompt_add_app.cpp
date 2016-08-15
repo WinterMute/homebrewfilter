@@ -94,7 +94,8 @@ string AddApp(const char *AppName)
 	{
 		usleep(100);
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_R)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_PLUS | WPAD_CLASSIC_BUTTON_PLUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_R
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_PLUS)
 		{
 			kategorieInt++;
 			if ( kategorieInt >= (signed)AvailableCategory.categories.size() )
@@ -105,7 +106,8 @@ string AddApp(const char *AppName)
 			HaltResumeGui();
 		}
 
-		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_L)
+		if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_MINUS | WPAD_CLASSIC_BUTTON_MINUS) || PAD_ButtonsDown(0) & PAD_TRIGGER_L
+		   || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_MINUS)
 		{
 			kategorieInt--;
 			if ( kategorieInt < 1 )
