@@ -42,13 +42,13 @@ DATA		:=	data/fonts \
 
 CFLAGS		=	-g -O2 -Wall $(MACHDEP) $(INCLUDE) $(XFLAGS)
 CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS) $(XFLAGS)
-LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map -Wl,--section-start,.init=0x81330000
+LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map -Wl,--section-start,.init=0x81330000,-wrap,wiiuse_register
 #LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS :=	 -ldi -lpng -lz -lfat -lntfs -lwiiuse -lbte -lasnd -logc -lfreetype -lmxml -lext2fs -lruntimeiospatch
+LIBS :=	 -ldi -lpng -lz -lfat -lntfs -lwiiuse -lwupc -lbte -lasnd -logc -lfreetype -lmxml -lext2fs -lruntimeiospatch
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib

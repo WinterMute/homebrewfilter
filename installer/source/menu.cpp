@@ -5,6 +5,7 @@
 #include <sstream>
 #include <vector>
 #include <wiiuse/wpad.h>
+#include <wupc/wupc.h>
 
 #include "getios.h"
 #include "menu.h"
@@ -23,6 +24,7 @@ void Pad_unpressed( void )
 {
 	while(1)
 	{
+		WUPC_UpdateButtonStats();
 		PAD_ScanPads();
 		u32 PAD_Unpressed  = PAD_ButtonsUp(0);
 		if ( PAD_Unpressed )
@@ -164,6 +166,7 @@ int menu_main(int scrollpos)
 	bool scroll = true;
 	while(1)
 	{
+		WUPC_UpdateButtonStats();
 		WPAD_ScanPads();
 		PAD_ScanPads();
 
@@ -254,6 +257,7 @@ int menu_install_uninstall(int install)
 	bool scroll = true;
 	while(1)
 	{
+		WUPC_UpdateButtonStats();
 		WPAD_ScanPads();
 		PAD_ScanPads();
 
@@ -363,6 +367,7 @@ int menu_install()
 
 	while(1)
 	{
+		WUPC_UpdateButtonStats();
 		WPAD_ScanPads();
 		PAD_ScanPads();
 
@@ -430,6 +435,7 @@ int menu_reinstall()
 
 	while(1)
 	{
+		WUPC_UpdateButtonStats();
 		WPAD_ScanPads();
 		PAD_ScanPads();
 		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
@@ -455,6 +461,7 @@ int menu_uninstall()
 
 	while(1)
 	{
+		WUPC_UpdateButtonStats();
 		WPAD_ScanPads();
 		PAD_ScanPads();
 		if( WPAD_ButtonsDown(0) & (WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A) || PAD_ButtonsDown(0) & PAD_BUTTON_A )
@@ -480,6 +487,7 @@ int menu_copyright()
 
 	while(1)
 	{
+		WUPC_UpdateButtonStats();
 		WPAD_ScanPads();
 		PAD_ScanPads();
 

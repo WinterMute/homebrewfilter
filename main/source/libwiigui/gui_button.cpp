@@ -185,13 +185,13 @@ void GuiButton::Update(GuiTrigger * t)
 	}
 	#endif
 
-	// button triggers
-	if(this->IsClickable())
+// button triggers
+	if (this->IsClickable())
 	{
-		s32 wm_btns, wm_btns_trig, cc_btns, cc_btns_trig;
+		s32 wm_btns, wm_btns_trig, cc_btns, cc_btns_trig, wupc_btns, wupc_btns_trig;
 		for(int i=0; i<2; i++)
 		{
-			if(trigger[i] && (trigger[i]->chan == -1 || trigger[i]->chan == t->chan))
+			if (trigger[i] && (trigger[i]->chan == -1 || trigger[i]->chan == t->chan))
 			{
 				// higher 16 bits only (wiimote)
 				wm_btns = t->wpad->btns_d << 16;
@@ -201,20 +201,22 @@ void GuiButton::Update(GuiTrigger * t)
 				cc_btns = t->wpad->btns_d >> 16;
 				cc_btns_trig = trigger[i]->wpad->btns_d >> 16;
 
-				if(
-					(t->wpad->btns_d > 0 &&
-					(wm_btns == wm_btns_trig ||
-					(cc_btns == cc_btns_trig && t->wpad->exp.type == EXP_CLASSIC))) ||
-					(t->pad.btns_d == trigger[i]->pad.btns_d && t->pad.btns_d > 0))
+				// lower 16 bits only (WiiU Pro controller)
+				wupc_btns = t->wupad->btns_d >> 16;
+				wupc_btns_trig = trigger[i]->wupad->btns_d >> 16;
+
+				if( ((t->wpad->btns_d > 0 && wm_btns == wm_btns_trig) 
+					|| (t->wpad->exp.type == WPAD_EXP_CLASSIC && cc_btns == cc_btns_trig))
+					|| (t->pad.btns_d > 0 && t->pad.btns_d == trigger[i]->pad.btns_d)
+					|| (t->wupad->btns_d > 0 && wupc_btns == wupc_btns_trig))
 				{
-					if(t->chan == stateChan || stateChan == -1)
+					if (t->chan == stateChan || stateChan == -1)
 					{
 						if(state == STATE_SELECTED)
 						{
-							if(!t->wpad->ir.valid ||	this->IsInside(t->wpad->ir.x, t->wpad->ir.y))
+							if(!t->wpad->ir.valid ||        this->IsInside(t->wpad->ir.x, t->wpad->ir.y))
 							{
 								this->SetState(STATE_CLICKED, t->chan);
-
 							}
 						}
 						else if(trigger[i]->type == TRIGGER_BUTTON_ONLY)
@@ -222,7 +224,7 @@ void GuiButton::Update(GuiTrigger * t)
 							this->SetState(STATE_CLICKED, t->chan);
 						}
 						else if(trigger[i]->type == TRIGGER_BUTTON_ONLY_IN_FOCUS &&
-								parentElement->IsFocused())
+							parentElement->IsFocused())
 						{
 							this->SetState(STATE_CLICKED, t->chan);
 						}
@@ -232,14 +234,14 @@ void GuiButton::Update(GuiTrigger * t)
 		}
 	}
 
-	if(this->IsHoldable())
+	if (this->IsHoldable())
 	{
 		bool held = false;
-		s32 wm_btns, wm_btns_h, wm_btns_trig, cc_btns, cc_btns_h, cc_btns_trig;
+		s32 wm_btns, wm_btns_h, wm_btns_trig, cc_btns, cc_btns_h, cc_btns_trig, wupc_btns, wupc_btns_h, wupc_btns_trig;
 
 		for(int i=0; i<2; i++)
 		{
-			if(trigger[i] && (trigger[i]->chan == -1 || trigger[i]->chan == t->chan))
+			if (trigger[i] && (trigger[i]->chan == -1 || trigger[i]->chan == t->chan))
 			{
 				// higher 16 bits only (wiimote)
 				wm_btns = t->wpad->btns_d << 16;
@@ -251,35 +253,40 @@ void GuiButton::Update(GuiTrigger * t)
 				cc_btns_h = t->wpad->btns_h >> 16;
 				cc_btns_trig = trigger[i]->wpad->btns_h >> 16;
 
-				if(
-					(t->wpad->btns_d > 0 &&
-					(wm_btns == wm_btns_trig ||
-					(cc_btns == cc_btns_trig && t->wpad->exp.type == EXP_CLASSIC))) ||
-					(t->pad.btns_d == trigger[i]->pad.btns_h && t->pad.btns_d > 0))
+				// lower 16 bits only (WiiU Pro controller)
+				wupc_btns = t->wupad->btns_d >> 16;
+				wupc_btns_h = t->wupad->btns_h >> 16;
+				wupc_btns_trig = trigger[i]->wupad->btns_h >> 16;
+
+				if( (t->wpad->btns_d > 0 && wm_btns == wm_btns_trig) 
+					|| (t->wpad->exp.type == WPAD_EXP_CLASSIC && cc_btns == cc_btns_trig)
+					|| (t->pad.btns_d > 0 && t->pad.btns_d == trigger[i]->pad.btns_d)
+					|| (t->wupad->btns_d > 0 && wupc_btns == wupc_btns_trig))
 				{
-					if(trigger[i]->type == TRIGGER_HELD && state == STATE_SELECTED &&
+					if (trigger[i]->type == TRIGGER_HELD && state == STATE_SELECTED &&
 						(t->chan == stateChan || stateChan == -1))
 						this->SetState(STATE_CLICKED, t->chan);
 				}
 
-				if(
-					(t->wpad->btns_h > 0 &&
-					(wm_btns_h == wm_btns_trig ||
-					(cc_btns_h == cc_btns_trig && t->wpad->exp.type == EXP_CLASSIC))) ||
-					(t->pad.btns_h == trigger[i]->pad.btns_h && t->pad.btns_h > 0))
+				if( (t->wpad->btns_h > 0 && wm_btns_h == wm_btns_trig) 
+					|| (t->wpad->exp.type == WPAD_EXP_CLASSIC && cc_btns_h == cc_btns_trig)
+					|| (t->pad.btns_h > 0 && t->pad.btns_h == trigger[i]->pad.btns_h)
+					|| (t->wupad->btns_h > 0 && wupc_btns_h == wupc_btns_trig)
+				) 
 				{
-					if(trigger[i]->type == TRIGGER_HELD)
+					if (trigger[i]->type == TRIGGER_HELD)
 						held = true;
 				}
 
-				if(!held && state == STATE_HELD && stateChan == t->chan)
+				if (!held && state == STATE_HELD && stateChan == t->chan)
 				{
 					this->ResetState();
 				}
-				else if(held && state == STATE_CLICKED && stateChan == t->chan)
+				else if (held && state == STATE_CLICKED && stateChan == t->chan)
 				{
 					this->SetState(STATE_HELD, t->chan);
 				}
+
 			}
 		}
 	}

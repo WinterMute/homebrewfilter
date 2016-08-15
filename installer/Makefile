@@ -29,12 +29,12 @@ INCLUDES	:=
 CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	$(CFLAGS)
 
-LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
+LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map,-wrap,wiiuse_register
 
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lwiiuse -lbte -logc -lm -lruntimeiospatch
+LIBS	:=	-lwiiuse -lwupc -lbte -logc -lm -lruntimeiospatch
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

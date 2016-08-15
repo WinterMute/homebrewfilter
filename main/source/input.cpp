@@ -14,6 +14,7 @@
 #include <ogcsys.h>
 #include <unistd.h>
 #include <wiiuse/wpad.h>
+#include <wupc/wupc.h>
 
 #include "menu.h"
 #include "video.h"
@@ -31,11 +32,14 @@ static int rumbleCount[4] = {0,0,0,0};
  ***************************************************************************/
 void UpdatePads()
 {
+	WUPC_UpdateButtonStats();
 	WPAD_ScanPads();
 	PAD_ScanPads();
 
-	for(int i=/*3*/ 0; i >= 0; i--)
+	for(int i=3; i >= 0; i--)
 	{
+		userInput[i].wpad = WPAD_Data(i);
+		userInput[i].chan = i;
 		userInput[i].pad.btns_d = PAD_ButtonsDown(i);
 		userInput[i].pad.btns_u = PAD_ButtonsUp(i);
 		userInput[i].pad.btns_h = PAD_ButtonsHeld(i);
@@ -45,6 +49,19 @@ void UpdatePads()
 		userInput[i].pad.substickY = PAD_SubStickY(i);
 		userInput[i].pad.triggerL = PAD_TriggerL(i);
 		userInput[i].pad.triggerR = PAD_TriggerR(i);
+
+		// WiiU Pro Controller
+		userInput[i].wupcdata.btns_d = WUPC_ButtonsDown(i);
+		userInput[i].wupcdata.btns_u = WUPC_ButtonsUp(i);
+		userInput[i].wupcdata.btns_h = WUPC_ButtonsHeld(i);
+		userInput[i].wupcdata.stickX = WUPC_lStickX(i);
+		userInput[i].wupcdata.stickY = WUPC_lStickY(i);
+		userInput[i].wupcdata.substickX = WUPC_rStickX(i);
+		userInput[i].wupcdata.substickY = WUPC_rStickY(i);
+		// Don't use only held to disconnect, on reconnect the pad sends last held state for a short time.
+		if((WUPC_ButtonsHeld(i) & WUPC_EXTRA_BUTTON_RSTICK && WUPC_ButtonsDown(i) & WUPC_EXTRA_BUTTON_LSTICK) // R3+L3
+		 ||(WUPC_ButtonsHeld(i) & WUPC_EXTRA_BUTTON_LSTICK && WUPC_ButtonsDown(i) & WUPC_EXTRA_BUTTON_RSTICK))
+			WUPC_Disconnect(i);
 	}
 }
 
@@ -56,16 +73,16 @@ void UpdatePads()
 void SetupPads()
 {
 	PAD_Init();
+	WUPC_Init();
 	WPAD_Init();
 
 	// read wiimote accelerometer and IR data
 	WPAD_SetDataFormat(WPAD_CHAN_ALL,WPAD_FMT_BTNS_ACC_IR);
 	WPAD_SetVRes(WPAD_CHAN_ALL, screenwidth, screenheight);
 
-	for(int i=0; i < /*4*/ 1; i++)
+	for(int i=0; i < 4; i++)
 	{
 		userInput[i].chan = i;
-		userInput[i].wpad = WPAD_Data(i);
 	}
 }
 
@@ -75,8 +92,9 @@ void SetupPads()
 
 void ShutoffRumble()
 {
-	for(int i=0;i</*4*/ 1;i++)
+	for(int i=0;i< 4;i++)
 	{
+		WUPC_Rumble(i, 0);
 		WPAD_Rumble(i, 0);
 		rumbleCount[i] = 0;
 	}
@@ -90,6 +108,8 @@ void ShutdownPads()
 {
     ShutoffRumble();
 	WPAD_Flush(0);
+    WUPC_Disconnect(0);
+    WUPC_Shutdown();
     WPAD_Disconnect(0);
     WPAD_Shutdown();
 }
@@ -102,6 +122,7 @@ void DoRumble(int i)
 {
 	if(rumbleRequest[i] && rumbleCount[i] < 3)
 	{
+		WUPC_Rumble(i, 1);
 		WPAD_Rumble(i, 1); // rumble on
 		rumbleCount[i]++;
 	}
@@ -115,6 +136,7 @@ void DoRumble(int i)
 		if(rumbleCount[i])
 			rumbleCount[i]--;
 		WPAD_Rumble(i, 0); // rumble off
+		WUPC_Rumble(i, 0);
 	}
 }
 

@@ -2,6 +2,7 @@
 - fix size and layout of device prompt in vWii builds
 - remove 'All' button from device prompt in vWii builds
 - re-enable 'SD Gecko' setting in vWii builds
+- support for Wii U Pro Controller trough FIX94's libwupc
 - update german translation
 
 //rev45:

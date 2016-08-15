@@ -22,6 +22,7 @@
 #define HW_REG_BASE   0xcd800000
 #define HW_ARMIRQMASK (HW_REG_BASE + 0x03c)
 #define HW_ARMIRQFLAG (HW_REG_BASE + 0x038)
+#define IsWiiU ( (*(u32*)0x0d8005A0 >> 16 ) == 0xCAFE )
 
 using namespace std;
 
