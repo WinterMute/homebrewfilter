@@ -186,7 +186,12 @@ UpdateGUI (void *arg)
 			}
 
 			// screenshoot
-			if(WPAD_ButtonsDown(0) & WPAD_BUTTON_1 && WPAD_ButtonsDown(0) & WPAD_BUTTON_2)
+			if(((WPAD_ButtonsDown(0) & (WPAD_BUTTON_1 | WPAD_CLASSIC_BUTTON_Y)) &&
+			    (WPAD_ButtonsDown(0) & (WPAD_BUTTON_2 | WPAD_CLASSIC_BUTTON_X)))
+			   || ((WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_Y) &&
+			       (WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_X))
+			   || ((PAD_ButtonsDown(0) & PAD_BUTTON_Y) &&
+			       (PAD_ButtonsDown(0) & PAD_BUTTON_X)))
 				Screenshot();
 		}
 	}

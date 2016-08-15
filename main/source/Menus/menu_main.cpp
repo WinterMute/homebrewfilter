@@ -639,7 +639,9 @@ int MenuMain()
 		if(mainWindow->GetState() != STATE_DISABLED)
 		{
 			// Sortieren
-			if(WPAD_ButtonsDown(0) & WPAD_BUTTON_1 && Settings.current_category != 0)
+			if((WPAD_ButtonsDown(0) & (WPAD_BUTTON_1 | WPAD_CLASSIC_BUTTON_Y) && Settings.current_category != 0)
+			   || (WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_Y && Settings.current_category != 0)
+			   || (PAD_ButtonsDown(0) & PAD_BUTTON_Y && Settings.current_category != 0))
 			{
 				switch (sortPrompt())
 				{
@@ -720,7 +722,10 @@ int MenuMain()
 				menu = MENU_EXIT;
 
 			// ansicht wechseln
-			if(((WPAD_ButtonsDown(0) & WPAD_BUTTON_2) &! (WPAD_ButtonsDown(0) & WPAD_BUTTON_1)) || normal_grid_Btn.GetState() == STATE_CLICKED)
+			if(WPAD_ButtonsDown(0) & (WPAD_BUTTON_2 | WPAD_CLASSIC_BUTTON_X) ||
+			   WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_X ||
+			   PAD_ButtonsDown(0) & PAD_BUTTON_X ||
+			   normal_grid_Btn.GetState() == STATE_CLICKED)
 			{
 				Settings.current_page = 1;
 				if(Settings.grid)
@@ -742,7 +747,8 @@ int MenuMain()
 				button = "B";
 
 			// Settings
-			if(settings_Btn.GetState() == STATE_CLICKED)
+			if(settings_Btn.GetState() == STATE_CLICKED || WPAD_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_FULL_L
+			      || PAD_ButtonsDown(0) & PAD_TRIGGER_Z || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_FULL_L)
 			{
 				menu = MENU_SETTINGS;
 			}
@@ -828,8 +834,8 @@ int MenuMain()
 			}
 
 			// Loader button
-			else if(loader_Btn.GetState() ==  STATE_CLICKED || WPAD_ButtonsDown(0) & (WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME)
-			       || PAD_ButtonsDown(0) & PAD_BUTTON_START || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_HOME)
+			else if(loader_Btn.GetState() ==  STATE_CLICKED || WPAD_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_FULL_R
+			        || WUPC_ButtonsDown(0) & WPAD_CLASSIC_BUTTON_FULL_R)
 			{
 				loader_Btn.ResetState();
 				if(loaderPrompt() == MENU_EXIT)

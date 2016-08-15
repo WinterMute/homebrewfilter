@@ -36,7 +36,7 @@ void UpdatePads()
 	WPAD_ScanPads();
 	PAD_ScanPads();
 
-	for(int i=3; i >= 0; i--)
+	for(int i=0; i < 4; i++)
 	{
 		userInput[i].wpad = WPAD_Data(i);
 		userInput[i].chan = i;
