@@ -1,3 +1,18 @@
+//rev47:
+- build against libruntimeiospatch 1.5.3
+- only scan list of available IOS once per session
+- disable 'SD Card Gecko' by default (debug log on SD Card),
+  because it's causing a MASSIVE slow down when opening an
+  app's details dialog the first time in a session, when
+  using a shitty class 2 or whatever SD Card
+- fixed that newly build vWii forwarder accidently was the
+  same than the Wii forwarder
+- fixup BootMii (IOS) detection on Wii
+- fixup showing device icon for apps
+- add ISO0 (any version) to list of known stub IOS
+  (it's a custom IOS installed by several old apps)
+- update german translation
+
 //rev46:
 - fix size and layout of device prompt in vWii builds
 - remove 'All' button from device prompt in vWii builds

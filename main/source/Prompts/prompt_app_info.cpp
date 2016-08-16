@@ -59,7 +59,7 @@ AppInfo(const char *title, string dir, u8* icon)
 
 	GuiImage * viewdevice = NULL;
 
-	if((Options.device_icon == 2 || Options.device_icon == 3) && (Settings.device == "sd_usb" || Settings.device == "all"))
+	if(Options.device_icon == 2 || Options.device_icon == 3)
 	{
 		bool icon = false;
 		if(strncmp(dir.c_str(), "sd", 2) == 0)

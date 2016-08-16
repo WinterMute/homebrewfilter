@@ -83,7 +83,6 @@ loaderPrompt()
 	bool stop = false;
 	int menu = 0;
 
-	listIOS();
 #ifndef VWII
 	if( ! priicheck )
 	{
