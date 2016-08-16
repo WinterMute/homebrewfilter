@@ -35,7 +35,7 @@ int MenuSettingsNetwork()
 	OptionList options;
 
 	sprintf(options.name[i++], tr("Auto Connect"));
-	sprintf(options.name[i++], tr("Enable Wifi Gecko"));
+	sprintf(options.name[i++], tr("Wifi Debug Log"));
 	sprintf(options.name[i++], tr("Update Info"));
 	options.length = i;
 

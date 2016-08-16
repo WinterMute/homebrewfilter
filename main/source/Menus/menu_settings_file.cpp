@@ -80,7 +80,7 @@ int MenuSettingsFile()
 	sprintf(options.name[i++], tr("Device icon"));
 	sprintf(options.name[i++], tr("Wiiload IOS"));
 	sprintf(options.name[i++], tr("Wiiload IOS Reload"));
-	sprintf(options.name[i++], tr("SD Gecko"));
+	sprintf(options.name[i++], tr("SD Card Debug Log"));
 #ifndef VWII
 	sprintf(options.name[i++], tr("BootMii in Boot2"));
 #endif

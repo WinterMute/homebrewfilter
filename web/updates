@@ -1,5 +1,7 @@
 //rev47:
 - build against libruntimeiospatch 1.5.3
+- rename "SD Gecko" to "SD Card Debug Log" in Settings
+- rename "Wifi Gecko" to "Wifi Debug Log" in Settings
 - only scan list of available IOS once per session
 - disable 'SD Card Gecko' by default (debug log on SD Card),
   because it's causing a MASSIVE slow down when opening an
