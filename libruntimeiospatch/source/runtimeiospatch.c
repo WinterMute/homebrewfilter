@@ -107,8 +107,10 @@ static u8 apply_patch(const char *name, const u8 *old, u32 old_size, const u8 *p
 	u8 *ptr_start = (u8*)*((u32*)0x80003134), *ptr_end = (u8*)0x94000000;
 	u8 found = 0;
 	if(verbose)
+	{
 		TextColor(7,1);
 		printf("\t\t    Patching %-30s", name);
+	}
 	u8 *location = NULL;
 	while (ptr_start < (ptr_end - patch_size)) {
 		if (!memcmp(ptr_start, old, old_size)) {
