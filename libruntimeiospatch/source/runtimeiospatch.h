@@ -20,7 +20,7 @@
 /**
  * Version information for Libruntimeiospatch.
  */
-#define LIB_RUNTIMEIOSPATCH_VERSION "1.5.2"
+#define LIB_RUNTIMEIOSPATCH_VERSION "1.5.3"
 
 //==============================================================================
 // HW_RVL header

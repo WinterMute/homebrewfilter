@@ -24,6 +24,12 @@
 #define MEM_REG_BASE 0xd8b4000
 #define MEM_PROT (MEM_REG_BASE + 0x20a)
 
+void TextColor(u32 color, u8 bold)
+{
+	/* Set foreground color */
+	printf("\x1b[%u;%um", color + 30, bold);
+	fflush(stdout);
+}
 
 static inline void disable_memory_protection(void) {
 	write32(MEM_PROT, read32(MEM_PROT) & 0x0000FFFF);
@@ -101,7 +107,8 @@ static u8 apply_patch(const char *name, const u8 *old, u32 old_size, const u8 *p
 	u8 *ptr_start = (u8*)*((u32*)0x80003134), *ptr_end = (u8*)0x94000000;
 	u8 found = 0;
 	if(verbose)
-		printf("    Patching %-30s", name);
+		TextColor(7,1);
+		printf("\t\t    Patching %-30s", name);
 	u8 *location = NULL;
 	while (ptr_start < (ptr_end - patch_size)) {
 		if (!memcmp(ptr_start, old, old_size)) {
@@ -119,9 +126,15 @@ static u8 apply_patch(const char *name, const u8 *old, u32 old_size, const u8 *p
 	}
 	if(verbose){
 		if (found)
-			printf(" patched\n");
+		{
+			TextColor(2, 1);
+			printf("\t\t patched\n");
+		}
 		else
-			printf(" not patched\n");
+		{
+			TextColor(1, 1);
+			printf("\t\t not patched\n");
+		}
 	}
 	return found;
 }
@@ -143,9 +156,14 @@ s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 
 	if (AHBPROT_DISABLED) {
 		disable_memory_protection();
+		if(verbose) printf("\t\t\n\n\n\n\n");
 		if(wii)
 		{
-			if(verbose) printf(">> Applying standard Wii patches:\n");
+			if(verbose)
+			{
+				TextColor(6, 1);
+				printf("\t>> Applying standard Wii patches:\n");
+			}
 			count += apply_patch("di_readlimit", di_readlimit_old, sizeof(di_readlimit_old), di_readlimit_patch, sizeof(di_readlimit_patch), 12, verbose);
 			count += apply_patch("isfs_permissions", isfs_permissions_old, sizeof(isfs_permissions_old), isfs_permissions_patch, sizeof(isfs_permissions_patch), 0, verbose);
 			count += apply_patch("es_setuid", setuid_old, sizeof(setuid_old), setuid_patch, sizeof(setuid_patch), 0, verbose);
@@ -161,7 +179,11 @@ s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 		}
 		if(sciifii)
 		{
-			if(verbose) printf(">> Applying Sciifii patches:\n");
+			if(verbose)
+			{
+				TextColor(6, 1);
+				printf("\t>> Applying Sciifii patches:\n");
+			}
 			count += apply_patch("MEM2_prot", MEM2_prot_old, sizeof(MEM2_prot_old), MEM2_prot_patch, sizeof(MEM2_prot_patch), 0, verbose);
 			count += apply_patch("ES_OpenTitleContent1", ES_OpenTitleContent1_old, sizeof(ES_OpenTitleContent1_old), ES_OpenTitleContent1_patch, sizeof(ES_OpenTitleContent1_patch), 0, verbose);
 			count += apply_patch("ES_OpenTitleContent2", ES_OpenTitleContent2_old, sizeof(ES_OpenTitleContent2_old), ES_OpenTitleContent2_patch, sizeof(ES_OpenTitleContent2_patch), 0, verbose);
@@ -172,7 +194,11 @@ s32 IosPatch_RUNTIME(bool wii, bool sciifii, bool vwii, bool verbose) {
 		}
 		if(vwii)
 		{
-			if(verbose) printf(">> Applying vWii patches:\n");
+			if(verbose)
+			{
+				TextColor(6, 1);
+				printf("\t>> Applying vWii patches:\n");
+			}
 			count += apply_patch("Kill_AntiSysTitleInstallv3_pt1", Kill_AntiSysTitleInstallv3_pt1_old, sizeof(Kill_AntiSysTitleInstallv3_pt1_old), Kill_AntiSysTitleInstallv3_pt1_patch, sizeof(Kill_AntiSysTitleInstallv3_pt1_patch), 0, verbose);
 			count += apply_patch("Kill_AntiSysTitleInstallv3_pt2", Kill_AntiSysTitleInstallv3_pt2_old, sizeof(Kill_AntiSysTitleInstallv3_pt2_old), Kill_AntiSysTitleInstallv3_pt2_patch, sizeof(Kill_AntiSysTitleInstallv3_pt2_patch), 0, verbose);
 			count += apply_patch("Kill_AntiSysTitleInstallv3_pt3", Kill_AntiSysTitleInstallv3_pt3_old, sizeof(Kill_AntiSysTitleInstallv3_pt3_old), Kill_AntiSysTitleInstallv3_pt3_patch, sizeof(Kill_AntiSysTitleInstallv3_pt3_patch), 0, verbose);
