@@ -1,9 +1,9 @@
 dist/HBF0.vWii.wad
 dist/HBF0.wad
-dist/HomebrewFilter-Standalone-rev46.tar.bz2
-dist/HomebrewFilter-rev46.tar.bz2
-dist/HomebrewFilter-vWii-Standalone-rev46.tar.bz2
-dist/HomebrewFilter-vWii-rev46.tar.bz2
+dist/HomebrewFilter-Standalone-rev*.tar.bz2
+dist/HomebrewFilter-rev*.tar.bz2
+dist/HomebrewFilter-vWii-Standalone-rev*.tar.bz2
+dist/HomebrewFilter-vWii-rev*.tar.bz2
 dist/HomebrewFilter.Standalone/boot.dol
 dist/HomebrewFilter.vWii.Standalone/boot.dol
 dist/HomebrewFilter.vWii/boot.dol
