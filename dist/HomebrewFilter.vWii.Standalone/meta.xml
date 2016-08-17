@@ -2,7 +2,7 @@
 <app version="1">
   <name>HomebrewFilter vWii (Standalone)</name>
   <coder>Nano</coder>
-  <version>rev45</version>
+  <version>rev47</version>
   <ahb_access/>
   <short_description>HBF vWii (Standalone)</short_description>
   <long_description>Standalone HomebrewFilter for vWii
