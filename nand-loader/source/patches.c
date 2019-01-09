@@ -13,7 +13,7 @@ GXRModeObj *PAL2NTSC[] = {
 	&TVPal524IntAa,		&TVNtsc480IntAa,
 	&TVPal528Int,		&TVNtsc480IntAa,
 	&TVPal528IntDf,		&TVNtsc480IntDf,
-	&TVPal574IntDfScale,	&TVNtsc480IntDf,
+	&TVPal576IntDfScale,	&TVNtsc480IntDf,
 	&TVEurgb60Hz240Ds,	&TVNtsc240Ds,
 	&TVEurgb60Hz240DsAa,	&TVNtsc240DsAa,
 	&TVEurgb60Hz240Int,	&TVNtsc240Int,
