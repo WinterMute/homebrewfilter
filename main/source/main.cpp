@@ -112,7 +112,7 @@ void ExitApp()
 	ISFS_Deinitialize();
 }
 
-static void WiiResetPressed()
+static void WiiResetPressed(u32 irq, void* ctx)
 {
 	//xprintf("Reset button pressed \n");
 	runaway = true;
