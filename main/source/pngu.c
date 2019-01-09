@@ -10,6 +10,7 @@ More info : http://frontier-dev.net
 #include <stdio.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <string.h>
 #include "png.h"
 #include "pngu.h"
 #include "pngu_impl.h"

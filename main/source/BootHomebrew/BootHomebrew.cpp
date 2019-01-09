@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <sys/dir.h>
+#include <sys/stat.h>
 
 #include "main.h"
 #include "dolloader.h"

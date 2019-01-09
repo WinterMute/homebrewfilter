@@ -1,5 +1,7 @@
 
 #include <dirent.h>
+#include <sys/stat.h>
+
 #include "FreeTypeGX.h"
 #include "filelist.h"
 #include "main.h"

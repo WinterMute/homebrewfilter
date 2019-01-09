@@ -3,6 +3,8 @@
 #include <mxml.h>
 //#include <zlib.h>
 #include <dirent.h>
+#include <sys/stat.h>
+
 #include "Tools/save.h"
 
 extern GuiImageData * pointer;

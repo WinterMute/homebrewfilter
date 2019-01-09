@@ -1,5 +1,6 @@
 
 #include <dirent.h>
+#include <sys/stat.h>
 
 #include "main.h"
 #include "video.h"

@@ -1,5 +1,7 @@
 #include "main.h"
 #include <dirent.h>
+#include <sys/stat.h>
+
 #include <sstream>
 #include <fstream>
 #include "xprintf.h"
