@@ -508,11 +508,11 @@ int MenuSettingsFile()
 		if(saveBtn.GetState() == STATE_CLICKED)
 		{
 			// Theme ndern
-			if(stricmp(Options.theme, options.value[THEME]) != 0 || GetMenuSettingsThemeDL())
+			if(strcasecmp(Options.theme, options.value[THEME]) != 0 || GetMenuSettingsThemeDL())
 			{
 				sprintf (Options.theme, options.value[THEME]);
 				DefaultTheme();
-				if(stricmp(Options.theme, tr("STANDARD")) != 0)
+				if(strcasecmp(Options.theme, tr("STANDARD")) != 0)
 					theme(Settings.device_dat + ":/config/HBF/themes/" + Options.theme + "/");
 				// Cursor und Hintergrund ndern
 				#ifdef HW_RVL
@@ -525,7 +525,7 @@ int MenuSettingsFile()
 			}
 
 			// Schriftart ndern
-			if(stricmp(Options.font, options.value[FONT]) != 0 || GetMenuSettingsFontDL())
+			if(strcasecmp(Options.font, options.value[FONT]) != 0 || GetMenuSettingsFontDL())
 			{
 				sprintf(Options.font, options.value[FONT]);
 				// change font
@@ -559,22 +559,22 @@ int MenuSettingsFile()
 				Settings.device_dat	= "usb1";
 
 			// Sprache ndern zum schluss wegen STANDARD
-			if(stricmp(Options.language, options.value[LANGUAGE]) != 0 || GetMenuSettingsLanguageDL())
+			if(strcasecmp(Options.language, options.value[LANGUAGE]) != 0 || GetMenuSettingsLanguageDL())
 			{
 				sprintf (Options.language, options.value[LANGUAGE]);
 
 				bool theme = 0, language = 0, font = 0;
-				if(stricmp(Options.theme, tr("STANDARD")) == 0)
+				if(strcasecmp(Options.theme, tr("STANDARD")) == 0)
 					theme = 1;
 
-				if(stricmp(Options.language, tr("STANDARD")) == 0)
+				if(strcasecmp(Options.language, tr("STANDARD")) == 0)
 					language = 1;
 
-				if(stricmp(Options.font, tr("STANDARD")) == 0)
+				if(strcasecmp(Options.font, tr("STANDARD")) == 0)
 					font = 1;
 
 				/*********************************************************************/
-				if(stricmp(Options.language, tr("STANDARD")) == 0)
+				if(strcasecmp(Options.language, tr("STANDARD")) == 0)
 					translate();
 				else
 					ini_Open(check_path(Settings.device_dat + ":/config/HBF/languages/") + Options.language + ".lang");

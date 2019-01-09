@@ -33,7 +33,7 @@ int MenuSettingsLanguage()
 	OptionList options;
 
 	sprintf(options.name[i], tr("STANDARD"));
-	if(stricmp(Options.temp_language.c_str(), tr("STANDARD")) == 0)
+	if(strcasecmp(Options.temp_language.c_str(), tr("STANDARD")) == 0)
 	{
 		sprintf (options.value[i], tr("activated"));
 		activated = i;
@@ -51,15 +51,15 @@ int MenuSettingsLanguage()
 	{
 		while (0 != (dirEntry = readdir(dirHandle)))
 		{
-			if(stricmp(dirEntry->d_name, ".") != 0 && stricmp(dirEntry->d_name, "..") != 0)
+			if(strcasecmp(dirEntry->d_name, ".") != 0 && strcasecmp(dirEntry->d_name, "..") != 0)
 			{
 				string temp = dirEntry->d_name;
-				if(temp.length() > 4 && stricmp(temp.substr(temp.length() -5, 5).c_str(), ".lang") == 0)
+				if(temp.length() > 4 && strcasecmp(temp.substr(temp.length() -5, 5).c_str(), ".lang") == 0)
 				{
 					temp.erase(temp.length() -5, 5);	// endung entfernen
 					sprintf(options.name[i], temp.c_str());
 
-					if(stricmp(Options.temp_language.c_str(), temp.c_str()) == 0)
+					if(strcasecmp(Options.temp_language.c_str(), temp.c_str()) == 0)
 					{
 						sprintf (options.value[i], tr("activated"));
 						activated = i;

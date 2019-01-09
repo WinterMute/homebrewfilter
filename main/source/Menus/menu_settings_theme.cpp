@@ -34,7 +34,7 @@ int MenuSettingsTheme()
 	OptionList options;
 
 	sprintf(options.name[i], tr("STANDARD"));
-	if(stricmp(Options.temp_theme.c_str(), tr("STANDARD")) == 0)
+	if(strcasecmp(Options.temp_theme.c_str(), tr("STANDARD")) == 0)
 	{
 		sprintf (options.value[i], tr("activated"));
 		activated = i;
@@ -50,11 +50,11 @@ int MenuSettingsTheme()
 	if (dirHandle) {
 		while (0 != (dirEntry = readdir(dirHandle)))
 		{
-			if(stricmp(dirEntry->d_name, ".") != 0 && stricmp(dirEntry->d_name, "..") != 0)
+			if(strcasecmp(dirEntry->d_name, ".") != 0 && strcasecmp(dirEntry->d_name, "..") != 0)
 			{
 				sprintf(options.name[i], dirEntry->d_name);
 
-				if(stricmp(Options.temp_theme.c_str(), dirEntry->d_name) == 0)
+				if(strcasecmp(Options.temp_theme.c_str(), dirEntry->d_name) == 0)
 				{
 					sprintf (options.value[i], tr("activated"));
 					activated = i;

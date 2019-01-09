@@ -34,7 +34,7 @@ int MenuSettingsFont()
 	OptionList options;
 
 	sprintf(options.name[i], tr("STANDARD"));
-	if(stricmp(Options.temp_font.c_str(), tr("STANDARD")) == 0)
+	if(strcasecmp(Options.temp_font.c_str(), tr("STANDARD")) == 0)
 	{
 		sprintf (options.value[i], tr("activated"));
 		activated = i;
@@ -50,14 +50,14 @@ int MenuSettingsFont()
 	if (dirHandle) {
 		while (0 != (dirEntry = readdir(dirHandle)))
 		{
-			if(stricmp(dirEntry->d_name, ".") != 0 && stricmp(dirEntry->d_name, "..") != 0)
+			if(strcasecmp(dirEntry->d_name, ".") != 0 && strcasecmp(dirEntry->d_name, "..") != 0)
 			{
 				string temp = dirEntry->d_name;
-				if(temp.length() > 3 && stricmp(temp.substr(temp.length() -4, 4).c_str(), ".ttf") == 0)
+				if(temp.length() > 3 && strcasecmp(temp.substr(temp.length() -4, 4).c_str(), ".ttf") == 0)
 				{
 					sprintf(options.name[i], temp.c_str());
 
-					if(stricmp(Options.temp_font.c_str(), temp.c_str()) == 0)
+					if(strcasecmp(Options.temp_font.c_str(), temp.c_str()) == 0)
 					{
 						sprintf (options.value[i], tr("activated"));
 						activated = i;
