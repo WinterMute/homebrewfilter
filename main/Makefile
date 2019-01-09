@@ -40,8 +40,8 @@ DATA		:=	data/fonts \
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS		=	-g -O2 -Wall $(MACHDEP) $(INCLUDE) $(XFLAGS)
-CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS) $(XFLAGS)
+CFLAGS		=	-g -O2 -Wall -D_GNU_SOURCE  $(MACHDEP) $(INCLUDE) $(XFLAGS)
+CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst -std=gnu++03 $(CFLAGS) $(XFLAGS)
 LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map -Wl,--section-start,.init=0x81330000,-wrap,wiiuse_register
 #LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
