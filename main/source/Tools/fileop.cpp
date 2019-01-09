@@ -11,9 +11,13 @@
 #include <ogcsys.h>
 #include <ogc/lwp_watchdog.h>
 #include <ogc/machine/processor.h>
+#ifdef _USE_NTFS_
 #include <ntfs.h>
+#endif
 #include <fat.h>
+#ifdef _USE_EXT2_
 #include <ext2.h>
+#endif
 #include <sdcard/wiisd_io.h>
 #include <sdcard/gcsd.h>
 #include <ogc/usbstorage.h>
@@ -179,6 +183,7 @@ static void AddPartition(sec_t sector, int device, int type, int *devnum)
 			return;
 		fatGetVolumeLabel(mount, part[device][*devnum].name);
 	}
+#ifdef _USE_NTFS_
 	else if (type == T_NTFS)
 	{
 		if(!ntfsMount(mount, disc, sector, 8, 64, NTFS_DEFAULT | NTFS_RECOVER))
@@ -191,6 +196,8 @@ static void AddPartition(sec_t sector, int device, int type, int *devnum)
 		else
 			part[device][*devnum].name[0] = 0;
 	}
+#endif
+#ifdef _USE_EXT2_
 	else if (type == T_EXT2)
 	{
 		if(!ext2Mount(mount, disc, sector, 8, 64, EXT2_FLAG_64BITS | EXT2_FLAG_JOURNAL_DEV_OK))
@@ -203,6 +210,7 @@ static void AddPartition(sec_t sector, int device, int type, int *devnum)
 		else
 			part[device][*devnum].name[0] = 0;
 	}
+#endif
 #ifndef VWII
 	else if (type == T_ISO9660)
 	{
@@ -483,18 +491,22 @@ static void UnmountPartitions(int device)
 			fatUnmount(mount);
 			break;
 		}
+#ifdef _USE_NTFS_
 		else if(part[device][i].type == T_NTFS)
 		{
 			sprintf(mount, "NTFS: %s:", part[device][i].mount);
 			ntfsUnmount(part[device][i].mount, false);
 			break;
 		}
+#endif
+#ifdef _USE_EXT2_
 		else if(part[device][i].type == T_EXT2)
 		{
 			sprintf(mount, "EXT2: %s:", part[device][i].mount);
 			ext2Unmount(part[device][i].mount);
 			break;
 		}
+#endif
 #ifdef VWII
 		else if(part[device][i].type == T_ISO9660)
 		{
