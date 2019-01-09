@@ -315,7 +315,7 @@ static char *dirname(char *path) {
 	return "";
 }
 
-static char *basename(char *path) {
+/*static char *basename(char *path) {
 	s32 i;
 	for (i = strlen(path) - 1; i >= 0; i--) {
 		if (path[i] == DIR_SEPARATOR) {
@@ -324,7 +324,7 @@ static char *basename(char *path) {
 	}
 	return path;
 }
-
+*/
 static bool invalid_drive_specifier(const char *path) {
 	if (strchr(path, ':') == NULL) return false;
 	int namelen = strlen(DEVICE_NAME);
